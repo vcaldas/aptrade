@@ -1,2 +1,3 @@
 matplotlib
 backtrader
+ib_insync
