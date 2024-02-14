@@ -5,7 +5,7 @@ services:
     apttrade:
         restart: always
         build:
-            context: .
+            context: ./aptrade
             tags:
                 - aptrade
         image: aptrade
