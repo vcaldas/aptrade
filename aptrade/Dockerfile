@@ -1,14 +1,11 @@
 FROM python:3.11
 
-RUN apt-get update \
-	&& apt-get install -y --no-install-recommends \
-		postgresql-client \
-	&& rm -rf /var/lib/apt/lists/*
+WORKDIR /code
 
-WORKDIR /usr/src/
-COPY requirements.txt ./
-RUN pip install -r requirements.txt
-COPY . .
+COPY ./requirements.txt /code/requirements.txt
 
-EXPOSE 8000
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+RUN pip install --no-cache-dir --upgrade -r /code/requirements.txt
+
+COPY ./app /code/app
+
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]

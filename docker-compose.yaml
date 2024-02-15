@@ -11,6 +11,8 @@ services:
         image: aptrade
         ports:
             - "8000:8000"
+        volumes:
+            - "./aptrade/app:/code/app"
 
     # ib-gateway:
     #     restart: always
