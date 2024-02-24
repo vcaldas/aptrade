@@ -1,13 +1,18 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from enum import Enum
+from fastapi.staticfiles import StaticFiles
+from fastapi.templating import Jinja2Templates
 
 app = FastAPI()
+app.mount("/static", StaticFiles(directory="static"), name="static")
+templates = Jinja2Templates(directory="templates")
 
 
 @app.get("/")
-async def root():
-    return {"message": "Hello World!!!"}
-
+async def read_item(request: Request):
+    return templates.TemplateResponse(
+        request=request, name="index.html",
+    )
 
 class ModelName(str, Enum):
     alexnet = "alexnet"
