@@ -1,6 +1,0 @@
-[submodule "ib-gateway-docker"]
-	path = ib-gateway-docker
-	url = https://github.com/vcaldas/ib-gateway-docker.git
-[submodule "tradezero-api"]
-	path = tradezero-api
-	url = https://github.com/vcaldas/tradezero-api.git

@@ -1,0 +1,10 @@
+# Folder structure
+data
+docs
+examples
+private
+research
+scripts
+services
+
+mkdocs.yml

@@ -3,10 +3,12 @@ private/
 backlog.todo
 .env
 research/
+data/
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
 *$py.class
+*.db
 
 # C extensions
 *.so
