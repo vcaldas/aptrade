@@ -8,4 +8,4 @@ while true; do
     echo Deploy command failed, retrying in 5 secs...
     sleep 5
 done
-python manage.py runserver --host 0.0.0.0:8000
+python manage.py runserver  0.0.0.0:8000
