@@ -31,6 +31,10 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    "dashboard.apps.DashboardConfig",
+    "stocks.apps.StocksConfig",
+    "rssfeed.apps.RssfeedConfig",	
+    "telegram.apps.TelegramConfig",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
