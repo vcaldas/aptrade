@@ -1,3 +1,4 @@
 django
 feedparser
 PyYAML
+psycopg2-binary

@@ -5,6 +5,8 @@ Another Python tool for trading. This is a personal project to help me study abo
 
 ## Roadmap
 
+
+- [ ] Celery
 - [ ] Fixtures for tests
 - [ ] Add support for different timeframes
 - [ ] Add support for different indicators

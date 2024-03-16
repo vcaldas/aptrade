@@ -6,13 +6,18 @@ services:
         restart: always
         build:
             context: ./webapp
+        image: django_webapp
         env_file:
             - .env
-        image: webapp
         ports:
             - "8000:8000"
         volumes:
             - ./webapp:/webapp
+        depends_on:
+            - redis
+            - db
+        networks:
+            - djangonetwork
 
     telegram:
         build: 
@@ -24,6 +29,63 @@ services:
         ports:
             - 8080:8080
 
+    db:
+        image: postgres:16
+        environment:
+            - POSTGRES_USER=${DJANGO_DB_USER}
+            - POSTGRES_PASSWORD=${DJANGO_DB_PASSWORD}
+            - POSTGRES_DB=${DJANGO_DB_NAME} 
+        volumes:
+            - db_data:/var/lib/postgresql/data
+        ports:
+            - "5432:5432"
+        networks:
+            - djangonetwork
+
+    redis:
+        image: "redis:alpine"
+        ports:
+            - "6379:6379"
+    
+    # celery_worker:
+    #     build:
+    #         context: ./webapp
+    #     image: django_celery_worker
+    #     env_file:
+    #         - .env
+    #     depends_on:
+    #         - redis
+    #         - db
+        
+        # celery_beat:
+        #     build:
+        #         context: .
+        #         dockerfile: ./compose/local/django/Dockerfile
+        #     image: django_celery_example_celery_beat
+        #     command: /start-celerybeat
+        #     volumes:
+        #             - .:/app
+        #     env_file:
+        #     - ./.env/.dev-sample
+        #     depends_on:
+        #         - redis
+        #         - db
+
+        # flower:
+        #     build:
+        #         context: .
+        #         dockerfile: ./compose/local/django/Dockerfile
+        #     image: django_celery_example_celery_flower
+        #     command: /start-flower
+        #     volumes:
+        #         - .:/app
+        #     env_file:
+        #         - ./.env/.dev-sample
+        #     ports:
+        #         - 5557:5555
+        #     depends_on:
+        #         - redis
+        #         - db
 
 #     ib-gateway:
 #         restart: always
@@ -72,3 +134,9 @@ services:
 
 # volumes:
 #     tws_tmp:
+
+networks:
+    djangonetwork:
+        driver: bridge
+volumes:
+  db_data:
