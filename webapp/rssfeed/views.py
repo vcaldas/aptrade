@@ -1,12 +1,12 @@
 from django.shortcuts import render
-
+import feedparser
 # Create your views here.
 from django.http import HttpResponse
 
 from django.http import Http404
 from django.template import loader
 
-from .models import RSSSource
+from .models import RSSSource, Publication
 
 # context = {"latest_question_list": latest_question_list}
 #     return render(request, "polls/index.html", context)
@@ -30,8 +30,21 @@ def results(request, entry_id):
 def update(request):
     response = "Updating feeds."
     feeds_list = RSSSource.objects.order_by("-pub_date")
+    print(feeds_list)
     for feed in feeds_list:
-        print(feed)
+        url = feed.url
+        NewsFeed = feedparser.parse(url)
+        entries = NewsFeed.get('entries', {})
+        
+        for entry in entries:
+            p = Publication(
+                title=entry['title'],
+                link=entry['link'],
+                summary=entry['summary'],
+                rssfeed = feed
+            )
+            print(p)
+            # p.save()
     print("response test")
-    return HttpResponse(response)
+    return HttpResponse(f"Finish Update example")
     

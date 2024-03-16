@@ -7,11 +7,22 @@ services:
         build:
             context: ./webapp
         env_file:
-            - .env.example
+            - .env
         image: webapp
         ports:
             - "8000:8000"
+        volumes:
+            - ./webapp:/webapp
 
+    telegram:
+        build: 
+            context: ./telegram_bot
+        env_file:
+            - .env
+        volumes:
+            - ./telegram_bot:/app
+        ports:
+            - 8080:8080
 
 
 #     ib-gateway:
