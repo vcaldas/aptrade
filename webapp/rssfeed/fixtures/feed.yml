@@ -1,0 +1,5 @@
+- model: rssfeed.feed
+  pk: 1
+  fields:
+    name: FDA-1
+    url: https://www.fda.gov/about-fda/contact-fda/stay-informed/rss-feeds/drugs/rss.xml

@@ -1,0 +1,17 @@
+- model: rssfeed.RSSFeed
+    pk:1
+    fields:
+        name: "FDA Feed"
+        url: "https://www.fda.gov/about-fda/contact-fda/stay-informed/rss-feeds/drugs/rss.xml"
+        description: "This is a test feed"
+        last_updated: "2012-01-01 00:00:00"
+        last_checked: "2012-01-01 00:00:00"
+        etag: "1234567890"
+        modified: "2012-01-01 00:00:00"
+        last_build_date: "2012-01-01 00:00:00"
+        ttl: 60
+        image: "http://www.example.com/image.jpg"
+        language: "en"
+        generator: "Test Generator"
+        docs: "http://www.example.com/docs"
+        managing_editor: "

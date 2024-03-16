@@ -3,17 +3,19 @@
 import django.db.models.deletion
 import django.utils.timezone
 from django.db import migrations, models
+import yaml
+from pathlib import Path
+import os
 
-
-
+BASE_DIR = Path(__file__).resolve().parent.parent
 def populate_feed(apps, schema_editor):
+    with open(os.path.join(BASE_DIR, 'fixtures', 'feed.yml'), 'r') as f:
+        data = yaml.safe_load(f)
     Feed = apps.get_model('rssfeed', 'Feed')
-    data = {
-        'name': 'FDA-1',
-        'url': 'https://www.fda.gov/about-fda/contact-fda/stay-informed/rss-feeds/drugs/rss.xml',
-    }
-    obj = Feed(**data)
-    obj.save()
+    for entry in data:
+        obj = Feed(**entry['fields'])
+        obj.save()
+
 
 class Migration(migrations.Migration):
     initial = True
