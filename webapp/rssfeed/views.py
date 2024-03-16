@@ -6,13 +6,13 @@ from django.http import HttpResponse
 from django.http import Http404
 from django.template import loader
 
-from .models import RSSSource, Publication
+from .models import Feed, Publication
 
 # context = {"latest_question_list": latest_question_list}
 #     return render(request, "polls/index.html", context)
 
 def index(request):
-    feeds_list = RSSSource.objects.order_by("-pub_date")[:5]
+    feeds_list = Feed.objects.order_by("-pub_date")[:5]
     context = {
         "feeds_list": feeds_list,
     }
@@ -29,7 +29,7 @@ def results(request, entry_id):
 
 def update(request):
     response = "Updating feeds."
-    feeds_list = RSSSource.objects.order_by("-pub_date")
+    feeds_list = Feed.objects.order_by("-pub_date")
     print(feeds_list)
     for feed in feeds_list:
         url = feed.url
@@ -41,7 +41,7 @@ def update(request):
                 title=entry['title'],
                 link=entry['link'],
                 summary=entry['summary'],
-                rssfeed = feed
+                Feed = feed
             )
             print(p)
             # p.save()
