@@ -1,0 +1,15 @@
+# flyctl launch added from .gitignore
+**/ngrok.yml
+**/.env
+
+**/.pytest_cache
+**/__pycache__
+
+
+
+**/.vscode/settings.json
+
+# flyctl launch added from .pytest_cache/.gitignore
+# Created by pytest automatically.
+.pytest_cache/**/*
+fly.toml

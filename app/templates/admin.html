@@ -1,7 +1,0 @@
-{% extends "base.html" %}
-{% import "bootstrap_wtf.html" as wtf %}
-
-{% block content %}
-    <h1>{{ _('Hi, %(username)s!', username=current_user.username) }}</h1>
-    <p>{{ _('Your email is %(email)s', email=current_user.email) }}</p>
-{% endblock %}

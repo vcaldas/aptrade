@@ -1,0 +1,9 @@
+ngrok.yml
+.env
+
+.pytest_cache
+__pycache__
+
+
+
+.vscode/settings.json
