@@ -1,18 +1,19 @@
-from django.shortcuts import render
 import feedparser
+
+from celery.result import AsyncResult
+from django.http import JsonResponse
+from django.shortcuts import render
+from django.views.decorators.csrf import csrf_exempt
+
+from rssfeed.sample_tasks import create_task
+
 # Create your views here.
 from django.http import HttpResponse
 
-from django.http import Http404
-from django.template import loader
-
 from .models import Feed, Publication
 
-# context = {"latest_question_list": latest_question_list}
-#     return render(request, "polls/index.html", context)
-
 def index(request):
-    feeds_list = Feed.objects.order_by("-pub_date")[:5]
+    feeds_list = Feed.objects.order_by("-last_updated")[:5]
     context = {
         "feeds_list": feeds_list,
     }
@@ -29,8 +30,7 @@ def results(request, entry_id):
 
 def update(request):
     response = "Updating feeds."
-    feeds_list = Feed.objects.order_by("-pub_date")
-    print(feeds_list)
+    feeds_list = Feed.objects.order_by("-last_updated")
     for feed in feeds_list:
         url = feed.url
         NewsFeed = feedparser.parse(url)
@@ -43,18 +43,9 @@ def update(request):
                 summary=entry['summary'],
                 Feed = feed
             )
-            print(p)
-            # p.save()
     print("response test")
     return HttpResponse(f"Finish Update example")
     
-
-from celery.result import AsyncResult
-from django.http import JsonResponse
-from django.shortcuts import render
-from django.views.decorators.csrf import csrf_exempt
-
-from rssfeed.sample_tasks import create_task
 
 
 def home(request):
