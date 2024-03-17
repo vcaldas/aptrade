@@ -4,15 +4,15 @@ name: apttrade
 services:
     webapp:
         restart: always
-        build:
-            context: ./webapp
+        build: ./webapp
+        command: python manage.py runserver 0.0.0.0:8000
         image: django_webapp
         env_file:
             - .env
         ports:
             - "8000:8000"
         volumes:
-            - ./webapp:/webapp
+            - ./webapp:/ur/src/app
         depends_on:
             - redis
             - db
@@ -46,6 +46,45 @@ services:
         image: "redis:alpine"
         ports:
             - "6379:6379"
+        networks:
+            - djangonetwork
+
+    celery:
+        build: ./webapp
+        command: celery --app=main worker --loglevel=info --logfile=logs/celery.log
+        volumes:
+        - ./webapp:/usr/src/app
+        environment:
+            - DEBUG=${DJANGO_DEBUG}
+            - SECRET_KEY=${SECRET_KEY}
+            - DJANGO_ALLOWED_HOSTS=${DJANGO_ALLOWED_HOSTS}
+            - CELERY_BROKER=${CELERY_BROKER}
+            - CELERY_BACKEND=${CELERY_BACKEND}
+        depends_on:
+            - webapp
+            - redis
+        networks:
+            - djangonetwork
+
+    celery_flower:
+        build: ./webapp
+        command: celery flower -A main --port=5555 --broker=redis://redis:6379/0
+        ports:
+            - 5555:5555
+        env_file:
+            - .env
+        environment:
+            - DEBUG=${DJANGO_DEBUG}
+            - SECRET_KEY=${SECRET_KEY}
+            - DJANGO_ALLOWED_HOSTS=${DJANGO_ALLOWED_HOSTS}
+            - CELERY_BROKER=${CELERY_BROKER}
+            - CELERY_BACKEND=${CELERY_BACKEND}
+        depends_on:
+            - webapp
+            - redis
+            - celery
+        networks:
+            - djangonetwork
     
     # celery_worker:
     #     build:
