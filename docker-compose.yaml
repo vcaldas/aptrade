@@ -4,15 +4,20 @@ name: apttrade
 services:
     webapp:
         restart: always
-        build:
-            context: ./webapp
+        build: ./webapp
+        command: python manage.py runserver 0.0.0.0:8000
+        image: django_webapp
         env_file:
             - .env
-        image: webapp
         ports:
             - "8000:8000"
         volumes:
-            - ./webapp:/webapp
+            - ./webapp:/ur/src/app
+        depends_on:
+            - redis
+            - db
+        networks:
+            - djangonetwork
 
     telegram:
         build: 
@@ -24,6 +29,102 @@ services:
         ports:
             - 8080:8080
 
+    db:
+        image: postgres:16
+        environment:
+            - POSTGRES_USER=${DJANGO_DB_USER}
+            - POSTGRES_PASSWORD=${DJANGO_DB_PASSWORD}
+            - POSTGRES_DB=${DJANGO_DB_NAME} 
+        volumes:
+            - db_data:/var/lib/postgresql/data
+        ports:
+            - "5432:5432"
+        networks:
+            - djangonetwork
+
+    redis:
+        image: "redis:alpine"
+        ports:
+            - "6379:6379"
+        networks:
+            - djangonetwork
+
+    celery:
+        build: ./webapp
+        command: celery --app=main worker --loglevel=info --logfile=logs/celery.log
+        volumes:
+        - ./webapp:/usr/src/app
+        environment:
+            - DEBUG=${DJANGO_DEBUG}
+            - SECRET_KEY=${SECRET_KEY}
+            - DJANGO_ALLOWED_HOSTS=${DJANGO_ALLOWED_HOSTS}
+            - CELERY_BROKER=${CELERY_BROKER}
+            - CELERY_BACKEND=${CELERY_BACKEND}
+        depends_on:
+            - webapp
+            - redis
+        networks:
+            - djangonetwork
+
+    celery_flower:
+        build: ./webapp
+        command: celery flower -A main --port=5555 --broker=redis://redis:6379/0
+        ports:
+            - 5555:5555
+        env_file:
+            - .env
+        environment:
+            - DEBUG=${DJANGO_DEBUG}
+            - SECRET_KEY=${SECRET_KEY}
+            - DJANGO_ALLOWED_HOSTS=${DJANGO_ALLOWED_HOSTS}
+            - CELERY_BROKER=${CELERY_BROKER}
+            - CELERY_BACKEND=${CELERY_BACKEND}
+        depends_on:
+            - webapp
+            - redis
+            - celery
+        networks:
+            - djangonetwork
+    
+    # celery_worker:
+    #     build:
+    #         context: ./webapp
+    #     image: django_celery_worker
+    #     env_file:
+    #         - .env
+    #     depends_on:
+    #         - redis
+    #         - db
+        
+        # celery_beat:
+        #     build:
+        #         context: .
+        #         dockerfile: ./compose/local/django/Dockerfile
+        #     image: django_celery_example_celery_beat
+        #     command: /start-celerybeat
+        #     volumes:
+        #             - .:/app
+        #     env_file:
+        #     - ./.env/.dev-sample
+        #     depends_on:
+        #         - redis
+        #         - db
+
+        # flower:
+        #     build:
+        #         context: .
+        #         dockerfile: ./compose/local/django/Dockerfile
+        #     image: django_celery_example_celery_flower
+        #     command: /start-flower
+        #     volumes:
+        #         - .:/app
+        #     env_file:
+        #         - ./.env/.dev-sample
+        #     ports:
+        #         - 5557:5555
+        #     depends_on:
+        #         - redis
+        #         - db
 
 #     ib-gateway:
 #         restart: always
@@ -72,3 +173,9 @@ services:
 
 # volumes:
 #     tws_tmp:
+
+networks:
+    djangonetwork:
+        driver: bridge
+volumes:
+  db_data:
