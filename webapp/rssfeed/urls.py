@@ -8,4 +8,5 @@ urlpatterns = [
     path("<int:entry_id>/", views.detail, name="detail"),
     # ex: /rssfeed/5/results/
     path("<int:entry_id>/results/", views.results, name="results"),
+    path("tasks", views.tasks, name="tasks"),
 ]

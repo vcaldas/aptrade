@@ -2,3 +2,6 @@ django
 feedparser
 PyYAML
 psycopg2-binary
+celery
+redis
+flower
