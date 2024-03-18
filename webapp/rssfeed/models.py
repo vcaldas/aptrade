@@ -17,10 +17,13 @@ class Publication(models.Model):
         db_table = 'Publication'
 
 class Feed(models.Model):
+    id = models.CharField(max_length=200, unique=True)
     name = models.CharField(max_length=200)
     url = models.CharField(max_length=200)
     last_updated = models.DateTimeField("last update", default=timezone.now)
-
+    modified = models.CharField("last modified", max_length=200, default="")
+    etag = models.CharField(max_length=200, default="")
+    
     
     def __str__(self):
         return self.name    
