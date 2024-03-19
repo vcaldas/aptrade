@@ -46,7 +46,6 @@ services:
             - redis
             - db
 
-
     telegram:
         build: 
             context: ./telegram_bot
