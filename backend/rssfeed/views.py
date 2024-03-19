@@ -41,7 +41,7 @@ def update(request):
                 title=entry['title'],
                 link=entry['link'],
                 summary=entry['summary'],
-                Feed = feed
+                rssfeed = feed
             )
     print("response test")
     return HttpResponse(f"Finish Update example")

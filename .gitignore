@@ -1,8 +1,8 @@
 # Folder containing private info
 private/
 backlog.todo
-webapp/staticfiles
-webapp/logs
+backend/staticfiles
+backend/logs
 .env
 research/
 data/

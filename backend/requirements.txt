@@ -7,3 +7,4 @@ redis
 flower
 djangorestframework
 django-cors-headers
+django-debug-toolbar

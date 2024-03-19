@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     'corsheaders',
     'rest_framework',
+    "debug_toolbar",
+
 ]
 
 MIDDLEWARE = [
@@ -50,8 +52,13 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "debug_toolbar.middleware.DebugToolbarMiddleware",
+
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
+
+
+    
 ]
 
 CORS_ORIGIN_WHITELIST = [
@@ -83,17 +90,28 @@ WSGI_APPLICATION = "main.wsgi.application"
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
-
-DATABASES = {
-    "default": {
-        "ENGINE":   os.getenv("DJANGO_DB_ENGINE", "django.db.backends.postgresql"),
-        "NAME":     os.getenv("DJANGO_DB_NAME", "dbtest"),
-        "USER":     os.getenv("DJANGO_DB_USER", "dbtest"),
-        "PASSWORD": os.getenv("DJANGO_DB_PASSWORD", "dbtest"),
-        "HOST":     os.getenv("DJANGO_DB_HOST", "db"),
-        "PORT":     os.getenv("DJANGO_DB_PORT", "5432")
+import sys
+if 'test' in sys.argv:
+    DATABASES = {
+        "default": {	
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": "mydatabase",
+        }}
+else:
+    DATABASES = {
+        "default": {
+            "ENGINE":   os.getenv("DJANGO_DB_ENGINE", "django.db.backends.postgresql"),
+            "NAME":     os.getenv("DJANGO_DB_NAME", "dbtest"),
+            "USER":     os.getenv("DJANGO_DB_USER", "dbtest"),
+            "PASSWORD": os.getenv("DJANGO_DB_PASSWORD", "dbtest"),
+            "HOST":     os.getenv("DJANGO_DB_HOST", "db"),
+            "PORT":     os.getenv("DJANGO_DB_PORT", "5432"),
+            "TEST": {
+                "NAME": "mytestdatabase",
+            },
+        },
+    
     }
-}
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
 
@@ -112,6 +130,11 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+INTERNAL_IPS = [
+    # ...
+    "127.0.0.1",
+    # ...
+]
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/

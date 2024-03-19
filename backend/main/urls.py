@@ -23,6 +23,8 @@ urlpatterns = [
     path("polls/", include("stocks.urls")),
     path("rssfeed/", include("rssfeed.urls")),
     path("telegram/", include("telegram.urls")),
+    path("__debug__/", include("debug_toolbar.urls")),
+
 
 
 
