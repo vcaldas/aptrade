@@ -69,3 +69,12 @@ def get_status(request, task_id):
         "task_result": task_result.result
     }
     return JsonResponse(result, status=200)
+
+
+from django.shortcuts import render
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+
+@api_view(['GET'])
+def apitest(request):
+    return Response({'message': 'Hello, world!'})

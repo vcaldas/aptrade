@@ -3,6 +3,7 @@ from django.utils import timezone
 import datetime
 # Create your models here.
 class Publication(models.Model):
+    id = models.CharField(max_length=200, primary_key=True, unique=True)
     title = models.CharField(max_length=200)
     link = models.CharField(max_length=200)
     description = models.CharField(max_length=200)
@@ -17,7 +18,6 @@ class Publication(models.Model):
         db_table = 'Publication'
 
 class Feed(models.Model):
-    id = models.CharField(max_length=200, unique=True)
     name = models.CharField(max_length=200)
     url = models.CharField(max_length=200)
     last_updated = models.DateTimeField("last update", default=timezone.now)
