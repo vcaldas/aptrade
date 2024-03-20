@@ -1,10 +1,10 @@
 import feedparser
-
+import logging
 from celery.result import AsyncResult
 from django.http import JsonResponse
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
-
+logger = logging.getLogger(__name__)
 from rssfeed.sample_tasks import create_task
 
 # Create your views here.
@@ -30,20 +30,35 @@ def results(request, entry_id):
 
 def update(request):
     response = "Updating feeds."
+    print(response)
     feeds_list = Feed.objects.order_by("-last_updated")
     for feed in feeds_list:
         url = feed.url
-        NewsFeed = feedparser.parse(url)
-        entries = NewsFeed.get('entries', {})
+        etag = feed.etag
+        modified = feed.modified
         
-        for entry in entries:
-            p = Publication(
-                title=entry['title'],
-                link=entry['link'],
-                summary=entry['summary'],
-                rssfeed = feed
-            )
-    print("response test")
+        NewsFeed = feedparser.parse(url)
+        
+        response_code = feedparser.parse(url, modified=modified, etag=etag)
+        if response_code.status == 304:
+            print("Feed not modified")
+        else:
+            print("Feed modified")
+            # feed.last_updated = NewsFeed.get('updated', '')
+            feed.etag = NewsFeed.get('etag', '')
+            feed.modified = NewsFeed.get('modified', '')
+            feed.save()
+            entries = NewsFeed.get('entries', {})
+            
+            for entry in entries:
+                p = Publication(
+                    id=entry['id'],
+                    title=entry['title'],
+                    link=entry['link'],
+                    summary=entry['summary'],
+                    rssfeed = feed
+                )
+                p.save()
     return HttpResponse(f"Finish Update example")
     
 

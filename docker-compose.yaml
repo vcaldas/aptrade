@@ -42,6 +42,8 @@ services:
             - "8000:8000"
         volumes:
             - ./backend:/ur/src/app
+        environment:
+            - PYTHONUNBUFFERED=0
         depends_on:
             - redis
             - db

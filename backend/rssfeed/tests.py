@@ -35,7 +35,4 @@ class PublicationModelTests(TestCase):
             summary='Test summary',
             rssfeed=feed
         )
-        self.assertEqual(feed.name, 'Test Feed')
-        self.assertEqual(feed.url, 'http://example.com/feed')
-        self.assertEqual(type(feed.last_updated), datetime.datetime)
-        self.assertEqual(feed.etag, '')
+        self.assertEqual(p.title, 'Test Publication')
