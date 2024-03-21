@@ -1,7 +1,7 @@
 # Folder containing private info
 private/
 backlog.todo
-backend/staticfiles
+backend/staticfiles/
 backend/logs
 .env
 research/
