@@ -90,28 +90,19 @@ WSGI_APPLICATION = "main.wsgi.application"
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
-import sys
-if ('test' in sys.argv) or DEBUG:
-    DATABASES = {
-        "default": {	
-            "ENGINE": "django.db.backends.sqlite3",
-            "NAME": "mydatabase",
-        }}
-else:
-    DATABASES = {
-        "default": {
-            "ENGINE":   os.getenv("DJANGO_DB_ENGINE", "django.db.backends.postgresql"),
-            "NAME":     os.getenv("DJANGO_DB_NAME", "dbtest"),
-            "USER":     os.getenv("DJANGO_DB_USER", "dbtest"),
-            "PASSWORD": os.getenv("DJANGO_DB_PASSWORD", "dbtest"),
-            "HOST":     os.getenv("DJANGO_DB_HOST", "db"),
-            "PORT":     os.getenv("DJANGO_DB_PORT", "5432"),
-            "TEST": {
-                "NAME": "mytestdatabase",
-            },
-        },
-    
-    }
+
+
+DATABASES = {
+    "default": {
+        "ENGINE":   os.getenv("DJANGO_DB_ENGINE", "django.db.backends.sqlite3"),
+        "NAME":     os.getenv("DJANGO_DB_NAME",  BASE_DIR / "db.sqlite3"),
+        "USER":     os.getenv("DJANGO_DB_USER", "dbtest"),
+        "PASSWORD": os.getenv("DJANGO_DB_PASSWORD", "dbtest"),
+        "HOST":     os.getenv("DJANGO_DB_HOST", "localhost"),
+        "PORT":     os.getenv("DJANGO_DB_PORT", "5432"),
+    },
+
+}
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
 
@@ -163,5 +154,14 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # Celery settings
 
-CELERY_BROKER_URL = os.environ.get("CELERY_BROKER", "redis://redis:6379/0")
-CELERY_RESULT_BACKEND = os.environ.get("CELERY_BROKER", "redis://redis:6379/0")
+CELERY_BROKER_URL = os.environ.get("CELERY_BROKER", "redis://redis:6379")
+CELERY_RESULT_BACKEND = os.environ.get("CELERY_BROKER", "redis://redis:6379")
+from celery.schedules import crontab
+
+import main.tasks
+CELERY_BEAT_SCHEDULE = {
+    "sample_task": {
+        "task": "main.tasks.sample_task",
+        "schedule": crontab(minute="*/1"),
+    },
+}

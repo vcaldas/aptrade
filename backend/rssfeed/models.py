@@ -3,11 +3,11 @@ from django.utils import timezone
 import datetime
 # Create your models here.
 class Publication(models.Model):
-    id = models.CharField(max_length=200, primary_key=True, unique=True)
-    title = models.CharField(max_length=200)
-    link = models.CharField(max_length=200)
+    id = models.CharField(max_length=1024, primary_key=True, unique=True)
+    title = models.CharField(max_length=512)
+    link = models.CharField(max_length=1024)
     description = models.CharField(max_length=200)
-    summary = models.CharField(max_length=200)
+    summary = models.TextField(max_length=512)
     pub_date = models.DateTimeField("date published", default=timezone.now)
     rssfeed = models.ForeignKey('Feed', on_delete=models.CASCADE)
 

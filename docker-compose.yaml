@@ -28,6 +28,7 @@ x-celery-common:
     depends_on:
         - backend
         - redis
+        
 
 
 name: apttrade
@@ -81,16 +82,21 @@ services:
 
     celery:
         << : *celery-common
-        command: celery --app=main worker --loglevel=info --logfile=logs/celery.log
+        command: celery -A main worker --loglevel=info --logfile=logs/celery.log
 
     celery_flower:
         << : *celery-common
         command: celery -A main --broker=redis://redis:6379/0 flower  --port=5555 
+        ports:
+            - "5555:5555"
+        depends_on:
+            - celery
 
     celery_beat:
         << : *celery-common
-        command: celery --app=main beat -l info
-
+        command: celery -A main beat -l info
+        depends_on:
+            - celery
 
 
 #     ib-gateway:

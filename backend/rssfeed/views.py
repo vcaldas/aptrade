@@ -39,7 +39,7 @@ def update(request):
         
         NewsFeed = feedparser.parse(url)
         
-        response_code = feedparser.parse(url, modified=modified, etag=etag)
+        response_code = feedparser.parse(url, modified=modified, etag=modified)
         if response_code.status == 304:
             print("Feed not modified")
         else:
@@ -59,6 +59,7 @@ def update(request):
                     rssfeed = feed
                 )
                 p.save()
+    logger.info("response test")
     return HttpResponse(f"Finish Update example")
     
 

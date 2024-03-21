@@ -2,7 +2,7 @@ from django.test import TestCase
 import datetime
 # Create your tests here.
 from django.test import TestCase
-from .models import Publication, Feed
+from ..models import Publication, Feed
 
 class FeedModelTests(TestCase):
     def test_feed_creation(self):
@@ -36,3 +36,4 @@ class PublicationModelTests(TestCase):
             rssfeed=feed
         )
         self.assertEqual(p.title, 'Test Publication')
+        
