@@ -1,0 +1,61 @@
+[tool.ruff.lint.per-file-ignores]
+"test/**/*.py" = [
+    # at least this three should be fine in tests:
+    "S101", # asserts allowed in tests...
+    "ARG", # Unused function args -> fixtures nevertheless are functionally relevant...
+    "FBT", # Don't care about booleans as positional arguments in tests, e.g. via @pytest.mark.parametrize()
+    # The below are debateable
+    "PLR2004", # Magic value used in comparison, ...
+    "S311", # Standard pseudo-random generators are not suitable for cryptographic purposes
+    "F401", # ignore unused imports related to pytest fixture
+]
+
+[tool.isort]
+profile="black"
+multi_line_output=3
+include_trailing_comma=true
+force_grid_wrap=0
+use_parentheses=true
+line_length=88
+
+[tool.pytest.ini_options]
+minversion = "6.0"
+addopts = "-ra -q"
+testpaths = [
+    "test",
+]
+
+[tool.black]
+line-length = 88
+indent-width = 4
+
+[tool.ruff.lint]
+# Same as Black.
+select = [
+    # Pyflakes
+    "F",
+    # Pycodestyle
+    "E",
+    "W",
+    # isort
+    "I001",
+    #"Flake8-bugbear"
+    "B",
+    "S", "C",
+
+]
+ignore = ["E203", "E266", "E501", "B009", "S113"]
+[tool.ruff.lint.mccabe]
+# Flag errors (`C901`) whenever the complexity level exceeds 18.
+max-complexity = 18
+
+[tool.mypy]
+python_version = "3.11"
+
+[[tool.mypy.overrides]]
+module = [
+    "app",
+    "aptrade"
+]
+ignore_missing_imports = true
+

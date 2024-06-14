@@ -1,0 +1,11 @@
+fastapi
+datadog
+uvicorn
+jinja2
+pyyaml
+python-logstash
+pydantic-settings
+TA-Lib
+pandas
+fastapi
+yfinance
