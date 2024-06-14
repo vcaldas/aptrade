@@ -1,0 +1,11 @@
+pre-commit
+pytest
+httpx
+isort==5.12.0
+black==23.9.0
+ruff==v0.2.2
+mypy==v1.5.1
+pytest-custom-exit-code
+pydoclint
+types-PyYAML
+

@@ -1,0 +1,20 @@
+## This file is where you should list any debian/linux
+## packages that your project depends on. We will read
+## them when building the docker image, and we expect
+## one (AND ONLY ONE) package per line. For example:
+##
+##     # file: apt-packages.list
+##     libxrender
+##     libgcc
+##     libapache2
+##
+## Note that we will attempt to install all packages
+## at once when bulding the docker image, and if
+## any one package fails to install, the entire step
+## will fail. So make sure your list is accurate.
+##
+## To search for your package, search online:
+##     debian-testing libapache2
+## or you can open the text list here:
+##     https://packages.debian.org/testing/allpackages?format=txt.gz
+## and search it with 'CTRL + f'

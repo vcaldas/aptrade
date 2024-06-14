@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en" class="h-100">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
+  <title>{{settings.app_name}}</title>
+  <link rel="canonical" href="https://getbootstrap.com/docs/5.0/examples/cover/">
+
+
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static',path='css/bootstrap/5/bootstrap.min.css') }}">
+  <!-- Favicons -->
+
+  <meta name="theme-color" content="#7952b3">
+
+
+  <style>
+    .bd-placeholder-img {
+      font-size: 1.125rem;
+      text-anchor: middle;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      user-select: none;
+    }
+
+    @media (min-width: 768px) {
+      .bd-placeholder-img-lg {
+        font-size: 3.5rem;
+      }
+    }
+  </style>
+
+
+  <!-- Custom styles for this template -->
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static',path='css/cover.css') }}">
+</head>
+
+<body class="d-flex h-100 text-center text-white bg-dark">
+  {% set current_page = self._TemplateReference__context.name %}
+
+  <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+    <header class="mb-auto">
+      <div>
+        <h3 class="float-md-start mb-0">{{settings.app_name}}</h3>
+        <nav class="nav nav-masthead justify-content-center float-md-end">
+          <a class="nav-link {{ 'active' if current_page == 'index.html' else ''}}" href="index.html">Home</a>
+          <a class="nav-link" href="{{ url_for('swagger_ui_html')}}">API</a>
+          <a class="nav-link {{ 'active' if current_page == 'screener.html' else ''}}"href="screener.html">Screener</a>
+        </nav>
+      </div>
+    </header>
+
+    {% block content %}{% endblock %}
+
+
+    <footer class="mt-auto text-white-50">
+      {% include 'base/footer.html' %}
+    </footer>
+  </div>
+</body>
+
+</html>
