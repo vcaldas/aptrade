@@ -42,7 +42,7 @@ dynamic_routing_details, dynamic_metadata_info = get_dynamic_api_details()
 tags_metadata = []
 
 # Extend this with our dynamically obtained tags from the packages
-tags_metadata.extend(dynamic_metadata_info)
+# tags_metadata.extend(dynamic_metadata_info)
 
 # This is when everything is hardcoded
 #
@@ -73,18 +73,9 @@ app.include_router(dynamic_routing_details, prefix="/api")
 
 # If end-user goes to main page, automatically redirect to the index.html
 @app.get("/", include_in_schema=False)
-@app.get("/ui", include_in_schema=False)
-def root():
-    return RedirectResponse(url="/ui/index.html")
-
-
-# Any path accessed in url starting with /ui/ should be rendered as jinja2 template
-@app.get("/ui/{path}", response_class=HTMLResponse, include_in_schema=False)
-def serve_template_html_page(request: Request, path: str):
-    print(request.headers)
-    print(path)
-    return templates.TemplateResponse(path, {"request": request, "settings": settings})
-
+@app.get("/index", include_in_schema=False)
+def root(request: Request):
+    return templates.TemplateResponse('index.html', {"request": request, "settings": settings})
 
 # Any path accessed in url starting with /ui/ should be rendered as jinja2 template
 @app.get("/screener", response_class=HTMLResponse, include_in_schema=False)
