@@ -24,6 +24,9 @@ FROM tiangolo/uvicorn-gunicorn-fastapi:python3.10
 # Defina o diretório de trabalho no contêiner
 WORKDIR /app
 
+RUN pip config set global.trusted-host "pypi.org files.pythonhosted.org pypi.python.org" 
+RUN pip config set global.timeout 900
+
 # Copie o arquivo requirements.txt para o diretório de trabalho no contêiner
 COPY requirements.txt .
 

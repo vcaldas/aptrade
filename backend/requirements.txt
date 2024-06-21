@@ -8,3 +8,6 @@ flower
 djangorestframework
 django-cors-headers
 django-debug-toolbar
+./packages/aptrade
+./packages/backtrader
+./packages/atreyu

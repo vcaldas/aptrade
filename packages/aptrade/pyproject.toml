@@ -54,7 +54,6 @@ python_version = "3.11"
 
 [[tool.mypy.overrides]]
 module = [
-    "app",
     "aptrade"
 ]
 ignore_missing_imports = true

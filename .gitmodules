@@ -1,0 +1,3 @@
+[submodule "packages/atreyu"]
+	path = packages/atreyu
+	url = https://github.com/vcaldas/atreyu-backtrader-api.git

@@ -14,7 +14,7 @@ x-celery-common:
     &celery-common
     build: ./backend
     volumes:
-    - ./backend:/usr/src/app
+    - ./backend:/usr/app
     << : *env-common
     environment:
         - DEBUG=${DJANGO_DEBUG}
@@ -35,14 +35,16 @@ name: apttrade
 services:
     backend:
         restart: always
-        build: ./backend
+        build: 
+            context: .
+            dockerfile: ./backend/Dockerfile
         command: python manage.py runserver 0.0.0.0:8000
         image: django_backend
         << : *env-common
         ports:
             - "8000:8000"
         volumes:
-            - ./backend:/ur/src/app
+            - ./backend:/application/app
         environment:
             - PYTHONUNBUFFERED=0
         depends_on:
