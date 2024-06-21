@@ -1,3 +1,6 @@
 [submodule "packages/atreyu"]
 	path = packages/atreyu
 	url = https://github.com/vcaldas/atreyu-backtrader-api.git
+[submodule "packages/backtrader"]
+	path = packages/backtrader
+	url = https://github.com/vcaldas/backtrader.git
