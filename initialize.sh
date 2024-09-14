@@ -59,13 +59,12 @@ done
 
 PYSYS_DATA_DIR=$HOME/data/
 MONGO_DATA=$PYSYS_DATA_DIR/mongodb
-PYSYS_CODE=$PWD/pysystemtrade
-SCRIPT_PATH=$PWD/pysystemtrade/sysproduction/linux/scripts
+PYSYS_CODE=$PWD/
+SCRIPT_PATH=$PWD/sysproduction/linux/scripts
 ECHO_PATH=$PYSYS_DATA_DIR/echos
 MONGO_BACKUP_PATH=$HOME/backup/mongo_backup
-APT_PATH=$HOME/aptrade
 APT_SCRIPTS=$HOME/aptrade/scripts
-PYSYS_PRIVATE_CONFIG_DIR=$HOME/aptrade/pysystemtrade/private
+PYSYS_PRIVATE_CONFIG_DIR=$HOME/aptrade/private
 
 
 # Verify if variables exist in .profile
@@ -85,9 +84,6 @@ if ! grep -q "ECHO_PATH=" ~/.profile; then
     echo "export ECHO_PATH=${ECHO_PATH}   # ADDED BY APTRADE" >> ~/.profile
 fi
 
-if ! grep -q "APT_PATH=" ~/.profile; then
-    echo "export APT_PATH=${APT_PATH}   # ADDED BY APTRADE" >> ~/.profile
-fi
 
 if ! grep -q "APT_SCRIPTS=" ~/.profile; then
     echo "export APT_SCRIPTS=${APT_SCRIPTS}   # ADDED BY APTRADE" >> ~/.profile
@@ -112,14 +108,15 @@ fi
 
 ## Verify if venv exist
 
-if [ ! -d "$HOME/aptrade/venv/pstrade" ]; then
+if [ ! -d "$HOME/aptrade/venv" ]; then
     echo "Creating Python virtual environment..."
-    python3 -m venv $HOME/aptrade/venv/pstrade
+    python3 -m venv $HOME/aptrade/venv/
 fi
 
 ## Activate Environment
-source $HOME/aptrade/venv/pstrade/bin/activate
+source $HOME/aptrade/venv/bin/activate
 ## Install requirements
-pip install -r $HOME/aptrade/requirements.txt
+pip install -r $HOME/aptrade/requirements-dev.txt
 ## Install Pysystemtrade on development mode
-python $HOME/aptrade/pysystemtrade/setup.py develop
+python $HOME/aptrade/setup.py develop
+python -m ipykernel install --user --name=aptrade
