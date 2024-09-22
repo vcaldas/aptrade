@@ -57,6 +57,21 @@ done
 # TODO: Create venvs for python 
 #  check if variable exists in ./profile
 
+## Verify if venv exist
+
+if [ ! -d "$HOME/aptrade/venv" ]; then
+    echo "Creating Python virtual environment..."
+    python3 -m venv $HOME/aptrade/venv/
+fi
+
+## Activate Environment
+source $HOME/aptrade/venv/bin/activate
+## Install requirements
+pip install -r $HOME/aptrade/requirements-dev.txt
+## Install Pysystemtrade on development mode
+python $HOME/aptrade/setup.py develop
+python -m ipykernel install --user --name=aptrade
+
 PYSYS_DATA_DIR=$HOME/data/
 MONGO_DATA=$PYSYS_DATA_DIR/mongodb
 PYSYS_CODE=$PWD/
@@ -106,17 +121,3 @@ if ! echo "$PATH" | grep -q "$SCRIPT_PATH"; then
     echo "export PATH=\$PATH:$SCRIPT_PATH   # ADDED BY APTRADE" >> ~/.profile
 fi
 
-## Verify if venv exist
-
-if [ ! -d "$HOME/aptrade/venv" ]; then
-    echo "Creating Python virtual environment..."
-    python3 -m venv $HOME/aptrade/venv/
-fi
-
-## Activate Environment
-source $HOME/aptrade/venv/bin/activate
-## Install requirements
-pip install -r $HOME/aptrade/requirements-dev.txt
-## Install Pysystemtrade on development mode
-python $HOME/aptrade/setup.py develop
-python -m ipykernel install --user --name=aptrade
