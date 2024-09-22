@@ -1,3 +1,3 @@
 #!/bin/bash
 . ~/.profile
-. p sysproduction.run_systems.run_systems
+. $SCRIPT_PATH/p sysproduction.run_systems.run_systems
