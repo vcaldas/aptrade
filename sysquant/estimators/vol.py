@@ -93,9 +93,10 @@ def apply_vol_floor(
     floor_min_periods: int = 100,
     floor_days: int = 500,
 ) -> pd.Series:
+    print("Last version")
     # Find the rolling 5% quantile point to set as a minimum
-    vol_min = vol.rolling(min_periods=floor_min_periods, window=floor_days).quantile(
-        q=floor_min_quant
+    vol_min = vol.rolling(window=floor_days, min_periods=floor_min_periods).quantile(
+        floor_min_quant
     )
 
     # set this to zero for the first value then propagate forward, ensures
