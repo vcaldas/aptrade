@@ -61,16 +61,16 @@ def process_multiple_prices_all_instruments(
     instrument_list = (
         db_individual_futures_prices.get_list_of_instrument_codes_with_merged_price_data()
     )
-
-    for instrument_code in instrument_list:
-        print(instrument_code)
-        process_multiple_prices_single_instrument(
-            instrument_code,
-            csv_multiple_data_path=csv_multiple_data_path,
-            csv_roll_data_path=csv_roll_data_path,
-            ADD_TO_DB=ADD_TO_DB,
-            ADD_TO_CSV=ADD_TO_CSV,
-        )
+    print(instrument_list)
+    # for instrument_code in instrument_list:
+    #     print(instrument_code)
+    #     process_multiple_prices_single_instrument(
+    #         instrument_code,
+    #         csv_multiple_data_path=csv_multiple_data_path,
+    #         csv_roll_data_path=csv_roll_data_path,
+    #         ADD_TO_DB=ADD_TO_DB,
+    #         ADD_TO_CSV=ADD_TO_CSV,
+    #     )
 
 
 def process_multiple_prices_single_instrument(
