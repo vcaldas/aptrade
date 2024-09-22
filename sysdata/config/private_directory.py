@@ -6,11 +6,9 @@ PRIVATE_CONFIG_DIR_ENV_VAR = "PYSYS_PRIVATE_CONFIG_DIR"
 
 
 def get_full_path_for_private_config(filename: str):
-    ## FIXME: should use os path join instead of '/'?
-
     if os.getenv(PRIVATE_CONFIG_DIR_ENV_VAR):
-        private_config_path = f"{os.environ[PRIVATE_CONFIG_DIR_ENV_VAR]}/{filename}"
+        _directory  = os.environ[PRIVATE_CONFIG_DIR_ENV_VAR]
     else:
-        private_config_path = os.path.join(BASE_PATH, DEFAULT_PRIVATE_DIR, filename)
-
+        _directory  = os.path.join(BASE_PATH, DEFAULT_PRIVATE_DIR)
+    private_config_path = os.path.join(_directory, filename)
     return private_config_path
