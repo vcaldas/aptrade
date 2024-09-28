@@ -1,1 +1,0 @@
-logging_configured = False
