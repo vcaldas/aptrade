@@ -64,7 +64,16 @@ services:
       - "127.0.0.1:4002:4004"
       - "127.0.0.1:5900:5900"
 
-  
+  logger:
+    build: 
+      context: ./services/logger
+      # dockerfile: services/logger/Dockerfile
+    container_name: apt-logger
+    restart: always
+    ports:
+      - 9020:9020
+    volumes:
+      - ./logs:/application/output/
 
   # pysystemtrade:
   #   build: .
