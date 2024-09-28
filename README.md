@@ -51,7 +51,7 @@ docker-compose up
 | IB Gateway   | 4001 | Working |
 | Airflow      | 8080 | Pending |
 | MLFlow       | 5000 | Pending |
-| Frontend     | 3000 | Pending |
+| Frontend     | 3000 | Working |
 | Backend      | 8000 | Pending |
 | Redis        | 6379 | Pending |
 | Flower       | 5555 | Pending |
