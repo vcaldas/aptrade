@@ -66,8 +66,8 @@ services:
 
   logger:
     build: 
-      context: ./services/logger
-      # dockerfile: services/logger/Dockerfile
+      context: ./
+      dockerfile: services/logger/Dockerfile
     container_name: apt-logger
     restart: always
     ports:
