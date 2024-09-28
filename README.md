@@ -4,9 +4,7 @@ A companion project for Pysystemtrade.
 
 ## Read this first
 
-This project is a learning journey. Finantial markets are complicated and it is a delusion to think otherwise. This project is not a get-rich-quick scheme. While the money and knowledge to invest are not available, I will be working on a paper trading system. Cut some corners to have it running and keep iterating. If you want to follow along, please do so but for the real deal, I would use the official [PySystemTrade](https://github.com/robcarver17/pysystemtrade/tree/master) for that.
-
-If you want to follow along, I expect you to also keep the official document open. 
+This project is a learning journey. Finantial markets are complicated and it is a delusion to think otherwise. This project is not a get-rich-quick scheme. While the money and knowledge to invest are not available, I will be working on a paper trading system. Cut some corners to have it running and keep iterating. If you want to follow along, please do so but for the real deal, I would use the official [PySystemTrade](https://github.com/robcarver17/pysystemtrade/tree/master).
 
 
 ## Why another tool?
@@ -46,15 +44,20 @@ docker-compose up
 
 ## Services and Ports
 
-| Service Name | Port |
-|--------------|------|
-| Airflow      | 8080 |
-| MLFlow       | 5000 |
-| Frontend     | 3000 |
-| Backend      | 8000 |
-| Redis        | 6379 |
-| Flower       | 5555 |
-| Minio        | 9000 |
+
+| Service Name | Port | Status |
+|--------------|------| -------|
+| Logger       | 9020 | Working |
+| IB Gateway   | 4001 | Working |
+| Airflow      | 8080 | Pending |
+| MLFlow       | 5000 | Pending |
+| Frontend     | 3000 | Pending |
+| Backend      | 8000 | Pending |
+| Redis        | 6379 | Pending |
+| Flower       | 5555 | Pending |
+| Minio        | 9000 | Pending |
+
+
 
 
 
