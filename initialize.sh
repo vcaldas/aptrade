@@ -80,6 +80,7 @@ ECHO_PATH=$PYSYS_DATA_DIR/echos
 MONGO_BACKUP_PATH=$HOME/backup/mongo_backup
 APT_SCRIPTS=$HOME/aptrade/scripts
 PYSYS_PRIVATE_CONFIG_DIR=$HOME/aptrade/private
+PYSYS_LOGGING_CONFIG=$ECHO_PATH/syslogging.logging_prod.yaml
 
 
 # Verify if variables exist in .profile
@@ -115,6 +116,11 @@ fi
 if ! grep -q "PYSYS_DATA_DIR=" ~/.profile; then
     echo "export PYSYS_DATA_DIR=${PYSYS_DATA_DIR}   # ADDED BY APTRADE" >> ~/.profile
 fi
+
+if ! grep -q "PYSYS_LOGGING_CONFIG=" ~/.profile; then
+    echo "export PYSYS_LOGGING_CONFIG=${PYSYS_LOGGING_CONFIG}   # ADDED BY APTRADE" >> ~/.profile
+fi
+
 # Check if SCRIPT_PATH is in PATH
 if ! echo "$PATH" | grep -q "$SCRIPT_PATH"; then
     echo "Adding SCRIPT_PATH to PATH..."
