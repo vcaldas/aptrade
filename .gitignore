@@ -9,7 +9,7 @@ dist
 build
 private
 restats
-
+.env
 # Coverage reports
 .coverage
 .coverage.*
