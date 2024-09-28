@@ -84,6 +84,14 @@ services:
     ports:
       - 3000:3000
 
+  backend:
+    build:
+      context: ./backend
+      # dockerfile: ./backend/Dockerfile
+    container_name: apt-backend
+    restart: always
+    ports:
+      - 8000:8000
 
   # pysystemtrade:
   #   build: .
