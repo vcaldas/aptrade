@@ -63,6 +63,7 @@ def process_multiple_prices_all_instruments(
     )
 
     for instrument_code in instrument_list:
+        print(instrument_code)
         process_multiple_prices_single_instrument(
             instrument_code,
             csv_multiple_data_path=csv_multiple_data_path,
