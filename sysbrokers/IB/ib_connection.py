@@ -112,8 +112,6 @@ class connectionIB(object):
         try:
             # Try and disconnect IB client
             self.ib.disconnect()
-            self.ib.waitOnUpdate(timeout=0.1)
-            print("FINDME: IB client disconnected")
         except BaseException:
             self.log.warning(
                 "Trying to disconnect IB client failed... ensure process is killed"
