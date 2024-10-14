@@ -15,4 +15,4 @@ ENV PYTHONPATH=/syslogdiag:
 ENV PYTHONPATH=/syscore:
 ENV PYTHONPATH=/sysdata:
 
-CMD ["python", "syslogging/server.py", "--file",  "/application/output/pysystemtrade.log"] 
+CMD ["python", "syslogging/server.py", "--file",  "/application/output/pysystemtrade.log"]
