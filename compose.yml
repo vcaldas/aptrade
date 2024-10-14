@@ -65,7 +65,7 @@ services:
       - "127.0.0.1:5900:5900"
 
   logger:
-    build: 
+    build:
       context: ./
       dockerfile: services/logger/Dockerfile
     container_name: apt-logger
@@ -76,7 +76,7 @@ services:
       - ./logs:/application/output/
 
   dashboard:
-    build: 
+    build:
       context: ./dashboard
       # dockerfile: ./dashboard/Dockerfile
     container_name: apt-dashboard
@@ -99,4 +99,3 @@ services:
   #   container_name: pysystemtrade
   #   command: tail -F /dev/null
   #   stop_signal: SIGINT
-

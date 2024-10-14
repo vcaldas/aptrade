@@ -14,7 +14,7 @@ trading_rules:
      data:
          - "rawdata.get_daily_prices"
          - "rawdata.daily_returns_volatility"
-     other_args: 
+     other_args:
          Lfast: 8
          Lslow: 32
   ewmac16:
@@ -22,7 +22,7 @@ trading_rules:
      data:
          - "rawdata.get_daily_prices"
          - "rawdata.daily_returns_volatility"
-     other_args: 
+     other_args:
          Lfast: 16
          Lslow: 64
   carry:
@@ -57,4 +57,3 @@ base_currency: "GBP"
 #
 instruments: ['EDOLLAR','US10','BUND']
 ##
-

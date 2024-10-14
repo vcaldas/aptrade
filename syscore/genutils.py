@@ -258,7 +258,7 @@ def if_object_matches_return_empty_string(x, object_to_match):
 
 
 """
-    
+
     NAMED TUPLES AND OBJECTS
 
 """

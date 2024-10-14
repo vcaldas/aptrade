@@ -11,7 +11,7 @@ trading_rules:
      data:
          - "rawdata.get_daily_prices"
          - "rawdata.daily_returns_volatility"
-     other_args: 
+     other_args:
          Lfast: 8
          Lslow: 32
      forecast_scalar: 5.3
@@ -20,7 +20,7 @@ trading_rules:
      data:
          - "rawdata.get_daily_prices"
          - "rawdata.daily_returns_volatility"
-     other_args: 
+     other_args:
          Lfast: 16
          Lslow: 64
      forecast_scalar: 7.5

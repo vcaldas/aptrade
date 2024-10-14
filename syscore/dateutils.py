@@ -49,7 +49,7 @@ UNIXTIME_CONVERTER = 1e9
 UNIXTIME_IN_YEAR = UNIXTIME_CONVERTER * SECONDS_IN_YEAR
 
 """
- 
+
  RELATIVE TIME REFERENCING
 
 """
@@ -664,7 +664,7 @@ def strip_timezone_fromdatetime(timestamp_with_tz_info) -> datetime.datetime:
 
 
 """
-    
+
     EQUAL DATES WITHIN A YEAR
 
 """
