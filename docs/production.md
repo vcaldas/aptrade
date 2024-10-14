@@ -660,7 +660,7 @@ Note: the configuration variable echo_extension will need changing in `private_c
 
 ### Logging
 
-pysystemtrade uses the [Python logging module](https://docs.python.org/3.10/library/logging.html). See the [user guide for more detail](/docs/backtesting.md#logging) about logging in sim. Python logging is powerful and flexible, and log messages can be [formatted as you like, and sent virtually anywhere](https://docs.python.org/3.10/howto/logging.html#logging-advanced-tutorial) by providing your own config. But this section describes the default provided production setup. 
+pysystemtrade uses the [Python logging module](https://docs.python.org/3.10/library/logging.html). See the [user guide for more detail](/docs/backtesting.md#logging) about logging in sim. Python logging is powerful and flexible, and log messages can be [formatted as you like, and sent virtually anywhere](https://docs.python.org/3.10/howto/logging.html#logging-advanced-tutorial) by providing your own config. But this section describes the default provided production setup.
 
 In production, the requirements are more complex than in sim. As well as the context relevant attributes (that we have with sim), we also need
 - ability to log to the same file from different processes
@@ -683,7 +683,7 @@ Python doesn't support more than one process writing to a file at the same time.
 python -u $PYSYS_CODE/syslogging/server.py
 ```
 
-But that would write logs to the current working directory. Probably not what you want. Instead, pass the log file path 
+But that would write logs to the current working directory. Probably not what you want. Instead, pass the log file path
 
 ```
 python -u $PYSYS_CODE/syslogging/server.py --file /home/path/to/your/pysystemtrade.log
@@ -695,7 +695,7 @@ By default, the server accepts connections on port 6020. But if you want to use 
 python -u $PYSYS_CODE/syslogging/server.py --port 6021 --file /home/path/to/your/pysystemtrade.log
 ```
 
-The socket server also handles rotating the log files daily; the default setup rotates creates a new log at midnight each day, keeping the last 5 days' files. So after a week, the log directory file listing would look something like 
+The socket server also handles rotating the log files daily; the default setup rotates creates a new log at midnight each day, keeping the last 5 days' files. So after a week, the log directory file listing would look something like
 
 ```
 -rw-r--r--  1 user group 19944754 May  4 15:42 pysystemtrade.log
@@ -714,7 +714,7 @@ There is an example Linux systemd service file provided, see `examples/logging/l
 
 - create a new file at `/etc/systemd/system/logging_server.service`
 - paste the example file into it
-- update the paths in `ExecStart`. If using a virtual environment, make sure to use the correct path to Python 
+- update the paths in `ExecStart`. If using a virtual environment, make sure to use the correct path to Python
 - update the `User` and `Group` values, so the log file is not owned by root
 - update the path in `Environment`, if using a custom private config directory
 - run the following commands to start/stop/restart etc
@@ -727,7 +727,7 @@ sudo systemctl daemon-reload
 sudo systemctl enable log_server.service
 
 # view service status
-sudo systemctl status log_server.service 
+sudo systemctl status log_server.service
 
 # start service
 sudo systemctl start log_server.service
@@ -753,7 +753,7 @@ There is a special SMTP handler, for CRITICAL log messages only. This handler us
 
 #### Adding logging to your code
 
-See the [logging docs](https://docs.python.org/3.10/library/logging.html) for usage examples. There are four ways to manage context attributes: 
+See the [logging docs](https://docs.python.org/3.10/library/logging.html) for usage examples. There are four ways to manage context attributes:
 * *overwrite* - passed attributes are merged with any existing, overwriting duplicates (the default)
 * *preserve* - passed attributes are merged with any existing, preserving duplicates
 * *clear* - existing attributes are cleared, passed ones added
@@ -813,7 +813,7 @@ It defaults to deleting anything more than 30 days old.
 
 ##### Logs
 
-With the provided production logging config, the cleaning of **log** files is managed by the Python logging server. Default config is to keep the last 5 days of production logs. To adjust this, see [syslogging/server.py](syslogging/server.py) 
+With the provided production logging config, the cleaning of **log** files is managed by the Python logging server. Default config is to keep the last 5 days of production logs. To adjust this, see [syslogging/server.py](syslogging/server.py)
 
 
 ### Reporting
@@ -937,7 +937,7 @@ The concept of optimal positions doesn't exist for roll orders, since they are o
 
 ## Strategy order handling
 
-Either regularly (with run_strategy_order_generator) or ad-hoc (with update_strategy_orders) we generate instrument orders for each strategy. At the moment this is done daily, but for faster systems it may make sense to run it multiple times a day. The connection between the optimal positions and the orders generated depends on the type of strategy, but also what current positions are recorded in the database. 
+Either regularly (with run_strategy_order_generator) or ad-hoc (with update_strategy_orders) we generate instrument orders for each strategy. At the moment this is done daily, but for faster systems it may make sense to run it multiple times a day. The connection between the optimal positions and the orders generated depends on the type of strategy, but also what current positions are recorded in the database.
 
 For example:
 
@@ -953,7 +953,7 @@ Positions once generated are put on the instrument order stack, with the followi
    - If the adjusted order is zero, which would be the case if the unfilled orders already came to the optimal position.
 - if an order doesn't exist for the current instrument and strategy, then place the order (unless it is a zero order, which is what you'd get if the current required position was within the optimal buffer range)
 
-Note that the above means it is vital that the recorded position and existing order fill data are updated and accessed at the same time (or at least that no fills are likely to occur while we're calculating them), and are as up to date as possible. 
+Note that the above means it is vital that the recorded position and existing order fill data are updated and accessed at the same time (or at least that no fills are likely to occur while we're calculating them), and are as up to date as possible.
 
 Note also that it's quite possible that the sign of an adjusting order could change, depending on what unfilled orders are on the stack. We'd then quite possibly buy, and then sell, the same market which would be stupid and may even be illegal. To avoid this we need some kind of order netting (see below), which would also make trading across strategies more efficient.
 
@@ -968,8 +968,8 @@ Fields captured when an instrument order is created
 - order_id (assigned by the stack handling code)
 - desired trade (always a scalar, since a spread instrument is treated like any other instrument at this stage)
 - order type: Currently one of 'best' (execute at best possible price), 'market' (market order), 'limit' (limit order but not used), 'Zero-roll-order' used for roll orders, 'balance trade' (a balancing trade that isn't actually executed, generated by interactive_order_stack)
-- limit price 
-- limit contract 
+- limit price
+- limit contract
 - reference price
 - reference datetime
 - reference contract
@@ -983,7 +983,7 @@ The following fields are not yet used:
 
 - fill, filled price, filled datetime
 - parent (not used for instrument orders anyway)
-- children 
+- children
 
 ### Strategy order handling for roll orders
 
@@ -1111,7 +1111,7 @@ If we are trading FORCED, we will create a single spread contract order:
 
 ## Manual trades
 
-Using interactive_order_stack we can manually create instrument orders, and optionally contract orders. Manual trades have no reference data. 
+Using interactive_order_stack we can manually create instrument orders, and optionally contract orders. Manual trades have no reference data.
 
 
 ## Broker order creation and execution
@@ -1120,14 +1120,14 @@ Broker orders are orders that are actually passed to the broker, although we als
 
 Broker orders are created from contract orders by the method create_broker_order_for_contract_order in the stack handler.
 
-Broker orders are unaffected by whether the contract order has been created as part of a roll, or for spread strategies. 
+Broker orders are unaffected by whether the contract order has been created as part of a roll, or for spread strategies.
 
 ### Before an order is traded
 
 Before a broker order is created we apply a number of steps to the contract order we retrieve from the database:
 
 - Check to see if the contract order is fully filled already.
-- Check to see if an order is 'controlled' by an algo. This is in case we have multiple stack handlers running; we apply a pseudo lock when an algo issues a 
+- Check to see if an order is 'controlled' by an algo. This is in case we have multiple stack handlers running; we apply a pseudo lock when an algo issues a
 - Check to see if the instrument is locked. Locks are created when we have position mismatches, and cleared automatically when mismatches clear.
 - Check to see if the contract is being traded (checks with broker)
 - Resizes the order to comply with trade limits
@@ -1140,7 +1140,7 @@ Note that the size changes do not impact the contract order saved to the databas
 
 The next step is to send the order to a trading algo (an algo is allocated if one is not already attached to the contract order). Currently there are two algos included, a market and a 'best execution' algo. Neither is designed to work with contract orders with a limit price, although the best execution algo uses limit orders tactically. Most orders are allocated to the 'best execution' unless there is less than an hour of market open time left, in which case they go to the market algo.
 
-The contract order is marked 'algo controlled' to stop another thread or process trying to execute the same contract order (only possible right now accidentally through interactive_order_stack). 
+The contract order is marked 'algo controlled' to stop another thread or process trying to execute the same contract order (only possible right now accidentally through interactive_order_stack).
 
 ### Pre order preparation in the trading algo.
 
@@ -1149,7 +1149,7 @@ The Algo code will reduce the size of the contract trade further if required (bo
 - The market algo will just use a market order
 - The best execution algo will get a 'ticker object' for the contract. It will decide if it's viable to do a limit trade (basically it won't if the order book is unbalanced and a market order is more likely to get a better price). It will then submit either a market trade, or a limit trade which it will try and get executed passively
 
-The code will then create a broker order of the same size as the cut down contract order (which remember, could be considerably smaller than the original contract order on the database!). 
+The code will then create a broker order of the same size as the cut down contract order (which remember, could be considerably smaller than the original contract order on the database!).
 
 ### Broker order characteristics
 
@@ -1181,7 +1181,7 @@ The following are not yet set:
 - order_id: not set until saved to database
 - children: not used as broker orders are at the bottom of the order pile
 - algo_comment
-- submit_datetime 
+- submit_datetime
 - broker_tempid
 - broker_permid
 - commission
@@ -1196,13 +1196,13 @@ The following is correct for IB, which in any case is the only broker we can cur
 
 Broker orders are passed to sysbrokers.IB.ib_orders.ibExecutionStackData.put_order_on_stack; after adding information needed to identify the contract to be traded accurately, it is subsequently sent to sysbrokers.IB.client.ib_orders_client.ibOrdersClient.
 
-That translates the order into IB terms, and places the order. It returns a tradeWithContract object, which contains an ibcontractWithLegs object (containing the IB representation of the contract traded, plus any legs for a spread order), and the order object returned by the ib_insync code. 
+That translates the order into IB terms, and places the order. It returns a tradeWithContract object, which contains an ibcontractWithLegs object (containing the IB representation of the contract traded, plus any legs for a spread order), and the order object returned by the ib_insync code.
 
 This is then turned into a ibOrderWithControls object. This further layer of abstraction contains both a broker order, plus the tradeWithContract 'control' object needed to manage the trade (clearly this would make it easier to use another broker). We then replace the submit_datetime with the order time (from the broker itself, to ensure consistency with the timestamp on price data as well as any fill times). We then store this orderWithControls object in a local cache. That will make it easier to access subsequently, and check for fills etc. The storage key is broker_tempid.
 
 The ibOrderWithControls is then returned by the algo to the stack handler, with the following fields set for the order:
 
-- submit_datetime: actual submission time from the broker 
+- submit_datetime: actual submission time from the broker
 - broker_tempid: Format is 'account_id/client_id/ib_order_id'. Used to match orders (see fills below)
 
 ### Adding the broker trade to the database
@@ -1216,7 +1216,7 @@ An important feature is that a broker order that does not successfully make it t
 
 Control then returns to the algo to manage the trade. For the market algo, it will just wait until the order is filled, been cancelled by the broker for some reason, or a time out (10 minutes by default) has passed. If we run out of time the algo itself will try and cancel the order.
 
-For the best execution algo if a market order has been issued it will behave like the market algo. If a limit order was issued, it will wait passively for a fill. If certain conditions are met it will switch to trading aggressively; which means it will change the limit price to buy at the offer, and sell at the bid. 
+For the best execution algo if a market order has been issued it will behave like the market algo. If a limit order was issued, it will wait passively for a fill. If certain conditions are met it will switch to trading aggressively; which means it will change the limit price to buy at the offer, and sell at the bid.
 
 How do we poll for cancellations and fills, change limit prices, and request cancellations? This is all done via the 'control' objects buried inside ibOrderWithControls, which is the IB insync representation of the order and contract traded. A frequent pattern is to update that object, and then use it to update the *execution details* for the broker order. The following broker order fields are updated in this way:
 
@@ -1227,7 +1227,7 @@ How do we poll for cancellations and fills, change limit prices, and request can
 - broker_permid: the reference attached to an order once it has begun executing
 - commission
 
-Note: At this stage none of this is in the database, only in the in memory representation of the order. 
+Note: At this stage none of this is in the database, only in the in memory representation of the order.
 
 Importantly trade management is blocking whilst orders are being executed; the stack handler can only manage the execution of one trade at a time. Multiple stack handlers could be employed to avoid this problem, and in theory the use of algo control settings should mostly avoid anything crazy happening... don't try it at home!
 
@@ -1244,7 +1244,7 @@ Control then returns to the stack handler. At this point we *should* have an ord
 
 ## Fills and completions
 
-As we propagate orders down the stacks, from instrument, to contract, to broker orders; we also propagate fills back up; updating position tables as we go. Then when orders are completed they are removed from the active stack, and transferred to historic order databases. This can be done in the normal order flow, but there is a backup in that regular scheduled processes periodically check the order stacks to see if there are any orders with new fills. 
+As we propagate orders down the stacks, from instrument, to contract, to broker orders; we also propagate fills back up; updating position tables as we go. Then when orders are completed they are removed from the active stack, and transferred to historic order databases. This can be done in the normal order flow, but there is a backup in that regular scheduled processes periodically check the order stacks to see if there are any orders with new fills.
 
 ### Broker order fills
 
@@ -1259,10 +1259,10 @@ Suppose we have an edge case when perhaps an order is cancelled before the fill 
 Well the stack handler code regularly runs the method sysexecution/stack_handler/fills.stackHandlerForFills.pass_fills_from_broker_to_broker_stack. For each broker order on the stack (i.e. saved in the database, but remember without any control object), it will look for an order from the broker that matches. This matching is done as follows:
 
 - first we look in the cached set of broker orders and control objects, that should include any orders made in this session (but that won't work if the order was done somewhere else, eg by interactive_order_stack). Remember that this was indexed by broker_tempid.
-- if that fails then we get the orders and control objects actually from the broker. 
-    - Again first we look for orders with the same broker_tempid (i.e. from the same account, clientid and with the same IB orderId). 
+- if that fails then we get the orders and control objects actually from the broker.
+    - Again first we look for orders with the same broker_tempid (i.e. from the same account, clientid and with the same IB orderId).
     - If that fails we look for an order with the same permid. This will work as long as the original broker order in the database got a permid before the stack handler had close the original (failed?) execution process.
-- if that fails we're buggered and we need to enter the fill manually using interactive_order_stack. Most likely this will happen if more than 24 hours passes after the order was executed, since IB only returns recent orders from it's API 
+- if that fails we're buggered and we need to enter the fill manually using interactive_order_stack. Most likely this will happen if more than 24 hours passes after the order was executed, since IB only returns recent orders from it's API
 
 
 Once we have the order from the broker, which includes the control objects, we can update the following fields in the broker order, and save it to the database:
@@ -1294,7 +1294,7 @@ We then call code to apply the contract fill to the instrument order
 
 ### Instrument order fills and position updates
 
-The stack handler uses apply_contract_fills_for_instrument_order to propagate fills upwards from contract orders. This will be called from (a) apply_broker_fills_to_contract_order (in the normal run of things this would happen after a broker order is filled), (b) a regular scheduled call of pass_fills_from_contract_up_to_instrument, or (c) manually from interactive_order_stack. 
+The stack handler uses apply_contract_fills_for_instrument_order to propagate fills upwards from contract orders. This will be called from (a) apply_broker_fills_to_contract_order (in the normal run of things this would happen after a broker order is filled), (b) a regular scheduled call of pass_fills_from_contract_up_to_instrument, or (c) manually from interactive_order_stack.
 
 Instrument orders can have one:many relationships with contract orders, so there are a few different cases.
 
@@ -1305,9 +1305,9 @@ This is trivial. We get from the contract order:
 
 - The filled datetime
 - The filled quantity
-- The filled price 
+- The filled price
 
-We then compare the filled quantity with that of the original instrument order to see if it has changed. If so, we apply the position change to the instrument/strategy position table. Now both of our position tables are correct and consistent! 
+We then compare the filled quantity with that of the original instrument order to see if it has changed. If so, we apply the position change to the instrument/strategy position table. Now both of our position tables are correct and consistent!
 
 Next we update the instrument order on the database stack to reflect the new fills. We now check to see if the order can be *completed*.
 
@@ -1321,7 +1321,7 @@ Two possible cases:
 
 
 
-#### Multiple contract orders: 
+#### Multiple contract orders:
 
 Three cases:
 
@@ -1329,9 +1329,9 @@ Three cases:
 
 - The *last* filled datetime
 - The *total* filled quantity
-- The *average* filled price 
+- The *average* filled price
 
-We then compare the filled quantity with that of the original instrument order to see if it has changed. If so, we apply the position change to the instrument/strategy position table. Now both of our position tables are correct and consistent! 
+We then compare the filled quantity with that of the original instrument order to see if it has changed. If so, we apply the position change to the instrument/strategy position table. Now both of our position tables are correct and consistent!
 
 Next we update the instrument order on the database stack to reflect the new fills. We now check to see if the order can be completed.
 
@@ -1364,7 +1364,7 @@ Deactivated orders are 'invisible'; they won't be seen by any calls to get lists
 #### Adding to historic order databases
 
 For analysis we want to keep records of the orders we've made. We save the family of orders to historic order databases. It's now safe to delete them from the order stack database tables (this is done by the end of day process).
- 
+
 Note that there is no guarantee that position and order databases will be consistent; although every effort is made to ensure this is the case. I usually assume that position data is correct, although I do use fill prices for mark to market purposes.
 
 
@@ -1425,8 +1425,8 @@ Script are then called by [schedulers](#scheduling), or on an ad-hoc basis from 
 
 ## Script calling
 
-I've created scripts that run under Linux, however these all just call simple python functions so it ought to be easy to 
-create your own scripts in another OS. See [here](#scripts-under-other-non-linux-operating-systems) for notes about a 
+I've created scripts that run under Linux, however these all just call simple python functions so it ought to be easy to
+create your own scripts in another OS. See [here](#scripts-under-other-non-linux-operating-systems) for notes about a
 method to create cross-platform executable scripts.
 
 So, for example, here is the [run reports script](/sysproduction/linux/scripts/run_reports):
@@ -1556,18 +1556,18 @@ This will also check for 'spikes', unusually large movements in price either whe
 
 The threshold for spikes is set in the default.yaml file, or overridden in the private config .yaml file, using the parameter `max_price_spike`. Spikes are defined as a large multiple of the average absolute daily change. So for example if a price typically changes by 0.5 units a day, and `max_price_spike=8`, then a price change larger than 4 units will trigger a spike.
 
-In order for this step to work, you'll need an active IB market data subscription for the instruments you wish to trade. I detailed 
-my own market data subscriptions on [my blog](https://qoppac.blogspot.com/2021/05/adding-new-instruments-or-how-i-learned.html), 
+In order for this step to work, you'll need an active IB market data subscription for the instruments you wish to trade. I detailed
+my own market data subscriptions on [my blog](https://qoppac.blogspot.com/2021/05/adding-new-instruments-or-how-i-learned.html),
 reproduced here:
 
 |            Name             | Cost per month |
 |:---------------------------:|:--------------:|
 |          Cboe One           |    USD 1.00    |
-|        CFE Enhanced         |    USD 4.50    | 
-|         Eurex Core          |    EUR 8.75    | 
-|     Eurex Retail Europe     |    EUR 2.00    | 
-|    Euronext Data Bundle     |    EUR 3.00    | 
-|    Korea Stock Exchange     |    USD 2.00    | 
+|        CFE Enhanced         |    USD 4.50    |
+|         Eurex Core          |    EUR 8.75    |
+|     Eurex Retail Europe     |    EUR 2.00    |
+|    Euronext Data Bundle     |    EUR 3.00    |
+|    Korea Stock Exchange     |    USD 2.00    |
 |     Singapore Exchange      |    SGD 2.00    |
 |       Osaka Exchange        |    JPY 200     |
 
@@ -1590,7 +1590,7 @@ arguments:
 
 ```
 
-This will download Asian regional instruments at 7am, local machine time; Europe Middle East Africa at 6pm, and US at 8pm. Regions are set in the instrument configuration (provided .csv file which is then written to the database using interactive_controls, options to update configuration). 
+This will download Asian regional instruments at 7am, local machine time; Europe Middle East Africa at 6pm, and US at 8pm. Regions are set in the instrument configuration (provided .csv file which is then written to the database using interactive_controls, options to update configuration).
 
 You should also ensure that `run_daily_price_updates` has a start time set in `private_control_config.yaml` earlier than 7am, and is started by the crontab or other scheduler before 7am.
 
@@ -1934,7 +1934,7 @@ Tools to control the system's behaviour, including operational risk controls.
 
 Python:
 ```python
-from sysproduction.interactive_controls import interactive_controls 
+from sysproduction.interactive_controls import interactive_controls
 interactive_controls()
 ```
 
@@ -2400,8 +2400,8 @@ Called by: `run_backups`
 
 It copies backtest pickle and config files to the backup directory,  "offsystem_backup_directory", subdirectory /statefile
 
-**Important**: the backed up files will contain any data you have added to your private config, some of which may be 
-sensitive (e.g., IB account number, email address, email password). If you 
+**Important**: the backed up files will contain any data you have added to your private config, some of which may be
+sensitive (e.g., IB account number, email address, email password). If you
 choose to store these files with a cloud storage provider or backup service, you should consider encrypting them first
 (some services may do this for you, but many do not).
 
@@ -2447,9 +2447,9 @@ There is some housekeeping to do when a machine starts up, primarily in case it 
 ## Scripts under other (non-linux) operating systems
 
 There is a built-in Python mechanism for creating command line executables; it may make sense for those who want to
-have a production instance of pysystemtrade on MacOS or Windows. Or for Linux users who would prefer to use the standard 
-method than the supplied scripts. The mechanism is provided by the packaging tools, and configured in setup.py. See the 
-[docs here](https://python-packaging.readthedocs.io/en/latest/command-line-scripts.html#the-console-scripts-entry-point). 
+have a production instance of pysystemtrade on MacOS or Windows. Or for Linux users who would prefer to use the standard
+method than the supplied scripts. The mechanism is provided by the packaging tools, and configured in setup.py. See the
+[docs here](https://python-packaging.readthedocs.io/en/latest/command-line-scripts.html#the-console-scripts-entry-point).
 
 You add a new *entry_points* section to `setup.py` file like:
 
@@ -2472,7 +2472,7 @@ entry_points={
 ```
 
 When `setup.py install` is executed, the above config would generate executable *shims* for all the interactive scripts
-into the current python path, which when run, would execute the configured function. There are several advantages to 
+into the current python path, which when run, would execute the configured function. There are several advantages to
 this method:
 - no need for additional code or scripts
 - cross-platform compatibility
@@ -2817,9 +2817,9 @@ The following are configuration options that are in defaults.yaml and can be ove
 
 See the [user guide for backtesting](/docs/backtesting.md).
 
-The interaction of system, private, and backtest configs can be a bit confusing. Inside a backtest (which can either be in production or sim mode), configuration options will be pulled in the following priority (1) specific backtest .yaml configuration, (2) private_config.yaml, (3) defaults.yaml file. 
+The interaction of system, private, and backtest configs can be a bit confusing. Inside a backtest (which can either be in production or sim mode), configuration options will be pulled in the following priority (1) specific backtest .yaml configuration, (2) private_config.yaml, (3) defaults.yaml file.
 
-Outside of the backtest code, in production configuration options are pulled in the following priority order: (1) private_config.yaml, (2) defaults.yaml file. *The production code can't see inside your backtest configuration files - it is not specific to a strategy so doesn't know which configuration to look for'*. 
+Outside of the backtest code, in production configuration options are pulled in the following priority order: (1) private_config.yaml, (2) defaults.yaml file. *The production code can't see inside your backtest configuration files - it is not specific to a strategy so doesn't know which configuration to look for'*.
 
 
 ### Control config files
@@ -2838,8 +2838,8 @@ The following are configurations mainly for mapping from our codes to broker cod
 
 The following are .csv configurations used in both production and sim:
 
-- [/data/futures/csvconfig/instrumentconfig.csv](/data/futures/csvconfig/instrumentconfig.csv) 
-- [/data/futures/csvconfig/rollconfig.csv](/data/futures/csvconfig/rollconfig.csv) 
+- [/data/futures/csvconfig/instrumentconfig.csv](/data/futures/csvconfig/instrumentconfig.csv)
+- [/data/futures/csvconfig/rollconfig.csv](/data/futures/csvconfig/rollconfig.csv)
 
 
 ### Set up configuration
@@ -2847,7 +2847,7 @@ The following are .csv configurations used in both production and sim:
 
 The following are used when initialising the database with it's initial configuration, but will also be used in the simulation environment:
 
-- [/data/futures/csvconfig/spreadcosts.csv](/data/futures/csvconfig/spreadcosts.csv) 
+- [/data/futures/csvconfig/spreadcosts.csv](/data/futures/csvconfig/spreadcosts.csv)
 
 
 ## Capital
@@ -3021,7 +3021,7 @@ Here's some general advice about recovering from a crash:
 - Temporarily turn off the crontab to stop processes from spawning before you are ready
 - Check you have a mongoDB instance running okay
 - Run a full set of reports, and carefully check them, especially the status and reconcile reports, to see that all is well.
-- If necessary take steps to recover data (see next section). 
+- If necessary take steps to recover data (see next section).
 - If this goes well you will have an empty order stack. Run update_strategy_orders to repopulate it.
 - You should turn the crontab back on when everything is working fine
 - Processes are started by the scheduler, eg Cron, you will need to start them manually if their normal start time has passed (I find [linux screen](https://linuxize.com/post/how-to-use-linux-screen/) helpful for this on my headless server). Everything should work normally the following day.
@@ -3063,14 +3063,14 @@ The roll report can be run for all markets (default for the email), or for a sin
 
 ```
 ********************************************************************************
-           Roll status report produced on 2020-10-19 17:10:13.280422            
+           Roll status report produced on 2020-10-19 17:10:13.280422
 ********************************************************************************
 
 "The roll report gives you all the information you need to decide when to roll from one futures contract to the next"
 
 
 ============================================================================================================================================
-                                                      Status and time to roll in days                                                       
+                                                      Status and time to roll in days
 ============================================================================================================================================
 
                         status roll_expiry price_expiry carry_expiry contract_priced contract_fwd position_priced volume_priced   volume_fwd
@@ -3098,13 +3098,13 @@ volume is falling in the price relative to the forward is a sign you should hurr
 Volumes are shown in relative terms to make interpretation easier."
 
 ********************************************************************************
-                               END OF ROLL REPORT                               
+                               END OF ROLL REPORT
 ********************************************************************************
 
 ```
 
 ### P&L report
-    
+
 The p&l report shows you profit and loss (duh!).  On a daily basis it is run for the previous 24 hours. On an ad hoc basis, it can be run for any time period (recent or in the past).
 
 Here is an example, with annotations added in quotes (""):
@@ -3148,7 +3148,7 @@ Total futures p&l is -12.916%
 Residual p&l is 10.171%
 
 ===============================
-        P&L by strategy        
+        P&L by strategy
 ===============================
 
 "P&L versus total capital, not the capital for the specific strategy. So these should all add up to total p&l"
@@ -3176,7 +3176,7 @@ P&L by asset class
 
 
 ********************************************************************************
-                               END OF P&L REPORT                                
+                               END OF P&L REPORT
 ********************************************************************************
 
 ```
@@ -3188,7 +3188,7 @@ The status report monitors the status of processes and data acquisition, plus al
 ```
 
 ********************************************************************************
-              Status report produced on 2020-10-19 23:02:57.321674              
+              Status report produced on 2020-10-19 23:02:57.321674
 ********************************************************************************
 
 "A process is called by the scheduler, eg crontab. Processes have start/end times,
@@ -3196,7 +3196,7 @@ and can also have pre-requisite processes that need to have been run recently.
 This provides a quick snapshot to show if the system is running normally"
 
 ===============================================================================================================================================================================================================================
-                                                                                                     Status of processses                                                                                                      
+                                                                                                     Status of processses
 ===============================================================================================================================================================================================================================
 
 name                 run_capital_update run_daily_prices_updates             run_stack_handler                   run_reports   run_backups                  run_cleaners               run_systems run_strategy_order_generator
@@ -3220,11 +3220,11 @@ from when they last ran; older processes first. If something hasn't run for some
 reason it will be at the top of this list. "
 
 =============================================================================================
-                                      Status of methods                                      
+                                      Status of methods
 =============================================================================================
 
                                                            process_name last_run_or_heartbeat
-method_or_strategy                                                                           
+method_or_strategy
 update_total_capital                                 run_capital_update           10/19 19:08
 strategy_allocation                                  run_capital_update           10/19 19:08
 handle_completed_orders                               run_stack_handler           10/19 19:26
@@ -3246,7 +3246,7 @@ Status of adjusted price / FX price collection
 ==============================================
 
                 last_update
-name                       
+name
 KOSPI   2020-10-19 08:00:00
 KR3     2020-10-19 08:00:00
 KR10    2020-10-19 08:00:00
@@ -3270,11 +3270,11 @@ KRWUSD  2020-10-19 23:00:00
 quite close yet hence these are from the previous friday."
 
 =====================================================
-        Status of optimal position generation        
+        Status of optimal position generation
 =====================================================
 
                                           last_update
-name                                                 
+name
 medium_speed_TF_carry/AEX     2020-10-16 22:54:20.386
 medium_speed_TF_carry/AUD     2020-10-16 22:54:21.677
 medium_speed_TF_carry/BOBL    2020-10-16 22:54:22.386
@@ -3291,11 +3291,11 @@ medium_speed_TF_carry/WHEAT   2020-10-16 22:55:00.283
  these so the numbers are pretty boring"
 
 =========================================================================================================================================
-                                                         Status of trade limits                                                          
+                                                         Status of trade limits
 =========================================================================================================================================
 
                       instrument_code  period_days  trade_limit  trades_since_last_reset  trade_capacity_remaining  time_since_last_reset
-strategy_name                                                                                                                            
+strategy_name
                                  US10            1            3                        0                         3 0 days 00:00:00.000015
 medium_speed_TF_carry            US10            1            3                        0                         3 0 days 00:00:00.000011
                                   KR3            1           12                        0                        12 0 days 00:00:00.000011
@@ -3320,7 +3320,7 @@ medium_speed_TF_carry            US10            1            3                 
 In this case I've set instrument level, but not strategy/instrument position limits"
 
 =====================================================
-              Status of position limits              
+              Status of position limits
 =====================================================
 
                              keys  position pos_limit
@@ -3361,7 +3361,7 @@ Index: []
 Locked instruments (position mismatch): []
 
 ********************************************************************************
-                              END OF STATUS REPORT                              
+                              END OF STATUS REPORT
 ********************************************************************************
 ```
 
@@ -3375,18 +3375,18 @@ Here is an example, with annotations added in quotes (""):
 ```
 
 ********************************************************************************
-              Trades report produced on 2020-10-20 09:25:43.596580              
+              Trades report produced on 2020-10-20 09:25:43.596580
 ********************************************************************************
 
 "Here is a list of trades with basic information. Note that due to an issue with the way
 roll trades are displayed, they are shown with fill 0."
 
 ==================================================================================================================
-                                                  Broker orders                                                   
+                                                  Broker orders
 ==================================================================================================================
 
          instrument_code          strategy_name           contract_id       fill_datetime    fill     filled_price
-order_id                                                                                                          
+order_id
 30365                V2X  medium_speed_TF_carry            [20201200] 2020-10-02 07:51:53    (-1)           (27.7)
 30366                KR3  medium_speed_TF_carry            [20201200] 2020-10-05 01:01:00     (1)         (112.01)
 
@@ -3401,7 +3401,7 @@ order_id
 
 
 ================================================================================================================================================================
-                                                                             Delays                                                                             
+                                                                             Delays
 ================================================================================================================================================================
 
 "We now look at timing. When was the parent order generated (the order at instrument level
@@ -3413,7 +3413,7 @@ Once submitted, how long did it take to fill the order? Issues with timestamps w
 ran this report mean that some orders that apparently got filled before they were submitted, we ignore these. "
 
          instrument_code          strategy_name parent_generated_datetime         submit_datetime       fill_datetime submit_minus_generated filled_minus_submit
-order_id                                                                                                                                                        
+order_id
 30365                V2X  medium_speed_TF_carry   2020-10-01 21:56:29.669 2020-10-02 08:50:03.637 2020-10-02 07:51:53                  39214                 NaN
 30366                KR3  medium_speed_TF_carry   2020-10-02 21:57:41.427 2020-10-05 02:00:07.262 2020-10-05 01:01:00                 187346                 NaN
 30367            EDOLLAR  medium_speed_TF_carry                       NaT 2020-10-05 12:43:01.885 2020-10-05 11:48:02                    NaN                 NaN
@@ -3428,7 +3428,7 @@ order_id
 
 
 ==========================================================================================================================================================================================================================================================
-                                                                                                                 Slippage (ticks per lot)                                                                                                                 
+                                                                                                                 Slippage (ticks per lot)
 ==========================================================================================================================================================================================================================================================
 
 "We can calculate slippage in many different units. We start with 'ticks', units of price
@@ -3455,7 +3455,7 @@ price (bid/ask cost -0.025). We submitted a limit order of 27.7 at the offer, an
 filled there. So our execution cost was positive 0.05. Our total trading cost was -0.025+0.05 = 0.025."
 
          instrument_code          strategy_name    trade parent_reference_price parent_limit_price calculated_mid_price calculated_side_price limit_price calculated_filled_price   delay bid_ask execution versus_limit versus_parent_limit total_trading
-order_id                                                                                                                                                                                                                                                  
+order_id
 30365                V2X  medium_speed_TF_carry     (-1)                  27.45               None               27.675                 27.65        27.7                    27.7   0.225  -0.025      0.05           -0                 NaN         0.025
 30366                KR3  medium_speed_TF_carry      (1)                 112.08               None              111.995                   112      111.99                  112.01   0.085  -0.005     -0.01        -0.02                 NaN        -0.015
 30367            EDOLLAR  medium_speed_TF_carry     (-1)                    NaN               None              99.6725                 99.67      99.675                   99.67     NaN -0.0025        -0       -0.005                 NaN       -0.0025
@@ -3470,7 +3470,7 @@ order_id
 
 
 =======================================================================================================================================================================
-                                                         Slippage (normalised by annual vol, BP of annual SR)                                                          
+                                                         Slippage (normalised by annual vol, BP of annual SR)
 =======================================================================================================================================================================
 
 "Ticks are meaningless as it depends on how volatile an instrument is. We divide by the annual
@@ -3482,7 +3482,7 @@ points. Note that ignoring holding costs using my 'speed limit' concept we'd be 
  way the cost budget is 1300 basis points."
 
          instrument_code          strategy_name    trade last_annual_vol delay_vol bid_ask_vol execution_vol versus_limit_vol versus_parent_limit_vol total_trading_vol
-order_id                                                                                                                                                               
+order_id
 30365                V2X  medium_speed_TF_carry     (-1)         11.5805   194.292    -21.5879       43.1759               -0                     NaN           21.5879
 30366                KR3  medium_speed_TF_carry      (1)        0.829709   1024.46    -60.2621      -120.524         -241.048                     NaN          -180.786
 30367            EDOLLAR  medium_speed_TF_carry     (-1)        0.224771       NaN    -111.224            -0         -222.448                     NaN          -111.224
@@ -3497,14 +3497,14 @@ order_id
 
 
 ==================================================================================================================================================================================
-                                                                           Slippage (In base currency)                                                                            
+                                                                           Slippage (In base currency)
 ==================================================================================================================================================================================
 
 "Finally we can work out the slippage in base currency, i.e. actual money cost by multiplying
  ticks by the value of a price point in base currency (GBP for me)"
 
          instrument_code          strategy_name    trade value_of_price_point delay_cash bid_ask_cash execution_cash versus_limit_cash versus_parent_limit_cash total_trading_cash
-order_id                                                                                                                                                                          
+order_id
 30365                V2X  medium_speed_TF_carry     (-1)              90.8755     20.447     -2.27189        4.54377                -0                      NaN            2.27189
 30366                KR3  medium_speed_TF_carry      (1)              677.198    57.5618     -3.38599       -6.77198           -13.544                      NaN            -10.158
 30367            EDOLLAR  medium_speed_TF_carry     (-1)               1930.7        NaN     -4.82676             -0          -9.65352                      NaN           -4.82676
@@ -3534,7 +3534,7 @@ The reconcile report checks the consistency of positions and trades stored in th
 ```
 
 ********************************************************************************
-            Reconcile report produced on 2020-10-19 23:31:23.329834             
+            Reconcile report produced on 2020-10-19 23:31:23.329834
 ********************************************************************************
 
 "Optimal positions are set by the nightly backtest. For this strategy we set an upper and
@@ -3545,7 +3545,7 @@ position is outside the buffer region. For example you can see for BTP that the 
 (check the status report to see if a process or method hasn't run)."
 
 =============================================================
-               Optimal versus actual positions               
+               Optimal versus actual positions
 =============================================================
 
                                current        optimal  breaks
@@ -3572,7 +3572,7 @@ medium_speed_TF_carry WHEAT        0.0   -0.135/0.115   False
 those that the broker has recorded"
 
 ==========================================
-             Positions in DB              
+             Positions in DB
 ==========================================
 
    instrument_code contract_date  position
@@ -3587,7 +3587,7 @@ those that the broker has recorded"
 
 
 ==========================================
-             Positions broker             
+             Positions broker
 ==========================================
 
    instrument_code contract_date  position
@@ -3619,22 +3619,22 @@ an artifact of the way trades are stored)."
 
 
 =========================================================================================================
-                                              Trades in DB                                               
+                                              Trades in DB
 =========================================================================================================
 
                          strategy_name           contract_id       fill_datetime    fill     filled_price
-instrument_code                                                                                          
+instrument_code
 CORN             _ROLL_PSEUDO_STRATEGY  [20201200, 20211200] 2020-10-15 09:25:54  (0, 0)  (397.75, 394.0)
 V2X              _ROLL_PSEUDO_STRATEGY  [20201100, 20201200] 2020-10-15 09:24:32  (0, 0)   (25.25, 24.25)
 V2X              _ROLL_PSEUDO_STRATEGY  [20201100, 20201200] 2020-10-15 09:43:30  (0, 0)     (25.5, 24.4)
 
 
 =================================================================================================
-                                       Trades from broker                                        
+                                       Trades from broker
 =================================================================================================
 
                 strategy_name           contract_id       fill_datetime     fill     filled_price
-instrument_code                                                                                  
+instrument_code
 V2X                            [20201118, 20201216] 2020-10-15 09:24:32  (1, -1)   (25.25, 24.25)
 CORN                           [20201214, 20211214] 2020-10-15 09:25:54  (1, -1)  (397.75, 394.0)
 V2X                            [20201118, 20201216] 2020-10-15 09:43:30  (1, -1)     (25.5, 24.4)
@@ -3642,7 +3642,7 @@ V2X                            [20201118, 20201216] 2020-10-15 09:43:30  (1, -1)
 
 
 ********************************************************************************
-                              END OF STATUS REPORT                              
+                              END OF STATUS REPORT
 ********************************************************************************
 
 
@@ -3666,14 +3666,14 @@ Strategy report for medium_speed_TF_carry backtest timestamp 20201012_215827 pro
 
 
 ================================================================================================================================================================================================================================================================================================================================================================================
-                                                                                                                                                                              Unweighted forecasts                                                                                                                                                                              
+                                                                                                                                                                              Unweighted forecasts
 ================================================================================================================================================================================================================================================================================================================================================================================
 
 "This is a matrix of all forecast values for each instrument, before weighting. Not shown for space reasons"
 
 
 ================================================================================================================================================================================================================================================================================================================================================================================
-                                                                                                                                                                                Forecast weights                                                                                                                                                                                
+                                                                                                                                                                                Forecast weights
 ================================================================================================================================================================================================================================================================================================================================================================================
 
 "This is a matrix of all forecast weights for each instrument, before weighting. Not shown for space reasons"
@@ -3681,7 +3681,7 @@ Strategy report for medium_speed_TF_carry backtest timestamp 20201012_215827 pro
 
 
 ================================================================================================================================================================================================================================================================================================================================================================================
-                                                                                                                                                                               Weighted forecasts                                                                                                                                                                               
+                                                                                                                                                                               Weighted forecasts
 ================================================================================================================================================================================================================================================================================================================================================================================
 
 "This is a matrix of all forecast values for each instrument, after weighting. Not shown for space reasons"
@@ -3693,7 +3693,7 @@ Vol target calculation {'base_currency': 'GBP', 'percentage_vol_target': 25.0, '
 "Now we see how the instrument vol is calculated. These figures are also calculated independently in the risk report"
 
 ================================================================
-                        Vol calculation                         
+                        Vol calculation
 ================================================================
 
          Daily return vol       Price  Daily % vol  annual % vol
@@ -3707,7 +3707,7 @@ WHEAT             10.7527    596.5000       1.8026       28.8420
 
 
 =========================================================================================================================================
-                                                           Subsystem position                                                            
+                                                           Subsystem position
 =========================================================================================================================================
 
 "Calculation of subsystem positions: the position we'd have on if the entire system
@@ -3725,7 +3725,7 @@ WHEAT         298.25               1.80      537.63  0.77   419.21             5
 
 
 =================================================================
-                       Portfolio positions                       
+                       Portfolio positions
 =================================================================
 
 
@@ -3743,7 +3743,7 @@ WHEAT                 1.379         0.033  2.5              0.115
 
 
 ===============================================================================================
-                                     Positions vs buffers                                      
+                                     Positions vs buffers
 ===============================================================================================
 
 "Shows the calculation of buffers. The position at timestamp is the position when
@@ -3771,7 +3771,7 @@ The risk report.... you're smart people, you can guess. It is run on a daily bas
 ```
 
 ********************************************************************************
-               Risk report produced on 2020-10-19 23:54:09.835241               
+               Risk report produced on 2020-10-19 23:54:09.835241
 ********************************************************************************
 
 "Our expected annual standard deviation is 10.6% a year, across everything"
@@ -3794,7 +3794,7 @@ ETFHedge               0
 
 
 ============================================================================================================================================================================================================================================================
-                                                                                                                      Instrument risk                                                                                                                       
+                                                                                                                      Instrument risk
 ============================================================================================================================================================================================================================================================
 
 "Detailed risk calculations for each instrument. Most of these are, hopefully, self explanatory,
@@ -3816,7 +3816,7 @@ BTP                    0.3                 5.4   149.4               0.2        
 
 
 ============================================================================================================
-                                                Correlations                                                
+                                                Correlations
 ============================================================================================================
 
 "Correlation of *instrument* returns - doesn't care about sign of position"
@@ -3834,7 +3834,7 @@ CORN    -0.08 -0.11 -0.06 -0.06     0.68 -0.10  0.08    0.05  0.13 -0.10 -0.25  
 
 
 ********************************************************************************
-                               END OF RISK REPORT                               
+                               END OF RISK REPORT
 ********************************************************************************
 
 
@@ -3854,7 +3854,7 @@ Any instruments that don't meet these thresholds you should seriously consider r
 ```
 
 ********************************************************************************
-            Liquidity report produced on 2021-07-08 14:58:39.926324             
+            Liquidity report produced on 2021-07-08 14:58:39.926324
 ********************************************************************************
 
 
@@ -3923,14 +3923,14 @@ Costs report produced on 2021-07-08 14:58:53.991457 from 2020-10-31 14:58:50.220
 
 
 =================================================================================================
-                                              Costs                                              
+                                              Costs
 =================================================================================================
 
                bid_ask_trades  total_trades  bid_ask_sampled      Worst  Configured  % Difference
-CRUDE_W_mini         0.037500     -0.006250         0.024006   0.037500    0.012500      2.000000  
+CRUDE_W_mini         0.037500     -0.006250         0.024006   0.037500    0.012500      2.000000
          <---- bid/ask before trading is 200% higher: 3x higher than configured. Actual trades have negative costs
 GAS_US_mini          0.002500      0.005000         0.006408   0.006408    0.002500      1.563158
-PLAT                 0.350000      0.550000         0.275935   0.550000    0.240108      1.290640  
+PLAT                 0.350000      0.550000         0.275935   0.550000    0.240108      1.290640
 BBCOMM                    NaN           NaN         0.100000   0.100000    0.050000      1.000000  <---- we haven't done any actual trades here in last 250 days, only sampled'
 EUROSTX              1.000000      0.500000         0.261483   1.000000    0.500000      1.000000  <---- configured is same as trades, but pre trade was double
 SOYBEAN              0.250000      0.250000         0.201436   0.250000    0.125000      1.000000
@@ -3962,10 +3962,10 @@ KOSPI                     NaN           NaN              NaN        NaN    0.025
 
 ## Customize report generation in the run_report process
 
-It is possible to setup a custom report configuration. Say for example that you would like to push reports to a git repo 
+It is possible to setup a custom report configuration. Say for example that you would like to push reports to a git repo
 [like this](https://github.com/robcarver17/reports). In that case you would need to change the default behaviour, sending reports
 via email, to saving the report as a file Files would be stored in according to what is declared in private_config.yaml
-`reporting_directory`. Customization is done in the private_config.yaml. Example of reporting customization is; 
+`reporting_directory`. Customization is done in the private_config.yaml. Example of reporting customization is;
 
 ```
  reports:

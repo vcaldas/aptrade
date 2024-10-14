@@ -90,7 +90,7 @@ from sysbrokers.IB.ib_connection import connectionIB
 conn = connectionIB( 999, ib_ipaddress = "127.0.0.1", ib_port=4001, account="U999999") # the first compulsory value is the client_id; the keyword args are the default values and can be omitted
 conn
 # In production the client id is assigned from a database to avoid conflicts
-Out[13]: IB broker connection{'ipaddress': '127.0.0.1', 'port': 4001, 'client': 999} 
+Out[13]: IB broker connection{'ipaddress': '127.0.0.1', 'port': 4001, 'client': 999}
 
 ```
 
@@ -107,7 +107,7 @@ See [here](#creating-and-closing-connection-objects) for more details.
 
 There are three types of objects in the [sysbrokers/IB](/sysbrokers/IB/) area of pysystemtrade:
 
-- Data source objects: Provide the standard data object API to the rest of the code, eg getting futures contracts prices is done with the same call whether they are coming from a database or IB. They are called by the `/sysproduction/data/broker/` [interface functions](/docs/data.md#production-interface). They are instanced with a *connection object*. They make calls to *client objects*. 
+- Data source objects: Provide the standard data object API to the rest of the code, eg getting futures contracts prices is done with the same call whether they are coming from a database or IB. They are called by the `/sysproduction/data/broker/` [interface functions](/docs/data.md#production-interface). They are instanced with a *connection object*. They make calls to *client objects*.
 - Client objects: These make calls to the ib_insync in specific domains (getting data, placing orders and so on). They are also instanced with a *connection object*.
 - Connection objects. These contain a specific connection to an IB gateway via an ib_insync IB instance.
 
@@ -201,14 +201,14 @@ ib_orders_data = ibExecutionStackData(conn)
 
 ib_orders_data.get_list_of_broker_orders_with_account_id() # Get the list of orders that the broker has executed in the last 24 hours
 ib_orders_data.get_list_of_orders_from_storage() # Get the list of orders that this instance has exected
-ib_orders_data.put_order_on_stack(broker_order) # this will actually trade! It returns an orderWithControls: a broker order that contains the dynamic IB order object 
+ib_orders_data.put_order_on_stack(broker_order) # this will actually trade! It returns an orderWithControls: a broker order that contains the dynamic IB order object
 ib_orders_data.match_db_broker_order_to_order_from_brokers(broker_order) # Useful to see if an order has been filled for example
 ib_orders_data.match_db_broker_order_to_control_order_from_brokers(broker_order) # Sometimes it's easier to get the control object back after matching
 ib_orders_data.cancel_order_on_stack(broker_order)  # sends a cancellation message...
 ib_orders_data.check_order_is_cancelled(broker_order)  # ... check if it's worked
 ib_orders_data.check_order_is_cancelled_given_control_object(broker_order_with_controls)   # same but for an order with a control object (easier as don't have to match)
-ib_orders_data.check_order_can_be_modified_given_control_object(broker_order_with_controls) 
-ib_orders_data.modify_limit_price_given_control_object(broker_order_with_controls) 
+ib_orders_data.check_order_can_be_modified_given_control_object(broker_order_with_controls)
+ib_orders_data.modify_limit_price_given_control_object(broker_order_with_controls)
 ```
 
 
@@ -235,7 +235,7 @@ They are located in this [module](/sysbrokers/IB/client/). They are tied togethe
       - ibOrdersClient(ibContractsClient)
       - ibPriceClient(ibContractsClient)
          - ibFxClient(ibPriceClient)
- 
+
 
 Client objects also contain a connection and the live ib_inysnc.IB instance which is actually used by the client object code:
 
@@ -277,7 +277,7 @@ broker_account: U123456
 conn = connectionIB(config)
 ```
 
-Connection objects immediately try and connect to IB. So don't create them until you are ready to do this. 
+Connection objects immediately try and connect to IB. So don't create them until you are ready to do this.
 
 
 Again in production the connection would normally be closed by the [dataBlob](/docs/data.md#data-blobs) object that encapsulates the connection, or you can do it manually with  `conn.close_connection()`.
@@ -297,8 +297,4 @@ You can use this directly if you are familiar with ib_insync eg `conn.ib.positio
 
 ### Make multiple connections
 
-It's possible to have multiple connections to the IB Gateway, each from its own process, but each connection must have a unique clientid. Used clientids are stored in the active database (usually mongoDB) to ensure we don't re-use active clientids. 
-
-
-
-
+It's possible to have multiple connections to the IB Gateway, each from its own process, but each connection must have a unique clientid. Used clientids are stored in the active database (usually mongoDB) to ensure we don't re-use active clientids.

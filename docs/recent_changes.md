@@ -20,7 +20,7 @@ There are several major changes to the application that are not fully reflected 
 ### No market data
 * Jul 2023
 * Easier trading without market data subscriptions
-* Read more [here](https://github.com/robcarver17/pysystemtrade/issues/1165), [here](https://github.com/robcarver17/pysystemtrade/issues/1016), and the `algo_overrides` section in [defaults.yml](https://github.com/robcarver17/pysystemtrade/blob/master/sysdata/config/defaults.yaml) 
+* Read more [here](https://github.com/robcarver17/pysystemtrade/issues/1165), [here](https://github.com/robcarver17/pysystemtrade/issues/1016), and the `algo_overrides` section in [defaults.yml](https://github.com/robcarver17/pysystemtrade/blob/master/sysdata/config/defaults.yaml)
 
 ### Instrument and forecast weight config as hierarchy
 * Jun 2023
@@ -28,16 +28,16 @@ There are several major changes to the application that are not fully reflected 
 * Read more [here](https://github.com/robcarver17/pysystemtrade/discussions/1160) and [here](https://github.com/robcarver17/pysystemtrade/issues/1162)
 
 ### Instrument and roll config moved to CSV storage
-* Mar 2023 
+* Mar 2023
 * Persistence of instrument and roll config moved from MongoDB to CSV
 * Read more [here](https://github.com/robcarver17/pysystemtrade/discussions/1054)
 
 ### Development processes
-* Mar 2023 
+* Mar 2023
 * Now two branches: `master` is stable, develop work happens on `develop`. Branches for PRs should be made from `develop`
 * Read more [here](https://github.com/robcarver17/pysystemtrade/discussions/1069)
 
-### Changes to timing of production processes 
+### Changes to timing of production processes
 * Jan 2023
 * Timing of some daily production processes adjusted
 * Read more [here](https://github.com/robcarver17/pysystemtrade/discussions/913), [here](https://github.com/robcarver17/pysystemtrade/discussions/956), and [here](https://github.com/robcarver17/pysystemtrade/discussions/961)
@@ -46,6 +46,3 @@ There are several major changes to the application that are not fully reflected 
 * Aug 2022
 * Daily and hourly price data are now stored separately
 * Read more [here](https://github.com/robcarver17/pysystemtrade/discussions/756)
- 
-
-

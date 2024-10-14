@@ -124,10 +124,10 @@ instruments_with_adj_prices = system.data.get_instrument_list()
 >True
 ```
 
-The system will log a bunch of stuff at this point 
+The system will log a bunch of stuff at this point
 
 ```
-Following instruments are 'duplicate_markets' and will be excluded from sim ['COPPER-mini', 'CORN_mini', 'CRUDE_W', 'GAS_US', 'GASOILINE_mini', 'GOLD', 'HEATOIL_mini', 'JGB_mini', 'JGB-SGX-mini', 'JPY_micro', 'JPY-SGX-TITAN', 'JPY-SGX', 'KOSPI_mini', 'KRWUSD_mini', 'NASDAQ', 'SILVER_mini', 'SOYBEAN_mini', 'SP500', 'TWD-mini', 'VIX_mini', 'WHEAT_mini'] 
+Following instruments are 'duplicate_markets' and will be excluded from sim ['COPPER-mini', 'CORN_mini', 'CRUDE_W', 'GAS_US', 'GASOILINE_mini', 'GOLD', 'HEATOIL_mini', 'JGB_mini', 'JGB-SGX-mini', 'JPY_micro', 'JPY-SGX-TITAN', 'JPY-SGX', 'KOSPI_mini', 'KRWUSD_mini', 'NASDAQ', 'SILVER_mini', 'SOYBEAN_mini', 'SP500', 'TWD-mini', 'VIX_mini', 'WHEAT_mini']
 Following instruments are marked as 'ignore_instruments': not included: ['EURIBOR']
 ```
 
@@ -190,7 +190,7 @@ If you wanted to make this change permanent, you could modify the backtest and/o
 
 ### Ignored instruments
 
-As well as duplicates, we might have other instruments we just don't like at all. Again, these will be absent from get_instrument_list. 
+As well as duplicates, we might have other instruments we just don't like at all. Again, these will be absent from get_instrument_list.
 
 ```python
 "EURIBOR" in system.data.get_instrument_list() ## this won't show True if you're using .csv prices but I have EURIBOR prices in my database - just not very good ones
@@ -250,7 +250,7 @@ system.portfolio.get_instrument_list(for_instrument_weights=True)
 system.portfolio.get_instrument_weights().tail(1)
 
 >              CORN   EDOLLAR   EUROSTX      MXP      US10  V2X
-index                                                           
+index
 2021-10-06  0.260899  0.188551  0.181449  0.18055  0.188551  0.0
 
 ```
@@ -313,7 +313,7 @@ system.get_list_of_bad_markets()
 
 ### Automatically excluded
 
-It's also possible that there are some instruments that have zero positions. The most likely explanation for this is that you have set a speed limit on trading costs, and there are no trading rules that are cheap enough to trade the given instrument. These are automatically added to the list of markets given a zero weight for optimisation. 
+It's also possible that there are some instruments that have zero positions. The most likely explanation for this is that you have set a speed limit on trading costs, and there are no trading rules that are cheap enough to trade the given instrument. These are automatically added to the list of markets given a zero weight for optimisation.
 
 
 ## Customising the list of 'all instruments' and 'excluded for optimisation'
@@ -350,7 +350,7 @@ Operating in the production environment is a bit more complex, due to the intera
 
 When you're running in simulation things are relatively simple; configuration items are defined in defaults_yaml, but can be overridden by your private_config.yaml, and then also by your own backtest.yaml file.
 
-Importantly, once we're out of the 'backtesting'' part of a production system, we can't see the backtest configuration (which after all is system specific, whereas generally in the production environment we're working with global parameters). So the priority order is `defaults.yaml`, overridden by `private_config.yaml`. The downstream code that produces strategy orders once the production backtest has generated optimal positions, and then trades those orders, will operate only on the configuration in `private_config.yaml` and `defaults.yaml`. 
+Importantly, once we're out of the 'backtesting'' part of a production system, we can't see the backtest configuration (which after all is system specific, whereas generally in the production environment we're working with global parameters). So the priority order is `defaults.yaml`, overridden by `private_config.yaml`. The downstream code that produces strategy orders once the production backtest has generated optimal positions, and then trades those orders, will operate only on the configuration in `private_config.yaml` and `defaults.yaml`.
 
 ## Reduce only and other constraints in static systems
 
@@ -367,7 +367,7 @@ The list of overrides will include:
 - Any overrides recorded in the override database (which can be of any type above)
 - Any instruments configured as bad, duplicated, ignored, or untradeable will have overrides applied to them: normally 'reduce only', except for untradeable instruments which will be marked as don't trade (obviously!)
 
-We always apply the most conservative override in any given situation. 
+We always apply the most conservative override in any given situation.
 
 What this means in practice is that you can modify the list of instruments in the various categories and the system will automatically respond. So for example to remove a bad instrument:
 
@@ -390,7 +390,7 @@ You can see the current list of instruments with overrides (either from configur
 
 (bash)
 ```
-~/pysystemtrade/sysproduction/linux/scripts$ . interactive_controls 
+~/pysystemtrade/sysproduction/linux/scripts$ . interactive_controls
 
 0: Trade limits
 1: Position limits
@@ -425,7 +425,7 @@ You can also set database trade overrides here.
 
 ## Reduce only and other constraints in dynamic systems
 
-In a dynamic system we apply an optimisation to the optimal positions from the production backtest before generating orders. This optimisation needs to know about instruments with status 'reduce_only' and 'dont_trade'; again it will pull this information from a combination of configuration .yaml information (importantly, ignoring the backtest .yaml file) and what is loaded in the database. 
+In a dynamic system we apply an optimisation to the optimal positions from the production backtest before generating orders. This optimisation needs to know about instruments with status 'reduce_only' and 'dont_trade'; again it will pull this information from a combination of configuration .yaml information (importantly, ignoring the backtest .yaml file) and what is loaded in the database.
 
 In principle the orders which are generated will also be subjected to the same constraints as for a static system, but since the optimisation takes care of them already this step won't have any effect on the orders that have been created.
 
@@ -443,10 +443,10 @@ We can get a list of suggested 'bad' markets through the interactive controls sc
 
 ## Check slippage costs are accurate
 
-To calculate costs accurately we need to make sure our slippage is correct. 
+To calculate costs accurately we need to make sure our slippage is correct.
 
 ```
-~/pysystemtrade/sysproduction/linux/scripts$ . interactive_controls 
+~/pysystemtrade/sysproduction/linux/scripts$ . interactive_controls
 0: Trade limits
 1: Position limits
 2: Trade control (override)
@@ -463,14 +463,14 @@ Your choice? <RETURN for EXIT> 5
 
 Your choice? <RETURN for Back> 50
 
-% difference to filter on? (eg 30 means we ignore differences<30% <RETURN for default 30.0> 
+% difference to filter on? (eg 30 means we ignore differences<30% <RETURN for default 30.0>
 
 ```
 
 What this does is run the standard costs report, which calculates a recommended slippage cost. This figure is a weighted average of the costs of trading, costs measured through daily sampling of the relevant instrument, and the current configured value. It then checks to see if the recommended value is more than 30% different from the configured value. We then get a series of prompts like this:
 
 ```
-% difference to filter on? (eg 30 means we ignore differences<30% <RETURN for default 30.0> 
+% difference to filter on? (eg 30 means we ignore differences<30% <RETURN for default 30.0>
 bid_ask_trades           NaN
 total_trades             NaN
 bid_ask_sampled    20.666667
@@ -481,13 +481,13 @@ estimate           14.304580
 Configured         10.360086
 % Difference        0.380739
 Name: US-DISCRETE, dtype: float64
-New configured slippage value (current 10.360086, default is estimate 14.304580) <RETURN for default 14.304579734718004> 
+New configured slippage value (current 10.360086, default is estimate 14.304580) <RETURN for default 14.304579734718004>
 ```
 
 This is a market we haven't traded, but our sampled values (14.3 price points) is 38% higher than our configured (10.36). This is because the sampled bid/ask spread has averaged 20.67 points; we given a 38% weight to these samples (maybe we haven't traded that much) and 62% to the configured value.
 
 ```
-New configured slippage value (current 0.172000, default is estimate 0.117354) <RETURN for default 0.11735449352746953> 
+New configured slippage value (current 0.172000, default is estimate 0.117354) <RETURN for default 0.11735449352746953>
 ALL VALUES MULTIPLIED BY 1000000.000000 INCLUDING INPUTS!!!!
 bid_ask_trades          1.500000
 total_trades           -0.100000
@@ -499,7 +499,7 @@ estimate                0.476278
 Configured              0.700000
 % Difference      -319603.003188
 Name: KRWUSD, dtype: float64
-New configured slippage value (current 0.700000, default is estimate 0.476278) <RETURN for default 0.47627789776817986> 
+New configured slippage value (current 0.700000, default is estimate 0.476278) <RETURN for default 0.47627789776817986>
 ```
 
 This is the only 'gotcha', for some instruments if the spread is very tiny we multiply everything by some power of 10 to get easier numbers (which, as I'm lazy, includes the weight_* figures).
@@ -509,7 +509,7 @@ This is the only 'gotcha', for some instruments if the spread is very tiny we mu
 We can now get the list of bad markets:
 
 ```
-~/pysystemtrade/sysproduction/linux/scripts$ . interactive_controls 
+~/pysystemtrade/sysproduction/linux/scripts$ . interactive_controls
 1: Position limits
 2: Trade control (override)
 3: Broker client IDS
@@ -524,9 +524,9 @@ Your choice? <RETURN for EXIT> 5
 
 
 Your choice? <RETURN for Back> 51
-Maximum SR cost? <RETURN for default 0.01> 
-Minimum contracts traded per day? <RETURN for default 100> 
-Min risk $m traded per day? <RETURN for default 1.5> 
+Maximum SR cost? <RETURN for default 0.01>
+Minimum contracts traded per day? <RETURN for default 100>
+Min risk $m traded per day? <RETURN for default 1.5>
 ```
 
 This will take a while to get all the relevant data, but eventually you will get presented with something like this:
@@ -555,7 +555,7 @@ Although this doesn't give you the reason why markets are bad, the costs and liq
 A very similar approach is used to decide which of the duplicated instruments to use. We apply the same filters as used for bad markets, to make sure we don't pick anything bad:
 
 ```
-~/pysystemtrade/sysproduction/linux/scripts$ . interactive_controls 
+~/pysystemtrade/sysproduction/linux/scripts$ . interactive_controls
 1: Position limits
 2: Trade control (override)
 3: Broker client IDS
@@ -570,9 +570,9 @@ Your choice? <RETURN for EXIT> 5
 
 
 Your choice? <RETURN for Back> 52
-Maximum SR cost? <RETURN for default 0.01> 
-Minimum contracts traded per day? <RETURN for default 100> 
-Min risk $m traded per day? <RETURN for default 1.5> 
+Maximum SR cost? <RETURN for default 0.01>
+Minimum contracts traded per day? <RETURN for default 100>
+Min risk $m traded per day? <RETURN for default 1.5>
 
 
 ```
@@ -643,5 +643,3 @@ GOLD        0.000950           84525.0      1457.25        17240.0
 Best market GOLD_micro, current included market(s) ['GOLD_micro']
 
 ```
-
-

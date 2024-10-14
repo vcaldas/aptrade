@@ -552,7 +552,7 @@ start_date: '2000-01-19'
 
 ## How do I....Run a backtest on all available instruments
 
-If there are is no `instrument_weights` or `instruments` elements in the config, then the backtest will be run over all available instruments in the data. 
+If there are is no `instrument_weights` or `instruments` elements in the config, then the backtest will be run over all available instruments in the data.
 
 ## How do I.... Exclude some instruments from the backtest
 
@@ -780,7 +780,7 @@ The full list of keys that you can use in the `csv_data_paths` are:
 * `csvFuturesAdjustedPricesData` (stitched back-adjusted prices)
 * `csvFxPricesData` (for FX prices)
 * `csvRollParametersData` (for roll configuration)
-  
+
 Note that you can't put adjusted prices and carry data in the same directory since they use the same file format.
 
 There is more detail about using .csv files [here](#csv).
@@ -938,7 +938,7 @@ data=csvFuturesSimData()
 ## OR with different folders, by providing a dict containing the folder(s) to use
 data=csvFuturesSimData(csv_data_paths = dict(key_name = "pathtodata.with.dots"))
 
-# Permissible key names are 'csvFxPricesData' (FX prices), 'csvFuturesMultiplePricesData' 
+# Permissible key names are 'csvFxPricesData' (FX prices), 'csvFuturesMultiplePricesData'
 # (for carry and forward prices),
 # 'csvFuturesAdjustedPricesData' and 'csvFuturesInstrumentData' (configuration and costs).
 # If a keyname is not present then the system defaults will be used
@@ -1644,7 +1644,7 @@ get_list_of_instruments_to_remove
 get_list_of_markets_with_trading_restrictions'
 ```
 
-`system.log` provides access to the system's log. See [logging](#logging) for more 
+`system.log` provides access to the system's log. See [logging](#logging) for more
 details.
 
 <a name="caching"> </a>
@@ -3714,7 +3714,7 @@ I work out costs in two different ways:
 
 - by applying a constant drag calculated according to the standardised cost in
   Sharpe ratio terms and the estimated turnover (see chapter 12 of my book)
-- using the actual costs for each trade. 
+- using the actual costs for each trade.
 
 The former method is always used for costs derived from forecasts
 (`pandl_for_instrument_forecast`, `pandl_for_instrument_forecast_weighted`,
@@ -3747,7 +3747,7 @@ system.accounts.instrument_turnover(instrument_code) ### Annualised turnover of 
 system.accounts.forecast_turnover(instrument_code, rule_variation_name) ## Annualised turnover of forecast
 ```
 
-Instrument level turnovers are accurate for the vanilla system but may be misleading for systems with sparse positions (eg the dynamic optimised system I describe elsewhere) because the notion of 'average position' is difficult to quantify. 
+Instrument level turnovers are accurate for the vanilla system but may be misleading for systems with sparse positions (eg the dynamic optimised system I describe elsewhere) because the notion of 'average position' is difficult to quantify.
 
 To see holding costs in SR units:
 
@@ -3964,7 +3964,7 @@ post](https://qoppac.blogspot.com/2016/05/optimising-weights-with-costs.html).
 ```
 forecast_weight_estimate:
    ceiling_cost_SR: 0.13 ## Max cost to allow for assets, annual SR units.
-    
+
 ```
 
 See ['costs'](#costs) to see how to configure pooling when estimating the costs
@@ -3991,7 +3991,7 @@ forecast_cost_estimate:
 ```
 
 See ['costs'](#costs) to see how to configure pooling when estimating the costs
-of forecasts. 
+of forecasts.
 
 
 
@@ -4139,7 +4139,7 @@ is given a share of the weight.
 
 ```
 
-At this stage the other cost ceiling will be applied (`config.post_ceiling_cost_SR`). 
+At this stage the other cost ceiling will be applied (`config.post_ceiling_cost_SR`).
 
 <a name="divmult"> </a>
 

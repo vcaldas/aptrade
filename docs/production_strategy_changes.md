@@ -68,7 +68,7 @@ Otherwise you'll need to write a reporting function. If your strategy is similar
 
 ## Update configuration files
 
-Even if you're replacing a strategy I strongly advise that you initially *add* your new strategies to configuration files, keeping the old strategies in place for the time being. 
+Even if you're replacing a strategy I strongly advise that you initially *add* your new strategies to configuration files, keeping the old strategies in place for the time being.
 
 In your `private_control_config.yaml` file, for example:
 
@@ -104,7 +104,7 @@ strategy_list:
 strategy_capital_allocation:
   function: sysproduction.strategy_code.strategy_allocation.weighted_strategy_allocation
   strategy_weights:
-    dynamic_TF_carry: 99.99   
+    dynamic_TF_carry: 99.99
     medium_speed_TF_carry: 0.01
 ```
 
@@ -118,12 +118,12 @@ Next we need to update the strategy capital (using the provided script `update_s
 
 # Check the production backtest will run
 
-Using the `update_system_backtests` script make sure that the production system runs okay, and generates optimal positions. 
+Using the `update_system_backtests` script make sure that the production system runs okay, and generates optimal positions.
 
 
 # Transfer positions between strategies
 
-If you are replacing a strategy, wholly or partially, then it makes sense to transfer the positions across. Otherwise you'll do costly trading as one strategy closes it's positions, and the other opens up new ones. 
+If you are replacing a strategy, wholly or partially, then it makes sense to transfer the positions across. Otherwise you'll do costly trading as one strategy closes it's positions, and the other opens up new ones.
 
 There is a script that does this by generating pseudo instrument orders at the current market price. For example (python):
 
@@ -215,10 +215,3 @@ Obviously if you have no existing position then it doesn't matter if you use don
 ### Actual optimal positions
 
 The actual optimal positions, used to generate instrument orders, are of simple integer values. In addition they also contain a lot of hidden diagnostic information about the optimisation, which is displayed by the strategy report and also by the interactive_diagnostics function to display optimal positions.
-
-
-
-
-
-
-

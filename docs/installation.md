@@ -7,7 +7,7 @@ This guide shows the quickest and easiest way to install the project in a virtua
 
 ## pyenv
 
-pyenv allows easy installation of multiple versions of Python on the same machine. It allows the version of python used to be defined at the user and project level. It is a great tool, easy to use, and does its one job very well. It is worth reading the introduction to have an overview of how it works at a high level. It's not necessary to understand the technical internals 
+pyenv allows easy installation of multiple versions of Python on the same machine. It allows the version of python used to be defined at the user and project level. It is a great tool, easy to use, and does its one job very well. It is worth reading the introduction to have an overview of how it works at a high level. It's not necessary to understand the technical internals
 
 https://github.com/pyenv/pyenv#how-it-works
 
@@ -46,7 +46,7 @@ Your output will be different, it's just an example
 
 ## project files
 
-Once we have the correct version of Python, it's time to get the project files. 
+Once we have the correct version of Python, it's time to get the project files.
 
 If you intend to contribute to the project, or run your own instance, you will likely want to clone your own fork
 
@@ -73,7 +73,7 @@ this creates a file at the top level of the project `.python-version` that lets 
 $ python
 Python 3.10.13 (main, Nov 27 2023, 11:13:49) [Clang 14.0.0 (clang-1400.0.29.202)]
 Type "help", "copyright", "credits" or "license" for more information.
->>> 
+>>>
 < ctrl-D to exit >
 ```
 
@@ -96,7 +96,7 @@ Now activate the virtual environment
 source venv/3.10.13/bin/activate
 ```
 
-Once your virtual env is activated, the prompt will change. It will look something like 
+Once your virtual env is activated, the prompt will change. It will look something like
 
 ```
 (3.10.13) $
@@ -106,7 +106,7 @@ This reminds you that you're in a venv. (You can exit the venv at any time by ru
 
 ## dependencies
 
-Now it's time to start setting up the venv. First check to see what is there 
+Now it's time to start setting up the venv. First check to see what is there
 
 ```
 (3.10.13) $ pip list
@@ -201,5 +201,5 @@ Configuring sim logging
 >>> data=csvFuturesSimData()
 >>> data
 csvFuturesSimData object with 249 instruments
->>> 
+>>>
 ```
