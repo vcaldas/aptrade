@@ -1,6 +1,6 @@
 # APTrade
 
-A companion project for Pysystemtrade. 
+A companion project for Pysystemtrade.
 
 ## Read this first
 

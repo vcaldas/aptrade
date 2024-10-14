@@ -14,7 +14,7 @@ restats
 .coverage
 .coverage.*
 
-# editor 
+# editor
 .idea
 .project
 .pydevproject
