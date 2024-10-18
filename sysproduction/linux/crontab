@@ -4,17 +4,32 @@
 #
 #
 #
-15 00  * * 1-5     $HOME/.profile; $SCRIPT_PATH/run_stack_handler  >> $ECHO_PATH/run_stack_handler.txt 2>&1
-45 00  * * 1-5     $HOME/.profile; $SCRIPT_PATH/run_capital_update  >> $ECHO_PATH/run_capital_update.txt 2>&1
-05 07  * * 1-5     $HOME/.profile; $SCRIPT_PATH/run_daily_price_updates  >> $ECHO_PATH/run_daily_price_updates.txt 2>&1
-05 07  * * 1-5     $HOME/.profile; $SCRIPT_PATH/run_daily_fx_and_contract_updates  >> $ECHO_PATH/run_daily_fx_and_contract_updates.txt 2>&1
-00 23  * * 1-5     $HOME/.profile; $SCRIPT_PATH/run_daily_update_multiple_adjusted_prices  >> $ECHO_PATH/run_daily_update_multiple_adjusted_prices.txt 2>&1
-30 20  * * 1-5     $HOME/.profile; $SCRIPT_PATH/run_systems  >> $ECHO_PATH/run_systems.txt 2>&1
-45 20  * * 1-5     $HOME/.profile; $SCRIPT_PATH/run_strategy_order_generator  >> $ECHO_PATH/run_strategy_order_generator.txt 2>&1
-00 21  * * 1-5     $HOME/.profile; $SCRIPT_PATH/run_cleaners  >> $ECHO_PATH/run_cleaners.txt 2>&1
-15 21  * * 1-5     $HOME/.profile; $SCRIPT_PATH/run_backups  >> $ECHO_PATH/run_backups_echos.txt 2>&1
-30 21  * * 1-5     $HOME/.profile; $SCRIPT_PATH/run_reports  >> $ECHO_PATH/run_reports.txt 2>&1
+# Notice that tasks will be started based on the cron's system
+# daemon's notion of time and timezones.
+#
+# Output of the crontab jobs (including errors) is sent through
+# email to the user the crontab file belongs to (unless redirected).
+#
+# For example, you can run a backup of all your user accounts
+# at 5 a.m every week with:
+# 0 5 * * 1 tar -zcf /var/backups/home.tgz /home/
+#
+# For more information see the manual pages of crontab(5) and cron(8)
+#
+# m h  dom mon dow   command
+00 08  * * 1-7    . $HOME/.profile; cd $APT_SCRIPTS; python download_from_barchart.py >> $ECHO_PATH/barchart_download.txt 2>&1
+00 10  * * 6      . $HOME/.profile; cd $APT_SCRIPTS; python update_from_barchart.py >> $ECHO_PATH/barchart_update.txt 2>&1
+15 06  * * 1-5    . $HOME/.profile; cd $SCRIPT_PATH; ./run_stack_handler  >> $ECHO_PATH/run_stack_handler.txt 2>&1
+45 00  * * 1-5    . $HOME/.profile; cd $SCRIPT_PATH; ./run_capital_update  >> $ECHO_PATH/run_capital_update.txt 2>&1
+05 01  * * 1-5    . $HOME/.profile; cd $SCRIPT_PATH; ./run_daily_price_updates  >> $ECHO_PATH/run_daily_price_updates.txt 2>&1
+05 01  * * 1-5    . $HOME/.profile; cd $SCRIPT_PATH; ./run_daily_fx_and_contract_updates  >> $ECHO_PATH/run_daily_fx_and_contract_updates.txt 2>&1
+00 01  * * 1-5    . $HOME/.profile; cd $SCRIPT_PATH; ./run_daily_update_multiple_adjusted_prices  >> $ECHO_PATH/run_daily_update_multiple_adjusted_prices.txt 2>&1
+00 01  * * 1-5    . $HOME/.profile; cd $SCRIPT_PATH; ./run_daily_update_multiple_adjusted_prices  >> $ECHO_PATH/run_daily_update_multiple_adjusted_prices.txt 2>&1
+45 01  * * 1-5    . $HOME/.profile; cd $SCRIPT_PATH; ./run_strategy_order_generator  >> $ECHO_PATH/run_strategy_order_generator.txt 2>&1
+00 15  * * 1-5    . $HOME/.profile; cd $SCRIPT_PATH; ./run_cleaners  >> $ECHO_PATH/run_cleaners.txt 2>&1
+15 15  * * 1-5    . $HOME/.profile; cd $SCRIPT_PATH; ./run_backups  >> $ECHO_PATH/run_backups_echos.txt 2>&1
+30 02  * * 1-5    . $HOME/.profile; cd $SCRIPT_PATH; ./run_reports  >> $ECHO_PATH/run_reports.txt 2>&1
 #
 # Note: $MONGO_DATA must be accessible at boot; this won't work if it's in an encrypted home folder
-# @reboot          $HOME/.profile; mongod --dbpath $MONGO_DATA
-@reboot          $SCRIPT_PATH/startup  >> $ECHO_PATH/startup.txt 2>&1
+@reboot         . $HOME/.profile; #mongod --dbpath $MONGO_DATA
+@reboot         . $HOME/.profile; cd $SCRIPT_PATH; ./startup  >> $ECHO_PATH/startup.txt 2>&1
