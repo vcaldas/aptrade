@@ -1,1 +1,4 @@
 site_name: APTrade
+site_url: https://vcaldas.github.io/aptrade/
+theme:
+  name: material
