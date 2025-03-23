@@ -1,8 +1,11 @@
-name: ci
+name: docuemntation
 on:
   push:
     branches:
       - main
+  release:
+    types: [published]
+
 permissions:
   contents: write
   
@@ -20,18 +23,15 @@ jobs:
       
       - name: Set up the environment
         uses: ./.github/actions/setup-python-env
-
+        
       - uses: actions/setup-python@v5
         with:
           python-version: 3.x
       - run: echo "cache_id=$(date --utc '+%V')" >> $GITHUB_ENV
-      -
-         uses: actions/cache@v4
+      - uses: actions/cache@v4
         with:
           key: mkdocs-material-${{ env.cache_id }}
           path: .cache
           restore-keys: |
             mkdocs-material-
-
-    #   - run: pip install mkdocs-material
-      - run: uv run mkdocs gh-deploy --force
+      - run: mkdocs gh-deploy --force
