@@ -73,4 +73,4 @@ jobs:
           git config user.email 41898282+github-actions[bot]@users.noreply.github.com
 
       - run: echo "cache_id=$(date --utc '+%V')" >> $GITHUB_ENV
-      - run: mkdocs gh-deploy --force
+      - run: uv run mkdocs gh-deploy --force
