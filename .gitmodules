@@ -1,0 +1,3 @@
+[submodule "src/pysystemtrade"]
+	path = src/pysystemtrade
+	url = https://github.com/vcaldas/pysystemtrade.git
