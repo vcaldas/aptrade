@@ -4,14 +4,12 @@ services:
       context: .
       dockerfile: Dockerfile.app
       args:
-        - FLASK_ENV=prodution
+        - FLASK_ENV=production
     image: aptrade-app
   frontend:
     build:
       context: .
       dockerfile: Dockerfile.frontend
-    volume:
-      - ./frontend:/frontend
     image: aptrade-frontend
     ports:
       - "3000:80"
