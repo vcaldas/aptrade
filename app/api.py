@@ -1,14 +1,15 @@
 import time
+
 from flask import Flask
 
-app = Flask(__name__, static_folder='../build', static_url_path='/')
+app = Flask(__name__, static_folder="../build", static_url_path="/")
 
 
-@app.route('/')
+@app.route("/")
 def index():
-    return 'APTradeter Test'
+    return "APTradeter Test"
 
 
-@app.route('/api/time')
+@app.route("/api/time")
 def get_current_time():
-    return {'time': time.time()}
+    return {"time": time.time()}
