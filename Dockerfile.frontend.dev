@@ -1,0 +1,9 @@
+# Stage 1: Build
+FROM node:23 AS build
+WORKDIR /app
+
+# Install dependencies
+COPY ./frontend .
+RUN npm install
+
+CMD ["npm", "run", "dev"]

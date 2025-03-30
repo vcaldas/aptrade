@@ -1,0 +1,29 @@
+services:
+  app:
+    image: aptrade-app
+    build:
+      context: .
+      dockerfile: Dockerfile.app
+      args:
+        - FLASK_ENV=development
+    entrypoint:
+      - flask
+      - run
+      - --host=0.0.0.0
+    environment:
+      FLASK_DEBUG: 1
+    volumes:
+      - ./app:/app
+    ports:
+      - "5000:5000"
+
+
+  frontend:
+    image: aptrade-frontend
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend.dev
+    volumes:
+      - ./frontend:/app
+    ports:
+      - "3000:3000"

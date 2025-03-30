@@ -1,0 +1,6 @@
+services:
+  frontend:
+    # ...existing code...
+    volumes:
+      - ./frontend:/app
+    # ...existing code...

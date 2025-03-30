@@ -11,7 +11,17 @@ This is a template repository for Python projects that use uv for their dependen
 - **Github repository**: <https://github.com/vcaldas/aptrade/>
 - **Documentation** <https://vcaldas.github.io/aptrade/>
 
-## Getting started with your project
+
+## Organization
+This project is organized in a monorepo structure, with the following folders:
+- `src/aptrade`: The main package of the project. This can be imported by other python projects
+- `tests`: The tests for the main package.
+- `docs`: The documentation for the project.
+- `frontend`: The UI for the project. This is a React app that can be run with `npm start` and built with `npm run build`.
+- `app`: The app for the project. This is a Flask app that provides the API routes and other backend functionalities.
+
+
+## Getting started with the project
 
 ### 1. Create a New Repository
 
