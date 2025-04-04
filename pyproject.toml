@@ -17,6 +17,10 @@ classifiers = [
     "Programming Language :: Python :: 3.13",
     "Topic :: Software Development :: Libraries :: Python Modules",
 ]
+dependencies = [
+    "flask>=3.1.0",
+    "gunicorn>=23.0.0",
+]
 
 [project.urls]
 Homepage = "https://vcaldas.github.io/aptrade/"

@@ -1,17 +1,12 @@
 services:
-  app:
-    image: aptrade-app
+  aptrade:
+    image: aptrade
     build:
       context: .
       dockerfile: Dockerfile.app
-      args:
-        - FLASK_ENV=development
-    entrypoint:
-      - flask
-      - run
-      - --host=0.0.0.0
     environment:
       FLASK_DEBUG: 1
+      FLASK_ENV: development
     volumes:
       - ./app:/app
     ports:

@@ -21,6 +21,7 @@
   },
   "name": "frontend",
   "private": true,
+  "proxy": "http://localhost:5000",
   "scripts": {
     "build": "tsc -b && vite build",
     "dev": "vite",

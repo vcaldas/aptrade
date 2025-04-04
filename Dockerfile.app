@@ -1,10 +1,14 @@
 # This Dockerfile builds the API only.
 
 FROM python:3.12
-WORKDIR /app
 ARG FLASK_ENV
-COPY app ./
-RUN pip install -r ./requirements.txt
+ENV FLASK_APP wsgi.py
+
+COPY app app
+COPY boot.sh wsgi.py ./
+RUN chmod a+x boot.sh
+
+RUN pip install -r /app/requirements.txt
 
 EXPOSE 5000
-CMD ["gunicorn", "-b", ":5000", "api:app"]
+ENTRYPOINT ["./boot.sh"]

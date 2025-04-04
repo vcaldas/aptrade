@@ -1,9 +1,9 @@
 services:
-  app:
+  aptrade:
     build:
       context: .
       dockerfile: Dockerfile.app
-      args:
+    environment:
         - FLASK_ENV=production
     image: aptrade-app
   frontend:
