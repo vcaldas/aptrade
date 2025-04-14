@@ -4,6 +4,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.app
+      args:
+        - FLASK_ENV=development
     environment:
       FLASK_DEBUG: 1
       FLASK_ENV: development
