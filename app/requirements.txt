@@ -1,8 +1,0 @@
-click
-flask~=3.1.0
-gunicorn~=23.0.0
-itsdangerous
-Jinja2
-MarkupSafe
-python-dotenv
-Werkzeug

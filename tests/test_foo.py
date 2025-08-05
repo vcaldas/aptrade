@@ -1,4 +1,4 @@
-from aptrade.foo import foo
+from src.foo import foo
 
 
 def test_foo():
