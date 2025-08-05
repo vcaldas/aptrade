@@ -2,7 +2,7 @@ import time
 
 from flask import jsonify
 
-from app.api import bp
+from src.api import bp
 
 
 @bp.route("/time", methods=["GET"])
