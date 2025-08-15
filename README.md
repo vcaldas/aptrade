@@ -71,3 +71,11 @@ For activating the automatic documentation with MkDocs, see [here](https://fpgma
 To enable the code coverage reports, see [here](https://fpgmaas.github.io/cookiecutter-uv/features/codecov/).
 
 ## Releasing a new version
+
+
+
+## Inspired by many projects:
+
+Backtrader: <https://www.backtrader.com/>
+Backtesting.py: <https://kernc.github.io/backtesting.py/>
+pysystemtrade: <https://github.com/robcarver17/pysystemtrade>

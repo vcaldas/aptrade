@@ -15,6 +15,7 @@ dependencies = [
     "polygon>=1.2.6",
     "polygon-api-client>=1.15.3",
     "python-dotenv>=1.1.1",
+    "tqdm>=4.67.1",
     "uvicorn>=0.35.0",
 ]
 
