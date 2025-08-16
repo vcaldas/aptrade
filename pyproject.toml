@@ -14,6 +14,7 @@ dependencies = [
     "matplotlib>=3.10.5",
     "mkdocs>=1.6.1",
     "mkdocs-material>=9.6.17",
+    "mkdocstrings-python>=1.17.0",
     "polygon>=1.2.6",
     "polygon-api-client>=1.15.3",
     "pytest>=8.4.1",
