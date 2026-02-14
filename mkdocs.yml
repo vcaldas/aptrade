@@ -10,12 +10,6 @@ copyright: Maintained by <a href="https://vcaldas.com">vcaldas</a>.
 nav:
   - Home: README.md
 
-plugins:
-  - search
-  - mkdocstrings:
-      handlers:
-        python:
-          paths: ["aptrade"]
 theme:
   name: material
   feature:
