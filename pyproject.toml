@@ -1,6 +1,6 @@
 [project]
 name = "aptrade"
-version = "0.0.0"
+version = "0.0.7"
 description = "Another Python tool for Trading and Backtesting"
 readme = "docs/README.md"
 requires-python = ">=3.11"
