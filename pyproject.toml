@@ -1,6 +1,6 @@
 [project]
 name = "aptrade"
-version = "0.1.0"
+version = "0.0.0"
 description = "Another Python tool for Trading and Backtesting"
 readme = "docs/README.md"
 requires-python = ">=3.11"
@@ -15,6 +15,7 @@ classifiers = [
   "Programming Language :: Python :: 3.13",
   "Programming Language :: Python :: 3.14",
 ]
+
 authors = [
     { name = "Victor Caldas", email = "caldas.victor@gmail.com" }
 ]
@@ -22,6 +23,8 @@ dependencies = [
   "numpy>=2.3,<2.4",
   "typer>=0.23.1",
 ]
+
+
 
 [project.urls]
 homepage = "https://vcaldas.github.io/aptrade/"
