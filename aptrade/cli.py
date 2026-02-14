@@ -1,9 +1,4 @@
-import datetime as dt
-from pathlib import Path
-from typing import Any, Dict
-
 import typer
-import uvicorn
 
 from aptrade.version import VERSION as APP_VERSION
 
