@@ -58,6 +58,9 @@ build-backend = "uv_build"
 module-name = "aptrade"
 module-root = ""
 
+[tool.uv.workspace]
+members = ["documentation"]
+
 [tool.pytest.ini_options]
 addopts = "-ra"
 testpaths = ["tests"]
