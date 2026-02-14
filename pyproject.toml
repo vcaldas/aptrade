@@ -3,14 +3,30 @@ name = "aptrade"
 version = "0.1.0"
 description = "Another Python tool for Trading and Backtesting"
 readme = "docs/README.md"
-requires-python = ">=3.10"
+requires-python = ">=3.11"
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Intended Audience :: Developers",
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Programming Language :: Python :: 3.14",
+]
 authors = [
-    { name = "vcaldas", email = "caldas.victor@gmail.com" }
+    { name = "Victor Caldas", email = "caldas.victor@gmail.com" }
 ]
 dependencies = [
-    "numpy>=2.4.2",
-    "typer>=0.23.1",
+  "numpy>=2.3,<2.4",
+  "typer>=0.23.1",
 ]
+
+[project.urls]
+homepage = "https://vcaldas.github.io/aptrade/"
+repository = "https://github.com/vcaldas/aptrade"
+"Bug Tracker" = "https://github.com/vcaldas/aptrade/issues"
 
 [project.scripts]
 aptrade = "aptrade:cli.cli"
