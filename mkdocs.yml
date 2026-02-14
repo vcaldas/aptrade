@@ -8,8 +8,7 @@ repo_name: vcaldas/aptrade
 copyright: Maintained by <a href="https://vcaldas.com">vcaldas</a>.
 
 nav:
-  - Home: index.md
-  - Modules: modules.md
+  - Home: README.md
 
 plugins:
   - search
