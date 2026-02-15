@@ -2,7 +2,9 @@ import math
 
 from pydantic import BaseModel, ConfigDict, Field
 
-from aptrade.sizer import Sizer
+from aptrade.sizer import AbstractSizer
+
+# from aptrade.sizer import Sizer
 
 
 class SimpleSizerParams(BaseModel):
@@ -18,7 +20,7 @@ class SimpleSizerParams(BaseModel):
     )
 
 
-class SimpleSizer(Sizer):
+class SimpleSizer(AbstractSizer):
     """Position sizer that uses a fixed percentage of portfolio value.
     
     Parameters:
