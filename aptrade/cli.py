@@ -1,5 +1,9 @@
+import datetime as dt
+
 import typer
 
+from aptrade.core.config import settings
+from aptrade.scanner import run_live_scanner
 from aptrade.version import VERSION as APP_VERSION
 
 APP_AUTHOR = "Victor Caldas"
@@ -15,45 +19,21 @@ CLI_HELP_TEXT = (
 cli = typer.Typer(help=CLI_HELP_TEXT, no_args_is_help=True)
 
 
-@cli.callback(invoke_without_command=True)
-def main(
-    ctx: typer.Context,
-    version: bool = typer.Option(False, "--version", "-v", help="Show version and exit"),
-):
-    """APTrade CLI entrypoint. Use `--version` to print version and exit."""
-    if version:
-        print(APP_VERSION)
-        raise typer.Exit()
-
-
-@cli.command()
-def server(
-    dev: bool = typer.Option(
-        False, "--dev", "-d", help="Run server in development mode (with reload)"
-    ),
-    host: str = typer.Option("0.0.0.0", "--host", "-h"),
-    port: int = typer.Option(8000, "--port", "-p"),
-):
-    """Start the APTrade Server."""
-    print("Starting APTrade Server...")
-
 
 @cli.command()
 def scanner():
     """Start the APTrade Scanner Service."""
-    print("Starting APTrade Scanner Service...")
-
-@cli.command()
-def backtest(
-    debug: bool = typer.Option(
-        False,
-        "--debug",
-        "-d",
-        help="Enable verbose output and keep running after individual ticker failures",
-    ),
-):
-    """Run backtests described in the given YAML configuration."""
-    print("Running backtests...")
+    # Run with conservative limits for testing
+    # Runs daily from 4 AM to 8 PM ET
+    run_live_scanner(
+        api_key=settings.MASSIVE_API_KEY,
+        max_symbols=30,  # Start small
+        min_volume=500_000,
+        min_price=None,
+        max_price=50.0,
+        start_time=dt.time(4, 0),  # 4 AM ET
+        stop_time=dt.time(20, 0),  # 8 PM ET
+    )
 
 if __name__ == "__main__":
     cli()

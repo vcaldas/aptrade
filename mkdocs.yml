@@ -9,6 +9,9 @@ copyright: Maintained by <a href="https://vcaldas.com">vcaldas</a>.
 
 nav:
   - Home: README.md
+  - Getting Started: getting_started.md
+  - API Reference:
+      - Sizer: components/sizer.md
 
 theme:
   name: material

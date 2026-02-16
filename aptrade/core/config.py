@@ -23,6 +23,7 @@ class Settings(BaseSettings):
 
     PROJECT_NAME: str = "APTrade"
     MASSIVE_API_KEY: str
-
+    TELEGRAM_BOTKEY: str
+    CHAT_ID: str
 
 settings = Settings()  # type: ignore

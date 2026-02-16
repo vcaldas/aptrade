@@ -11,7 +11,7 @@ import aptrade as bt
 
 
 # Create a Stratey
-class TestStrategy(bt.Strategy):
+class TutorialStrategy(bt.Strategy):
     params = (
         ('maperiod', 15),
         ('printlog', False),
@@ -115,7 +115,7 @@ if __name__ == '__main__':
 
     # Add a strategy
     strats = cerebro.optstrategy(
-        TestStrategy,
+        TutorialStrategy,
         maperiod=range(10, 31))
 
     # Datas are in a subfolder of the samples. Need to find where the script is

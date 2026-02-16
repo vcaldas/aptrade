@@ -1,4 +1,19 @@
 from aptrade.sizer import AbstractSizer
+from pydantic import BaseModel, ConfigDict, Field
+
+class FixedSizerParams(BaseModel):
+    """Parameters for FixedSizer with validation."""
+    
+    model_config = ConfigDict(frozen=True)  # Prevent accidental parameter changes
+    
+    stake: int | float = Field(
+        default=1,
+        description="Fixed size to use for each operation"
+    )
+    tranches: int = Field(
+        default=1,
+        description="Number of tranches to scale into trades, should be >= 1"
+    )
 
 
 class FixedSize(AbstractSizer):
@@ -14,7 +29,10 @@ class FixedSize(AbstractSizer):
       - ``tranches`` (default: ``1``)
     """
 
-    params = (("stake", 1), ("tranches", 1))
+    # params = (("stake", 1), ("tranches", 1))
+
+    def __init__(self, stake: int | float = 1, tranches: int = 1):
+        self.p = FixedSizerParams(stake=stake, tranches=tranches)
 
     def _getsizing(self, comminfo, cash, data, isbuy):
         if self.p.tranches > 1:
@@ -29,7 +47,7 @@ class FixedSize(AbstractSizer):
             self.p.stake = stake  # OLD METHOD FOR SAMPLE COMPATIBILITY
 
 
-SizerFix = FixedSize
+# SizerFix = FixedSize
 
 
 class FixedReverser(AbstractSizer):
@@ -44,7 +62,10 @@ class FixedReverser(AbstractSizer):
       - ``stake`` (default: ``1``)
     """
 
-    params = (("stake", 1),)
+    # params = (("stake", 1),)
+
+    def __init__(self, stake: int | float = 1):
+        self.p = FixedSizerParams(stake=stake)
 
     def _getsizing(self, comminfo, cash, data, isbuy):
         position = self.strategy.getposition(data)
