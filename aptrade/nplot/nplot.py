@@ -12,7 +12,6 @@ from pathlib import Path
 
 import numpy as np
 import pandas as pd
-
 from bn_lightweight_charts.widgets import HTMLChart_BN
 
 from aptrade.analyzers.eq import Eq

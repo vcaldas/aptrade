@@ -1,8 +1,7 @@
-
 from abc import ABC, abstractmethod
+from types import SimpleNamespace
 
 from aptrade.metabase import MetaParams
-from types import SimpleNamespace
 
 
 class AbstractSizer(ABC):
@@ -14,6 +13,7 @@ class AbstractSizer(ABC):
     variants, but the products of one variant are incompatible with products of
     another.
     """
+
     strategy = None
     broker = None
 
@@ -22,30 +22,30 @@ class AbstractSizer(ABC):
         return self._getsizing(comminfo, self.broker.getcash(), data, isbuy)
 
     def __init__(self, *args, **kwargs):
-      """Initialize params for sizers that declare a `params` tuple.
+        """Initialize params for sizers that declare a `params` tuple.
 
-      Supports positional and keyword parameters to remain compatible
-      with the previous `MetaParams`-based behavior used by sizers.
-      """
-      params_def = getattr(self.__class__, "params", ()) or ()
-      # Start with defaults
-      params_obj = SimpleNamespace()
-      param_names = [name for name, _ in params_def]
-      for name, default in params_def:
-        setattr(params_obj, name, default)
+        Supports positional and keyword parameters to remain compatible
+        with the previous `MetaParams`-based behavior used by sizers.
+        """
+        params_def = getattr(self.__class__, "params", ()) or ()
+        # Start with defaults
+        params_obj = SimpleNamespace()
+        param_names = [name for name, _ in params_def]
+        for name, default in params_def:
+            setattr(params_obj, name, default)
 
-      # Apply positional args in order
-      for name, val in zip(param_names, args):
-        setattr(params_obj, name, val)
+        # Apply positional args in order
+        for name, val in zip(param_names, args):
+            setattr(params_obj, name, val)
 
-      # Apply keyword overrides
-      for name in param_names:
-        if name in kwargs:
-          setattr(params_obj, name, kwargs.pop(name))
+        # Apply keyword overrides
+        for name in param_names:
+            if name in kwargs:
+                setattr(params_obj, name, kwargs.pop(name))
 
-      # expose as both `params` and `p` for compatibility
-      self.params = params_obj
-      self.p = params_obj
+        # expose as both `params` and `p` for compatibility
+        self.params = params_obj
+        self.p = params_obj
 
     @abstractmethod
     def _getsizing(self, comminfo, cash, data, isbuy: bool) -> int:
@@ -76,6 +76,7 @@ class AbstractSizer(ABC):
     def set(self, strategy, broker):
         self.strategy = strategy
         self.broker = broker
+
 
 # class Sizer(metaclass=MetaParams):
 #     """This is the base class for *Sizers*. Any *sizer* should subclass this

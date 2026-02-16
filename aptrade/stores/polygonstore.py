@@ -13,6 +13,7 @@ If the `polygon` package (official Polygon Python client) is not
 installed the store will raise informative RuntimeErrors when methods
 requiring the client are invoked.
 """
+
 from __future__ import absolute_import, division, print_function, unicode_literals
 
 try:

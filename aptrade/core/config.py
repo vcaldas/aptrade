@@ -26,4 +26,5 @@ class Settings(BaseSettings):
     TELEGRAM_BOTKEY: str
     CHAT_ID: str
 
+
 settings = Settings()  # type: ignore

@@ -1,11 +1,14 @@
 """Tests for Pydantic-based sizers."""
 
 import math
+
 import pytest
+from hypothesis import given
+from hypothesis import strategies as st
 from pydantic import ValidationError
 
 from aptrade.sizer.simple import SimpleSizer, SimpleSizerParams
-from hypothesis import given, strategies as st
+
 
 ## Initialization and boundaries
 class TestSimpleSizerParams:
@@ -45,11 +48,13 @@ class TestSimpleSizerSizing:
             class MockCommInfo:
                 class MockParams:
                     commission = 0
+
                 p = MockParams()
+
             return MockCommInfo()
 
     class MockData:
-        def __init__(self, close_price: float | int =100):
+        def __init__(self, close_price: float | int = 100):
             self.close = [close_price]
 
     class MockStrategy:
@@ -63,5 +68,5 @@ class TestSimpleSizerSizing:
         data = self.MockData(close_price=price)
         comminfo = sizer.broker.getcommissioninfo(data)
         size = sizer._getsizing(comminfo, 10000, data, isbuy=True)
-        
+
         assert size == math.floor((pct / 100 * 10000 / price))

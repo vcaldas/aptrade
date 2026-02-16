@@ -1,18 +1,18 @@
-from aptrade.sizer import AbstractSizer
 from pydantic import BaseModel, ConfigDict, Field
+
+from aptrade.sizer import AbstractSizer
+
 
 class FixedSizerParams(BaseModel):
     """Parameters for FixedSizer with validation."""
-    
+
     model_config = ConfigDict(frozen=True)  # Prevent accidental parameter changes
-    
+
     stake: int | float = Field(
-        default=1,
-        description="Fixed size to use for each operation"
+        default=1, description="Fixed size to use for each operation"
     )
     tranches: int = Field(
-        default=1,
-        description="Number of tranches to scale into trades, should be >= 1"
+        default=1, description="Number of tranches to scale into trades, should be >= 1"
     )
 
 

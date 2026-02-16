@@ -1,4 +1,3 @@
-
 from aptrade.sizer import AbstractSizer
 
 __all__ = ["PercentSizer", "AllInSizer", "PercentSizerInt", "AllInSizerInt"]

@@ -25,6 +25,7 @@ import sys
 from collections import OrderedDict
 from typing import Any, List, overload
 
+
 def findbases(kls, topclass):
     retval = list()
     for base in kls.__bases__:

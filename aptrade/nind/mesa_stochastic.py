@@ -16,10 +16,7 @@ __all__ = ["MESAStochastic"]
 @numba.njit
 def mm_scalar(
     series: np.ndarray, idx: int, period: int
-) -> (
-    np.float64,
-    np.float64,
-):
+) -> (np.float64, np.float64,):
     """
     Returns (min, max) in the range series[idx-period+1 : idx+1].
     For idx < period-1: stretched window.

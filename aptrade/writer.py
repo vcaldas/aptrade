@@ -25,9 +25,9 @@ import io
 import itertools
 import sys
 
-collectionsAbc = collections.abc  # collections.Iterable -> collections.abc.Iterable
-
 import aptrade as bt
+
+collectionsAbc = collections.abc  # collections.Iterable -> collections.abc.Iterable
 
 
 class WriterBase(metaclass=bt.MetaParams):
@@ -156,8 +156,8 @@ class WriterFile(WriterBase):
         self.out.write(line + "\n")
 
     def writelines(self, lines):
-        for l in lines:
-            self.out.write(l + "\n")
+        for line in lines:
+            self.out.write(line + "\n")
 
     def writelineseparator(self, level=0):
         sepnum = level % len(self.p.separators)

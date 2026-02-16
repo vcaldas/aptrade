@@ -20,7 +20,13 @@
 ###############################################################################
 from __future__ import absolute_import, division, print_function, unicode_literals
 
+# Load contributed indicators and studies
+import numpy
+
+import aptrade.commissions as commissions
+import aptrade.sizer as sizer
 from aptrade.analyzers import *
+from aptrade.commissions import *
 
 # from . import analyzers as analyzers
 from . import broker as broker
@@ -30,9 +36,6 @@ from . import feeds as feeds
 from . import filters as filters
 from . import indicators as indicators
 from . import observers as observers
-import aptrade.sizer as sizer 
-import aptrade.commissions as commissions
-
 from . import stores as stores
 from . import talib as talib
 from . import timer as timer
@@ -40,7 +43,6 @@ from . import utils as utils
 from .aptsignal import *
 from .broker import *
 from .cerebro import *
-from aptrade.commissions import *
 from .dataseries import *
 from .errors import *
 from .feed import *
@@ -59,9 +61,6 @@ from .strategy import *
 from .timer import *
 from .trade import *
 from .writer import *
-
-# Load contributed indicators and studies
-import numpy
 
 
 def hello(n: int) -> str:

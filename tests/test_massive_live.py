@@ -4,16 +4,16 @@ import time
 from datetime import datetime, timezone
 from unittest.mock import Mock, patch
 
-import aptrade as bt
 import pytest
 
+import aptrade as bt
 from aptrade.feeds.massive_live import (
     MassiveAPIClient,
-    MassiveLiveData,
     MassiveFeedManager,
+    MassiveLiveData,
     extract_ohlcv,
-    validate_ohlcv,
     setup_massive_live_feeds,
+    validate_ohlcv,
 )
 
 

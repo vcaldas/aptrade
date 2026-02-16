@@ -26,6 +26,7 @@ from aptrade.functions import *
 # can resolve it without triggering circular imports while this package is still
 # being initialized.
 from ..indicator import Indicator  # noqa: F401
+from . import vortex as vortex
 from .accdecoscillator import *
 from .aroon import *
 
@@ -79,7 +80,6 @@ from .stochastic import *
 from .trix import *
 from .tsi import *
 from .ultimateoscillator import *
-from . import vortex as vortex
 from .williams import *
 from .wma import *
 from .zlema import *

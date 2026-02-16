@@ -1,11 +1,10 @@
 # pyright: reportGeneralTypeIssues=false
 
 from pathlib import Path
+from typing import Any, cast
 
 import pandas as pd
 import pytest
-
-from typing import Any, cast
 
 import aptrade as bt
 from aptrade.analyzers import TradeHistoryAnalyzer

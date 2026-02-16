@@ -21,7 +21,7 @@
 from __future__ import absolute_import, division, print_function, unicode_literals
 
 
-class Position():
+class Position:
     """
     Keeps and updates the size and price of a position. The object has no
     relationship to any asset. It only keeps size and price.

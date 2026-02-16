@@ -14,7 +14,9 @@ from aptrade.telegram_bot import TelegramBot
 def mock_bot(monkeypatch: pytest.MonkeyPatch) -> AsyncMock:
     bot_stub = SimpleNamespace(send_message=AsyncMock())
 
-    def fake_bot(token: str, **kwargs: Any) -> Any:  # noqa: ARG001 - token and kwargs not used in stub
+    def fake_bot(
+        token: str, **kwargs: Any
+    ) -> Any:  # noqa: ARG001 - token and kwargs not used in stub
         return bot_stub
 
     monkeypatch.setattr("aptrade.telegram_bot.Bot", fake_bot)

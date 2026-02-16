@@ -1,7 +1,5 @@
 """Tests for the commissions module to ensure backwards compatibility and correct behavior."""
 
-import pytest
-
 import aptrade as bt
 
 
@@ -102,7 +100,7 @@ class TestCommissionEquivalence:
         """Test futures_perc() == CommInfo_Futures_Perc."""
         factory = bt.commissions.futures_perc()
         legacy = bt.commissions.CommInfo_Futures_Perc()
-        
+
         assert factory.p.stocklike == legacy.p.stocklike
         assert factory.p.commtype == legacy.p.commtype
 
@@ -110,7 +108,7 @@ class TestCommissionEquivalence:
         """Test futures_fixed() == CommInfo_Futures_Fixed."""
         factory = bt.commissions.futures_fixed()
         legacy = bt.commissions.CommInfo_Futures_Fixed()
-        
+
         assert factory.p.stocklike == legacy.p.stocklike
         assert factory.p.commtype == legacy.p.commtype
 
@@ -118,7 +116,7 @@ class TestCommissionEquivalence:
         """Test stocks_perc() == CommInfo_Stocks_Perc."""
         factory = bt.commissions.stocks_perc()
         legacy = bt.commissions.CommInfo_Stocks_Perc()
-        
+
         assert factory.p.stocklike == legacy.p.stocklike
         assert factory.p.commtype == legacy.p.commtype
 
@@ -126,6 +124,6 @@ class TestCommissionEquivalence:
         """Test stocks_fixed() == CommInfo_Stocks_Fixed."""
         factory = bt.commissions.stocks_fixed()
         legacy = bt.commissions.CommInfo_Stocks_Fixed()
-        
+
         assert factory.p.stocklike == legacy.p.stocklike
         assert factory.p.commtype == legacy.p.commtype

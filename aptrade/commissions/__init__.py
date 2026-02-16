@@ -20,7 +20,6 @@
 ###############################################################################
 from __future__ import absolute_import, division, print_function, unicode_literals
 
-
 from aptrade.metabase import MetaParams
 
 
@@ -323,7 +322,6 @@ class CommissionInfo(CommInfoBase):
     params = (("percabs", True),)  # Original CommissionInfo took 0.xx for percentages
 
 
-
 class CommInfo(CommInfoBase):
     pass  # clone of CommissionInfo but with xx% instead of 0.xx
 
@@ -331,11 +329,11 @@ class CommInfo(CommInfoBase):
 # Factory functions for common commission configurations
 def futures(commtype=CommInfoBase.COMM_FIXED, **kwargs):
     """Create a CommInfoBase for futures with fixed commission (default).
-    
+
     Args:
         commtype: Commission type (COMM_FIXED or COMM_PERC). Default: COMM_FIXED
         **kwargs: Additional parameters to pass to CommInfoBase
-    
+
     Returns:
         CommInfoBase instance configured for futures
     """
@@ -344,10 +342,10 @@ def futures(commtype=CommInfoBase.COMM_FIXED, **kwargs):
 
 def futures_perc(**kwargs):
     """Create a CommInfoBase for futures with percentage commission.
-    
+
     Args:
         **kwargs: Additional parameters to pass to CommInfoBase
-    
+
     Returns:
         CommInfoBase instance configured for futures with percentage commissions
     """
@@ -356,10 +354,10 @@ def futures_perc(**kwargs):
 
 def futures_fixed(**kwargs):
     """Create a CommInfoBase for futures with fixed commission.
-    
+
     Args:
         **kwargs: Additional parameters to pass to CommInfoBase
-    
+
     Returns:
         CommInfoBase instance configured for futures with fixed commissions
     """
@@ -368,11 +366,11 @@ def futures_fixed(**kwargs):
 
 def stocks(commtype=CommInfoBase.COMM_PERC, **kwargs):
     """Create a CommInfoBase for stocks with percentage commission (default).
-    
+
     Args:
         commtype: Commission type (COMM_FIXED or COMM_PERC). Default: COMM_PERC
         **kwargs: Additional parameters to pass to CommInfoBase
-    
+
     Returns:
         CommInfoBase instance configured for stocks
     """
@@ -381,10 +379,10 @@ def stocks(commtype=CommInfoBase.COMM_PERC, **kwargs):
 
 def stocks_perc(**kwargs):
     """Create a CommInfoBase for stocks with percentage commission.
-    
+
     Args:
         **kwargs: Additional parameters to pass to CommInfoBase
-    
+
     Returns:
         CommInfoBase instance configured for stocks with percentage commissions
     """
@@ -393,10 +391,10 @@ def stocks_perc(**kwargs):
 
 def stocks_fixed(**kwargs):
     """Create a CommInfoBase for stocks with fixed commission.
-    
+
     Args:
         **kwargs: Additional parameters to pass to CommInfoBase
-    
+
     Returns:
         CommInfoBase instance configured for stocks with fixed commissions
     """

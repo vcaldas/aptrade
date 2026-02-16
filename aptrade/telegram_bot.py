@@ -7,6 +7,7 @@ from collections import defaultdict
 from telegram import Bot, Update
 from telegram.ext import ContextTypes
 from telegram.request import HTTPXRequest
+
 from aptrade.core.config import settings
 
 BOTKEY = settings.TELEGRAM_BOTKEY
@@ -61,7 +62,9 @@ class TelegramBot:
         # Don't wait for result to avoid blocking
         return future
 
-    async def hello(self, update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:  # noqa: ARG002
+    async def hello(
+        self, update: Update, context: ContextTypes.DEFAULT_TYPE
+    ) -> None:  # noqa: ARG002
         await update.message.reply_text(f"Hello {update.effective_user.first_name}")
 
     async def send_startup_message(self) -> None:

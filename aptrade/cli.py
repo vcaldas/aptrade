@@ -19,7 +19,6 @@ CLI_HELP_TEXT = (
 cli = typer.Typer(help=CLI_HELP_TEXT, no_args_is_help=True)
 
 
-
 @cli.command()
 def scanner():
     """Start the APTrade Scanner Service."""
@@ -34,6 +33,7 @@ def scanner():
         start_time=dt.time(4, 0),  # 4 AM ET
         stop_time=dt.time(20, 0),  # 8 PM ET
     )
+
 
 if __name__ == "__main__":
     cli()

@@ -24,6 +24,7 @@ import uuid
 
 from aptrade.observer import Observer
 
+
 class Trades(Observer):
     """This observer keeps track of full trades and plot the PnL level achieved
     when a trade is closed.
