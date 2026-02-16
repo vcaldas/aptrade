@@ -7,7 +7,7 @@ from collections import defaultdict
 from telegram import Bot, Update
 from telegram.ext import ContextTypes
 from telegram.request import HTTPXRequest
-
+from typing import Optional
 from aptrade.core.config import settings
 
 BOTKEY = settings.TELEGRAM_BOTKEY
@@ -129,4 +129,30 @@ class TelegramBot:
         self._run_async(self._async_message(ticker, message))
 
 
-telegram_bot = TelegramBot()
+telegram_bot = None
+
+
+def get_telegram_bot(
+    bot_key: str = BOTKEY, chat_id: str = CHAT_ID
+) -> Optional[TelegramBot]:
+    """Return a module-level TelegramBot instance or None if it cannot be created.
+
+    This avoids creating a bot at import time which can raise when no token
+    is configured (useful for tests that import this module).
+    """
+    global telegram_bot
+
+    if telegram_bot is not None:
+        return telegram_bot
+
+    if not bot_key:
+        logger.debug("No Telegram bot key configured; not creating bot instance")
+        return None
+
+    try:
+        telegram_bot = TelegramBot(bot_key=bot_key, chat_id=chat_id)
+        return telegram_bot
+    except Exception as exc:  # keep broad to avoid import-time failures
+        logger.warning("Failed to create TelegramBot: %s", exc)
+        telegram_bot = None
+        return None
