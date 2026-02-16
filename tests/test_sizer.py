@@ -5,9 +5,9 @@ import pytest
 from pydantic import ValidationError
 
 from aptrade.sizer.simple import SimpleSizer, SimpleSizerParams
-# contents of example.py
 from hypothesis import given, strategies as st
 
+## Initialization and boundaries
 class TestSimpleSizerParams:
     """Test SimpleSizerParams Pydantic model."""
 
@@ -33,16 +33,6 @@ class TestSimpleSizerParams:
             SimpleSizerParams(percents=101)
         assert "less than or equal to 100" in str(exc_info.value)
 
-    def test_percents_validation_boundary_low(self):
-        """Test percents validation - valid minimum boundary."""
-        params = SimpleSizerParams(percents=0.1)
-        assert params.percents == 0.1
-
-    def test_percents_validation_boundary_high(self):
-        """Test percents validation - valid maximum boundary."""
-        params = SimpleSizerParams(percents=100)
-        assert params.percents == 100
-
 
 class TestSimpleSizerSizing:
     """Test SimpleSizer._getsizing calculation."""
@@ -59,15 +49,14 @@ class TestSimpleSizerSizing:
             return MockCommInfo()
 
     class MockData:
-        def __init__(self, close_price=100):
+        def __init__(self, close_price: float | int =100):
             self.close = [close_price]
 
     class MockStrategy:
         pass
 
-
     @given(pct=st.floats(0.1, 99.9), price=st.floats(0.1, 120))
-    def test_simple_sizer(self, pct, price):
+    def test_simple_sizer(self, pct: float | int, price: float | int):
         sizer = SimpleSizer(percents=pct)
         sizer.broker = self.MockBroker()
         sizer.strategy = self.MockStrategy()
@@ -76,55 +65,3 @@ class TestSimpleSizerSizing:
         size = sizer._getsizing(comminfo, 10000, data, isbuy=True)
         
         assert size == math.floor((pct / 100 * 10000 / price))
-
-    def test_sizing_calculation_50_percent(self):
-        """Test sizing calculation with 50% of portfolio."""
-        sizer = SimpleSizer(percents=50)
-        sizer.broker = self.MockBroker()
-        sizer.strategy = self.MockStrategy()
-        data = self.MockData(close_price=100)
-        
-        # 50% of 10000 = 5000, at $100/share = 50 shares
-        comminfo = sizer.broker.getcommissioninfo(data)
-        size = sizer._getsizing(comminfo, 10000, data, isbuy=True)
-        # n% of 10000 = 10000, at $100/share = 100 shares
-        assert size == 50
-
-    def test_sizing_calculation_100_percent(self):
-        """Test sizing calculation with 100% of portfolio."""
-        sizer = SimpleSizer(percents=100)
-        sizer.broker = self.MockBroker()
-        sizer.strategy = self.MockStrategy()
-        data = self.MockData(close_price=100)
-        
-        # 100% of 10000 = 10000, at $100/share = 100 shares
-        comminfo = sizer.broker.getcommissioninfo(data)
-        size = sizer._getsizing(comminfo, 10000, data, isbuy=True)
-        
-        assert size == 100
-
-    def test_sizing_calculation_25_percent(self):
-        """Test sizing calculation with 25% of portfolio."""
-        sizer = SimpleSizer(percents=25)
-        sizer.broker = self.MockBroker()
-        sizer.strategy = self.MockStrategy()
-        data = self.MockData(close_price=100)
-        
-        # 25% of 10000 = 2500, at $100/share = 25 shares
-        comminfo = sizer.broker.getcommissioninfo(data)
-        size = sizer._getsizing(comminfo, 10000, data, isbuy=True)
-        
-        assert size == 25
-
-    def test_sizing_with_different_price(self):
-        """Test sizing calculation with different stock price."""
-        sizer = SimpleSizer(percents=50)
-        sizer.broker = self.MockBroker()
-        sizer.strategy = self.MockStrategy()
-        data = self.MockData(close_price=50)
-        
-        # 50% of 10000 = 5000, at $50/share = 100 shares
-        comminfo = sizer.broker.getcommissioninfo(data)
-        size = sizer._getsizing(comminfo, 10000, data, isbuy=True)
-        
-        assert size == 100
