@@ -20,9 +20,27 @@ authors = [
     { name = "Victor Caldas", email = "caldas.victor@gmail.com" }
 ]
 dependencies = [
-  "numpy>=2.3,<2.4",
-  "typer>=0.23.1",
+    "backtesting>=0.6.5",
+    "beautifulsoup4>=4.14.2",
+    "bn-lightweight-charts>=1.1.0",
+    "boto3>=1.40.3",
+    "ib-async>=2.1.0",
+    "massive>=2.0.1",
+    "matplotlib>=3.10.5",
+    "pandas-market-calendars>=5.2.3",
+    "plotly>=6.5.1",
+    "polygon>=1.2.6",
+    "polygon-api-client>=1.15.3",
+    "pyarrow>=22.0.0",
+    "pydantic-settings>=2.12.0",
+    "python-dotenv>=1.1.1",
+    "python-telegram-bot>=22.5",
+    "pytz>=2025.2",
+    "statsmodels>=0.14.6",
+    "tqdm>=4.67.1",
+    "typer>=0.24.0",
 ]
+
 
 
 
@@ -59,3 +77,15 @@ version_scheme = "pep440"
 version_provider = "uv"
 update_changelog_on_bump = true
 major_version_zero = true
+
+[dependency-groups]
+dev = [
+    "hypothesis>=6.151.6",
+    "mkdocs>=1.6.1",
+    "mkdocs-material>=9.7.1",
+    "mkdocstrings-python>=2.0.2",
+    "mypy>=1.19.1",
+    "pre-commit>=4.5.1",
+    "pytest>=9.0.2",
+    "pytest-cov>=7.0.0",
+]
