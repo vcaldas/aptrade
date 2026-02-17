@@ -16,7 +16,7 @@ class Settings(BaseSettings):
         # Use top level .env file (one level above ./backend/)
         env_file=".env",
         env_ignore_empty=True,
-        extra="ignore",
+        extra="allow",
     )
 
     ENVIRONMENT: Literal["local", "staging", "production"] = "local"
