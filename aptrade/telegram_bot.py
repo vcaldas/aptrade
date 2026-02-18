@@ -156,3 +156,6 @@ def get_telegram_bot(
         logger.warning("Failed to create TelegramBot: %s", exc)
         telegram_bot = None
         return None
+
+
+telegram_bot = get_telegram_bot(bot_key=BOTKEY, chat_id=CHAT_ID)
