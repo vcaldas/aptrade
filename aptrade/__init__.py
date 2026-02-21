@@ -62,8 +62,17 @@ from .timer import *
 from .trade import *
 from .writer import *
 
+from .services.research import ResearchEngine
 
-def hello(n: int) -> str:
+# from .domain.models import BacktestConfig
+
+__all__ = [
+    "ResearchEngine",
+    # "BacktestConfig",
+]
+
+
+def hello(n: int = 10) -> str:
     """Greet the sum from 0 to n (exclusive end)."""
     sum_n = numpy.arange(n).sum()
     return f"Hello {sum_n}!"

@@ -4,6 +4,32 @@ from types import SimpleNamespace
 from aptrade.metabase import MetaParams
 
 
+class PositionSizer(ABC):
+    @abstractmethod
+    def compute_size(
+        self,
+        portfolio_value: float,
+        cash: float,
+        price: float,
+        commission_per_unit: float,
+        is_buy: bool,
+    ) -> int:
+        """
+        Compute position size.
+
+        Args:
+            portfolio_value: Total portfolio value (cash + positions)
+            cash: Available cash
+            price: Asset price
+            commission_per_unit: Commission added per unit
+            is_buy: True for buy, False for sell
+
+        Returns:
+            Integer size to execute.
+        """
+        raise NotImplementedError
+
+
 class AbstractSizer(ABC):
     """
     The Abstract Factory interface declares a set of methods that return
