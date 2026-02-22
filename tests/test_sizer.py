@@ -8,6 +8,25 @@ from hypothesis import strategies as st
 from pydantic import ValidationError
 
 from aptrade.sizer.simple import SimpleSizer, SimpleSizerParams
+from aptrade.domain.sizer import PercentTargetSizer
+
+
+@given(pct=st.floats(0.1, 99.9), price=st.floats(0.1, 120))
+def test_percent_target_sizer_basic(pct: float | int, price: float | int):
+    sizer = PercentTargetSizer()
+    equity = 10000.0
+    target_percent = pct
+    size = sizer.size(price, equity, target_percent)
+    assert size == int(equity * (target_percent / 100) / price)
+
+
+def test_percent_target_sizer_zero_price():
+    sizer = PercentTargetSizer()
+    price = 0.0
+    equity = 10000.0
+    target_percent = 90
+    size = sizer.size(price, equity, target_percent)
+    assert size == 0
 
 
 ## Initialization and boundaries
