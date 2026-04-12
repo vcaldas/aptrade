@@ -1,0 +1,228 @@
+2005-01-28: Oref 1 / Buy at 2941.11055
+2005-01-28: Oref 2 / Sell Stop at 2881.99275
+2005-01-28: Oref 3 / Sell Limit at 3000.22835
+2005-01-31: Order ref: 1 / Type Buy / Status Submitted
+2005-01-31: Order ref: 2 / Type Sell / Status Submitted
+2005-01-31: Order ref: 3 / Type Sell / Status Submitted
+2005-01-31: Order ref: 1 / Type Buy / Status Accepted
+2005-01-31: Order ref: 2 / Type Sell / Status Accepted
+2005-01-31: Order ref: 3 / Type Sell / Status Accepted
+2005-02-01: Order ref: 1 / Type Buy / Status Expired
+2005-02-01: Order ref: 2 / Type Sell / Status Canceled
+2005-02-01: Order ref: 3 / Type Sell / Status Canceled
+2005-03-03: Oref 4 / Buy at 3062.71945
+2005-03-03: Oref 5 / Sell Stop at 3001.15725
+2005-03-03: Oref 6 / Sell Limit at 3124.28165
+2005-03-04: Order ref: 4 / Type Buy / Status Submitted
+2005-03-04: Order ref: 5 / Type Sell / Status Submitted
+2005-03-04: Order ref: 6 / Type Sell / Status Submitted
+2005-03-04: Order ref: 4 / Type Buy / Status Accepted
+2005-03-04: Order ref: 5 / Type Sell / Status Accepted
+2005-03-04: Order ref: 6 / Type Sell / Status Accepted
+2005-03-07: Order ref: 4 / Type Buy / Status Expired
+2005-03-07: Order ref: 5 / Type Sell / Status Canceled
+2005-03-07: Order ref: 6 / Type Sell / Status Canceled
+2005-03-31: Oref 7 / Buy at 3040.45135
+2005-03-31: Oref 8 / Sell Stop at 2979.33675
+2005-03-31: Oref 9 / Sell Limit at 3101.5659499999997
+2005-04-01: Order ref: 7 / Type Buy / Status Submitted
+2005-04-01: Order ref: 8 / Type Sell / Status Submitted
+2005-04-01: Order ref: 9 / Type Sell / Status Submitted
+2005-04-01: Order ref: 7 / Type Buy / Status Accepted
+2005-04-01: Order ref: 8 / Type Sell / Status Accepted
+2005-04-01: Order ref: 9 / Type Sell / Status Accepted
+2005-04-04: Order ref: 7 / Type Buy / Status Expired
+2005-04-04: Order ref: 8 / Type Sell / Status Canceled
+2005-04-04: Order ref: 9 / Type Sell / Status Canceled
+2005-05-05: Oref 10 / Buy at 2989.4973999999997
+2005-05-05: Oref 11 / Sell Stop at 2929.4069999999997
+2005-05-05: Oref 12 / Sell Limit at 3049.5878
+2005-05-06: Order ref: 10 / Type Buy / Status Submitted
+2005-05-06: Order ref: 11 / Type Sell / Status Submitted
+2005-05-06: Order ref: 12 / Type Sell / Status Submitted
+2005-05-06: Order ref: 10 / Type Buy / Status Accepted
+2005-05-06: Order ref: 11 / Type Sell / Status Accepted
+2005-05-06: Order ref: 12 / Type Sell / Status Accepted
+2005-05-09: Order ref: 10 / Type Buy / Status Expired
+2005-05-09: Order ref: 11 / Type Sell / Status Canceled
+2005-05-09: Order ref: 12 / Type Sell / Status Canceled
+2005-07-01: Oref 13 / Buy at 3192.4973
+2005-07-01: Oref 14 / Sell Stop at 3128.3265
+2005-07-01: Oref 15 / Sell Limit at 3256.6681
+2005-07-04: Order ref: 13 / Type Buy / Status Submitted
+2005-07-04: Order ref: 14 / Type Sell / Status Submitted
+2005-07-04: Order ref: 15 / Type Sell / Status Submitted
+2005-07-04: Order ref: 13 / Type Buy / Status Accepted
+2005-07-04: Order ref: 14 / Type Sell / Status Accepted
+2005-07-04: Order ref: 15 / Type Sell / Status Accepted
+2005-07-05: Order ref: 13 / Type Buy / Status Expired
+2005-07-05: Order ref: 14 / Type Sell / Status Canceled
+2005-07-05: Order ref: 15 / Type Sell / Status Canceled
+2005-08-11: Oref 16 / Buy at 3337.3891999999996
+2005-08-11: Oref 17 / Sell Stop at 3270.3059999999996
+2005-08-11: Oref 18 / Sell Limit at 3404.4723999999997
+2005-08-12: Order ref: 16 / Type Buy / Status Submitted
+2005-08-12: Order ref: 17 / Type Sell / Status Submitted
+2005-08-12: Order ref: 18 / Type Sell / Status Submitted
+2005-08-12: Order ref: 16 / Type Buy / Status Accepted
+2005-08-12: Order ref: 17 / Type Sell / Status Accepted
+2005-08-12: Order ref: 18 / Type Sell / Status Accepted
+2005-08-12: Order ref: 16 / Type Buy / Status Completed
+2005-08-18: Order ref: 17 / Type Sell / Status Completed
+2005-08-18: Order ref: 18 / Type Sell / Status Canceled
+2005-09-06: Oref 19 / Buy at 3325.0910000000003
+2005-09-06: Oref 20 / Sell Stop at 3258.2550000000006
+2005-09-06: Oref 21 / Sell Limit at 3391.927
+2005-09-07: Order ref: 19 / Type Buy / Status Submitted
+2005-09-07: Order ref: 20 / Type Sell / Status Submitted
+2005-09-07: Order ref: 21 / Type Sell / Status Submitted
+2005-09-07: Order ref: 19 / Type Buy / Status Accepted
+2005-09-07: Order ref: 20 / Type Sell / Status Accepted
+2005-09-07: Order ref: 21 / Type Sell / Status Accepted
+2005-09-12: Order ref: 19 / Type Buy / Status Expired
+2005-09-12: Order ref: 20 / Type Sell / Status Canceled
+2005-09-12: Order ref: 21 / Type Sell / Status Canceled
+2005-09-26: Oref 22 / Buy at 3383.92535
+2005-09-26: Oref 23 / Sell Stop at 3315.90675
+2005-09-26: Oref 24 / Sell Limit at 3451.94395
+2005-09-27: Order ref: 22 / Type Buy / Status Submitted
+2005-09-27: Order ref: 23 / Type Sell / Status Submitted
+2005-09-27: Order ref: 24 / Type Sell / Status Submitted
+2005-09-27: Order ref: 22 / Type Buy / Status Accepted
+2005-09-27: Order ref: 23 / Type Sell / Status Accepted
+2005-09-27: Order ref: 24 / Type Sell / Status Accepted
+2005-09-27: Order ref: 22 / Type Buy / Status Completed
+2005-10-04: Order ref: 24 / Type Sell / Status Completed
+2005-10-04: Order ref: 23 / Type Sell / Status Canceled
+2005-11-03: Oref 25 / Buy at 3344.8318
+2005-11-03: Oref 26 / Sell Stop at 3277.599
+2005-11-03: Oref 27 / Sell Limit at 3412.0645999999997
+2005-11-04: Order ref: 25 / Type Buy / Status Submitted
+2005-11-04: Order ref: 26 / Type Sell / Status Submitted
+2005-11-04: Order ref: 27 / Type Sell / Status Submitted
+2005-11-04: Order ref: 25 / Type Buy / Status Accepted
+2005-11-04: Order ref: 26 / Type Sell / Status Accepted
+2005-11-04: Order ref: 27 / Type Sell / Status Accepted
+2005-11-04: Order ref: 25 / Type Buy / Status Completed
+2005-11-14: Order ref: 27 / Type Sell / Status Completed
+2005-11-14: Order ref: 26 / Type Sell / Status Canceled
+2006-01-30: Oref 28 / Buy at 3659.1324
+2006-01-30: Oref 29 / Sell Stop at 3585.582
+2006-01-30: Oref 30 / Sell Limit at 3732.6828
+2006-01-31: Order ref: 28 / Type Buy / Status Submitted
+2006-01-31: Order ref: 29 / Type Sell / Status Submitted
+2006-01-31: Order ref: 30 / Type Sell / Status Submitted
+2006-01-31: Order ref: 28 / Type Buy / Status Accepted
+2006-01-31: Order ref: 29 / Type Sell / Status Accepted
+2006-01-31: Order ref: 30 / Type Sell / Status Accepted
+2006-02-03: Order ref: 28 / Type Buy / Status Expired
+2006-02-03: Order ref: 29 / Type Sell / Status Canceled
+2006-02-03: Order ref: 30 / Type Sell / Status Canceled
+2006-03-14: Oref 31 / Buy at 3814.3126
+2006-03-14: Oref 32 / Sell Stop at 3737.643
+2006-03-14: Oref 33 / Sell Limit at 3890.9822000000004
+2006-03-15: Order ref: 31 / Type Buy / Status Submitted
+2006-03-15: Order ref: 32 / Type Sell / Status Submitted
+2006-03-15: Order ref: 33 / Type Sell / Status Submitted
+2006-03-15: Order ref: 31 / Type Buy / Status Accepted
+2006-03-15: Order ref: 32 / Type Sell / Status Accepted
+2006-03-15: Order ref: 33 / Type Sell / Status Accepted
+2006-03-20: Order ref: 31 / Type Buy / Status Expired
+2006-03-20: Order ref: 32 / Type Sell / Status Canceled
+2006-03-20: Order ref: 33 / Type Sell / Status Canceled
+2006-04-03: Oref 34 / Buy at 3859.2468
+2006-04-03: Oref 35 / Sell Stop at 3781.674
+2006-04-03: Oref 36 / Sell Limit at 3936.8196
+2006-04-04: Order ref: 34 / Type Buy / Status Submitted
+2006-04-04: Order ref: 35 / Type Sell / Status Submitted
+2006-04-04: Order ref: 36 / Type Sell / Status Submitted
+2006-04-04: Order ref: 34 / Type Buy / Status Accepted
+2006-04-04: Order ref: 35 / Type Sell / Status Accepted
+2006-04-04: Order ref: 36 / Type Sell / Status Accepted
+2006-04-04: Order ref: 34 / Type Buy / Status Completed
+2006-04-12: Order ref: 35 / Type Sell / Status Completed
+2006-04-12: Order ref: 36 / Type Sell / Status Canceled
+2006-04-24: Oref 37 / Buy at 3842.95865
+2006-04-24: Oref 38 / Sell Stop at 3765.7132500000002
+2006-04-24: Oref 39 / Sell Limit at 3920.20405
+2006-04-25: Order ref: 37 / Type Buy / Status Submitted
+2006-04-25: Order ref: 38 / Type Sell / Status Submitted
+2006-04-25: Order ref: 39 / Type Sell / Status Submitted
+2006-04-25: Order ref: 37 / Type Buy / Status Accepted
+2006-04-25: Order ref: 38 / Type Sell / Status Accepted
+2006-04-25: Order ref: 39 / Type Sell / Status Accepted
+2006-04-27: Order ref: 37 / Type Buy / Status Completed
+2006-05-12: Order ref: 38 / Type Sell / Status Completed
+2006-05-12: Order ref: 39 / Type Sell / Status Canceled
+2006-06-01: Oref 40 / Buy at 3630.08835
+2006-06-01: Oref 41 / Sell Stop at 3557.12175
+2006-06-01: Oref 42 / Sell Limit at 3703.05495
+2006-06-02: Order ref: 40 / Type Buy / Status Submitted
+2006-06-02: Order ref: 41 / Type Sell / Status Submitted
+2006-06-02: Order ref: 42 / Type Sell / Status Submitted
+2006-06-02: Order ref: 40 / Type Buy / Status Accepted
+2006-06-02: Order ref: 41 / Type Sell / Status Accepted
+2006-06-02: Order ref: 42 / Type Sell / Status Accepted
+2006-06-02: Order ref: 40 / Type Buy / Status Completed
+2006-06-06: Order ref: 41 / Type Sell / Status Completed
+2006-06-06: Order ref: 42 / Type Sell / Status Canceled
+2006-06-23: Oref 43 / Buy at 3532.39925
+2006-06-23: Oref 44 / Sell Stop at 3461.39625
+2006-06-23: Oref 45 / Sell Limit at 3603.40225
+2006-06-26: Order ref: 43 / Type Buy / Status Submitted
+2006-06-26: Order ref: 44 / Type Sell / Status Submitted
+2006-06-26: Order ref: 45 / Type Sell / Status Submitted
+2006-06-26: Order ref: 43 / Type Buy / Status Accepted
+2006-06-26: Order ref: 44 / Type Sell / Status Accepted
+2006-06-26: Order ref: 45 / Type Sell / Status Accepted
+2006-06-26: Order ref: 43 / Type Buy / Status Completed
+2006-06-30: Order ref: 45 / Type Sell / Status Completed
+2006-06-30: Order ref: 44 / Type Sell / Status Canceled
+2006-07-25: Oref 46 / Buy at 3613.3425
+2006-07-25: Oref 47 / Sell Stop at 3540.7125
+2006-07-25: Oref 48 / Sell Limit at 3685.9725000000003
+2006-07-26: Order ref: 46 / Type Buy / Status Submitted
+2006-07-26: Order ref: 47 / Type Sell / Status Submitted
+2006-07-26: Order ref: 48 / Type Sell / Status Submitted
+2006-07-26: Order ref: 46 / Type Buy / Status Accepted
+2006-07-26: Order ref: 47 / Type Sell / Status Accepted
+2006-07-26: Order ref: 48 / Type Sell / Status Accepted
+2006-07-31: Order ref: 46 / Type Buy / Status Expired
+2006-07-31: Order ref: 47 / Type Sell / Status Canceled
+2006-07-31: Order ref: 48 / Type Sell / Status Canceled
+2006-09-18: Oref 49 / Buy at 3789.4276499999996
+2006-09-18: Oref 50 / Sell Stop at 3713.25825
+2006-09-18: Oref 51 / Sell Limit at 3865.5970499999994
+2006-09-19: Order ref: 49 / Type Buy / Status Submitted
+2006-09-19: Order ref: 50 / Type Sell / Status Submitted
+2006-09-19: Order ref: 51 / Type Sell / Status Submitted
+2006-09-19: Order ref: 49 / Type Buy / Status Accepted
+2006-09-19: Order ref: 50 / Type Sell / Status Accepted
+2006-09-19: Order ref: 51 / Type Sell / Status Accepted
+2006-09-19: Order ref: 49 / Type Buy / Status Completed
+2006-09-21: Order ref: 51 / Type Sell / Status Completed
+2006-09-21: Order ref: 50 / Type Sell / Status Canceled
+2006-11-06: Oref 52 / Buy at 4024.9939
+2006-11-06: Oref 53 / Sell Stop at 3944.0895
+2006-11-06: Oref 54 / Sell Limit at 4105.8983
+2006-11-07: Order ref: 52 / Type Buy / Status Submitted
+2006-11-07: Order ref: 53 / Type Sell / Status Submitted
+2006-11-07: Order ref: 54 / Type Sell / Status Submitted
+2006-11-07: Order ref: 52 / Type Buy / Status Accepted
+2006-11-07: Order ref: 53 / Type Sell / Status Accepted
+2006-11-07: Order ref: 54 / Type Sell / Status Accepted
+2006-11-10: Order ref: 52 / Type Buy / Status Expired
+2006-11-10: Order ref: 53 / Type Sell / Status Canceled
+2006-11-10: Order ref: 54 / Type Sell / Status Canceled
+2006-12-11: Oref 55 / Buy at 4032.6255499999997
+2006-12-11: Oref 56 / Sell Stop at 3951.5677499999997
+2006-12-11: Oref 57 / Sell Limit at 4113.683349999999
+2006-12-12: Order ref: 55 / Type Buy / Status Submitted
+2006-12-12: Order ref: 56 / Type Sell / Status Submitted
+2006-12-12: Order ref: 57 / Type Sell / Status Submitted
+2006-12-12: Order ref: 55 / Type Buy / Status Accepted
+2006-12-12: Order ref: 56 / Type Sell / Status Accepted
+2006-12-12: Order ref: 57 / Type Sell / Status Accepted
+2006-12-15: Order ref: 55 / Type Buy / Status Expired
+2006-12-15: Order ref: 56 / Type Sell / Status Canceled
+2006-12-15: Order ref: 57 / Type Sell / Status Canceled

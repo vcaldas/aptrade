@@ -68,7 +68,7 @@ def parse_args():
         "-d",
         action="store",
         required=False,
-        default="../../datas/bidask.csv",
+        default="./datas/bidask.csv",
         help="data to add to the system",
     )
 

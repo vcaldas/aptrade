@@ -113,7 +113,7 @@ def runstrat():
         )
 
     # Load the Data
-    datapath = args.dataname or "../../datas/2006-day-001.txt"
+    datapath = args.dataname or "./datas/2006-day-001.txt"
     data = btfeeds.BacktraderCSVData(dataname=datapath)
 
     tframes = dict(
@@ -123,7 +123,7 @@ def runstrat():
     # Handy dictionary for the argument timeframe conversion
     # Resample the data
     if args.noresample:
-        datapath = args.dataname2 or "../../datas/2006-week-001.txt"
+        datapath = args.dataname2 or "./datas/2006-week-001.txt"
         data2 = btfeeds.BacktraderCSVData(dataname=datapath)
     else:
         if args.oldrs:

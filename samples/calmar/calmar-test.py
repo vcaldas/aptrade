@@ -88,7 +88,7 @@ def parse_args(pargs=None):
 
     parser.add_argument(
         "--data0",
-        default="../../datas/orcl-1995-2014.txt",
+        default="./datas/orcl-1995-2014.txt",
         required=False,
         help="Data to read in",
     )

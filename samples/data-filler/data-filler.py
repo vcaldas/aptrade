@@ -24,7 +24,6 @@ import argparse
 import datetime
 import math
 
-from relativevolume import RelativeVolume
 
 # The above could be sent to an independent module
 import aptrade as bt
@@ -95,7 +94,7 @@ def parse_args():
     parser.add_argument(
         "--data",
         "-d",
-        default="../../datas/2006-01-02-volume-min-001.txt",
+        default="./datas/2006-01-02-volume-min-001.txt",
         help="data to add to the system",
     )
 

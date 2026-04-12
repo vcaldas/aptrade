@@ -132,7 +132,7 @@ def parse_args(pargs=None):
     parser.add_argument(
         "--data",
         required=False,
-        default="../../datas/2005-2006-day-001.txt",
+        default="./datas/2005-2006-day-001.txt",
         help="Specific data to be read in",
     )
 

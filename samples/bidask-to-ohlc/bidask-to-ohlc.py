@@ -86,7 +86,7 @@ def parse_args():
     parser.add_argument(
         "--data",
         required=False,
-        default="../../datas/bidask2.csv",
+        default="./datas/bidask2.csv",
         help="Data file to be read in",
     )
 
