@@ -22,8 +22,8 @@ from __future__ import absolute_import, division, print_function, unicode_litera
 
 import testcommon
 
-import backtrader as bt
-import backtrader.indicators as btind
+import aptrade as bt
+import aptrade.indicators as btind
 
 chkdatas = 1
 chkvals = [["98.370275", "51.185333", "-59.347648"]]

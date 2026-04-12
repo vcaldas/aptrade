@@ -23,8 +23,8 @@ from __future__ import absolute_import, division, print_function
 import argparse
 import datetime
 
-import backtrader as bt
-import backtrader.feeds as btfeeds
+import aptrade as bt
+import aptrade.feeds as btfeeds
 
 #                        unicode_literals)
 

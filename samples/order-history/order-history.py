@@ -23,7 +23,7 @@ from __future__ import absolute_import, division, print_function, unicode_litera
 import argparse
 import datetime
 
-import backtrader as bt
+import aptrade as bt
 
 ORDER_HISTORY = (
     ("2005-02-01", 1, 2984.63),

@@ -22,8 +22,8 @@ from __future__ import absolute_import, division, print_function, unicode_litera
 
 import testcommon
 
-import backtrader as bt
-from backtrader import trade
+import aptrade as bt
+from aptrade import trade
 
 
 class FakeCommInfo(object):

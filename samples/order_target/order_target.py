@@ -23,7 +23,7 @@ from __future__ import absolute_import, division, print_function, unicode_litera
 import argparse
 from datetime import datetime
 
-import backtrader as bt
+import aptrade as bt
 
 
 class TheStrategy(bt.Strategy):

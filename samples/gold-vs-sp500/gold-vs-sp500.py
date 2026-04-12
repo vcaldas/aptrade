@@ -25,7 +25,7 @@ import datetime
 
 import scipy.stats
 
-import backtrader as bt
+import aptrade as bt
 
 # Reference
 # https://estrategiastrading.com/oro-bolsa-estadistica-con-python/

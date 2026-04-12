@@ -22,8 +22,8 @@ from __future__ import absolute_import, division, print_function, unicode_litera
 
 import testcommon
 
-import backtrader as bt
-from backtrader import position
+import aptrade as bt
+from aptrade import position
 
 
 def test_run(main=False):

@@ -24,7 +24,7 @@ import argparse
 import collections
 import datetime
 
-import backtrader as bt
+import aptrade as bt
 
 
 class St(bt.SignalStrategy):

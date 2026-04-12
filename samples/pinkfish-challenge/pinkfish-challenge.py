@@ -23,8 +23,8 @@ from __future__ import absolute_import, division, print_function, unicode_litera
 import argparse
 import datetime
 
-import backtrader as bt
-import backtrader.indicators as btind
+import aptrade as bt
+import aptrade.indicators as btind
 
 
 class DayStepsCloseFilter(bt.with_metaclass(bt.MetaParams, object)):

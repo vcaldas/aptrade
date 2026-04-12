@@ -24,7 +24,7 @@ import collections
 import datetime
 import math
 
-import backtrader as bt
+import aptrade as bt
 
 
 class RelativeVolumeByBar(bt.Indicator):

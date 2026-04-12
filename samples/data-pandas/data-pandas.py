@@ -24,8 +24,8 @@ import argparse
 
 import pandas
 
-import backtrader as bt
-import backtrader.feeds as btfeeds
+import aptrade as bt
+import aptrade.feeds as btfeeds
 
 
 def runstrat():

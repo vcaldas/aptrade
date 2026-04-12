@@ -22,8 +22,8 @@ from __future__ import absolute_import, division, print_function, unicode_litera
 
 import argparse
 
-import backtrader as bt
-import backtrader.feeds as btfeeds
+import aptrade as bt
+import aptrade.feeds as btfeeds
 
 
 def runstrat():

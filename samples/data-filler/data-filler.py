@@ -27,10 +27,10 @@ import math
 from relativevolume import RelativeVolume
 
 # The above could be sent to an independent module
-import backtrader as bt
-import backtrader.feeds as btfeeds
-import backtrader.filters as btfilters
-import backtrader.utils.flushfile
+import aptrade as bt
+import aptrade.feeds as btfeeds
+import aptrade.filters as btfilters
+import aptrade.utils.flushfile
 
 
 def runstrategy():

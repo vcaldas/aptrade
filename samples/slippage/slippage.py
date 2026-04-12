@@ -25,7 +25,7 @@ import collections
 import datetime
 import itertools
 
-import backtrader as bt
+import aptrade as bt
 
 
 class SMACrossOver(bt.Indicator):

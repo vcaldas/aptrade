@@ -22,10 +22,10 @@ from __future__ import absolute_import, division, print_function, unicode_litera
 
 import argparse
 
-import backtrader as bt
-import backtrader.feeds as btfeeds
-import backtrader.indicators as btind
-from backtrader import (
+import aptrade as bt
+import aptrade.feeds as btfeeds
+import aptrade.indicators as btind
+from aptrade import (
     ReplayerDaily,
     ReplayerMonthly,
     ReplayerWeekly,
@@ -33,7 +33,7 @@ from backtrader import (
     ResamplerMonthly,
     ResamplerWeekly,
 )
-from backtrader.utils import flushfile
+from aptrade.utils import flushfile
 
 
 class SMAStrategy(bt.Strategy):

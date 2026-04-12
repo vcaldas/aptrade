@@ -26,8 +26,8 @@ import datetime
 from relvolbybar import RelativeVolumeByBar
 
 # The above could be sent to an independent module
-import backtrader as bt
-import backtrader.feeds as btfeeds
+import aptrade as bt
+import aptrade.feeds as btfeeds
 
 
 def runstrategy():

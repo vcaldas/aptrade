@@ -26,8 +26,8 @@ import os.path
 import sys
 import time
 
-import backtrader as bt
-from backtrader.utils.py3 import bytes
+import aptrade as bt
+from aptrade.utils.py3 import bytes
 
 DATAFORMATS = dict(
     btcsv=bt.feeds.BacktraderCSVData,

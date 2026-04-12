@@ -24,9 +24,9 @@ import argparse
 import datetime
 import random
 
-import backtrader as bt
-import backtrader.feeds as btfeeds
-from backtrader.utils.py3 import with_metaclass
+import aptrade as bt
+import aptrade.feeds as btfeeds
+from aptrade.utils.py3 import with_metaclass
 
 #                        unicode_literals)
 

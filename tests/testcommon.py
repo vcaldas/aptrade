@@ -28,9 +28,9 @@ import sys
 # append module root directory to sys.path
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-import backtrader as bt
-import backtrader.utils.flushfile
-from backtrader.metabase import ParamsBase
+import aptrade as bt
+import aptrade.utils.flushfile
+from aptrade.metabase import ParamsBase
 
 modpath = os.path.dirname(os.path.abspath(__file__))
 dataspath = "../datas"

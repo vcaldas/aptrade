@@ -24,9 +24,9 @@ import datetime
 
 from orderobserver import OrderObserver
 
-import backtrader as bt
-import backtrader.feeds as btfeeds
-import backtrader.indicators as btind
+import aptrade as bt
+import aptrade.feeds as btfeeds
+import aptrade.indicators as btind
 
 
 class MyStrategy(bt.Strategy):

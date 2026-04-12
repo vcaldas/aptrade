@@ -26,10 +26,10 @@ import datetime
 # from wkdaysfiller import WeekDaysFiller
 from weekdaysfiller import WeekDaysFiller
 
-import backtrader as bt
-import backtrader.feeds as btfeeds
-import backtrader.indicators as btind
-import backtrader.utils.flushfile
+import aptrade as bt
+import aptrade.feeds as btfeeds
+import aptrade.indicators as btind
+import aptrade.utils.flushfile
 
 
 class St(bt.Strategy):

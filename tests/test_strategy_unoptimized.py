@@ -29,8 +29,8 @@ except:
 
 import testcommon
 
-import backtrader as bt
-import backtrader.indicators as btind
+import aptrade as bt
+import aptrade.indicators as btind
 
 BUYCREATE = [
     "3641.42",

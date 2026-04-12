@@ -22,7 +22,7 @@ from __future__ import absolute_import, division, print_function, unicode_litera
 
 import testcommon
 
-import backtrader as bt
+import aptrade as bt
 
 chkdatas = 1
 chkvals = [["nan", "nan", "nan"], ["nan", "nan", "3553.692850"]]

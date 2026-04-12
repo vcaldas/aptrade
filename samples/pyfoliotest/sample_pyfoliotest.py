@@ -24,7 +24,7 @@ import argparse
 import datetime
 import random
 
-import backtrader as bt
+import aptrade as bt
 
 
 class St(bt.Strategy):

@@ -26,7 +26,7 @@ import os.path
 import sys
 import time
 
-import backtrader as bt
+import aptrade as bt
 
 
 class St(bt.Strategy):
