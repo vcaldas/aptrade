@@ -30,4 +30,4 @@ build-backend = "uv_build"
 members = ["backtrader"]
 
 [dependency-groups]
-dev = ["pytest"]
+dev = ["pytest", "ruff"]
