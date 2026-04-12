@@ -28,3 +28,6 @@ build-backend = "uv_build"
 
 [tool.uv.workspace]
 members = ["backtrader"]
+
+[dependency-groups]
+dev = ["pytest"]
