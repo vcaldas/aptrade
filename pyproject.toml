@@ -19,6 +19,10 @@ classifiers = [
 authors = [
     { name = "Victor Caldas", email = "caldas.victor@gmail.com" }
 ]
+dependencies = [
+    "matplotlib>=3.10.8",
+    "pandas>=3.0.2",
+]
 [project.scripts]
 hello = "backtrader:main.main"
 
