@@ -20,9 +20,12 @@
 ###############################################################################
 from __future__ import absolute_import, division, print_function, unicode_literals
 
+import array as array
+
+import numpy as np
+
 import aptrade.feed as feed
-from aptrade import date2num
-from aptrade.utils.py3 import filter, integer_types, string_types
+from aptrade.utils.dateintern import date2num
 
 
 class PandasDirectData(feed.DataBase):
@@ -162,8 +165,8 @@ class PandasData(feed.DataBase):
             pass
 
         # try to autodetect if all columns are numeric
-        cstrings = filter(lambda x: isinstance(x, string_types), colnames)
-        colsnumeric = not len(list(cstrings))
+        # cstrings = filter(lambda x: isinstance(x, str), colnames)
+        # colsnumeric = not len(list(cstrings))
 
         # Where each datafield find its value
         self._colmapping = dict()
@@ -172,10 +175,10 @@ class PandasData(feed.DataBase):
         for datafield in self.getlinealiases():
             defmapping = getattr(self.params, datafield)
 
-            if isinstance(defmapping, integer_types) and defmapping < 0:
+            if isinstance(defmapping, int) and defmapping < 0:
                 # autodetection requested
                 for colname in colnames:
-                    if isinstance(colname, string_types):
+                    if isinstance(colname, str):
                         if self.p.nocase:
                             found = datafield.lower() == colname.lower()
                         else:
@@ -208,7 +211,7 @@ class PandasData(feed.DataBase):
         for k, v in self._colmapping.items():
             if v is None:
                 continue  # special marker for datetime
-            if isinstance(v, string_types):
+            if isinstance(v, str):
                 try:
                     if self.p.nocase:
                         v = colnames.index(v.lower())
@@ -216,7 +219,7 @@ class PandasData(feed.DataBase):
                         v = colnames.index(v)
                 except ValueError as e:
                     defmap = getattr(self.params, k)
-                    if isinstance(defmap, integer_types) and defmap < 0:
+                    if isinstance(defmap, int) and defmap < 0:
                         v = None
                     else:
                         raise e  # let user now something failed
@@ -262,4 +265,249 @@ class PandasData(feed.DataBase):
         self.lines.datetime[0] = dtnum
 
         # Done ... return
+        return True
+
+
+class PandasDataNew(feed.DataBase):
+    """
+    Uses a Pandas DataFrame as the feed source, using indices into column
+    names (which can be "numeric")
+
+    This means that all parameters related to lines must have numeric
+    values as indices into the tuples
+
+    Params:
+
+      - ``nocase`` (default *True*) case insensitive match of column names
+
+    Note:
+
+      - The ``dataname`` parameter is a Pandas DataFrame
+
+      - Values possible for datetime
+
+        - None: the index contains the datetime
+        - -1: no index, autodetect column
+        - >= 0 or string: specific colum identifier
+
+      - For other lines parameters
+
+        - None: column not present
+        - -1: autodetect
+        - >= 0 or string: specific colum identifier
+    """
+
+    params = (
+        ("dataframe", None),
+        ("nocase", True),
+        # Possible values for datetime (must always be present)
+        #  None : datetime is the "index" in the Pandas Dataframe
+        #  -1 : autodetect position or case-wise equal name
+        #  >= 0 : numeric index to the colum in the pandas dataframe
+        #  string : column name (as index) in the pandas dataframe
+        ("datetime", None),
+        # Possible values below:
+        #  None : column not present
+        #  -1 : autodetect position or case-wise equal name
+        #  >= 0 : numeric index to the colum in the pandas dataframe
+        #  string : column name (as index) in the pandas dataframe
+        ("open", -1),
+        ("high", -1),
+        ("low", -1),
+        ("close", -1),
+        ("volume", -1),
+        ("openinterest", -1),
+    )
+
+    datafields = ["datetime", "open", "high", "low", "close", "volume", "openinterest"]
+
+    def __init__(self):
+        super(PandasDataNew, self).__init__()
+        self._preloaded = False
+
+        if self.p.dataframe is None:
+            raise ValueError("Missing required parameter 'dataframe'.")
+
+        # these "colnames" can be strings or numeric types
+        colnames = list(self.p.dataframe.columns.values)
+        if self.p.datetime is None:
+            # datetime is expected as index col and hence not returned
+            pass
+
+        # try to autodetect if all columns are numeric
+        # cstrings = filter(lambda x: isinstance(x, str), colnames)
+        # colsnumeric = not len(list(cstrings))
+
+        # Where each datafield find its value
+        self._colmapping = dict()
+
+        # Build the column mappings to internal fields in advance
+        for datafield in self.getlinealiases():
+            defmapping = getattr(self.params, datafield)
+
+            if isinstance(defmapping, int) and defmapping < 0:
+                # autodetection requested
+                for colname in colnames:
+                    if isinstance(colname, str):
+                        if self.p.nocase:
+                            found = datafield.lower() == colname.lower()
+                        else:
+                            found = datafield == colname
+
+                        if found:
+                            self._colmapping[datafield] = colname
+                            break
+
+                if datafield not in self._colmapping:
+                    # autodetection requested and not found
+                    self._colmapping[datafield] = None
+                    continue
+            else:
+                # all other cases -- used given index
+                self._colmapping[datafield] = defmapping
+
+        coldtime = self._colmapping["datetime"]
+
+        if coldtime is None:
+            # standard index in the datetime
+            if self.p.fromdate is not None:
+                self.p.dataframe = self.p.dataframe[
+                    self.p.dataframe.index.date >= self.p.fromdate
+                ].copy()
+            if self.p.todate is not None:
+                self.p.dataframe = self.p.dataframe[
+                    self.p.dataframe.index.date <= self.p.todate
+                ].copy()
+        else:
+            # it's in a different column ... use standard column index
+            if self.p.fromdate is not None:
+                self.p.dataframe = self.p.dataframe[
+                    self.p.dataframe[coldtime].dt.date >= self.p.fromdate
+                ].copy()
+            if self.p.todate is not None:
+                self.p.dataframe = self.p.dataframe[
+                    self.p.dataframe[coldtime].dt.date <= self.p.todate
+                ].copy()
+
+    def reset(self):
+        super(PandasDataNew, self).reset()
+        self._preloaded = False
+
+    def start(self):
+        super(PandasDataNew, self).start()
+
+        # reset the length with each start
+        self._idx = -1
+
+        # Transform names (valid for .ix) into indices (good for .iloc)
+        if self.p.nocase:
+            colnames = [x.lower() for x in self.p.dataframe.columns.values]
+        else:
+            colnames = [x for x in self.p.dataframe.columns.values]
+
+        for k, v in self._colmapping.items():
+            if v is None:
+                continue  # special marker for datetime
+            if isinstance(v, str):
+                try:
+                    if self.p.nocase:
+                        v = colnames.index(v.lower())
+                    else:
+                        v = colnames.index(v)
+                except ValueError as e:
+                    defmap = getattr(self.params, k)
+                    if isinstance(defmap, int) and defmap < 0:
+                        v = None
+                    else:
+                        raise e  # let user now something failed
+
+            self._colmapping[k] = v
+
+    def _load(self):
+        if self._preloaded:
+            return False
+
+        self._idx += 1
+
+        if self._idx >= len(self.p.dataframe):
+            # exhausted all rows
+            return False
+
+        if self._preloaded:
+            # if preloaded, just return True
+            # this is used to avoid reloading the data in the next iteration
+            return True
+
+        # if not preloaded, we need to set the lines
+        # Set the standard datafields
+        for datafield in self.getlinealiases():
+            if datafield == "datetime":
+                continue
+
+            colindex = self._colmapping[datafield]
+            if colindex is None:
+                # datafield signaled as missing in the stream: skip it
+                continue
+
+            # get the line to be set
+            line = getattr(self.lines, datafield)
+
+            # indexing for pandas: 1st is colum, then row
+            line[0] = self.p.dataframe.iloc[self._idx, colindex]
+
+        # datetime conversion
+        coldtime = self._colmapping["datetime"]
+
+        if coldtime is None:
+            # standard index in the datetime
+            tstamp = self.p.dataframe.index[self._idx]
+        else:
+            # it's in a different column ... use standard column index
+            tstamp = self.p.dataframe.iloc[self._idx, coldtime]
+
+        # convert to float via datetime and store it
+        dt = tstamp.to_pydatetime()
+        dtnum = date2num(dt)
+        self.lines.datetime[0] = dtnum
+
+        # Done ... return
+        return True
+
+    def _preload(self):
+        df_len = len(self.p.dataframe)
+
+        # Set the standard datafields
+        for datafield in self.getlinealiases():
+            if datafield == "datetime":
+                continue
+
+            # get the line to be set
+            line = getattr(self.lines, datafield)
+
+            colindex = self._colmapping[datafield]
+            if colindex is None:
+                # datafield signaled as missing in the stream: create array with nan
+                line.ndbuffer(np.full(df_len, np.nan, dtype=np.double))
+            else:
+                # indexing for pandas: 1st is colum, then row
+                ds = self.p.dataframe.iloc[:, colindex]
+                line.ndbuffer(array("d", ds.to_numpy()))
+
+        # datetime conversion
+        coldtime = self._colmapping["datetime"]
+
+        if coldtime is None:
+            # standard index in the datetime
+            tstamp = self.p.dataframe.index
+        else:
+            # it's in a different column ... use standard column index
+            tstamp = self.p.dataframe.iloc[:, coldtime]
+
+        # convert to float via datetime and store it
+        dt = tstamp.to_pydatetime()
+        # self.lines.datetime.ndbuffer(np.array([date2num(v) for v in dt]))
+        self.lines.datetime.ndbuffer(array("d", (date2num(v) for v in dt)))
+
+        # Done ... return
+        self._preloaded = True
         return True

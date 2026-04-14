@@ -169,6 +169,7 @@ class TestStrategy(bt.Strategy):
 
     def start(self):
         self.nextcalls = 0
+        self.chkmin = self.p.chkmin
 
     def stop(self):
         l = len(self.ind)

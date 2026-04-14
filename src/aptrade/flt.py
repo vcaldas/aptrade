@@ -21,7 +21,6 @@
 from __future__ import absolute_import, division, print_function, unicode_literals
 
 from .metabase import MetaParams
-from .utils.py3 import with_metaclass
 
 __all__ = ["Filter"]
 
@@ -30,7 +29,7 @@ class MetaFilter(MetaParams):
     pass
 
 
-class Filter(with_metaclass(MetaParams, object)):
+class Filter(metaclass=MetaFilter):
     _firsttime = True
 
     def __init__(self, data):

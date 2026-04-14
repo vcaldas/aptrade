@@ -20,13 +20,10 @@
 ###############################################################################
 from __future__ import absolute_import, division, print_function, unicode_literals
 
-import datetime
-
 from .metabase import MetaParams
-from .utils.py3 import with_metaclass
 
 
-class CommInfoBase(with_metaclass(MetaParams)):
+class CommInfoBase(metaclass=MetaParams):
     """Base Class for the Commission Schemes.
 
     Params:
@@ -322,6 +319,4 @@ class CommissionInfo(CommInfoBase):
 
     """
 
-    params = (
-        ("percabs", True),  # Original CommissionInfo took 0.xx for percentages
-    )
+    params = (("percabs", True),)  # Original CommissionInfo took 0.xx for percentages

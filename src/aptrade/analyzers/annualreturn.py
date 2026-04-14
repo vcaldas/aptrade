@@ -23,7 +23,6 @@ from __future__ import absolute_import, division, print_function, unicode_litera
 from collections import OrderedDict
 
 from aptrade import Analyzer
-from aptrade.utils.py3 import range
 
 
 class AnnualReturn(Analyzer):

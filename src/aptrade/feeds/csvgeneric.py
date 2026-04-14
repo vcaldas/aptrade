@@ -20,12 +20,10 @@
 ###############################################################################
 from __future__ import absolute_import, division, print_function, unicode_literals
 
-import itertools
 from datetime import datetime
 
 from .. import TimeFrame, feed
 from ..utils import date2num
-from ..utils.py3 import integer_types, string_types
 
 
 class GenericCSVData(feed.CSVDataBase):
@@ -86,9 +84,9 @@ class GenericCSVData(feed.CSVDataBase):
         super(GenericCSVData, self).start()
 
         self._dtstr = False
-        if isinstance(self.p.dtformat, string_types):
+        if isinstance(self.p.dtformat, str):
             self._dtstr = True
-        elif isinstance(self.p.dtformat, integer_types):
+        elif isinstance(self.p.dtformat, int):
             idt = int(self.p.dtformat)
             if idt == 1:
                 self._dtconvert = lambda x: datetime.utcfromtimestamp(int(x))

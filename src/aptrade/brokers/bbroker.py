@@ -27,7 +27,6 @@ import aptrade as bt
 from aptrade.comminfo import CommInfoBase
 from aptrade.order import BuyOrder, Order, SellOrder
 from aptrade.position import Position
-from aptrade.utils.py3 import integer_types, string_types
 
 __all__ = ["BackBroker", "BrokerBack"]
 

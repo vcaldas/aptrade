@@ -39,7 +39,6 @@ from .strategy import SignalStrategy, Strategy
 from .timer import Timer
 from .tradingcal import PandasMarketCalendar, TradingCalendar, TradingCalendarBase
 from .utils import OrderedDict, date2num, num2date, tzparse
-from .utils.py3 import integer_types, map, range, string_types, with_metaclass, zip
 from .writer import WriterFile
 
 # Defined here to make it pickable. Ideally it could be defined inside Cerebro
@@ -52,7 +51,7 @@ class OptReturn(object):
             setattr(self, k, v)
 
 
-class Cerebro(with_metaclass(MetaParams, object)):
+class Cerebro(metaclass=MetaParams):
     """Params:
 
     - ``preload`` (default: ``True``)
@@ -328,7 +327,7 @@ class Cerebro(with_metaclass(MetaParams, object)):
         """
         niterable = list()
         for elem in iterable:
-            if isinstance(elem, string_types):
+            if isinstance(elem, str):
                 elem = (elem,)
             elif not isinstance(
                 elem, collectionsAbc.Iterable
@@ -607,7 +606,7 @@ class Cerebro(with_metaclass(MetaParams, object)):
         If a subclass of `TradingCalendarBase` is passed (not an instance) it
         will be instantiated
         """
-        if isinstance(cal, string_types):
+        if isinstance(cal, str):
             cal = PandasMarketCalendar(calendar=cal)
         elif hasattr(cal, "valid_days"):
             cal = PandasMarketCalendar(calendar=cal)
@@ -1282,7 +1281,7 @@ class Cerebro(with_metaclass(MetaParams, object)):
             runstrats.append(strat)
 
         tz = self.p.tz
-        if isinstance(tz, integer_types):
+        if isinstance(tz, int):
             tz = self.datas[tz]._tz
         else:
             tz = tzparse(tz)

@@ -20,12 +20,11 @@
 ###############################################################################
 from __future__ import absolute_import, division, print_function, unicode_literals
 
-from datetime import date, datetime, timedelta
+from datetime import datetime, timedelta
 
 from . import metabase
 from .dataseries import TimeFrame, _Bar
 from .utils.date import date2num, num2date
-from .utils.py3 import with_metaclass
 
 
 class DTFaker(object):
@@ -91,7 +90,7 @@ class DTFaker(object):
         return self.data._getnexteos()
 
 
-class _BaseResampler(with_metaclass(metabase.MetaParams, object)):
+class _BaseResampler(metaclass=metabase.MetaParams):
     params = (
         ("bar2edge", True),
         ("adjbartime", True),

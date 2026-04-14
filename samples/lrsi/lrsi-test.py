@@ -32,8 +32,8 @@ class St(bt.Strategy):
     def __init__(self):
         mid = (self.data.high + self.data.low) / 2.0
         bt.ind.LaguerreRSI(mid)
-        bt.ind.LaguerreRSI3(mid)
-        bt.ind.LaguerreRSI2(mid)
+        # bt.ind.LaguerreRSI(mid)
+        # bt.ind.LaguerreRSI(mid)
         pass
 
     def next(self):
@@ -83,7 +83,7 @@ def parse_args(pargs=None):
 
     parser.add_argument(
         "--data0",
-        default="../../datas/2005-2006-day-001.txt",
+        default="./datas/2005-2006-day-001.txt",
         required=False,
         help="Data to read in",
     )

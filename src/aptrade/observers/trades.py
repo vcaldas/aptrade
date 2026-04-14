@@ -24,7 +24,6 @@ import uuid
 
 from .. import Observer
 from ..trade import Trade
-from ..utils.py3 import with_metaclass
 
 
 class Trades(Observer):
@@ -189,7 +188,7 @@ class MetaDataTrades(Observer.__class__):
         return _obj, args, kwargs  # return the instantiated object and args
 
 
-class DataTrades(with_metaclass(MetaDataTrades, Observer)):
+class DataTrades(Observer, metaclass=MetaDataTrades):
     _stclock = True
 
     params = (("usenames", True),)

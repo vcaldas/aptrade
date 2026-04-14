@@ -23,9 +23,10 @@ from __future__ import absolute_import, division, print_function, unicode_litera
 import collections
 import copy
 import datetime
-import inspect
 import itertools
 import operator
+
+import pandas as pd
 
 import aptrade as bt
 
@@ -34,17 +35,11 @@ from .lineroot import LineSingle
 from .lineseries import LineSeriesStub
 from .metabase import ItemCollection, findowner
 from .trade import Trade
-from .utils import AutoDictList, AutoOrderedDict, OrderedDict
+from .utils import AutoDictList, AutoOrderedDict
 from .utils.py3 import (
     MAXINT,
-    filter,
-    integer_types,
     iteritems,
-    itervalues,
     keys,
-    map,
-    string_types,
-    with_metaclass,
 )
 
 
@@ -109,7 +104,7 @@ class MetaStrategy(StrategyBase.__class__):
         return _obj, args, kwargs
 
 
-class Strategy(with_metaclass(MetaStrategy, StrategyBase)):
+class Strategy(StrategyBase, metaclass=MetaStrategy):
     """
     Base class to be subclassed for user defined strategies.
     """
@@ -117,7 +112,6 @@ class Strategy(with_metaclass(MetaStrategy, StrategyBase)):
     _ltype = LineIterator.StratType
 
     csv = True
-    _oldsync = False  # update clock using old methodology : data 0
 
     # keep the latest delivered data date in the line
     lines = ("datetime",)
@@ -139,7 +133,7 @@ class Strategy(with_metaclass(MetaStrategy, StrategyBase)):
         """
         if savemem < 0:
             # Get any attribute which labels itself as Indicator
-            for ind in self._lineiterators[self.IndType]:
+            for ind in self._ind_iterator:
                 subsave = isinstance(ind, (LineSingle,))
                 if not subsave and savemem < -1:
                     subsave = not ind.plotinfo.plot
@@ -153,15 +147,37 @@ class Strategy(with_metaclass(MetaStrategy, StrategyBase)):
                 line.qbuffer(savemem=1)
 
             # Save in all object types depending on the strategy
-            for itcls in self._lineiterators:
-                for it in self._lineiterators[itcls]:
-                    it.qbuffer(savemem=1)
+            for it in self._ind_iterator:
+                it.qbuffer(savemem=1)
+            for it in self._obs_iterator:
+                it.qbuffer(savemem=1)
+            for it in self._strat_iterator:
+                it.qbuffer(savemem=1)
+
+    def get_description(self) -> pd.Series:
+        """
+        Returns a pandas Series with the strategy description.
+        The description is built from the strategy parameters and the
+        indicators and observers used in the strategy.
+        """
+        desc = pd.Series(dtype=object)
+        desc.loc["Strategy"] = self.__class__.__name__
+        for key, val in self.p._getitems():
+            desc.loc[key] = self.p._get(key)
+        return desc
+
+    @property
+    def statistics(self) -> pd.Series:
+        eq = self.analyzers.getbyname("eq")
+        stats = eq.compute_stats()
+        desc = self.get_description()
+        return pd.concat([desc, stats])
 
     def _periodset(self):
         dataids = [id(data) for data in self.datas]
 
         _dminperiods = collections.defaultdict(list)
-        for lineiter in self._lineiterators[LineIterator.IndType]:
+        for lineiter in self._ind_iterator:
             # if multiple datas are used and multiple timeframes the larger
             # timeframe may place larger time constraints in calling next.
             clk = getattr(lineiter, "_clock", None)
@@ -203,9 +219,9 @@ class Strategy(with_metaclass(MetaStrategy, StrategyBase)):
             # Initialize with data min period if any
             dlminperiods = _dminperiods[data]
 
-            for l in data.lines:  # search each line for min periods
-                if l in _dminperiods:
-                    dlminperiods += _dminperiods[l]  # found, add it
+            for line in data.lines:  # search each line for min periods
+                if line in _dminperiods:
+                    dlminperiods += _dminperiods[line]  # found, add it
 
             # keep the reference to the line if any was found
             _dminperiods[data] = [max(dlminperiods)] if dlminperiods else []
@@ -214,7 +230,7 @@ class Strategy(with_metaclass(MetaStrategy, StrategyBase)):
             self._minperiods.append(dminperiod)
 
         # Set the minperiod
-        minperiods = [x._minperiod for x in self._lineiterators[LineIterator.IndType]]
+        minperiods = [x._minperiod for x in self._ind_iterator]
         self._minperiod = max(minperiods or [self._minperiod])
 
     def _addwriter(self, writer):
@@ -270,9 +286,36 @@ class Strategy(with_metaclass(MetaStrategy, StrategyBase)):
 
     def _getminperstatus(self):
         # check the min period status connected to datas
-        dlens = map(operator.sub, self._minperiods, map(len, self.datas))
+        dlens = list(map(operator.sub, self._minperiods, map(len, self.datas)))
         self._minperstatus = minperstatus = max(dlens)
-        return minperstatus
+        return minperstatus, dlens
+
+    def _getminperstatus_once(self, dt0, dts=None):
+        # check the min period status connected to datas
+        _datas = self.datas
+        if dts is None:
+            # Standard calculation: minperiod - current data length
+            # Only count active data feeds (is_on=True)
+            dlens = [
+                (
+                    self._minperiods[i] - len(_datas[i])
+                    if _datas[i].is_on
+                    else self._minperiods[i]
+                )
+                for i in range(len(_datas))
+            ]
+        else:
+            # Filter by datetime and is_on flag: only count data if active and started
+            dlens = [
+                (
+                    self._minperiods[i] - len(_datas[i])
+                    if (_datas[i].is_on and dt0 >= dts[i])
+                    else self._minperiods[i]
+                )
+                for i in range(len(_datas))
+            ]
+        self._minperstatus = minperstatus = max(dlens)
+        return minperstatus, dlens
 
     def prenext_open(self):
         pass
@@ -292,23 +335,31 @@ class Strategy(with_metaclass(MetaStrategy, StrategyBase)):
         else:
             self.prenext_open()
 
-    def _oncepost(self, dt):
-        for indicator in self._lineiterators[LineIterator.IndType]:
-            if len(indicator._clock) > len(indicator):
+    def _oncepost(self, dt0, dts=None):
+        # Advance indicators whose owners are active
+        for indicator in self._ind_iterator:
+            owner = indicator._owner
+            # Fast check: if owner is DataSeries (data feed), check is_on flag
+            # For non-DataSeries owners (indicators, etc.), always advance
+            if owner is not None and (
+                not isinstance(owner, bt.DataSeries) or owner.is_on
+            ):
                 indicator.advance()
 
-        if self._oldsync:
-            # Strategy has not been reset, the line is there
-            self.advance()
-        else:
-            # strategy has been reset to beginning. advance step by step
-            self.forward()
+        # Strategy has been reset to beginning. Advance step by step
+        self.forward()
 
-        self.lines.datetime[0] = dt
+        self.lines.datetime[0] = dt0
         self._notify()
 
-        minperstatus = self._getminperstatus()
-        if minperstatus < 0:
+        # Get the minimum period status and data lengths
+        minperstatus, dlens = self._getminperstatus_once(dt0, dts)
+
+        # Call appropriate next method based on minimum period status
+        # any_status check is redundant since minperstatus = max(dlens)
+        # but kept for multi-data edge cases where individual data may be ready
+        any_status = any(x < 0 for x in dlens)
+        if minperstatus < 0 or any_status:
             self.next()
         elif minperstatus == 0:
             self.nextstart()  # only called for the 1st value
@@ -321,11 +372,6 @@ class Strategy(with_metaclass(MetaStrategy, StrategyBase)):
         self.clear()
 
     def _clk_update(self):
-        if self._oldsync:
-            clk_len = super(Strategy, self)._clk_update()
-            self.lines.datetime[0] = max(d.datetime[0] for d in self.datas if len(d))
-            return clk_len
-
         newdlens = [len(d) for d in self.datas]
         if any(nl > l for l, nl in zip(self._dlens, newdlens)):
             self.forward()
@@ -347,14 +393,14 @@ class Strategy(with_metaclass(MetaStrategy, StrategyBase)):
     def _next(self):
         super(Strategy, self)._next()
 
-        minperstatus = self._getminperstatus()
+        minperstatus, dlens = self._getminperstatus()
         self._next_analyzers(minperstatus)
         self._next_observers(minperstatus)
 
         self.clear()
 
     def _next_observers(self, minperstatus, once=False):
-        for observer in self._lineiterators[LineIterator.ObsType]:
+        for observer in self._obs_iterator:
             for analyzer in observer._analyzers:
                 if minperstatus < 0:
                     analyzer._next()
@@ -365,10 +411,7 @@ class Strategy(with_metaclass(MetaStrategy, StrategyBase)):
 
             if once:
                 if len(self) > len(observer):
-                    if self._oldsync:
-                        observer.advance()
-                    else:
-                        observer.forward()
+                    observer.forward()
 
                 if minperstatus < 0:
                     observer.next()
@@ -582,7 +625,7 @@ class Strategy(with_metaclass(MetaStrategy, StrategyBase)):
         if quicknotify:
             self._notify(qorders=qorders, qtrades=qtrades)
 
-    def _notify(self, qorders=[], qtrades=[]):
+    def _notify(self, qorders=[], qtrades=[]):  ##??TODO OPTIMIZE for's
         if self.cerebro.p.quicknotify:
             # need to know if quicknotify is on, to not reprocess pendingorders
             # and pendingtrades, which have to exist for things like observers
@@ -905,12 +948,12 @@ class Strategy(with_metaclass(MetaStrategy, StrategyBase)):
 
               - ``numeric value``: This is assumed to be a value corresponding
                 to a datetime in ``matplotlib`` coding (the one used by
-                ``backtrader``) and will used to generate an order valid until
+                ``backtrader_next``) and will used to generate an order valid until
                 that time (*good till date*)
 
           - ``tradeid`` (default: ``0``)
 
-            This is an internal value applied by ``backtrader`` to keep track
+            This is an internal value applied by ``backtrader_next`` to keep track
             of overlapping trades on the same asset. This ``tradeid`` is sent
             back to the *strategy* when notifying changes to the status of the
             orders.
@@ -939,16 +982,16 @@ class Strategy(with_metaclass(MetaStrategy, StrategyBase)):
             children, which triggers the full placement of all bracket orders.
 
           - ``**kwargs``: additional broker implementations may support extra
-            parameters. ``backtrader`` will pass the *kwargs* down to the
+            parameters. ``backtrader_next`` will pass the *kwargs* down to the
             created order objects
 
             Example: if the 4 order execution types directly supported by
-            ``backtrader`` are not enough, in the case of for example
+            ``backtrader_next`` are not enough, in the case of for example
             *Interactive Brokers* the following could be passed as *kwargs*::
 
               orderType='LIT', lmtPrice=10.0, auxPrice=9.8
 
-            This would override the settings created by ``backtrader`` and
+            This would override the settings created by ``backtrader_next`` and
             generate a ``LIMIT IF TOUCHED`` order with a *touched* price of 9.8
             and a *limit* price of 10.0.
 
@@ -956,7 +999,7 @@ class Strategy(with_metaclass(MetaStrategy, StrategyBase)):
           - the submitted order
 
         """
-        if isinstance(data, string_types):
+        if isinstance(data, str):
             data = self.getdatabyname(data)
 
         data = data if data is not None else self.datas[0]
@@ -1005,7 +1048,7 @@ class Strategy(with_metaclass(MetaStrategy, StrategyBase)):
 
         Returns: the submitted order
         """
-        if isinstance(data, string_types):
+        if isinstance(data, str):
             data = self.getdatabyname(data)
 
         data = data if data is not None else self.datas[0]
@@ -1044,7 +1087,7 @@ class Strategy(with_metaclass(MetaStrategy, StrategyBase)):
 
         Returns: the submitted order
         """
-        if isinstance(data, string_types):
+        if isinstance(data, str):
             data = self.getdatabyname(data)
         elif data is None:
             data = self.data
@@ -1158,7 +1201,7 @@ class Strategy(with_metaclass(MetaStrategy, StrategyBase)):
             top of this.
 
           - ``**kwargs``: additional broker implementations may support extra
-            parameters. ``backtrader`` will pass the *kwargs* down to the
+            parameters. ``backtrader_next`` will pass the *kwargs* down to the
             created order objects
 
             Possible values: (see the documentation for the method ``buy``
@@ -1384,7 +1427,7 @@ class Strategy(with_metaclass(MetaStrategy, StrategyBase)):
 
           - ``None`` if no order has been issued (``target == position.size``)
         """
-        if isinstance(data, string_types):
+        if isinstance(data, str):
             data = self.getdatabyname(data)
         elif data is None:
             data = self.data
@@ -1422,7 +1465,7 @@ class Strategy(with_metaclass(MetaStrategy, StrategyBase)):
           - ``None`` if no order has been issued
         """
 
-        if isinstance(data, string_types):
+        if isinstance(data, str):
             data = self.getdatabyname(data)
         elif data is None:
             data = self.data
@@ -1486,7 +1529,7 @@ class Strategy(with_metaclass(MetaStrategy, StrategyBase)):
 
           - ``None`` if no order has been issued (``target == position.size``)
         """
-        if isinstance(data, string_types):
+        if isinstance(data, str):
             data = self.getdatabyname(data)
         elif data is None:
             data = self.data
@@ -1612,9 +1655,9 @@ class MetaSigStrategy(Strategy.__class__):
         _data = _obj.p._data
         if _data is None:
             _obj._dtarget = _obj.data0
-        elif isinstance(_data, integer_types):
+        elif isinstance(_data, int):
             _obj._dtarget = _obj.datas[_data]
-        elif isinstance(_data, string_types):
+        elif isinstance(_data, str):
             _obj._dtarget = _obj.getdatabyname(_data)
         elif isinstance(_data, bt.LineRoot):
             _obj._dtarget = _data
@@ -1643,7 +1686,7 @@ class MetaSigStrategy(Strategy.__class__):
         return _obj, args, kwargs
 
 
-class SignalStrategy(with_metaclass(MetaSigStrategy, Strategy)):
+class SignalStrategy(Strategy, metaclass=MetaSigStrategy):
     """This subclass of ``Strategy`` is meant to to auto-operate using
     **signals**.
 

@@ -25,16 +25,12 @@ import io
 import itertools
 import sys
 
-try:  # For new Python versions
-    collectionsAbc = collections.abc  # collections.Iterable -> collections.abc.Iterable
-except AttributeError:  # For old Python versions
-    collectionsAbc = collections  # Используем collections.Iterable
-
 import aptrade as bt
-from aptrade.utils.py3 import integer_types, map, string_types, with_metaclass
+
+collectionsAbc = collections.abc  # collections.Iterable -> collections.abc.Iterable
 
 
-class WriterBase(with_metaclass(bt.MetaParams, object)):
+class WriterBase(metaclass=bt.MetaParams):
     pass
 
 
@@ -113,7 +109,7 @@ class WriterFile(WriterBase):
             if self.p.out is None:
                 self.out = sys.stdout
                 self.close_out = False
-            elif isinstance(self.p.out, string_types):
+            elif isinstance(self.p.out, str):
                 self.out = open(self.p.out, "w")
                 self.close_out = True
             else:
@@ -160,8 +156,8 @@ class WriterFile(WriterBase):
         self.out.write(line + "\n")
 
     def writelines(self, lines):
-        for l in lines:
-            self.out.write(l + "\n")
+        for line in lines:
+            self.out.write(line + "\n")
 
     def writelineseparator(self, level=0):
         sepnum = level % len(self.p.separators)
@@ -191,10 +187,10 @@ class WriterFile(WriterBase):
             if sclass:
                 kline += " " + val.__name__
                 self.writeline(kline)
-            elif isinstance(val, string_types):
+            elif isinstance(val, str):
                 kline += " " + val
                 self.writeline(kline)
-            elif isinstance(val, integer_types):
+            elif isinstance(val, int):
                 kline += " " + str(val)
                 self.writeline(kline)
             elif isinstance(val, float):

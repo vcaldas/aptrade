@@ -31,7 +31,6 @@ import testcommon
 
 import aptrade as bt
 import aptrade.indicators as btind
-from aptrade.utils.py3 import PY2
 
 
 class CurrentTestStrategy(bt.Strategy):
@@ -170,10 +169,7 @@ def test_run(main=False):
             print(str(analysis[next(iter(analysis.keys()))]))
         else:
             # Handle different precision
-            if PY2:
-                sval = "0.2795"
-            else:
-                sval = "0.2794999999999983"
+            sval = "0.2794999999999983"
 
             assert str(analysis[next(iter(analysis.keys()))]) == sval
 

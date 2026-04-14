@@ -23,10 +23,7 @@ from __future__ import absolute_import, division, print_function, unicode_litera
 import itertools
 import sys
 from collections import OrderedDict
-
-import aptrade as bt
-
-from .utils.py3 import string_types, with_metaclass, zip
+from typing import Any, List, overload
 
 
 def findbases(kls, topclass):
@@ -262,7 +259,7 @@ class MetaParams(MetaBase):
 
         # import from specified packages - the 2nd part is a string or iterable
         for p, frompackage in cls.frompackages:
-            if isinstance(frompackage, string_types):
+            if isinstance(frompackage, str):
                 frompackage = (frompackage,)  # make it a tuple
 
             for fp in frompackage:
@@ -292,7 +289,7 @@ class MetaParams(MetaBase):
         return _obj, args, kwargs
 
 
-class ParamsBase(with_metaclass(MetaParams, object)):
+class ParamsBase(metaclass=MetaParams):
     pass  # stub to allow easy subclassing without metaclasses
 
 
@@ -305,19 +302,33 @@ class ItemCollection(object):
     """
 
     def __init__(self):
-        self._items = list()
-        self._names = list()
+        self._items: List[object] = []
+        self._names: List[str] = []
 
     def __len__(self):
         return len(self._items)
 
-    def append(self, item, name=None):
+    def append(self, item: object, name: str = ""):
         setattr(self, name, item)
         self._items.append(item)
         if name:
             self._names.append(name)
 
-    def __getitem__(self, key):
+    @overload
+    def __getitem__(self, key: int) -> object:
+        ...
+
+    @overload
+    def __getitem__(self, key: str) -> object:
+        ...
+
+    @overload
+    def __getitem__(self, key: slice) -> List[object]:
+        ...
+
+    def __getitem__(self, key: Any):
+        if isinstance(key, str):
+            return self.getbyname(key)
         return self._items[key]
 
     def getnames(self):
@@ -326,6 +337,6 @@ class ItemCollection(object):
     def getitems(self):
         return zip(self._names, self._items)
 
-    def getbyname(self, name):
+    def getbyname(self, name: str) -> object:
         idx = self._names.index(name)
         return self._items[idx]

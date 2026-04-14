@@ -21,16 +21,13 @@
 from __future__ import absolute_import, division, print_function, unicode_literals
 
 import collections
-import operator
 import sys
 
-from . import metabase
 from .dataseries import DataSeries
 from .linebuffer import LineActions, LineNum
 from .lineroot import LineRoot, LineSingle
 from .lineseries import LineSeries, LineSeriesMaker
 from .utils import DotDict
-from .utils.py3 import map, range, string_types, with_metaclass, zip
 
 
 class MetaLineIterator(LineSeries.__class__):
@@ -39,7 +36,9 @@ class MetaLineIterator(LineSeries.__class__):
 
         # Prepare to hold children that need to be calculated and
         # influence minperiod - Moved here to support LineNum below
-        _obj._lineiterators = collections.defaultdict(list)
+        _obj._ind_iterator = []
+        _obj._obs_iterator = []
+        _obj._strat_iterator = []
 
         # Scan args for datas ... if none are found,
         # use the _owner (to have a clock)
@@ -55,7 +54,8 @@ class MetaLineIterator(LineSeries.__class__):
             else:
                 try:
                     _obj.datas.append(LineSeriesMaker(LineNum(arg)))
-                except:
+                except Exception as e:
+                    print("Error processing data argument:", e)
                     # Not a LineNum and is not a LineSeries - bail out
                     break
 
@@ -144,7 +144,7 @@ class MetaLineIterator(LineSeries.__class__):
         return _obj, args, kwargs
 
 
-class LineIterator(with_metaclass(MetaLineIterator, LineSeries)):
+class LineIterator(LineSeries, metaclass=MetaLineIterator):
     _nextforce = False  # force cerebro to run in next mode (runonce=False)
 
     _mindatas = 1
@@ -171,7 +171,7 @@ class LineIterator(with_metaclass(MetaLineIterator, LineSeries)):
         # last check in case not all lineiterators were assigned to
         # lines (directly or indirectly after some operations)
         # An example is Kaufman's Adaptive Moving Average
-        indicators = self._lineiterators[LineIterator.IndType]
+        indicators = self._ind_iterator
         indperiods = [ind._minperiod for ind in indicators]
         indminperiod = max(indperiods or [self._minperiod])
         self.updateminperiod(indminperiod)
@@ -182,9 +182,12 @@ class LineIterator(with_metaclass(MetaLineIterator, LineSeries)):
         for data in self.datas:
             data._stage2()
 
-        for lineiterators in self._lineiterators.values():
-            for lineiterator in lineiterators:
-                lineiterator._stage2()
+        for lineiterator in self._ind_iterator:
+            lineiterator._stage2()
+        for lineiterator in self._obs_iterator:
+            lineiterator._stage2()
+        for lineiterator in self._strat_iterator:
+            lineiterator._stage2()
 
     def _stage1(self):
         super(LineIterator, self)._stage1()
@@ -192,26 +195,25 @@ class LineIterator(with_metaclass(MetaLineIterator, LineSeries)):
         for data in self.datas:
             data._stage1()
 
-        for lineiterators in self._lineiterators.values():
-            for lineiterator in lineiterators:
-                lineiterator._stage1()
+        for lineiterator in self._ind_iterator:
+            lineiterator._stage1()
+        for lineiterator in self._obs_iterator:
+            lineiterator._stage1()
+        for lineiterator in self._strat_iterator:
+            lineiterator._stage1()
 
     def getindicators(self):
-        return self._lineiterators[LineIterator.IndType]
+        return self._ind_iterator
 
     def getindicators_lines(self):
-        return [
-            x
-            for x in self._lineiterators[LineIterator.IndType]
-            if hasattr(x.lines, "getlinealiases")
-        ]
+        return [x for x in self._ind_iterator if hasattr(x.lines, "getlinealiases")]
 
     def getobservers(self):
-        return self._lineiterators[LineIterator.ObsType]
+        return self._obs_iterator
 
     def addindicator(self, indicator):
         # store in right queue
-        self._lineiterators[indicator._ltype].append(indicator)
+        self._ind_iterator.append(indicator)
 
         # use getattr because line buffers don't have this attribute
         if getattr(indicator, "_nextforce", False):
@@ -228,7 +230,7 @@ class LineIterator(with_metaclass(MetaLineIterator, LineSeries)):
         if not owner:
             owner = 0
 
-        if isinstance(owner, string_types):
+        if isinstance(owner, str):
             owner = [owner]
         elif not isinstance(owner, collections.Iterable):
             owner = [owner]
@@ -236,18 +238,18 @@ class LineIterator(with_metaclass(MetaLineIterator, LineSeries)):
         if not own:
             own = range(len(owner))
 
-        if isinstance(own, string_types):
+        if isinstance(own, str):
             own = [own]
         elif not isinstance(own, collections.Iterable):
             own = [own]
 
         for lineowner, lineown in zip(owner, own):
-            if isinstance(lineowner, string_types):
+            if isinstance(lineowner, str):
                 lownerref = getattr(self._owner.lines, lineowner)
             else:
                 lownerref = self._owner.lines[lineowner]
 
-            if isinstance(lineown, string_types):
+            if isinstance(lineown, str):
                 lownref = getattr(self.lines, lineown)
             else:
                 lownref = self.lines[lineown]
@@ -263,15 +265,17 @@ class LineIterator(with_metaclass(MetaLineIterator, LineSeries)):
     def _next(self):
         clock_len = self._clk_update()
 
-        for indicator in self._lineiterators[LineIterator.IndType]:
+        for indicator in self._ind_iterator:
             indicator._next()
 
         self._notify()
 
         if self._ltype == LineIterator.StratType:
             # supporting datas with different lengths
-            minperstatus = self._getminperstatus()
-            if minperstatus < 0:
+            minperstatus, dlens = self._getminperstatus()
+            ##---fixed---##
+            any_status = any(x < 0 for x in dlens)
+            if minperstatus < 0 or any_status:
                 self.next()
             elif minperstatus == 0:
                 self.nextstart()  # only called for the 1st value
@@ -297,19 +301,19 @@ class LineIterator(with_metaclass(MetaLineIterator, LineSeries)):
     def _once(self):
         self.forward(size=self._clock.buflen())
 
-        for indicator in self._lineiterators[LineIterator.IndType]:
+        for indicator in self._ind_iterator:
             indicator._once()
 
-        for observer in self._lineiterators[LineIterator.ObsType]:
+        for observer in self._obs_iterator:
             observer.forward(size=self.buflen())
 
         for data in self.datas:
             data.home()
 
-        for indicator in self._lineiterators[LineIterator.IndType]:
+        for indicator in self._ind_iterator:
             indicator.home()
 
-        for observer in self._lineiterators[LineIterator.ObsType]:
+        for observer in self._obs_iterator:
             observer.home()
 
         self.home()
@@ -350,7 +354,7 @@ class LineIterator(with_metaclass(MetaLineIterator, LineSeries)):
         # Called once for 1st full calculation - defaults to regular next
         self.next()
 
-    def next(self):
+    def next(self, ready=None):
         """
         This method will be called for all remaining data points when the
         minimum period for all datas/indicators have been meet.
@@ -372,7 +376,7 @@ class LineIterator(with_metaclass(MetaLineIterator, LineSeries)):
                 line.qbuffer()
 
         # If called, anything under it, must save
-        for obj in self._lineiterators[self.IndType]:
+        for obj in self._ind_iterator:
             obj.qbuffer(savemem=1)
 
         # Tell datas to adjust buffer to minimum period

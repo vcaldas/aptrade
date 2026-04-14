@@ -17,7 +17,7 @@
 | data-pandas | ❌ | |
 | data-replay | ❌ | |
 | data-resample | ❌ | |
-| daysteps | ❌ | |
+| daysteps | ✅ | |
 | future-spot | ❌ | |
 | gold-vs-sp500 | ❌ | |
 | ib-cash-bid-ask | ❌ | |
@@ -35,7 +35,7 @@
 | oandatest | ❌ | |
 | observer-benchmark | ❌ | |
 | observers | ❌ | |
-| oco | ❌ | |
+| oco | ✅ | |
 | optimization | ❌ | |
 | order-close | ❌ | |
 | order-execution | ❌ | |

@@ -21,9 +21,8 @@
 from __future__ import absolute_import, division, print_function, unicode_literals
 
 from .lineiterator import IndicatorBase, LineIterator
-from .lineseries import Lines, LineSeriesMaker
+from .lineseries import Lines
 from .metabase import AutoInfoClass
-from .utils.py3 import range, with_metaclass
 
 
 class MetaIndicator(IndicatorBase.__class__):
@@ -83,7 +82,7 @@ class MetaIndicator(IndicatorBase.__class__):
             cls.oncestart = cls.oncestart_via_nextstart
 
 
-class Indicator(with_metaclass(MetaIndicator, IndicatorBase)):
+class Indicator(IndicatorBase, metaclass=MetaIndicator):
     _ltype = LineIterator.IndType
 
     csv = False
@@ -100,7 +99,7 @@ class Indicator(with_metaclass(MetaIndicator, IndicatorBase)):
             for data in self.datas:
                 data.advance()
 
-            for indicator in self._lineiterators[LineIterator.IndType]:
+            for indicator in self._ind_iterator:
                 indicator.advance()
 
             self.advance()
@@ -113,7 +112,7 @@ class Indicator(with_metaclass(MetaIndicator, IndicatorBase)):
             for data in self.datas:
                 data.advance()
 
-            for indicator in self._lineiterators[LineIterator.IndType]:
+            for indicator in self._ind_iterator:
                 indicator.advance()
 
             self.advance()
@@ -125,7 +124,7 @@ class Indicator(with_metaclass(MetaIndicator, IndicatorBase)):
             for data in self.datas:
                 data.advance()
 
-            for indicator in self._lineiterators[LineIterator.IndType]:
+            for indicator in self._ind_iterator:
                 indicator.advance()
 
             self.advance()
@@ -155,5 +154,5 @@ class MtLinePlotterIndicator(Indicator.__class__):
         return _obj, args, kwargs
 
 
-class LinePlotterIndicator(with_metaclass(MtLinePlotterIndicator, Indicator)):
+class LinePlotterIndicator(Indicator, metaclass=MtLinePlotterIndicator):
     pass

@@ -29,18 +29,15 @@ lines at once.
 
 """
 
-from __future__ import absolute_import, division, print_function, unicode_literals
-
 import sys
+from typing import Any, List, Optional
 
-from . import metabase
-from .linebuffer import NAN, LineActions, LineBuffer, LineDelay, LinesOperation
-from .lineroot import LineMultiple, LineRoot, LineSingle
+from .linebuffer import NAN, LineActions, LineBuffer, LineDelay
+from .lineroot import LineMultiple, LineRoot
 from .metabase import AutoInfoClass
-from .utils.py3 import map, range, string_types, with_metaclass
 
 
-class LineAlias(object):
+class LineAlias:
     """Descriptor class that store a line reference and returns that line
     from the owner
 
@@ -54,13 +51,13 @@ class LineAlias(object):
     instant '0' (the current one)
     """
 
-    def __init__(self, line):
-        self.line = line
+    def __init__(self, line: int) -> None:
+        self.line: int = line
 
-    def __get__(self, obj, cls=None):
+    def __get__(self, obj: Any, cls: Optional[type] = None) -> LineBuffer:
         return obj.lines[self.line]
 
-    def __set__(self, obj, value):
+    def __set__(self, obj: Any, value: Any) -> None:
         """
         A line cannot be "set" once it has been created. But the values
         inside the line can be "set". This is achieved by adding a binding
@@ -80,7 +77,7 @@ class LineAlias(object):
         value.addbinding(obj.lines[self.line])
 
 
-class Lines(object):
+class Lines:
     """
     Defines an "array" of lines which also has most of the interface of
     a LineBuffer class (forward, rewind, advance...).
@@ -132,13 +129,12 @@ class Lines(object):
         clsextralines = baseextralines + extralines
         lines2add = obaseslines + lines
 
-        # str for Python 2/3 compatibility
         basecls = cls if not linesoverride else Lines
 
-        newcls = type(str(cls.__name__ + "_" + name), (basecls,), {})
+        newcls = type(f"{cls.__name__}_{name}", (basecls,), {})
         clsmodule = sys.modules[cls.__module__]
         newcls.__module__ = cls.__module__
-        setattr(clsmodule, str(cls.__name__ + "_" + name), newcls)
+        setattr(clsmodule, f"{cls.__name__}_{name}", newcls)
 
         setattr(newcls, "_getlinesbase", classmethod(lambda cls: baselines))
         setattr(newcls, "_getlines", classmethod(lambda cls: clslines))
@@ -150,7 +146,7 @@ class Lines(object):
         l2add = enumerate(lines2add, start=l2start)
         l2alias = {} if lalias is None else lalias._getkwargsdefault()
         for line, linealias in l2add:
-            if not isinstance(linealias, string_types):
+            if not isinstance(linealias, str):
                 # a tuple or list was passed, 1st is name
                 linealias = linealias[0]
 
@@ -162,14 +158,14 @@ class Lines(object):
         # directive 'linealias', hence the confusion here (the LineAlias come
         # from the directive 'lines')
         for line, linealias in enumerate(newcls._getlines()):
-            if not isinstance(linealias, string_types):
+            if not isinstance(linealias, str):
                 # a tuple or list was passed, 1st is name
                 linealias = linealias[0]
 
             desc = LineAlias(line)  # keep a reference below
             if linealias in l2alias:
                 extranames = l2alias[linealias]
-                if isinstance(linealias, string_types):
+                if isinstance(linealias, str):
                     extranames = [extranames]
 
                 for ename in extranames:
@@ -200,7 +196,7 @@ class Lines(object):
         Create the lines recording during "_derive" or else use the
         provided "initlines"
         """
-        self.lines = list()
+        self.lines: List[LineBuffer] = list()
         for line, linealias in enumerate(self._getlines()):
             kwargs = dict()
             self.lines.append(LineBuffer(**kwargs))
@@ -217,6 +213,14 @@ class Lines(object):
         Proxy line operation
         """
         return len(self.lines[0])
+
+    def _apply_to_all(self, method: str, *args, **kwargs) -> None:
+        """Call `method` on every LineBuffer stored in `self.lines`.
+
+        This reduces duplication across forwarding/rewind/advance helpers.
+        """
+        for line in self.lines:
+            getattr(line, method)(*args, **kwargs)
 
     def size(self):
         return len(self.lines) - self._getlinesextra()
@@ -249,50 +253,43 @@ class Lines(object):
         """
         Proxy line operation
         """
-        for line in self.lines:
-            line.forward(value, size=size)
+        self._apply_to_all("forward", value, size=size)
 
     def backwards(self, size=1, force=False):
         """
         Proxy line operation
         """
-        for line in self.lines:
-            line.backwards(size, force=force)
+        self._apply_to_all("backwards", size=size, force=force)
 
     def rewind(self, size=1):
         """
         Proxy line operation
         """
-        for line in self.lines:
-            line.rewind(size)
+        self._apply_to_all("rewind", size)
 
     def extend(self, value=NAN, size=0):
         """
         Proxy line operation
         """
-        for line in self.lines:
-            line.extend(value, size)
+        self._apply_to_all("extend", value, size)
 
     def reset(self):
         """
         Proxy line operation
         """
-        for line in self.lines:
-            line.reset()
+        self._apply_to_all("reset")
 
     def home(self):
         """
         Proxy line operation
         """
-        for line in self.lines:
-            line.home()
+        self._apply_to_all("home")
 
     def advance(self, size=1):
         """
         Proxy line operation
         """
-        for line in self.lines:
-            line.advance(size)
+        self._apply_to_all("advance", size)
 
     def buflen(self, line=0):
         """
@@ -390,13 +387,13 @@ class MetaLineSeries(LineMultiple.__class__):
                 "aliased": cls.__name__,
             }
 
-            if not isinstance(alias, string_types):
+            if not isinstance(alias, str):
                 # a tuple or list was passed, 1st is name, 2nd plotname
                 aliasplotname = alias[1]
                 alias = alias[0]
                 newdct["plotinfo"] = dict(plotname=aliasplotname)
 
-            newcls = type(str(alias), (cls,), newdct)
+            newcls = type(alias, (cls,), newdct)
             clsmodule = sys.modules[cls.__module__]
             setattr(clsmodule, alias, newcls)
 
@@ -441,7 +438,7 @@ class MetaLineSeries(LineMultiple.__class__):
         return _obj, args, kwargs
 
 
-class LineSeries(with_metaclass(MetaLineSeries, LineMultiple)):
+class LineSeries(LineMultiple, metaclass=MetaLineSeries):
     plotinfo = dict(
         plot=True,
         plotmaster=None,
@@ -486,7 +483,8 @@ class LineSeries(with_metaclass(MetaLineSeries, LineMultiple)):
                 if hasattr(sublabel, "plotinfo"):
                     try:
                         s = sublabel.plotinfo.plotname
-                    except:
+                    except Exception as e:
+                        print("Error getting plotname:", e)
                         s = ""
 
                     sublabels[i] = s or sublabel.__name__
@@ -498,7 +496,7 @@ class LineSeries(with_metaclass(MetaLineSeries, LineMultiple)):
         return self.params._getvalues()
 
     def _getline(self, line, minusall=False):
-        if isinstance(line, string_types):
+        if isinstance(line, str):
             lineobj = getattr(self.lines, line)
         else:
             if line == -1:  # restore original api behavior - default -> 0

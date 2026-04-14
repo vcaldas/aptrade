@@ -21,7 +21,6 @@
 from __future__ import absolute_import, division, print_function, unicode_literals
 
 import aptrade as bt
-from aptrade.utils.py3 import range
 
 __all__ = ["HeikinAshi"]
 

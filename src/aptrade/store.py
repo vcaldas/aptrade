@@ -23,7 +23,6 @@ from __future__ import absolute_import, division, print_function, unicode_litera
 import collections
 
 from aptrade.metabase import MetaParams
-from aptrade.utils.py3 import with_metaclass
 
 
 class MetaSingleton(MetaParams):
@@ -40,7 +39,7 @@ class MetaSingleton(MetaParams):
         return cls._singleton
 
 
-class Store(with_metaclass(MetaSingleton, object)):
+class Store(metaclass=MetaSingleton):
     """Base class for all Stores"""
 
     _started = False

@@ -22,17 +22,23 @@ from __future__ import absolute_import, division, print_function, unicode_litera
 
 import datetime as _datetime
 import inspect
-from datetime import datetime
 
 from .lineseries import LineSeries
 from .utils import AutoOrderedDict, OrderedDict, date2num
-from .utils.py3 import range, with_metaclass
 
 
 class TimeFrame(object):
-    (Ticks, MicroSeconds, Seconds, Minutes, Days, Weeks, Months, Years, NoTimeFrame) = (
-        range(1, 10)
-    )
+    (
+        Ticks,
+        MicroSeconds,
+        Seconds,
+        Minutes,
+        Days,
+        Weeks,
+        Months,
+        Years,
+        NoTimeFrame,
+    ) = range(1, 10)
 
     Names = [
         "",
@@ -73,10 +79,23 @@ class DataSeries(LineSeries):
     _name = ""
     _compression = 1
     _timeframe = TimeFrame.Days
+    _is_on = True
 
     Close, Low, High, Open, Volume, OpenInterest, DateTime = range(7)
 
     LineOrder = [DateTime, Open, High, Low, Close, Volume, OpenInterest]
+
+    @property
+    def is_on(self) -> bool:
+        return self._is_on
+
+    @is_on.setter
+    def is_on(self, value: bool):
+        self._is_on = value
+
+    @property
+    def name(self):
+        return self._name
 
     def getwriterheaders(self):
         headers = [self._name, "len"]
@@ -90,17 +109,20 @@ class DataSeries(LineSeries):
         return headers
 
     def getwritervalues(self):
-        l = len(self)
-        values = [self._name, l]
+        length = len(self)
+        values = [self._name, length]
 
-        if l:
-            values.append(self.datetime.datetime(0))
-            for line in self.LineOrder[1:]:
-                values.append(self.lines[line][0])
-            for i in range(len(self.LineOrder), self.lines.size()):
-                values.append(self.lines[i][0])
-        else:
-            values.extend([""] * self.lines.size())  # no values yet
+        if not length:
+            values.extend([""] * self.lines.size())
+            return values
+
+        values.append(self.datetime.datetime(0))
+        values.extend(self.lines[line][0] for line in self.LineOrder[1:])
+
+        extra_start = len(self.LineOrder)
+        values.extend(
+            self.lines[index][0] for index in range(extra_start, self.lines.size())
+        )
 
         return values
 

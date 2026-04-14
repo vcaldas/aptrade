@@ -20,7 +20,6 @@
 ###############################################################################
 from __future__ import absolute_import, division, print_function, unicode_literals
 
-from aptrade.utils.py3 import with_metaclass
 
 from .lineiterator import LineIterator, ObserverBase, StrategyBase
 
@@ -41,7 +40,7 @@ class MetaObserver(ObserverBase.__class__):
         return _obj, args, kwargs
 
 
-class Observer(with_metaclass(MetaObserver, ObserverBase)):
+class Observer(ObserverBase, metaclass=MetaObserver):
     _stclock = False
 
     _OwnerCls = StrategyBase

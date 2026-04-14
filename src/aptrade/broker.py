@@ -20,11 +20,9 @@
 ###############################################################################
 from __future__ import absolute_import, division, print_function, unicode_literals
 
-from aptrade.comminfo import CommInfoBase
+from aptrade.commissions import CommInfoBase
 from aptrade.metabase import MetaParams
-from aptrade.utils.py3 import with_metaclass
 
-from . import fillers as filler
 from . import fillers as fillers
 
 
@@ -45,7 +43,7 @@ class MetaBroker(MetaParams):
                 setattr(cls, name, getattr(cls, trans))
 
 
-class BrokerBase(with_metaclass(MetaBroker, object)):
+class BrokerBase(metaclass=MetaBroker):
     params = (("commission", CommInfoBase(percabs=True)),)
 
     def __init__(self):

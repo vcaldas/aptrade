@@ -34,7 +34,6 @@ from __future__ import absolute_import, division, print_function, unicode_litera
 import operator
 
 from . import metabase
-from .utils.py3 import range, with_metaclass
 
 
 class MetaLineRoot(metabase.MetaParams):
@@ -57,7 +56,7 @@ class MetaLineRoot(metabase.MetaParams):
         return _obj, args, kwargs
 
 
-class LineRoot(with_metaclass(MetaLineRoot, object)):
+class LineRoot(metaclass=MetaLineRoot):
     """
     Defines a common base and interfaces for Single and Multiple
     LineXXX instances

@@ -27,7 +27,7 @@ from collections import OrderedDict
 
 import aptrade as bt
 from aptrade import TimeFrame
-from aptrade.utils.py3 import MAXINT, with_metaclass
+from aptrade.utils.py3 import MAXINT
 
 
 class MetaAnalyzer(bt.MetaParams):
@@ -46,7 +46,7 @@ class MetaAnalyzer(bt.MetaParams):
         # Register with a master observer if created inside one
         masterobs = bt.metabase.findowner(_obj, bt.Observer)
         if masterobs is not None:
-            masterobs._register_analyzer(_obj)
+            masterobs._register_Analyzer(_obj)
 
         _obj.datas = strategy.datas
 
@@ -54,20 +54,19 @@ class MetaAnalyzer(bt.MetaParams):
         if _obj.datas:
             _obj.data = data = _obj.datas[0]
 
-            for l, line in enumerate(data.lines):
-                linealias = data._getlinealias(l)
+            for index, line in enumerate(data.lines):
+                linealias = data._getlinealias(index)
                 if linealias:
                     setattr(_obj, "data_%s" % linealias, line)
-                setattr(_obj, "data_%d" % l, line)
-
+                setattr(_obj, "data_%d" % index, line)
             for d, data in enumerate(_obj.datas):
                 setattr(_obj, "data%d" % d, data)
 
-                for l, line in enumerate(data.lines):
-                    linealias = data._getlinealias(l)
+                for index, line in enumerate(data.lines):
+                    linealias = data._getlinealias(index)
                     if linealias:
                         setattr(_obj, "data%d_%s" % (d, linealias), line)
-                    setattr(_obj, "data%d_%d" % (d, l), line)
+                    setattr(_obj, "data%d_%d" % (d, index), line)
 
         _obj.create_analysis()
 
@@ -84,8 +83,8 @@ class MetaAnalyzer(bt.MetaParams):
         return _obj, args, kwargs
 
 
-class Analyzer(with_metaclass(MetaAnalyzer, object)):
-    """Analyzer base class. All analyzers are subclass of this one
+class Analyzer(metaclass=MetaAnalyzer):
+    """Analyzer base class. All Analyzers are subclass of this one
 
     An Analyzer instance operates in the frame of a strategy and provides an
     analysis for that strategy.
@@ -137,8 +136,8 @@ class Analyzer(with_metaclass(MetaAnalyzer, object)):
     csv = True
 
     def __len__(self):
-        """Support for invoking ``len`` on analyzers by actually returning the
-        current length of the strategy the analyzer operates on"""
+        """Support for invoking ``len`` on Analyzers by actually returning the
+        current length of the strategy the Analyzer operates on"""
         return len(self.strategy)
 
     def _register(self, child):
@@ -223,7 +222,7 @@ class Analyzer(with_metaclass(MetaAnalyzer, object)):
         """Invoked for each prenext invocation of the strategy, until the minimum
         period of the strategy has been reached
 
-        The default behavior for an analyzer is to invoke ``next``
+        The default behavior for an Analyzer is to invoke ``next``
         """
         self.next()
 
@@ -234,12 +233,12 @@ class Analyzer(with_metaclass(MetaAnalyzer, object)):
         self.next()
 
     def start(self):
-        """Invoked to indicate the start of operations, giving the analyzer
+        """Invoked to indicate the start of operations, giving the Analyzer
         time to setup up needed things"""
         pass
 
     def stop(self):
-        """Invoked to indicate the end of operations, giving the analyzer
+        """Invoked to indicate the end of operations, giving the Analyzer
         time to shut down needed things"""
         pass
 
@@ -294,7 +293,7 @@ class MetaTimeFrameAnalyzerBase(Analyzer.__class__):
         return super(MetaTimeFrameAnalyzerBase, meta).__new__(meta, name, bases, dct)
 
 
-class TimeFrameAnalyzerBase(with_metaclass(MetaTimeFrameAnalyzerBase, Analyzer)):
+class TimeFrameAnalyzerBase(Analyzer, metaclass=MetaTimeFrameAnalyzerBase):
     params = (
         ("timeframe", None),
         ("compression", None),

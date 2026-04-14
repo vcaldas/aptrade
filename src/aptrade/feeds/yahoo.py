@@ -15,7 +15,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+# along with this program.  If lnot, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
 from __future__ import absolute_import, division, print_function, unicode_literals
@@ -24,12 +24,12 @@ import collections
 import io
 import itertools
 from datetime import date, datetime
+from urllib.parse import quote
 
 import aptrade as bt
 
 from .. import feed
 from ..utils import date2num
-from ..utils.py3 import ProxyHandler, build_opener, install_opener, urlopen, urlquote
 
 
 class YahooFinanceCSVData(feed.CSVDataBase):
@@ -269,6 +269,9 @@ class YahooFinanceData(YahooFinanceCSVData):
         crumb = None
         sess = requests.Session()
         sess.headers["User-Agent"] = "backtrader"
+        # Some networks/proxies return malformed gzip payloads while claiming
+        # Content-Encoding: gzip. Request identity encoding to avoid decode errors.
+        sess.headers["Accept-Encoding"] = "identity"
         for i in range(self.p.retries + 1):  # at least once
             resp = sess.get(url, **sesskwargs)
             if resp.status_code != requests.codes.ok:
@@ -298,7 +301,7 @@ class YahooFinanceData(YahooFinanceCSVData):
             self.f = None
             return
 
-        crumb = urlquote(crumb)
+        crumb = quote(crumb)
 
         # urldown/ticker?period1=posix1&period2=posix2&interval=1d&events=history&crumb=crumb
 

@@ -24,7 +24,7 @@ import functools
 import math
 
 from .linebuffer import LineActions
-from .utils.py3 import cmp, range
+from .utils.py3 import cmp
 
 
 # Generate a List equivalent which uses "is" for contains

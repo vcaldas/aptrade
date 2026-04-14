@@ -32,7 +32,6 @@ import testcommon
 
 import aptrade as bt
 import aptrade.indicators as btind
-from aptrade.utils.py3 import range
 
 CHKVALUES = [
     "14525.80",

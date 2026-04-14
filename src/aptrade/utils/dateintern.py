@@ -24,8 +24,6 @@ import datetime
 import math
 import time as _time
 
-from .py3 import string_types
-
 ZERO = datetime.timedelta(0)
 
 STDOFFSET = datetime.timedelta(seconds=-_time.timezone)
@@ -47,7 +45,7 @@ def tzparse(tz):
     # If no object has been provided by the user and a timezone can be
     # found via contractdtails, then try to get it from pytz, which may or
     # may not be available.
-    tzstr = isinstance(tz, string_types)
+    tzstr = isinstance(tz, str)
     if tz is None or not tzstr:
         return Localizer(tz)
 

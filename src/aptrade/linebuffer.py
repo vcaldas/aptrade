@@ -37,10 +37,8 @@ import datetime
 import math
 from itertools import islice
 
-from . import metabase
 from .lineroot import LineMultiple, LineRoot, LineSingle
 from .utils import num2date, time2num
-from .utils.py3 import range, string_types, with_metaclass
 
 NAN = float("NaN")
 
@@ -341,7 +339,7 @@ class LineBuffer(LineSingle):
         """
         Stores a binding to another line. "binding" can be an index or a name
         """
-        if isinstance(binding, string_types):
+        if isinstance(binding, str):
             line = getattr(self._owner.lines, binding)
         else:
             line = self._owner.lines[binding]
@@ -581,7 +579,7 @@ class PseudoArray(object):
         return self
 
 
-class LineActions(with_metaclass(MetaLineActions, LineBuffer)):
+class LineActions(LineBuffer, metaclass=MetaLineActions):
     """
     Base class derived from LineBuffer intented to defined the
     minimum interface to make it compatible with a LineIterator by

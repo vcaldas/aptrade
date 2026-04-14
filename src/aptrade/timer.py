@@ -28,14 +28,13 @@ from itertools import islice
 from .feed import AbstractDataBase
 from .metabase import MetaParams
 from .utils import TIME_MAX, date2num, num2date
-from .utils.py3 import integer_types, range, with_metaclass
 
 __all__ = ["SESSION_TIME", "SESSION_START", "SESSION_END", "Timer"]
 
 SESSION_TIME, SESSION_START, SESSION_END = range(3)
 
 
-class Timer(with_metaclass(MetaParams, object)):
+class Timer(metaclass=MetaParams):
     params = (
         ("tid", None),
         ("owner", None),

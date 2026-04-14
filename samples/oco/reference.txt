@@ -1,0 +1,254 @@
+valid1 is: 3 days, 0:00:00
+2005-01-28: Oref 1 / Buy at 2941.11055
+2005-01-28: Oref 2 / Buy at 2896.7722
+2005-01-28: Oref 3 / Buy at 2822.87495
+2005-01-31: Order ref: 1 / Type Buy / Status Submitted
+2005-01-31: Order ref: 2 / Type Buy / Status Submitted
+2005-01-31: Order ref: 3 / Type Buy / Status Submitted
+2005-01-31: Order ref: 1 / Type Buy / Status Accepted
+2005-01-31: Order ref: 2 / Type Buy / Status Accepted
+2005-01-31: Order ref: 3 / Type Buy / Status Accepted
+2005-02-01: Order ref: 1 / Type Buy / Status Expired
+2005-02-01: Order ref: 3 / Type Buy / Status Canceled
+2005-02-01: Order ref: 2 / Type Buy / Status Canceled
+valid1 is: 3 days, 0:00:00
+2005-03-03: Oref 4 / Buy at 3062.71945
+2005-03-03: Oref 5 / Buy at 3016.5478000000003
+2005-03-03: Oref 6 / Buy at 2939.59505
+2005-03-04: Order ref: 4 / Type Buy / Status Submitted
+2005-03-04: Order ref: 5 / Type Buy / Status Submitted
+2005-03-04: Order ref: 6 / Type Buy / Status Submitted
+2005-03-04: Order ref: 4 / Type Buy / Status Accepted
+2005-03-04: Order ref: 5 / Type Buy / Status Accepted
+2005-03-04: Order ref: 6 / Type Buy / Status Accepted
+2005-03-07: Order ref: 4 / Type Buy / Status Expired
+2005-03-07: Order ref: 6 / Type Buy / Status Canceled
+2005-03-07: Order ref: 5 / Type Buy / Status Canceled
+valid1 is: 3 days, 0:00:00
+2005-03-31: Oref 7 / Buy at 3040.45135
+2005-03-31: Oref 8 / Buy at 2994.6154
+2005-03-31: Oref 9 / Buy at 2918.22215
+2005-04-01: Order ref: 7 / Type Buy / Status Submitted
+2005-04-01: Order ref: 8 / Type Buy / Status Submitted
+2005-04-01: Order ref: 9 / Type Buy / Status Submitted
+2005-04-01: Order ref: 7 / Type Buy / Status Accepted
+2005-04-01: Order ref: 8 / Type Buy / Status Accepted
+2005-04-01: Order ref: 9 / Type Buy / Status Accepted
+2005-04-04: Order ref: 7 / Type Buy / Status Expired
+2005-04-04: Order ref: 9 / Type Buy / Status Canceled
+2005-04-04: Order ref: 8 / Type Buy / Status Canceled
+valid1 is: 3 days, 0:00:00
+2005-05-05: Oref 10 / Buy at 2989.4973999999997
+2005-05-05: Oref 11 / Buy at 2944.4296
+2005-05-05: Oref 12 / Buy at 2869.3165999999997
+2005-05-06: Order ref: 10 / Type Buy / Status Submitted
+2005-05-06: Order ref: 11 / Type Buy / Status Submitted
+2005-05-06: Order ref: 12 / Type Buy / Status Submitted
+2005-05-06: Order ref: 10 / Type Buy / Status Accepted
+2005-05-06: Order ref: 11 / Type Buy / Status Accepted
+2005-05-06: Order ref: 12 / Type Buy / Status Accepted
+2005-05-09: Order ref: 10 / Type Buy / Status Expired
+2005-05-09: Order ref: 12 / Type Buy / Status Canceled
+2005-05-09: Order ref: 11 / Type Buy / Status Canceled
+valid1 is: 3 days, 0:00:00
+2005-07-01: Oref 13 / Buy at 3192.4973
+2005-07-01: Oref 14 / Buy at 3144.3692
+2005-07-01: Oref 15 / Buy at 3064.1557
+2005-07-04: Order ref: 13 / Type Buy / Status Submitted
+2005-07-04: Order ref: 14 / Type Buy / Status Submitted
+2005-07-04: Order ref: 15 / Type Buy / Status Submitted
+2005-07-04: Order ref: 13 / Type Buy / Status Accepted
+2005-07-04: Order ref: 14 / Type Buy / Status Accepted
+2005-07-04: Order ref: 15 / Type Buy / Status Accepted
+2005-07-05: Order ref: 13 / Type Buy / Status Expired
+2005-07-05: Order ref: 15 / Type Buy / Status Canceled
+2005-07-05: Order ref: 14 / Type Buy / Status Canceled
+valid1 is: 3 days, 0:00:00
+2005-08-11: Oref 16 / Buy at 3337.3891999999996
+2005-08-11: Oref 17 / Buy at 3287.0768
+2005-08-11: Oref 18 / Buy at 3203.2227999999996
+2005-08-12: Order ref: 16 / Type Buy / Status Submitted
+2005-08-12: Order ref: 17 / Type Buy / Status Submitted
+2005-08-12: Order ref: 18 / Type Buy / Status Submitted
+2005-08-12: Order ref: 16 / Type Buy / Status Accepted
+2005-08-12: Order ref: 17 / Type Buy / Status Accepted
+2005-08-12: Order ref: 18 / Type Buy / Status Accepted
+2005-08-12: Order ref: 16 / Type Buy / Status Completed
+2005-08-12: Order ref: 18 / Type Buy / Status Canceled
+2005-08-12: Order ref: 17 / Type Buy / Status Canceled
+2005-08-29: Order ref: 19 / Type Sell / Status Submitted
+2005-08-29: Order ref: 19 / Type Sell / Status Accepted
+2005-08-29: Order ref: 19 / Type Sell / Status Completed
+valid1 is: 3 days, 0:00:00
+2005-09-06: Oref 20 / Buy at 3325.0910000000003
+2005-09-06: Oref 21 / Buy at 3274.964
+2005-09-06: Oref 22 / Buy at 3191.419
+2005-09-07: Order ref: 20 / Type Buy / Status Submitted
+2005-09-07: Order ref: 21 / Type Buy / Status Submitted
+2005-09-07: Order ref: 22 / Type Buy / Status Submitted
+2005-09-07: Order ref: 20 / Type Buy / Status Accepted
+2005-09-07: Order ref: 21 / Type Buy / Status Accepted
+2005-09-07: Order ref: 22 / Type Buy / Status Accepted
+2005-09-12: Order ref: 20 / Type Buy / Status Expired
+2005-09-12: Order ref: 22 / Type Buy / Status Canceled
+2005-09-12: Order ref: 21 / Type Buy / Status Canceled
+valid1 is: 3 days, 0:00:00
+2005-09-26: Oref 23 / Buy at 3383.92535
+2005-09-26: Oref 24 / Buy at 3332.9114
+2005-09-26: Oref 25 / Buy at 3247.8881499999998
+2005-09-27: Order ref: 23 / Type Buy / Status Submitted
+2005-09-27: Order ref: 24 / Type Buy / Status Submitted
+2005-09-27: Order ref: 25 / Type Buy / Status Submitted
+2005-09-27: Order ref: 23 / Type Buy / Status Accepted
+2005-09-27: Order ref: 24 / Type Buy / Status Accepted
+2005-09-27: Order ref: 25 / Type Buy / Status Margin
+2005-09-27: Order ref: 24 / Type Buy / Status Canceled
+2005-09-27: Order ref: 23 / Type Buy / Status Canceled
+valid1 is: 3 days, 0:00:00
+2005-09-28: Oref 26 / Buy at 3412.2729
+2005-09-28: Oref 27 / Buy at 3360.8316
+2005-09-28: Oref 28 / Buy at 3275.0960999999998
+2005-09-29: Order ref: 26 / Type Buy / Status Submitted
+2005-09-29: Order ref: 27 / Type Buy / Status Submitted
+2005-09-29: Order ref: 28 / Type Buy / Status Submitted
+2005-09-29: Order ref: 26 / Type Buy / Status Accepted
+2005-09-29: Order ref: 27 / Type Buy / Status Accepted
+2005-09-29: Order ref: 28 / Type Buy / Status Margin
+2005-09-29: Order ref: 27 / Type Buy / Status Canceled
+2005-09-29: Order ref: 26 / Type Buy / Status Canceled
+valid1 is: 3 days, 0:00:00
+2005-11-03: Oref 29 / Buy at 3344.8318
+2005-11-03: Oref 30 / Buy at 3294.4071999999996
+2005-11-03: Oref 31 / Buy at 3210.3662
+2005-11-04: Order ref: 29 / Type Buy / Status Submitted
+2005-11-04: Order ref: 30 / Type Buy / Status Submitted
+2005-11-04: Order ref: 31 / Type Buy / Status Submitted
+2005-11-04: Order ref: 29 / Type Buy / Status Accepted
+2005-11-04: Order ref: 30 / Type Buy / Status Accepted
+2005-11-04: Order ref: 31 / Type Buy / Status Accepted
+2005-11-04: Order ref: 29 / Type Buy / Status Completed
+2005-11-04: Order ref: 31 / Type Buy / Status Canceled
+2005-11-04: Order ref: 30 / Type Buy / Status Canceled
+2005-11-21: Order ref: 32 / Type Sell / Status Submitted
+2005-11-21: Order ref: 32 / Type Sell / Status Accepted
+2005-11-21: Order ref: 32 / Type Sell / Status Completed
+valid1 is: 3 days, 0:00:00
+2006-01-30: Oref 33 / Buy at 3659.1324
+2006-01-30: Oref 34 / Buy at 3603.9696
+2006-01-30: Oref 35 / Buy at 3512.0316
+2006-01-31: Order ref: 33 / Type Buy / Status Submitted
+2006-01-31: Order ref: 34 / Type Buy / Status Submitted
+2006-01-31: Order ref: 35 / Type Buy / Status Submitted
+2006-01-31: Order ref: 33 / Type Buy / Status Accepted
+2006-01-31: Order ref: 34 / Type Buy / Status Accepted
+2006-01-31: Order ref: 35 / Type Buy / Status Margin
+2006-01-31: Order ref: 34 / Type Buy / Status Canceled
+2006-01-31: Order ref: 33 / Type Buy / Status Canceled
+valid1 is: 3 days, 0:00:00
+2006-03-14: Oref 36 / Buy at 3814.3126
+2006-03-14: Oref 37 / Buy at 3756.8104
+2006-03-14: Oref 38 / Buy at 3660.9734
+2006-03-15: Order ref: 36 / Type Buy / Status Submitted
+2006-03-15: Order ref: 37 / Type Buy / Status Submitted
+2006-03-15: Order ref: 38 / Type Buy / Status Submitted
+2006-03-15: Order ref: 36 / Type Buy / Status Accepted
+2006-03-15: Order ref: 37 / Type Buy / Status Accepted
+2006-03-15: Order ref: 38 / Type Buy / Status Margin
+2006-03-15: Order ref: 37 / Type Buy / Status Canceled
+2006-03-15: Order ref: 36 / Type Buy / Status Canceled
+valid1 is: 3 days, 0:00:00
+2006-04-03: Oref 39 / Buy at 3859.2468
+2006-04-03: Oref 40 / Buy at 3801.0672
+2006-04-03: Oref 41 / Buy at 3704.1011999999996
+2006-04-04: Order ref: 39 / Type Buy / Status Submitted
+2006-04-04: Order ref: 40 / Type Buy / Status Submitted
+2006-04-04: Order ref: 41 / Type Buy / Status Submitted
+2006-04-04: Order ref: 39 / Type Buy / Status Accepted
+2006-04-04: Order ref: 40 / Type Buy / Status Accepted
+2006-04-04: Order ref: 41 / Type Buy / Status Margin
+2006-04-04: Order ref: 40 / Type Buy / Status Canceled
+2006-04-04: Order ref: 39 / Type Buy / Status Canceled
+valid1 is: 3 days, 0:00:00
+2006-04-24: Oref 42 / Buy at 3842.95865
+2006-04-24: Oref 43 / Buy at 3785.0245999999997
+2006-04-24: Oref 44 / Buy at 3688.46785
+2006-04-25: Order ref: 42 / Type Buy / Status Submitted
+2006-04-25: Order ref: 43 / Type Buy / Status Submitted
+2006-04-25: Order ref: 44 / Type Buy / Status Submitted
+2006-04-25: Order ref: 42 / Type Buy / Status Accepted
+2006-04-25: Order ref: 43 / Type Buy / Status Accepted
+2006-04-25: Order ref: 44 / Type Buy / Status Margin
+2006-04-25: Order ref: 43 / Type Buy / Status Canceled
+2006-04-25: Order ref: 42 / Type Buy / Status Canceled
+valid1 is: 3 days, 0:00:00
+2006-06-01: Oref 45 / Buy at 3630.08835
+2006-06-01: Oref 46 / Buy at 3575.3633999999997
+2006-06-01: Oref 47 / Buy at 3484.1551499999996
+2006-06-02: Order ref: 45 / Type Buy / Status Submitted
+2006-06-02: Order ref: 46 / Type Buy / Status Submitted
+2006-06-02: Order ref: 47 / Type Buy / Status Submitted
+2006-06-02: Order ref: 45 / Type Buy / Status Accepted
+2006-06-02: Order ref: 46 / Type Buy / Status Accepted
+2006-06-02: Order ref: 47 / Type Buy / Status Margin
+2006-06-02: Order ref: 46 / Type Buy / Status Canceled
+2006-06-02: Order ref: 45 / Type Buy / Status Canceled
+valid1 is: 3 days, 0:00:00
+2006-06-23: Oref 48 / Buy at 3532.39925
+2006-06-23: Oref 49 / Buy at 3479.147
+2006-06-23: Oref 50 / Buy at 3390.39325
+2006-06-26: Order ref: 48 / Type Buy / Status Submitted
+2006-06-26: Order ref: 49 / Type Buy / Status Submitted
+2006-06-26: Order ref: 50 / Type Buy / Status Submitted
+2006-06-26: Order ref: 48 / Type Buy / Status Accepted
+2006-06-26: Order ref: 49 / Type Buy / Status Accepted
+2006-06-26: Order ref: 50 / Type Buy / Status Margin
+2006-06-26: Order ref: 49 / Type Buy / Status Canceled
+2006-06-26: Order ref: 48 / Type Buy / Status Canceled
+valid1 is: 3 days, 0:00:00
+2006-07-25: Oref 51 / Buy at 3613.3425
+2006-07-25: Oref 52 / Buy at 3558.87
+2006-07-25: Oref 53 / Buy at 3468.0825
+2006-07-26: Order ref: 51 / Type Buy / Status Submitted
+2006-07-26: Order ref: 52 / Type Buy / Status Submitted
+2006-07-26: Order ref: 53 / Type Buy / Status Submitted
+2006-07-26: Order ref: 51 / Type Buy / Status Accepted
+2006-07-26: Order ref: 52 / Type Buy / Status Accepted
+2006-07-26: Order ref: 53 / Type Buy / Status Margin
+2006-07-26: Order ref: 52 / Type Buy / Status Canceled
+2006-07-26: Order ref: 51 / Type Buy / Status Canceled
+valid1 is: 3 days, 0:00:00
+2006-09-18: Oref 54 / Buy at 3789.4276499999996
+2006-09-18: Oref 55 / Buy at 3732.3005999999996
+2006-09-18: Oref 56 / Buy at 3637.0888499999996
+2006-09-19: Order ref: 54 / Type Buy / Status Submitted
+2006-09-19: Order ref: 55 / Type Buy / Status Submitted
+2006-09-19: Order ref: 56 / Type Buy / Status Submitted
+2006-09-19: Order ref: 54 / Type Buy / Status Accepted
+2006-09-19: Order ref: 55 / Type Buy / Status Accepted
+2006-09-19: Order ref: 56 / Type Buy / Status Margin
+2006-09-19: Order ref: 55 / Type Buy / Status Canceled
+2006-09-19: Order ref: 54 / Type Buy / Status Canceled
+valid1 is: 3 days, 0:00:00
+2006-11-06: Oref 57 / Buy at 4024.9939
+2006-11-06: Oref 58 / Buy at 3964.3156
+2006-11-06: Oref 59 / Buy at 3863.1850999999997
+2006-11-07: Order ref: 57 / Type Buy / Status Submitted
+2006-11-07: Order ref: 58 / Type Buy / Status Submitted
+2006-11-07: Order ref: 59 / Type Buy / Status Submitted
+2006-11-07: Order ref: 57 / Type Buy / Status Accepted
+2006-11-07: Order ref: 58 / Type Buy / Status Accepted
+2006-11-07: Order ref: 59 / Type Buy / Status Margin
+2006-11-07: Order ref: 58 / Type Buy / Status Canceled
+2006-11-07: Order ref: 57 / Type Buy / Status Canceled
+valid1 is: 3 days, 0:00:00
+2006-12-11: Oref 60 / Buy at 4032.6255499999997
+2006-12-11: Oref 61 / Buy at 3971.8322
+2006-12-11: Oref 62 / Buy at 3870.5099499999997
+2006-12-12: Order ref: 60 / Type Buy / Status Submitted
+2006-12-12: Order ref: 61 / Type Buy / Status Submitted
+2006-12-12: Order ref: 62 / Type Buy / Status Submitted
+2006-12-12: Order ref: 60 / Type Buy / Status Accepted
+2006-12-12: Order ref: 61 / Type Buy / Status Accepted
+2006-12-12: Order ref: 62 / Type Buy / Status Margin
+2006-12-12: Order ref: 61 / Type Buy / Status Canceled
+2006-12-12: Order ref: 60 / Type Buy / Status Canceled

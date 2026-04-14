@@ -18,19 +18,18 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
-from __future__ import absolute_import, division, print_function, unicode_literals
-
 import collections
 import datetime
 import inspect
 import io
 import os.path
 
-import aptrade as bt
-from aptrade import TimeFrame, dataseries, date2num, metabase, num2date, time2num
+from aptrade.dataseries import TimeFrame
 from aptrade.utils import tzparse
-from aptrade.utils.py3 import range, string_types, with_metaclass, zip
+from aptrade.utils.date import Localizer
+from aptrade.utils.dateintern import date2num, num2date, time2num
 
+from . import dataseries, metabase
 from .dataseries import SimpleFilterWrapper
 from .resamplerfilter import Replayer, Resampler
 from .tradingcal import PandasMarketCalendar
@@ -70,7 +69,7 @@ class MetaAbstractDataBase(dataseries.OHLCDateTime.__class__):
 
         # Either set by subclass or the parameter or use the dataname (ticker)
         _obj._name = _obj._name or _obj.p.name
-        if not _obj._name and isinstance(_obj.p.dataname, string_types):
+        if not _obj._name and isinstance(_obj.p.dataname, str):
             _obj._name = _obj.p.dataname
         _obj._compression = _obj.p.compression
         _obj._timeframe = _obj.p.timeframe
@@ -120,7 +119,7 @@ class MetaAbstractDataBase(dataseries.OHLCDateTime.__class__):
         return _obj, args, kwargs
 
 
-class AbstractDataBase(with_metaclass(MetaAbstractDataBase, dataseries.OHLCDateTime)):
+class AbstractDataBase(dataseries.OHLCDateTime, metaclass=MetaAbstractDataBase):
     params = (
         ("dataname", None),
         ("name", ""),
@@ -188,7 +187,7 @@ class AbstractDataBase(with_metaclass(MetaAbstractDataBase, dataseries.OHLCDateT
         self.lines.datetime._settz(self._tz)
 
         # This should probably be also called from an override-able method
-        self._tzinput = bt.utils.date.Localizer(self._gettzinput())
+        self._tzinput = Localizer(self._gettzinput())
 
         # Convert user input times to the output timezone (or min/max)
         if self.p.fromdate is None:
@@ -208,7 +207,7 @@ class AbstractDataBase(with_metaclass(MetaAbstractDataBase, dataseries.OHLCDateT
         self._calendar = cal = self.p.calendar
         if cal is None:
             self._calendar = self._env._tradingcal
-        elif isinstance(cal, string_types):
+        elif isinstance(cal, str):
             self._calendar = PandasMarketCalendar(calendar=cal)
 
         self._started = True
@@ -474,7 +473,7 @@ class AbstractDataBase(with_metaclass(MetaAbstractDataBase, dataseries.OHLCDateT
         return bool(ret)
 
     def _check(self, forcedata=None):
-        ret = 0
+        # ret = 0
         for ff, fargs, fkwargs in self._filters:
             if not hasattr(ff, "check"):
                 continue
@@ -529,7 +528,7 @@ class AbstractDataBase(with_metaclass(MetaAbstractDataBase, dataseries.OHLCDateT
             for ff, fargs, fkwargs in self._filters:
                 # previous filter may have put things onto the stack
                 if self._barstack:
-                    for i in range(len(self._barstack)):
+                    while self._barstack:
                         self._fromstack(forward=True)
                         retff = ff(self, *fargs, **fkwargs)
                 else:
@@ -612,7 +611,7 @@ class DataBase(AbstractDataBase):
     pass
 
 
-class FeedBase(with_metaclass(metabase.MetaParams, object)):
+class FeedBase(metaclass=metabase.MetaParams):
     params = () + DataBase.params._gettuple()
 
     def __init__(self):
@@ -659,7 +658,7 @@ class MetaCSVDataBase(DataBase.__class__):
         return _obj, args, kwargs
 
 
-class CSVDataBase(with_metaclass(MetaCSVDataBase, DataBase)):
+class CSVDataBase(DataBase, metaclass=MetaCSVDataBase):
     """
     Base class for classes implementing CSV DataFeeds
 
