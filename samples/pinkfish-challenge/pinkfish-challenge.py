@@ -27,7 +27,7 @@ import aptrade as bt
 import aptrade.indicators as btind
 
 
-class DayStepsCloseFilter(bt.with_metaclass(bt.MetaParams, object)):
+class DayStepsCloseFilter(metaclass=bt.MetaParams):
     """
     Replays a bar in 2 steps:
 
@@ -90,7 +90,7 @@ class DayStepsCloseFilter(bt.with_metaclass(bt.MetaParams, object)):
         return False  # nothing delivered here
 
 
-class DayStepsReplayFilter(bt.with_metaclass(bt.MetaParams, object)):
+class DayStepsReplayFilter(metaclass=bt.MetaParams):
     """
     Replays a bar in 2 steps:
 
@@ -295,7 +295,7 @@ def parse_args(pargs=None):
     parser.add_argument(
         "--data",
         required=False,
-        default="../../datas/yhoo-1996-2015.txt",
+        default="./datas/yhoo-1996-2015.txt",
         help="Data to be read in",
     )
 

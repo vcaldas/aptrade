@@ -26,7 +26,7 @@
 | lineplotter | ❌ | |
 | lrsi | ❌ | |
 | macd-settings | ❌ | |
-| memory-savings | ❌ | |
+| memory-savings | ✅ | |
 | mixing-timeframes | ❌ | |
 | multi-copy | ❌ | |
 | multi-example | ❌ | |
@@ -42,7 +42,7 @@
 | order-history | ❌ | |
 | order_target | ❌ | |
 | partial-plot | ❌ | |
-| pinkfish-challenge | ❌ | |
+| pinkfish-challenge |  ✅ | |
 | pivot-point | ❌ | |
 | plot-same-axis | ❌ | |
 | psar | ❌ | |
@@ -60,13 +60,13 @@
 | sratio | ❌ | |
 | stop-trading | ❌ | |
 | stoptrail | ❌ | |
-| strategy-selection | ❌ | |
+| strategy-selection | ✅ | |
 | talib | ❌ | |
 | timers | ❌ | |
 | tradingcalendar | ❌ | |
 | vctest | ❌ | |
-| volumefilling | ❌ | |
-| vwr | ❌ | |
+| volumefilling | ✅ | |
+| vwr | ✅ | |
 | weekdays-filler | ❌ | |
-| writer-test | ❌ | |
+| writer-test | ✅ | |
 | yahoo-test | ❌ | |

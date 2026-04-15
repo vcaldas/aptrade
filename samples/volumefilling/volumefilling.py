@@ -137,7 +137,7 @@ def parse_args():
     parser.add_argument(
         "--data",
         required=False,
-        default="../../datas/2006-volume-day-001.txt",
+        default="./datas/2006-volume-day-001.txt",
         help="Data to be read in",
     )
 

@@ -109,7 +109,7 @@ def parse_args(pargs=None):
     parser.add_argument(
         "--data",
         "-d",
-        default="../../datas/2005-2006-day-001.txt",
+        default="./datas/2005-2006-day-001.txt",
         help="data to add to the system",
     )
 
