@@ -51,3 +51,8 @@ from .vchartfile import VChartFile
 
 from .rollover import RollOver
 from .chainer import Chainer
+
+try:
+    from .massivefeed import *
+except ImportError:
+    pass  # The user may not have something installed
