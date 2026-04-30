@@ -41,3 +41,5 @@ except ImportError:
 
 
 from .vchartfile import VChartFile
+
+from .parquetstore import ParquetStore
