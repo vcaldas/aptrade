@@ -20,6 +20,7 @@ authors = [
     { name = "Victor Caldas", email = "caldas.victor@gmail.com" }
 ]
 dependencies = [
+    "massive>=2.5.0",
     "matplotlib>=3.10.8",
     "pandas>=3.0.2",
     "pydantic>=2.13.0",
@@ -38,3 +39,6 @@ members = ["backtrader"]
 
 [dependency-groups]
 dev = ["pytest", "ruff"]
+
+[tool.pytest.ini_options]
+norecursedirs = ["tmp"]
