@@ -1,25 +1,3 @@
-#!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
-###############################################################################
-#
-# Copyright (C) 2015-2023 Daniel Rodriguez
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#
-###############################################################################
-from __future__ import absolute_import, division, print_function, unicode_literals
-
 from colorsys import hls_to_rgb as hls2rgb
 from colorsys import rgb_to_hls as rgb2hls
 
@@ -107,3 +85,26 @@ def shade_color(color, percent):
     r, g, b = hls2rgb(h, l, s)
 
     return r, g, b
+
+#
+# Copyright (C) 2015-2023 Sergey Malinin
+# GPL 3.0 license <http://www.gnu.org/licenses/>
+#
+
+import sys
+from contextlib import contextmanager
+from datetime import datetime
+from tempfile import NamedTemporaryFile
+
+
+@contextmanager
+def tmpfilename():
+    with NamedTemporaryFile(suffix=".html") as f:
+        if sys.platform.startswith("win"):
+            f.close()
+        yield f.name
+
+
+def gen_timestamp():
+    now = datetime.now()
+    return now.strftime("%Y_%m_%d_%H_%M_%S_%f")

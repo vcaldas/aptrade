@@ -24,6 +24,7 @@ import collections
 import datetime
 import itertools
 import multiprocessing
+import sys
 
 try:  # For new Python versions
     collectionsAbc = collections.abc  # collections.Iterable -> collections.abc.Iterable
@@ -968,6 +969,43 @@ class Cerebro(metaclass=MetaParams):
         return self._broker
 
     broker = property(getbroker, setbroker)
+
+    def show_report(self, name=None, filename=None, show=True):
+        flat_runstrats = [strat for stratlist in self.runstrats for strat in stratlist]
+        if len(flat_runstrats) == 0:
+            return None
+
+        try:
+            eq = flat_runstrats[0].analyzers.getbyname("eq")
+        except ValueError:
+            return None
+
+        if eq is None:
+            return None
+
+        if name is None:
+            strategy_names = [s.__class__.__name__ for s in flat_runstrats]
+            timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            name = f"Statistics {' '.join(strategy_names)} {timestamp}"
+
+        if filename is None:
+            timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+            filename = f"strat_quantstats_{timestamp}.html"
+
+        iplot = "ipykernel" in sys.modules
+
+        from .plot.stats import Statistics
+
+        report_gen = Statistics()
+        report_gen.report(
+            name=name,
+            performance=eq,
+            strats=flat_runstrats,
+            show=show,
+            filename=filename,
+            iplot=iplot,
+        )
+        return filename
 
     def plot(
         self,

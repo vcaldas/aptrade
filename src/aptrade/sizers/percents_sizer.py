@@ -20,12 +20,12 @@
 ###############################################################################
 from __future__ import absolute_import, division, print_function, unicode_literals
 
-import aptrade as bt
+from aptrade.sizers import AbstractSizer
 
 __all__ = ["PercentSizer", "AllInSizer", "PercentSizerInt", "AllInSizerInt"]
 
 
-class PercentSizer(bt.Sizer):
+class PercentSizer(AbstractSizer):
     """This sizer return percents of available cash
 
     Params:

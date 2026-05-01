@@ -31,6 +31,7 @@ from .sierrachart import *
 from .mt4csv import *
 from .pandafeed import *
 from .influxfeed import *
+from .parquetgeneric import *
 try:
     from .ibdata import *
 except ImportError:
@@ -51,3 +52,8 @@ from .vchartfile import VChartFile
 
 from .rollover import RollOver
 from .chainer import Chainer
+
+try:
+    from .massivefeed import *
+except ImportError:
+    pass  # The user may not have something installed

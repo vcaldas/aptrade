@@ -16,11 +16,24 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#
-###############################################################################
-from __future__ import (absolute_import, division, print_function,
-                        unicode_literals)
+import datetime
+from zoneinfo import ZoneInfo
+from typing import Union
 
+
+def format_datetime(dt: datetime, tz: Union[str, ZoneInfo] = None) -> str:
+    if tz is None:
+        # tz = ZoneInfo(get_localzone_name())
+        return dt.strftime("%Y-%m-%d %H:%M")
+    elif isinstance(tz, str):
+        tz = ZoneInfo(tz)
+    # If dt does not contain tzinfo, assume it is in the specified zone
+    if dt.tzinfo is None:
+        dt = dt.replace(tzinfo=tz)
+    else:
+        # Convert datetime to the required timezone
+        dt = dt.astimezone(tz)
+    return dt.strftime("%Y-%m-%d %H:%M GMT%z")
 from collections import OrderedDict
 import sys
 
