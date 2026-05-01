@@ -25,7 +25,6 @@ import matplotlib.colors as mcolors
 import matplotlib.legend as mlegend
 import matplotlib.lines as mlines
 
-from ..utils.py3 import range, zip
 from .utils import shade_color
 
 

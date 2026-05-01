@@ -1,98 +1,54 @@
-#!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
-###############################################################################
 #
-# Copyright (C) 2015-2023 Daniel Rodriguez
+# Copyright (C) 2015-2023 Sergey Malinin
+# GPL 3.0 license <http://www.gnu.org/licenses/>
 #
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#
-###############################################################################
-from __future__ import absolute_import, division, print_function, unicode_literals
 
 import bisect
 import collections
 import datetime
-import itertools
-import math
-import operator
-import sys
+import logging
+import webbrowser
+from pathlib import Path
 
-import matplotlib
-import matplotlib.dates as mdates
-import matplotlib.font_manager as mfontmgr
-import matplotlib.legend as mlegend
-import matplotlib.ticker as mticker
-import numpy as np  # guaranteed by matplotlib
+import numpy as np
+import pandas as pd
+from bn_lightweight_charts.widgets import HTMLChart_BN
 
-from .. import AutoInfoClass, MetaParams, TimeFrame, date2num
-from ..utils.py3 import integer_types, range, string_types, with_metaclass
-from . import locator as loc
-from .finance import plot_candlestick, plot_lineonclose, plot_ohlc, plot_volume
-from .formatters import MyDateFormatter, MyVolFormatter, getlocator
-from .multicursor import MultiCursor
-from .scheme import PlotScheme
-from .utils import tag_box_style
+from aptrade.analyzers.eq import Eq
+from aptrade.dataseries import TimeFrame
+from aptrade.metabase import AutoInfoClass, MetaParams
+
+# from aptrade_next import order
+from aptrade.strategy import Strategy
+from aptrade.utils.dateintern import date2num, num2date
+from aptrade.utils import format_datetime
+from aptrade.plot.scheme import PlotScheme
+
+logger = logging.getLogger(__name__)
 
 
 class PInfo(object):
     def __init__(self, sch):
         self.sch = sch
+        self.reset()
+
+    def reset(self):
         self.nrows = 0
         self.row = 0
         self.clock = None
         self.x = None
         self.xlen = 0
-        self.sharex = None
-        self.figs = list()
-        self.cursors = list()
-        self.daxis = collections.OrderedDict()
-        self.vaxis = list()
-        self.zorder = dict()
         self.coloridx = collections.defaultdict(lambda: -1)
-        self.handles = collections.defaultdict(list)
-        self.labels = collections.defaultdict(list)
-        self.legpos = collections.defaultdict(int)
 
-        self.prop = mfontmgr.FontProperties(size=self.sch.subtxtsize)
-
-    def newfig(self, figid, numfig, mpyplot):
-        fig = mpyplot.figure(figid + numfig)
-        self.figs.append(fig)
-        self.daxis = collections.OrderedDict()
-        self.vaxis = list()
-        self.row = 0
-        self.sharex = None
-        return fig
-
-    def nextcolor(self, ax):
+    def nextcolor(self, ax: int):
         self.coloridx[ax] += 1
         return self.coloridx[ax]
 
     def color(self, ax):
         return self.sch.color(self.coloridx[ax])
 
-    def zordernext(self, ax):
-        z = self.zorder[ax]
-        if self.sch.zdown:
-            return z * 0.9999
-        return z * 1.0001
 
-    def zordercur(self, ax):
-        return self.zorder[ax]
-
-
-class Plot_OldSync(with_metaclass(MetaParams, object)):
+class Plot(metaclass=MetaParams):
     params = (("scheme", PlotScheme()),)
 
     def __init__(self, **kwargs):
@@ -101,50 +57,114 @@ class Plot_OldSync(with_metaclass(MetaParams, object)):
         if not hasattr(self.p.scheme, "locbg"):
             setattr(self.p.scheme, "locbg", "white")
             setattr(self.p.scheme, "locbgother", "white")
+        self.chart = None
 
-    def drawtag(self, ax, x, y, facecolor, edgecolor, alpha=0.9, **kwargs):
-        txt = ax.text(
-            x,
-            y,
-            "%.2f" % y,
-            va="center",
-            ha="left",
-            fontsize=self.pinf.sch.subtxtsize,
-            bbox=dict(
-                boxstyle=tag_box_style,
-                facecolor=facecolor,
-                edgecolor=edgecolor,
-                alpha=alpha,
-            ),
-            # 3.0 is the minimum default for text
-            zorder=self.pinf.zorder[ax] + 3.0,
-            **kwargs,
-        )
+    @staticmethod
+    def _frame_from_series(data: dict, default_times):
+        frame_data = dict(data)
+        time_values = frame_data.pop("time", default_times)
+
+        lengths = [len(time_values)]
+        lengths.extend(len(values) for values in frame_data.values())
+        min_len = min(lengths) if lengths else 0
+
+        if min_len == 0:
+            return pd.DataFrame({"time": [], **{key: [] for key in frame_data}})
+
+        aligned = {"time": list(time_values)[-min_len:]}
+        for key, values in frame_data.items():
+            aligned[key] = list(values)[-min_len:]
+
+        return pd.DataFrame(aligned)
 
     def plot(
-        self, strategy, figid=0, numfigs=1, iplot=True, start=None, end=None, **kwargs
+        self,
+        stratlist,
+        iplot=False,
+        start=None,
+        end=None,
+        width=None,
+        height=None,
+        show_eq=False,
+        show=True,
+        filename=None,
+        **kwargs,
     ):
-        # pfillers={}):
+        if filename is None:
+            logger.warning("plot() called with filename=None, returning early")
+            return
+
+        logger.info(
+            f"plot() called with filename={filename}, stratlist length={len(stratlist)}"
+        )
+
+        for strategy in stratlist:
+            if not isinstance(strategy, Strategy):
+                raise TypeError(f"Expected Strategy instance, got {type(strategy)}")
+            else:
+                self.plot_one(
+                    strategy,
+                    start=start,
+                    end=end,
+                    width=width,
+                    height=height,
+                    show_eq=show_eq,
+                    filename=filename,
+                    **kwargs,
+                )
+
+        logger.info(f"After plot_one, self.chart is: {self.chart}")
+        if self.chart:
+            logger.info(f"Calling self.chart.load() to save file: {filename}")
+            try:
+                self.chart.load()
+                logger.info(
+                    f"Successfully called chart.load(), file should be at: {filename}"
+                )
+            except Exception as e:
+                logger.error(f"Failed to call chart.load(): {e}", exc_info=True)
+        else:
+            logger.error("self.chart is None, cannot save file!")
+
+        file_path = Path(filename).resolve().as_uri()
+        if iplot:
+            print(f"Opening charts in browser: {file_path}")
+            webbrowser.open(file_path)
+        elif show:
+            webbrowser.open(file_path)
+
+    def plot_one(
+        self,
+        strategy,
+        start=None,
+        end=None,
+        width=None,
+        height=None,
+        show_eq=False,
+        filename=None,
+        **kwargs,
+    ):
         if not strategy.datas:
             return
-
         if not len(strategy):
             return
+        if filename is None:
+            return
 
-        if iplot:
-            if "ipykernel" in sys.modules:
-                matplotlib.use("nbagg")
-
-        # this import must not happen before matplotlib.use
-        import matplotlib.pyplot as mpyplot
-
-        self.mpyplot = mpyplot
-
+        strat_name = strategy.__class__.__name__
         self.pinf = PInfo(self.p.scheme)
+        self.performance = None
+        self.performance_metrics = None
+        for x in strategy.analyzers:
+            if isinstance(x, Eq):
+                self.performance = x
+
         self.sortdataindicators(strategy)
         self.calcrows(strategy)
 
+        # list datetimes
         st_dtime = strategy.lines.datetime.plot()
+
         if start is None:
             start = 0
         if end is None:
@@ -160,184 +180,444 @@ class Plot_OldSync(with_metaclass(MetaParams, object)):
             end = len(st_dtime) + 1 + end  # -1 =  len() -2 = len() - 1
 
         slen = len(st_dtime[start:end])
-        d, m = divmod(slen, numfigs)
-        pranges = list()
-        for i in range(numfigs):
-            a = d * i + start
-            if i == (numfigs - 1):
-                d += m  # add remainder to last stint
-            b = a + d
 
-            pranges.append([a, b, d])
+        self.pinf.pstart = start
+        self.pinf.pend = end
+        self.pinf.psize = slen
 
-        figs = []
+        self.pinf.xstart = self.pinf.pstart
+        self.pinf.xend = self.pinf.pend
 
-        for numfig in range(numfigs):
-            # prepare a figure
-            fig = self.pinf.newfig(figid, numfig, self.mpyplot)
-            figs.append(fig)
+        ###########################################################################
+        # Do the plotting
+        # Things that go always at the top (observers)
 
-            self.pinf.pstart, self.pinf.pend, self.pinf.psize = pranges[numfig]
-            self.pinf.xstart = self.pinf.pstart
-            self.pinf.xend = self.pinf.pend
+        c_top = {}
+        if self.performance:
+            if show_eq:
+                df = self.performance.gen_eq_dd()
+                df["equity_pct"] = (df["Equity"] / df["Equity"].iloc[0] - 1) * 100
+                c_top["eq"] = {
+                    "label": "Equity",
+                    "mode": "plot",
+                    "data": {
+                        "time": df.index.to_pydatetime(),
+                        "Equity": df["equity_pct"].to_numpy(),
+                    },
+                }
+                c_top["eq0"] = {
+                    "label": "Equity",
+                    "mode": "plot",
+                    "data": {
+                        "time": df.index.to_pydatetime(),
+                        "Equity": df["Equity"].to_numpy(),
+                    },
+                }
+                c_top["dd"] = {
+                    "label": "Drawdown",
+                    "mode": "plot",
+                    "data": {
+                        "time": df.index,
+                        "Drawdown": df["DrawdownPct"].to_numpy() * -1.0,
+                    },
+                }
+            self.performance_metrics = self.performance.compute_stats()
 
-            self.pinf.clock = strategy
-            self.pinf.xreal = self.pinf.clock.datetime.plot(
-                self.pinf.pstart, self.pinf.psize
+        # ??     self.plotind(None, ptop, subinds=self.dplots_over[ptop])
+
+        # Create the rest on a per data basis
+        for data in strategy.datas:
+            if not data.plotinfo.plot:
+                continue
+
+            self.pinf.reset()
+
+            # xd - list of datetimes
+            xd = data.datetime.plotrange(self.pinf.xstart, self.pinf.xend)
+            xdates = [num2date(value) for value in xd]
+
+            # plot ind above data
+            c_up = []
+            for ind in self.dplots_up[data]:
+                rc, sub_rc = self.plotind(
+                    data,
+                    ind,
+                    subinds=self.dplots_over[ind],
+                    upinds=self.dplots_up[ind],
+                    downinds=self.dplots_down[ind],
+                )
+                if len(rc) > 0:
+                    c_up.append(rc)
+                if len(sub_rc) > 0:
+                    c_up.extend(sub_rc)
+
+            # plot candles and ind on candles
+            c_data, c_down = self.plotdata(data, self.dplots_over[data])
+
+            # TODO
+            for ind in self.dplots_down[data]:
+                rc, sub_rc = self.plotind(
+                    data,
+                    ind,
+                    subinds=self.dplots_over[ind],
+                    upinds=self.dplots_up[ind],
+                    downinds=self.dplots_down[ind],
+                )
+                if len(rc) > 0:
+                    c_down.append(rc)
+                if len(sub_rc) > 0:
+                    c_down.extend(sub_rc)
+
+            data_name = data._name if data._name else f"data{data._idx}"
+            if self.chart is None:
+                self.chart = self.create_chart(c_top, filename=filename)
+
+            self.show(
+                self.chart, xdates, c_top, c_up, c_data, c_down, strat_name, data_name
             )
-            self.pinf.xlen = len(self.pinf.xreal)
-            self.pinf.x = list(range(self.pinf.xlen))
-            # self.pinf.pfillers = {None: []}
-            # for key, val in pfillers.items():
-            #     pfstart = bisect.bisect_left(val, self.pinf.pstart)
-            #     pfend = bisect.bisect_right(val, self.pinf.pend)
-            #     self.pinf.pfillers[key] = val[pfstart:pfend]
+        return None
 
-            # Do the plotting
-            # Things that go always at the top (observers)
-            self.pinf.xdata = self.pinf.x
-            for ptop in self.dplotstop:
-                self.plotind(None, ptop, subinds=self.dplotsover[ptop])
+    def prepare_trades_list(self, data_name: str):
+        trades = (
+            self.performance.gen_trades(data_name, True)
+            if self.performance
+            else pd.DataFrame()
+        )
+        orders = (
+            self.performance.gen_orders(data_name)
+            if self.performance
+            else pd.DataFrame()
+        )
+        if trades.empty or orders.empty:
+            lst = []
+        else:
+            df_lst = pd.merge(
+                trades, orders, left_on="dateopen", right_on="o_datetime", how="outer"
+            )
+            lst = df_lst.to_dict(orient="records")
 
-            # Create the rest on a per data basis
-            dt0, dt1 = self.pinf.xreal[0], self.pinf.xreal[-1]
-            for data in strategy.datas:
-                if not data.plotinfo.plot:
-                    continue
+        def write_to_file(trade_info):
+            export_path = Path("/home/vcaldas/aptrade/results/stocks")
+            export_path.mkdir(parents=True, exist_ok=True)
+            outfile = export_path / "trade_info.csv"
+            # print(trade_info)
+            df = pd.DataFrame(trade_info, index=[0])
 
-                self.pinf.xdata = self.pinf.x
-                xd = data.datetime.plotrange(self.pinf.xstart, self.pinf.xend)
-                if len(xd) < self.pinf.xlen:
-                    self.pinf.xdata = xdata = []
-                    xreal = self.pinf.xreal
-                    dts = data.datetime.plot()
-                    xtemp = list()
-                    for dt in (x for x in dts if dt0 <= x <= dt1):
-                        dtidx = bisect.bisect_left(xreal, dt)
-                        xdata.append(dtidx)
-                        xtemp.append(dt)
+            if outfile.exists():
+                df = pd.concat([pd.read_csv(outfile, index_col=0), df])
+            df.to_csv(outfile)
 
-                    self.pinf.xstart = bisect.bisect_left(dts, xtemp[0])
-                    self.pinf.xend = bisect.bisect_right(dts, xtemp[-1])
+        def safe_format(value):
+            if value is None:
+                return "--"
+            if value is pd.NaT:
+                return "--"
+            if isinstance(value, float) and np.isnan(value):
+                return "--"
+            if isinstance(value, pd.Timestamp):
+                if pd.isna(value):
+                    return "--"
+                value = value.to_pydatetime()
+            elif isinstance(value, np.datetime64):
+                if np.isnat(value):
+                    return "--"
+                value = pd.to_datetime(value).to_pydatetime()
+            if isinstance(value, str):
+                return value
+            try:
+                return format_datetime(value)
+            except Exception:
+                return "--"
 
-                for ind in self.dplotsup[data]:
-                    self.plotind(
-                        data,
-                        ind,
-                        subinds=self.dplotsover[ind],
-                        upinds=self.dplotsup[ind],
-                        downinds=self.dplotsdown[ind],
+        trades_lst = []
+        size = 0
+        for v in lst:
+            write_to_file(v)
+
+            if size != 0:
+                o_size = v["o_size"]
+                trades_lst.append(
+                    {
+                        "type": 1,
+                        "o_ref": v["o_ref"],
+                        "o_size": o_size,
+                        "o_datetime": safe_format(v["o_datetime"]),
+                        "o_price": v["o_price"],
+                        "o_ordtype": v["o_ordtype"],
+                    }
+                )
+                size_prev = size
+                size += o_size
+                if (size_prev < 0 and size > 0) or (size_prev > 0 and size < 0):
+                    trades_lst.append(
+                        {
+                            "type": 0,
+                            "ref": v["ref"],
+                            "tradeid": v["tradeid"],
+                            "commission": v["commission"],
+                            "pnl": v["pnl"],
+                            "pnlcomm": v["pnlcomm"],
+                            "return_pct": f"{v['return_pct']:0.4f}    ",
+                            "dateopen": safe_format(v["dateopen"]),
+                            "dateclose": safe_format(v["dateclose"]),
+                            "size": v["size"],
+                            "barlen": v["barlen"],
+                            "priceopen": v["priceopen"],
+                            "priceclose": v["priceclose"],
+                        }
+                    )
+            else:
+                o_size = v["o_size"]
+                if not np.isnan(v["ref"]):
+                    trades_lst.append(
+                        {
+                            "type": 0,
+                            "ref": v["ref"],
+                            "tradeid": v["tradeid"],
+                            "commission": v["commission"],
+                            "pnl": v["pnl"],
+                            "pnlcomm": v["pnlcomm"],
+                            "return_pct": f"{v['return_pct']:0.4f}    ",
+                            "dateopen": safe_format(v["dateopen"]),
+                            "dateclose": safe_format(v["dateclose"]),
+                            "size": v["size"],
+                            "barlen": v["barlen"],
+                            "priceopen": v["priceopen"],
+                            "priceclose": v["priceclose"],
+                        }
+                    )
+                else:
+                    trades_lst.append(
+                        {
+                            "type": 0,
+                            "ref": "--",
+                            "tradeid": "--",
+                            "commission": "",
+                            "pnl": "",
+                            "pnlcomm": "",
+                            "return_pct": "",
+                            "dateopen": safe_format(v["o_datetime"]),
+                            "dateclose": "--",
+                            "size": v["o_size"],
+                            "barlen": "",
+                            "priceopen": v["o_price"],
+                            "priceclose": "",
+                        }
                     )
 
-                self.plotdata(data, self.dplotsover[data])
+                trades_lst.append(
+                    {
+                        "type": 1,
+                        "o_ref": v["o_ref"],
+                        "o_size": o_size,
+                        "o_datetime": safe_format(v["o_datetime"]),
+                        "o_price": v["o_price"],
+                        "o_ordtype": v["o_ordtype"],
+                    }
+                )
+                size += o_size
+        return trades_lst
 
-                for ind in self.dplotsdown[data]:
-                    self.plotind(
-                        data,
-                        ind,
-                        subinds=self.dplotsover[ind],
-                        upinds=self.dplotsup[ind],
-                        downinds=self.dplotsdown[ind],
+    def create_chart(self, c_top, filename):
+        chart = HTMLChart_BN(
+            width=1600,
+            height=900,
+            inner_height=-300 if c_top else -500,
+            filename=filename,
+        )
+        chart.legend(visible=True)
+        chart.price_scale(perm_width=100)
+        chart.fit()
+        return chart
+
+    def show(self, chart, xdates, c_top, c_up, c_data, c_down, strat_name, data_name):
+        chart.set_name(f"{strat_name}_{data_name}")
+        self.draw_main(chart, xdates, c_top, c_up, c_data, c_down, data_name)
+        chart.sync_charts()
+        trades_lst = self.prepare_trades_list(data_name)
+        chart.set_trades(lst=trades_lst)
+        if self.performance_metrics is not None:
+            self.chart.set_performance_metrics(self.performance_metrics, strat_name)
+        chart.new_window()
+        chart.legend(visible=True)
+        chart.fit()
+        chart.price_scale(perm_width=100)
+
+    def draw_main(self, chart, xdates, c_top: {}, c_up, c_data, c_down, data_name):
+        def create_subchart(height=-300, toolbox=False):
+            subchart = self.chart.create_subchart(
+                position="left", width=1, height=height, sync=True, toolbox=toolbox
+            )
+            subchart.legend(visible=True)
+            subchart.price_scale(perm_width=100)
+            return subchart
+
+        def draw_item(chart, id: int, item):
+            for ind in item:
+                if ind["mode"] == "candle":
+                    v_data = ind["data"]
+                    chart.set_zipped(self._frame_from_series(v_data, xdates))
+                elif ind["mode"] == "bar":
+                    i_ls = ind.get("ls", None)
+                    i_style = "dashed" if i_ls == "--" else "solid"
+                    i_color = ind.get("color", None)
+                    if not ind.get("samecolor", False):
+                        self.pinf.nextcolor(0)
+                    if i_color is None:
+                        i_color = self.pinf.color(0)
+                    v_label = ind["label"]
+                    v_data = ind["data"]
+                    line = chart.create_histogram(
+                        v_label, price_line=False, price_label=False
                     )
+                    line.set_zipped(self._frame_from_series(v_data, xdates))
+                    hlines = ind.get("hlines", None)
+                    if hlines:
+                        for hline in hlines:
+                            i_style = (
+                                "sparse_dotted"
+                                if self.pinf.sch.hlinesstyle == "..."
+                                else "solid"
+                            )
+                            line.create_price_line(
+                                price=hline,
+                                color=self.pinf.sch.hlinescolor,
+                                width=self.pinf.sch.hlineswidth,
+                                style=i_style,
+                                price_label=False,
+                            )
+                elif ind["mode"] == "plot":
+                    i_ls = ind.get("ls", None)
+                    i_style = "dashed" if i_ls == "--" else "solid"
+                    i_color = ind.get("color", None)
+                    if not ind.get("samecolor", False):
+                        self.pinf.nextcolor(0)
+                    if i_color is None:
+                        i_color = self.pinf.color(0)
+                    v_label = ind["label"]
+                    v_data = ind["data"]
+                    line = chart.create_line(
+                        v_label,
+                        color=i_color,
+                        style=i_style,
+                        price_line=False,
+                        price_label=False,
+                    )
+                    line.set_zipped(self._frame_from_series(v_data, xdates))
+                    hlines = ind.get("hlines", None)
+                    if hlines:
+                        for hline in hlines:
+                            i_style = (
+                                "sparse_dotted"
+                                if self.pinf.sch.hlinesstyle == "..."
+                                else "solid"
+                            )
+                            line.create_price_line(
+                                price=hline,
+                                color=self.pinf.sch.hlinescolor,
+                                width=self.pinf.sch.hlineswidth,
+                                style=i_style,
+                                price_label=False,
+                            )
 
-            cursor = MultiCursor(
-                fig.canvas,
-                list(self.pinf.daxis.values()),
-                useblit=True,
-                horizOn=True,
-                vertOn=True,
-                horizMulti=False,
-                vertMulti=True,
-                horizShared=True,
-                vertShared=False,
-                color="black",
-                lw=1,
-                ls=":",
-            )
-
-            self.pinf.cursors.append(cursor)
-
-            # Put the subplots as indicated by hspace
-            fig.subplots_adjust(
-                hspace=self.pinf.sch.plotdist,
-                top=0.98,
-                left=0.05,
-                bottom=0.05,
-                right=0.95,
-            )
-
-            laxis = list(self.pinf.daxis.values())
-
-            # Find last axis which is not a twinx (date locator fails there)
-            i = -1
-            while True:
-                lastax = laxis[i]
-                if lastax not in self.pinf.vaxis:
-                    break
-
-                i -= 1
-
-            self.setlocators(lastax)  # place the locators/fmts
-
-            # Applying fig.autofmt_xdate if the data axis is the last one
-            # breaks the presentation of the date labels. why?
-            # Applying the manual rotation with setp cures the problem
-            # but the labels from all axis but the last have to be hidden
-            for ax in laxis:
-                self.mpyplot.setp(ax.get_xticklabels(), visible=False)
-
-            self.mpyplot.setp(
-                lastax.get_xticklabels(),
-                visible=True,
-                rotation=self.pinf.sch.tickrotation,
-            )
-
-            # Things must be tight along the x axis (to fill both ends)
-            axtight = "x" if not self.pinf.sch.ytight else "both"
-            self.mpyplot.autoscale(enable=True, axis=axtight, tight=True)
-
-        return figs
-
-    def setlocators(self, ax):
-        clock = sorted(
-            self.pinf.clock.datas, key=lambda x: (x._timeframe, x._compression)
-        )[0]
-
-        comp = getattr(clock, "_compression", 1)
-        tframe = getattr(clock, "_timeframe", TimeFrame.Days)
-
-        if self.pinf.sch.fmt_x_data is None:
-            if tframe == TimeFrame.Years:
-                fmtdata = "%Y"
-            elif tframe == TimeFrame.Months:
-                fmtdata = "%Y-%m"
-            elif tframe == TimeFrame.Weeks:
-                fmtdata = "%Y-%m-%d"
-            elif tframe == TimeFrame.Days:
-                fmtdata = "%Y-%m-%d"
-            elif tframe == TimeFrame.Minutes:
-                fmtdata = "%Y-%m-%d %H:%M"
-            elif tframe == TimeFrame.Seconds:
-                fmtdata = "%Y-%m-%d %H:%M:%S"
-            elif tframe == TimeFrame.MicroSeconds:
-                fmtdata = "%Y-%m-%d %H:%M:%S.%f"
-            elif tframe == TimeFrame.Ticks:
-                fmtdata = "%Y-%m-%d %H:%M:%S.%f"
+        i = 0
+        if c_top:
+            eq = c_top.get("eq", None)
+            if eq is not None:
+                v_label = eq["label"]
+                i_style = "solid"
+                i_color = "red"
+                v_data = eq["data"]
+                line = chart.create_line(
+                    v_label,
+                    color=i_color,
+                    style=i_style,
+                    price_line=False,
+                    price_label=False,
+                )
+                line.set_zipped(pd.DataFrame(v_data))
+                line.create_price_line(
+                    price=0,
+                    color="lightgreen",
+                    width=1,
+                    style="sparse_dotted",
+                    price_label=False,
+                )
+            # dd = c_top.get('dd', None)
+            # if dd is not None:
+            #     v_label = dd['label']
+            #     i_style = 'solid'
+            #     i_color = 'blue'
+            #     v_data = dd['data']
+            #     line = chart.create_line(v_label, color=i_color, style=i_style, price_line=False, price_label=False)
+            #     line.set_zipped(pd.DataFrame(v_data))
+            subchart = create_subchart(height=-500)
         else:
-            fmtdata = self.pinf.sch.fmt_x_data
+            subchart = self.chart
 
-        fordata = MyDateFormatter(self.pinf.xreal, fmt=fmtdata)
-        for dax in self.pinf.daxis.values():
-            dax.fmt_xdata = fordata
+        i = 0
+        for lst in c_data:
+            draw_item(subchart, id=i, item=lst)
+            i += 1
 
-        # Major locator / formatter
-        locmajor = loc.AutoDateLocator(self.pinf.xreal)
-        ax.xaxis.set_major_locator(locmajor)
-        if self.pinf.sch.fmt_x_ticks is None:
-            autofmt = loc.AutoDateFormatter(self.pinf.xreal, locmajor)
-        else:
-            autofmt = MyDateFormatter(self.pinf.xreal, fmt=self.pinf.sch.fmt_x_ticks)
-        ax.xaxis.set_major_formatter(autofmt)
+        # Plot Trades
+        if c_data and self.performance is not None:
+            trades = self.performance.gen_trades(data_name)
+            # orders = self.performance.gen_orders(data_name).groupby('o_datetime')['o_size'].sum().reset_index()
+            orders = self.performance.gen_orders(data_name)
+            markers = list()
+            for _, row in orders.iterrows():
+                size = row["o_size"]
+                price = row["o_price"]
+                shape = "arrow_up" if size > 0 else "arrow_down"
+                color = "lightgreen" if size > 0 else "red"
+                # text = f'Buy @ {size}' if size>0 else f'Short @ {abs(size)}'
+                text = f"Buy @ {price}" if size > 0 else f"Short @ {price}"
+                markers.append(
+                    dict(
+                        time=row["o_datetime"],
+                        position="below",
+                        shape=shape,
+                        color=color,
+                        text=text,
+                    )
+                )
+                markers.append(
+                    dict(
+                        time=row["o_datetime"],
+                        position="atPriceMiddle",
+                        shape="circle",
+                        color=color,
+                        text="",
+                        price=price,
+                        size=0.6,
+                    )
+                )
+            for _, row in trades.iterrows():
+                pnlcomm = row["pnlcomm"]
+                shape = "square"
+                color = "yellow" if pnlcomm > 0 else "fuchsia"
+                text = "+Profit+" if pnlcomm > 0 else "-Loss-"
+                markers.append(
+                    dict(
+                        time=row["dateclose"],
+                        position="above",
+                        shape=shape,
+                        color=color,
+                        text=text,
+                    )
+                )
+            markers.sort(key=lambda m: m["time"])
+            subchart.marker_list(markers)
+
+        i = 0
+        for lst in c_down:
+            # id = f'down_{i}'
+            subchart = create_subchart(height=-300)
+            draw_item(subchart, id=i, item=lst)
+            i += 1
+
+        return chart
 
     def calcrows(self, strategy):
         # Calculate the total number of rows
@@ -345,14 +625,14 @@ class Plot_OldSync(with_metaclass(MetaParams, object)):
         rowsminor = self.pinf.sch.rowsminor
         nrows = 0
 
-        datasnoplot = 0
+        datasnoplot = 0  ##??
         for data in strategy.datas:
             if not data.plotinfo.plot:
                 # neither data nor indicators nor volume add rows
                 datasnoplot += 1
-                self.dplotsup.pop(data, None)
-                self.dplotsdown.pop(data, None)
-                self.dplotsover.pop(data, None)
+                self.dplots_up.pop(data, None)
+                self.dplots_down.pop(data, None)
+                self.dplots_over.pop(data, None)
 
             else:
                 pmaster = data.plotinfo.plotmaster
@@ -368,50 +648,19 @@ class Plot_OldSync(with_metaclass(MetaParams, object)):
                     if self.pinf.sch.volume and not self.pinf.sch.voloverlay:
                         nrows += rowsminor
 
-        if False:
-            # Datas and volumes
-            nrows += (len(strategy.datas) - datasnoplot) * rowsmajor
-            if self.pinf.sch.volume and not self.pinf.sch.voloverlay:
-                nrows += (len(strategy.datas) - datasnoplot) * rowsminor
-
         # top indicators/observers
-        nrows += len(self.dplotstop) * rowsminor
+        nrows += len(self.dplots_top) * rowsminor
 
         # indicators above datas
-        nrows += sum(len(v) for v in self.dplotsup.values())
-        nrows += sum(len(v) for v in self.dplotsdown.values())
+        nrows += sum(len(v) for v in self.dplots_up.values())
+        nrows += sum(len(v) for v in self.dplots_down.values())
 
         self.pinf.nrows = nrows
-
-    def newaxis(self, obj, rowspan):
-        ax = self.mpyplot.subplot2grid(
-            (self.pinf.nrows, 1),
-            (self.pinf.row, 0),
-            rowspan=rowspan,
-            sharex=self.pinf.sharex,
-        )
-
-        # update the sharex information if not available
-        if self.pinf.sharex is None:
-            self.pinf.sharex = ax
-
-        # update the row index with the taken rows
-        self.pinf.row += rowspan
-
-        # save the mapping indicator - axis and return
-        self.pinf.daxis[obj] = ax
-
-        # Activate grid in all axes if requested
-        ax.yaxis.tick_right()
-        ax.grid(self.pinf.sch.grid, which="both")
-
-        return ax
 
     def plotind(
         self, iref, ind, subinds=None, upinds=None, downinds=None, masterax=None
     ):
-        sch = self.p.scheme
-
+        ind_charts = []
         # check subind
         subinds = subinds or []
         upinds = upinds or []
@@ -419,20 +668,21 @@ class Plot_OldSync(with_metaclass(MetaParams, object)):
 
         # plot subindicators on self with independent axis above
         for upind in upinds:
-            self.plotind(iref, upind)
-
-        # Get an axis for this plot
-        ax = masterax or self.newaxis(ind, rowspan=self.pinf.sch.rowsminor)
+            rc, sub_rc = self.plotind(iref, upind)
+            # ind_charts.extend(rc)
+            ind_charts.append(rc)
+            if len(sub_rc) > 0:
+                ind_charts.extend(sub_rc)
 
         indlabel = ind.plotlabel()
 
         # Scan lines quickly to find out if some lines have to be skipped for
-        # legend (because matplotlib reorders the legend)
+        # legend
         toskip = 0
         for lineidx in range(ind.size()):
             line = ind.lines[lineidx]
             linealias = ind.lines._getlinealias(lineidx)
-            lineplotinfo = getattr(ind.plotlines, "_%d" % lineidx, None)
+            lineplotinfo = getattr(ind.plotlines, f"_{lineidx}", None)
             if not lineplotinfo:
                 lineplotinfo = getattr(ind.plotlines, linealias, None)
             if not lineplotinfo:
@@ -444,11 +694,18 @@ class Plot_OldSync(with_metaclass(MetaParams, object)):
         if toskip >= ind.size():
             toskip = 0
 
+        hlines = None
+        if masterax is None:
+            # Set specific hlines if asked to
+            hlines = ind.plotinfo._get("plothlines", [])
+            if not hlines:
+                hlines = ind.plotinfo._get("plotyhlines", [])
+
         for lineidx in range(ind.size()):
             line = ind.lines[lineidx]
             linealias = ind.lines._getlinealias(lineidx)
 
-            lineplotinfo = getattr(ind.plotlines, "_%d" % lineidx, None)
+            lineplotinfo = getattr(ind.plotlines, f"_{lineidx}", None)
             if not lineplotinfo:
                 lineplotinfo = getattr(ind.plotlines, linealias, None)
 
@@ -458,249 +715,72 @@ class Plot_OldSync(with_metaclass(MetaParams, object)):
             if lineplotinfo._get("_plotskip", False):
                 continue
 
-            # Legend label only when plotting 1st line
-            if masterax and not ind.plotinfo.plotlinelabels:
-                label = indlabel * (not toskip) or "_nolegend"
-            else:
-                label = (indlabel + "\n") * (not toskip)
-                label += lineplotinfo._get("_name", "") or linealias
-
-            toskip -= 1  # one line less until legend can be added
+            label = indlabel + " "
+            label += lineplotinfo._get("_name", "") or linealias
 
             # plot data
             lplot = line.plotrange(self.pinf.xstart, self.pinf.xend)
 
-            # Global and generic for indicator
-            if self.pinf.sch.linevalues and ind.plotinfo.plotlinevalues:
-                plotlinevalue = lineplotinfo._get("_plotvalue", True)
-                if plotlinevalue and not math.isnan(lplot[-1]):
-                    label += " %.2f" % lplot[-1]
+            pltmethod = lineplotinfo._get("_method", "plot")
 
-            plotkwargs = dict()
-            linekwargs = lineplotinfo._getkwargs(skip_=True)
-
-            if linekwargs.get("color", None) is None:
-                if not lineplotinfo._get("_samecolor", False):
-                    self.pinf.nextcolor(ax)
-                plotkwargs["color"] = self.pinf.color(ax)
-
-            plotkwargs.update(dict(aa=True, label=label))
-            plotkwargs.update(**linekwargs)
-
-            if ax in self.pinf.zorder:
-                plotkwargs["zorder"] = self.pinf.zordernext(ax)
-
-            pltmethod = getattr(ax, lineplotinfo._get("_method", "plot"))
-
-            xdata, lplotarray = self.pinf.xdata, lplot
-            if lineplotinfo._get("_skipnan", False):
+            lplotarray = lplot
+            if lineplotinfo._get("_skipnan", False):  # ??
                 # Get the full array and a mask to skipnan
                 lplotarray = np.array(lplot)
                 lplotmask = np.isfinite(lplotarray)
 
                 # Get both the axis and the data masked
                 lplotarray = lplotarray[lplotmask]
-                xdata = np.array(xdata)[lplotmask]
 
-            plottedline = pltmethod(xdata, lplotarray, **plotkwargs)
-            try:
-                plottedline = plottedline[0]
-            except:
-                # Possibly a container of artists (when plotting bars)
-                pass
+            # Create indicator dictionary
+            indicator = {
+                "label": label,
+                "mode": lineplotinfo._get("_method", "plot"),
+                "data": {label: lplotarray.tolist()},
+                "hlines": hlines,
+            }
+            hlines = None  # only once
+            i_color = lineplotinfo._get("color", None)
+            if i_color is not None:
+                indicator["color"] = i_color
+            if lineplotinfo._get("_samecolor", False):
+                indicator["samecolor"] = True
+            i_ls = lineplotinfo._get("ls", None)
+            if i_ls is not None:
+                indicator["ls"] = i_ls
 
-            self.pinf.zorder[ax] = plottedline.get_zorder()
-
-            vtags = lineplotinfo._get("plotvaluetags", True)
-            if self.pinf.sch.valuetags and vtags:
-                linetag = lineplotinfo._get("_plotvaluetag", True)
-                if linetag and not math.isnan(lplot[-1]):
-                    # line has valid values, plot a tag for the last value
-                    self.drawtag(
-                        ax,
-                        len(self.pinf.xreal),
-                        lplot[-1],
-                        facecolor=self.pinf.sch.locbgother,
-                        edgecolor=self.pinf.color(ax),
-                    )
-
-            farts = (
-                ("_gt", operator.gt),
-                ("_lt", operator.lt),
-                ("", None),
-            )
-            for fcmp, fop in farts:
-                fattr = "_fill" + fcmp
-                fref, fcol = lineplotinfo._get(fattr, (None, None))
-                if fref is not None:
-                    y1 = np.array(lplot)
-                    if isinstance(fref, integer_types):
-                        y2 = np.full_like(y1, fref)
-                    else:  # string, naming a line, nothing else is supported
-                        l2 = getattr(ind, fref)
-                        prl2 = l2.plotrange(self.pinf.xstart, self.pinf.xend)
-                        y2 = np.array(prl2)
-                    kwargs = dict()
-                    if fop is not None:
-                        kwargs["where"] = fop(y1, y2)
-
-                    falpha = self.pinf.sch.fillalpha
-                    if isinstance(fcol, (list, tuple)):
-                        fcol, falpha = fcol
-
-                    ax.fill_between(
-                        self.pinf.xdata,
-                        y1,
-                        y2,
-                        facecolor=fcol,
-                        alpha=falpha,
-                        interpolate=True,
-                        **kwargs,
-                    )
+            ind_charts.append(indicator)
 
         # plot subindicators that were created on self
         for subind in subinds:
-            self.plotind(iref, subind, subinds=self.dplotsover[subind], masterax=ax)
+            rc, sub_rc = self.plotind(
+                iref, subind, subinds=self.dplots_over[subind], masterax=masterax
+            )
+            ind_charts.extend(rc)
+            if len(sub_rc) > 0:
+                ind_charts.extend(sub_rc)
 
-        if not masterax:
-            # adjust margin if requested ... general of particular
-            ymargin = ind.plotinfo._get("plotymargin", 0.0)
-            ymargin = max(ymargin, self.pinf.sch.yadjust)
-            if ymargin:
-                ax.margins(y=ymargin)
-
-            # Set specific or generic ticks
-            yticks = ind.plotinfo._get("plotyticks", [])
-            if not yticks:
-                yticks = ind.plotinfo._get("plotyhlines", [])
-
-            if yticks:
-                ax.set_yticks(yticks)
-            else:
-                locator = mticker.MaxNLocator(nbins=4, prune="both")
-                ax.yaxis.set_major_locator(locator)
-
-            # Set specific hlines if asked to
-            hlines = ind.plotinfo._get("plothlines", [])
-            if not hlines:
-                hlines = ind.plotinfo._get("plotyhlines", [])
-            for hline in hlines:
-                ax.axhline(
-                    hline,
-                    color=self.pinf.sch.hlinescolor,
-                    ls=self.pinf.sch.hlinesstyle,
-                    lw=self.pinf.sch.hlineswidth,
-                )
-
-            if self.pinf.sch.legendind and ind.plotinfo._get("plotlegend", True):
-                handles, labels = ax.get_legend_handles_labels()
-                # Ensure that we have something to show
-                if labels:
-                    # location can come from the user
-                    loc = ind.plotinfo.legendloc or self.pinf.sch.legendindloc
-
-                    # Legend done here to ensure it includes all plots
-                    legend = ax.legend(
-                        loc=loc,
-                        numpoints=1,
-                        frameon=False,
-                        shadow=False,
-                        fancybox=False,
-                        prop=self.pinf.prop,
-                    )
-
-                    # legend.set_title(indlabel, prop=self.pinf.prop)
-                    # hack: if title is set. legend has a Vbox for the labels
-                    # which has a default "center" set
-                    legend._legend_box.align = "left"
-
+        sub_down_inds = []
         # plot subindicators on self with independent axis below
         for downind in downinds:
-            self.plotind(iref, downind)
-
-    def plotvolume(self, data, opens, highs, lows, closes, volumes, label):
-        pmaster = data.plotinfo.plotmaster
-        if pmaster is data:
-            pmaster = None
-        voloverlay = self.pinf.sch.voloverlay and pmaster is None
-
-        # if sefl.pinf.sch.voloverlay:
-        if voloverlay:
-            rowspan = self.pinf.sch.rowsmajor
-        else:
-            rowspan = self.pinf.sch.rowsminor
-
-        ax = self.newaxis(data.volume, rowspan=rowspan)
-
-        # if self.pinf.sch.voloverlay:
-        if voloverlay:
-            volalpha = self.pinf.sch.voltrans
-        else:
-            volalpha = 1.0
-
-        maxvol = volylim = max(volumes)
-        if maxvol:
-            # Plot the volume (no matter if as overlay or standalone)
-            vollabel = label
-            (volplot,) = plot_volume(
-                ax,
-                self.pinf.xdata,
-                opens,
-                closes,
-                volumes,
-                colorup=self.pinf.sch.volup,
-                colordown=self.pinf.sch.voldown,
-                alpha=volalpha,
-                label=vollabel,
-            )
-
-            nbins = 6
-            prune = "both"
-            # if self.pinf.sch.voloverlay:
-            if voloverlay:
-                # store for a potential plot over it
-                nbins = int(nbins / self.pinf.sch.volscaling)
-                prune = None
-
-                volylim /= self.pinf.sch.volscaling
-                ax.set_ylim(0, volylim, auto=True)
-            else:
-                # plot a legend
-                handles, labels = ax.get_legend_handles_labels()
-                if handles:
-                    # location can come from the user
-                    loc = data.plotinfo.legendloc or self.pinf.sch.legendindloc
-
-                    # Legend done here to ensure it includes all plots
-                    legend = ax.legend(
-                        loc=loc,
-                        numpoints=1,
-                        frameon=False,
-                        shadow=False,
-                        fancybox=False,
-                        prop=self.pinf.prop,
-                    )
-
-            locator = mticker.MaxNLocator(nbins=nbins, prune=prune)
-            ax.yaxis.set_major_locator(locator)
-            ax.yaxis.set_major_formatter(MyVolFormatter(maxvol))
-
-        if not maxvol:
-            ax.set_yticks([])
-            return None
-
-        return volplot
+            rc, sub_rc = self.plotind(iref, downind, masterax=True)
+            sub_down_inds.append(rc)
+            if len(sub_rc) > 0:
+                sub_down_inds.append(sub_rc)
+        return ind_charts, sub_down_inds
 
     def plotdata(self, data, indicators):
+        chart_data = []
+        charts_down = []
         for ind in indicators:
-            upinds = self.dplotsup[ind]
+            upinds = self.dplots_up[ind]
             for upind in upinds:
                 self.plotind(
                     data,
                     upind,
-                    subinds=self.dplotsover[upind],
-                    upinds=self.dplotsup[upind],
-                    downinds=self.dplotsdown[upind],
+                    subinds=self.dplots_over[upind],
+                    upinds=self.dplots_up[upind],
+                    downinds=self.dplots_down[upind],
                 )
 
         opens = data.open.plotrange(self.pinf.xstart, self.pinf.xend)
@@ -709,222 +789,98 @@ class Plot_OldSync(with_metaclass(MetaParams, object)):
         closes = data.close.plotrange(self.pinf.xstart, self.pinf.xend)
         volumes = data.volume.plotrange(self.pinf.xstart, self.pinf.xend)
 
-        vollabel = "Volume"
+        df_data = {
+            "open": opens,
+            "high": highs,
+            "low": lows,
+            "close": closes,
+        }
+
         pmaster = data.plotinfo.plotmaster
         if pmaster is data:
             pmaster = None
+        voloverlay = self.pinf.sch.voloverlay and pmaster is None
+
+        if self.pinf.sch.volume and voloverlay:
+            df_data["volume"] = volumes
 
         datalabel = ""
         if hasattr(data, "_name") and data._name:
             datalabel += data._name
 
-        voloverlay = self.pinf.sch.voloverlay and pmaster is None
-
-        if not voloverlay:
-            vollabel += " ({})".format(datalabel)
-
-        # if self.pinf.sch.volume and self.pinf.sch.voloverlay:
-        axdatamaster = None
-        if self.pinf.sch.volume and voloverlay:
-            volplot = self.plotvolume(
-                data, opens, highs, lows, closes, volumes, vollabel
-            )
-            axvol = self.pinf.daxis[data.volume]
-            ax = axvol.twinx()
-            self.pinf.daxis[data] = ax
-            self.pinf.vaxis.append(ax)
-        else:
-            if pmaster is None:
-                ax = self.newaxis(data, rowspan=self.pinf.sch.rowsmajor)
-            elif getattr(data.plotinfo, "sameaxis", False):
-                axdatamaster = self.pinf.daxis[pmaster]
-                ax = axdatamaster
-            else:
-                axdatamaster = self.pinf.daxis[pmaster]
-                ax = axdatamaster.twinx()
-                self.pinf.vaxis.append(ax)
-
         if hasattr(data, "_compression") and hasattr(data, "_timeframe"):
             tfname = TimeFrame.getname(data._timeframe, data._compression)
             datalabel += " (%d %s)" % (data._compression, tfname)
 
-        plinevalues = getattr(data.plotinfo, "plotlinevalues", True)
-        if self.pinf.sch.style.startswith("line"):
-            if self.pinf.sch.linevalues and plinevalues:
-                datalabel += " C:%.2f" % closes[-1]
+        chart_data.append(
+            [
+                {
+                    "label": datalabel,
+                    "mode": "candle",
+                    "data": df_data,
+                }
+            ]
+        )
 
-            if axdatamaster is None:
-                color = self.pinf.sch.loc
-            else:
-                self.pinf.nextcolor(axdatamaster)
-                color = self.pinf.color(axdatamaster)
-
-            plotted = plot_lineonclose(
-                ax, self.pinf.xdata, closes, color=color, label=datalabel
+        if self.pinf.sch.volume and not voloverlay:
+            df_vol = {
+                # 'time': xdates,
+                "volume": volumes,
+            }
+            charts_down.append(
+                [
+                    {
+                        "label": "volume",
+                        "mode": "hist",
+                        "data": df_vol,
+                    }
+                ]
             )
-        else:
-            if self.pinf.sch.linevalues and plinevalues:
-                datalabel += " O:%.2f H:%.2f L:%.2f C:%.2f" % (
-                    opens[-1],
-                    highs[-1],
-                    lows[-1],
-                    closes[-1],
-                )
-            if self.pinf.sch.style.startswith("candle"):
-                plotted = plot_candlestick(
-                    ax,
-                    self.pinf.xdata,
-                    opens,
-                    highs,
-                    lows,
-                    closes,
-                    colorup=self.pinf.sch.barup,
-                    colordown=self.pinf.sch.bardown,
-                    label=datalabel,
-                    alpha=self.pinf.sch.baralpha,
-                    fillup=self.pinf.sch.barupfill,
-                    filldown=self.pinf.sch.bardownfill,
-                )
-
-            elif self.pinf.sch.style.startswith("bar") or True:
-                # final default option -- should be "else"
-                plotted = plot_ohlc(
-                    ax,
-                    self.pinf.xdata,
-                    opens,
-                    highs,
-                    lows,
-                    closes,
-                    colorup=self.pinf.sch.barup,
-                    colordown=self.pinf.sch.bardown,
-                    label=datalabel,
-                )
-
-        self.pinf.zorder[ax] = plotted[0].get_zorder()
-
-        # Code to place a label at the right hand side with the last value
-        vtags = data.plotinfo._get("plotvaluetags", True)
-        if self.pinf.sch.valuetags and vtags:
-            self.drawtag(
-                ax,
-                len(self.pinf.xreal),
-                closes[-1],
-                facecolor=self.pinf.sch.locbg,
-                edgecolor=self.pinf.sch.loc,
-            )
-
-        ax.yaxis.set_major_locator(mticker.MaxNLocator(prune="both"))
-        # make sure "over" indicators do not change our scale
-        if data.plotinfo._get("plotylimited", True):
-            if axdatamaster is None:
-                ax.set_ylim(ax.get_ylim())
-
-        if self.pinf.sch.volume:
-            # if not self.pinf.sch.voloverlay:
-            if not voloverlay:
-                self.plotvolume(data, opens, highs, lows, closes, volumes, vollabel)
-            else:
-                # Prepare overlay scaling/pushup or manage own axis
-                if self.pinf.sch.volpushup:
-                    # push up overlaid axis by lowering the bottom limit
-                    axbot, axtop = ax.get_ylim()
-                    axbot *= 1.0 - self.pinf.sch.volpushup
-                    ax.set_ylim(axbot, axtop)
 
         for ind in indicators:
-            self.plotind(data, ind, subinds=self.dplotsover[ind], masterax=ax)
-
-        handles, labels = ax.get_legend_handles_labels()
-        a = axdatamaster or ax
-        if handles:
-            # put data and volume legend entries in the 1st positions
-            # because they are "collections" they are considered after Line2D
-            # for the legend entries, which is not our desire
-            # if self.pinf.sch.volume and self.pinf.sch.voloverlay:
-
-            ai = self.pinf.legpos[a]
-            if self.pinf.sch.volume and voloverlay:
-                if volplot:
-                    # even if volume plot was requested, there may be no volume
-                    labels.insert(ai, vollabel)
-                    handles.insert(ai, volplot)
-
-            didx = labels.index(datalabel)
-            labels.insert(ai, labels.pop(didx))
-            handles.insert(ai, handles.pop(didx))
-
-            if axdatamaster is None:
-                self.pinf.handles[ax] = handles
-                self.pinf.labels[ax] = labels
-            else:
-                self.pinf.handles[axdatamaster] = handles
-                self.pinf.labels[axdatamaster] = labels
-                # self.pinf.handles[axdatamaster].extend(handles)
-                # self.pinf.labels[axdatamaster].extend(labels)
-
-            h = self.pinf.handles[a]
-            l = self.pinf.labels[a]
-
-            axlegend = a
-            loc = data.plotinfo.legendloc or self.pinf.sch.legenddataloc
-            legend = axlegend.legend(
-                h,
-                l,
-                loc=loc,
-                frameon=False,
-                shadow=False,
-                fancybox=False,
-                prop=self.pinf.prop,
-                numpoints=1,
-                ncol=1,
+            rc, sub_rc = self.plotind(
+                data, ind, subinds=self.dplots_over[ind], masterax=True
             )
-
-            # hack: if title is set. legend has a Vbox for the labels
-            # which has a default "center" set
-            legend._legend_box.align = "left"
+            # chart_data.extend(rc)
+            chart_data.append(rc)
+            if len(sub_rc) > 0:
+                chart_data.append(sub_rc)
 
         for ind in indicators:
-            downinds = self.dplotsdown[ind]
+            downinds = self.dplots_down[ind]
             for downind in downinds:
-                self.plotind(
+                rc, sub_rc = self.plotind(
                     data,
                     downind,
-                    subinds=self.dplotsover[downind],
-                    upinds=self.dplotsup[downind],
-                    downinds=self.dplotsdown[downind],
+                    subinds=self.dplots_over[downind],
+                    upinds=self.dplots_up[downind],
+                    downinds=self.dplots_down[downind],
                 )
+                # charts_down.extend(rc)
+                charts_down.append(rc)
+                if len(sub_rc) > 0:
+                    charts_down.append(sub_rc)
+        return chart_data, charts_down
 
-        self.pinf.legpos[a] = len(self.pinf.handles[a])
-
-        if data.plotinfo._get("plotlog", False):
-            a = axdatamaster or ax
-            a.set_yscale("log")
-
-    def show(self):
-        self.mpyplot.show()
-
-    def savefig(self, fig, filename, width=16, height=9, dpi=300, tight=True):
-        fig.set_size_inches(width, height)
-        bbox_inches = "tight" * tight or None
-        fig.savefig(filename, dpi=dpi, bbox_inches=bbox_inches)
-
-    def sortdataindicators(self, strategy):
+    # +-
+    def sortdataindicators(self, strategy: Strategy):
         # These lists/dictionaries hold the subplots that go above each data
-        self.dplotstop = list()
-        self.dplotsup = collections.defaultdict(list)
-        self.dplotsdown = collections.defaultdict(list)
-        self.dplotsover = collections.defaultdict(list)
+        self.dplots_top = list()
+        self.dplots_up = collections.defaultdict(list)
+        self.dplots_down = collections.defaultdict(list)
+        self.dplots_over = collections.defaultdict(list)
 
         # Sort observers in the different lists/dictionaries
-        for x in strategy.getobservers():
-            if not x.plotinfo.plot or x.plotinfo.plotskip:
-                continue
+        # ??TODO
+        # for x in strategy.getobservers():
+        #     if not x.plotinfo.plot or x.plotinfo.plotskip:
+        #         continue
 
-            if x.plotinfo.subplot:
-                self.dplotstop.append(x)
-            else:
-                key = getattr(x._clock, "owner", x._clock)
-                self.dplotsover[key].append(x)
+        #     if x.plotinfo.subplot:
+        #         self.dplots_top.append(x)
+        #     else:
+        #         key = getattr(x._clock, 'owner', x._clock)
+        #         self.dplots_over[key].append(x)
 
         # Sort indicators in the different lists/dictionaries
         for x in strategy.getindicators():
@@ -946,7 +902,7 @@ class Plot_OldSync(with_metaclass(MetaParams, object)):
                 if key not in strategy.datas:
                     datas = strategy.datas
                     while True:
-                        if key not in strategy.datas:
+                        if key not in datas:
                             key = key._clock
                         else:
                             break
@@ -959,11 +915,8 @@ class Plot_OldSync(with_metaclass(MetaParams, object)):
 
             if x.plotinfo.subplot and xpmaster is None:
                 if x.plotinfo.plotabove:
-                    self.dplotsup[key].append(x)
+                    self.dplots_up[key].append(x)
                 else:
-                    self.dplotsdown[key].append(x)
+                    self.dplots_down[key].append(x)
             else:
-                self.dplotsover[key].append(x)
-
-
-Plot = Plot_OldSync
+                self.dplots_over[key].append(x)
