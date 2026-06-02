@@ -159,7 +159,7 @@ def parse_args(pargs=None):
         "--signal",
         required=False,
         action="store",
-        default=MAINSIGNALS.keys()[0],
+        default=next(iter(MAINSIGNALS)),
         choices=MAINSIGNALS,
         help=("Signal type to use for the main signal"),
     )

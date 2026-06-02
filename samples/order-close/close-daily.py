@@ -26,7 +26,6 @@ import random
 
 import aptrade as bt
 import aptrade.feeds as btfeeds
-from aptrade.utils.py3 import with_metaclass
 
 #                        unicode_literals)
 
@@ -61,7 +60,7 @@ class St(bt.Strategy):
                 self.order = self.buy(exectype=bt.Order.Close)
 
 
-class SessionEndFiller(with_metaclass(bt.metabase.MetaParams, object)):
+class SessionEndFiller(object, metaclass=bt.metabase.MetaParams):
     """This data filter simply adds the time given in param ``endtime`` to the
     current data datetime
 
@@ -91,6 +90,7 @@ class SessionEndFiller(with_metaclass(bt.metabase.MetaParams, object)):
 
 def runstrat():
     args = parse_args()
+    random.seed(args.seed)
 
     cerebro = bt.Cerebro()
     cerebro.adddata(getdata(args))
@@ -119,7 +119,7 @@ def getdata(args):
         dfkwargs["fromdate"] = fromdate
 
     if args.todate:
-        fromdate = datetime.datetime.strptime(args.todate, "%Y-%m-%d")
+        todate = datetime.datetime.strptime(args.todate, "%Y-%m-%d")
         dfkwargs["todate"] = todate
 
     if args.tend is not None:
@@ -200,6 +200,13 @@ def parse_args():
         default=None,
         required=False,
         help="Add Time to daily bars (HH:MM:SS)",
+    )
+
+    parser.add_argument(
+        "--seed",
+        default=0,
+        type=int,
+        help="Random seed for reproducible order generation",
     )
 
     return parser.parse_args()

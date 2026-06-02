@@ -20,6 +20,9 @@
 ###############################################################################
 from __future__ import absolute_import, division, print_function, unicode_literals
 
+import os
+from pathlib import Path
+
 import aptrade as bt
 import aptrade.feeds as btfeeds
 
@@ -27,8 +30,10 @@ if __name__ == "__main__":
     cerebro = bt.Cerebro(stdstats=True)
     cerebro.addstrategy(bt.Strategy)
 
-    data = bt.feeds.BacktraderCSVData(dataname="../../datas/2006-day-001.txt")
+    datapath = Path(__file__).resolve().parents[2] / "datas" / "2006-day-001.txt"
+    data = bt.feeds.BacktraderCSVData(dataname=str(datapath))
     cerebro.adddata(data)
 
     cerebro.run()
-    cerebro.plot()
+    if os.environ.get("APTRADE_SAMPLE_SKIP_PLOT") != "1":
+        cerebro.plot()

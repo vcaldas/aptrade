@@ -73,7 +73,8 @@ def runstrat():
     cerebro.run()
 
     # Plot the result
-    cerebro.plot(style="bar")
+    if not args.noplot:
+        cerebro.plot(style="bar")
 
 
 def parse_args():
@@ -134,6 +135,13 @@ def parse_args():
 
     parser.add_argument(
         "--wrcsv", required=False, action="store_true", help=("Add CSV to the Writer")
+    )
+
+    parser.add_argument(
+        "--noplot",
+        required=False,
+        action="store_true",
+        help=("Skip plotting so the sample can run without optional chart dependencies"),
     )
 
     return parser.parse_args()

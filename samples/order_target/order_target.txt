@@ -1,0 +1,1006 @@
+0001 - 2005-01-03 - Position Size:     00 - Value 1000000.00
+0001 - 2005-01-03 - Order Target Size: 03
+0002 - 2005-01-04 - Position Size:     03 - Value 999994.39
+0002 - 2005-01-04 - Order Target Size: 04
+0003 - 2005-01-05 - Position Size:     04 - Value 999992.48
+0003 - 2005-01-05 - Order Target Size: 05
+0004 - 2005-01-06 - Position Size:     05 - Value 999988.79
+0004 - 2005-01-06 - Order Target Size: 06
+0005 - 2005-01-07 - Position Size:     06 - Value 999991.41
+0005 - 2005-01-07 - Order Target Size: 07
+0006 - 2005-01-10 - Position Size:     07 - Value 999993.89
+0006 - 2005-01-10 - Order Target Size: 10
+0007 - 2005-01-11 - Position Size:     10 - Value 999987.32
+0007 - 2005-01-11 - Order Target Size: 11
+0008 - 2005-01-12 - Position Size:     11 - Value 999992.38
+0008 - 2005-01-12 - Order Target Size: 12
+0009 - 2005-01-13 - Position Size:     12 - Value 999982.68
+0009 - 2005-01-13 - Order Target Size: 13
+0010 - 2005-01-14 - Position Size:     13 - Value 999999.96
+0010 - 2005-01-14 - Order Target Size: 14
+0011 - 2005-01-18 - Position Size:     14 - Value 1000006.28
+0011 - 2005-01-18 - Order Target Size: 18
+0012 - 2005-01-19 - Position Size:     18 - Value 999989.54
+0012 - 2005-01-19 - Order Target Size: 19
+0013 - 2005-01-20 - Position Size:     19 - Value 999977.87
+0013 - 2005-01-20 - Order Target Size: 20
+0014 - 2005-01-21 - Position Size:     20 - Value 999967.98
+0014 - 2005-01-21 - Order Target Size: 21
+0015 - 2005-01-24 - Position Size:     21 - Value 999939.03
+0015 - 2005-01-24 - Order Target Size: 24
+0016 - 2005-01-25 - Position Size:     24 - Value 999939.81
+0016 - 2005-01-25 - Order Target Size: 25
+0017 - 2005-01-26 - Position Size:     25 - Value 999974.89
+0017 - 2005-01-26 - Order Target Size: 26
+0018 - 2005-01-27 - Position Size:     26 - Value 999955.74
+0018 - 2005-01-27 - Order Target Size: 27
+0019 - 2005-01-28 - Position Size:     27 - Value 999952.60
+0019 - 2005-01-28 - Order Target Size: 28
+0020 - 2005-01-31 - Position Size:     28 - Value 999968.70
+0020 - 2005-01-31 - Order Target Size: 31
+0021 - 2005-02-01 - Position Size:     31 - Value 999954.68
+0021 - 2005-02-01 - Order Target Size: 30
+0022 - 2005-02-02 - Position Size:     30 - Value 999979.65
+0022 - 2005-02-02 - Order Target Size: 29
+0023 - 2005-02-03 - Position Size:     29 - Value 999966.33
+0023 - 2005-02-03 - Order Target Size: 28
+0024 - 2005-02-04 - Position Size:     28 - Value 999963.99
+0024 - 2005-02-04 - Order Target Size: 27
+0025 - 2005-02-07 - Position Size:     27 - Value 999949.19
+0025 - 2005-02-07 - Order Target Size: 24
+0026 - 2005-02-08 - Position Size:     24 - Value 999947.06
+0026 - 2005-02-08 - Order Target Size: 23
+0027 - 2005-02-09 - Position Size:     23 - Value 999929.59
+0027 - 2005-02-09 - Order Target Size: 22
+0028 - 2005-02-10 - Position Size:     22 - Value 999926.42
+0028 - 2005-02-10 - Order Target Size: 21
+0029 - 2005-02-11 - Position Size:     21 - Value 999941.34
+0029 - 2005-02-11 - Order Target Size: 20
+0030 - 2005-02-14 - Position Size:     20 - Value 999944.80
+0030 - 2005-02-14 - Order Target Size: 17
+0031 - 2005-02-15 - Position Size:     17 - Value 999938.88
+0031 - 2005-02-15 - Order Target Size: 16
+0032 - 2005-02-16 - Position Size:     16 - Value 999945.75
+0032 - 2005-02-16 - Order Target Size: 15
+0033 - 2005-02-17 - Position Size:     15 - Value 999936.75
+0033 - 2005-02-17 - Order Target Size: 14
+0034 - 2005-02-18 - Position Size:     14 - Value 999933.69
+0034 - 2005-02-18 - Order Target Size: 13
+0035 - 2005-02-22 - Position Size:     13 - Value 999922.81
+0035 - 2005-02-22 - Order Target Size: 09
+0036 - 2005-02-23 - Position Size:     09 - Value 999916.90
+0036 - 2005-02-23 - Order Target Size: 08
+0037 - 2005-02-24 - Position Size:     08 - Value 999910.09
+0037 - 2005-02-24 - Order Target Size: 07
+0038 - 2005-02-25 - Position Size:     07 - Value 999911.89
+0038 - 2005-02-25 - Order Target Size: 06
+0039 - 2005-02-28 - Position Size:     06 - Value 999915.14
+0039 - 2005-02-28 - Order Target Size: 03
+0040 - 2005-03-01 - Position Size:     03 - Value 999915.53
+0040 - 2005-03-01 - Order Target Size: 01
+0041 - 2005-03-02 - Position Size:     01 - Value 999915.00
+0041 - 2005-03-02 - Order Target Size: 02
+0042 - 2005-03-03 - Position Size:     02 - Value 999915.14
+0042 - 2005-03-03 - Order Target Size: 03
+0043 - 2005-03-04 - Position Size:     03 - Value 999915.24
+0043 - 2005-03-04 - Order Target Size: 04
+0044 - 2005-03-07 - Position Size:     04 - Value 999918.12
+0044 - 2005-03-07 - Order Target Size: 07
+0045 - 2005-03-08 - Position Size:     07 - Value 999917.23
+0045 - 2005-03-08 - Order Target Size: 08
+0046 - 2005-03-09 - Position Size:     08 - Value 999910.66
+0046 - 2005-03-09 - Order Target Size: 09
+0047 - 2005-03-10 - Position Size:     09 - Value 999906.86
+0047 - 2005-03-10 - Order Target Size: 10
+0048 - 2005-03-11 - Position Size:     10 - Value 999904.31
+0048 - 2005-03-11 - Order Target Size: 11
+0049 - 2005-03-14 - Position Size:     11 - Value 999900.59
+0049 - 2005-03-14 - Order Target Size: 14
+0050 - 2005-03-15 - Position Size:     14 - Value 999908.40
+0050 - 2005-03-15 - Order Target Size: 15
+0051 - 2005-03-16 - Position Size:     15 - Value 999903.07
+0051 - 2005-03-16 - Order Target Size: 16
+0052 - 2005-03-17 - Position Size:     16 - Value 999903.33
+0052 - 2005-03-17 - Order Target Size: 17
+0053 - 2005-03-18 - Position Size:     17 - Value 999894.91
+0053 - 2005-03-18 - Order Target Size: 18
+0054 - 2005-03-21 - Position Size:     18 - Value 999903.91
+0054 - 2005-03-21 - Order Target Size: 21
+0055 - 2005-03-22 - Position Size:     21 - Value 999890.44
+0055 - 2005-03-22 - Order Target Size: 22
+0056 - 2005-03-23 - Position Size:     22 - Value 999887.88
+0056 - 2005-03-23 - Order Target Size: 23
+0057 - 2005-03-24 - Position Size:     23 - Value 999899.23
+0057 - 2005-03-24 - Order Target Size: 24
+0058 - 2005-03-28 - Position Size:     24 - Value 999918.59
+0058 - 2005-03-28 - Order Target Size: 28
+0059 - 2005-03-29 - Position Size:     28 - Value 999916.35
+0059 - 2005-03-29 - Order Target Size: 29
+0060 - 2005-03-30 - Position Size:     29 - Value 999954.48
+0060 - 2005-03-30 - Order Target Size: 30
+0061 - 2005-03-31 - Position Size:     30 - Value 999967.01
+0061 - 2005-03-31 - Order Target Size: 31
+0062 - 2005-04-01 - Position Size:     31 - Value 999978.51
+0062 - 2005-04-01 - Order Target Size: 30
+0063 - 2005-04-04 - Position Size:     30 - Value 1000002.27
+0063 - 2005-04-04 - Order Target Size: 27
+0064 - 2005-04-05 - Position Size:     27 - Value 1000004.67
+0064 - 2005-04-05 - Order Target Size: 26
+0065 - 2005-04-06 - Position Size:     26 - Value 999987.50
+0065 - 2005-04-06 - Order Target Size: 25
+0066 - 2005-04-07 - Position Size:     25 - Value 1000001.96
+0066 - 2005-04-07 - Order Target Size: 24
+0067 - 2005-04-08 - Position Size:     24 - Value 999994.49
+0067 - 2005-04-08 - Order Target Size: 23
+0068 - 2005-04-11 - Position Size:     23 - Value 999991.02
+0068 - 2005-04-11 - Order Target Size: 20
+0069 - 2005-04-12 - Position Size:     20 - Value 999983.87
+0069 - 2005-04-12 - Order Target Size: 19
+0070 - 2005-04-13 - Position Size:     19 - Value 999970.83
+0070 - 2005-04-13 - Order Target Size: 18
+0071 - 2005-04-14 - Position Size:     18 - Value 999968.34
+0071 - 2005-04-14 - Order Target Size: 17
+0072 - 2005-04-15 - Position Size:     17 - Value 999950.84
+0072 - 2005-04-15 - Order Target Size: 16
+0073 - 2005-04-18 - Position Size:     16 - Value 999952.25
+0073 - 2005-04-18 - Order Target Size: 13
+0074 - 2005-04-19 - Position Size:     13 - Value 999962.19
+0074 - 2005-04-19 - Order Target Size: 12
+0075 - 2005-04-20 - Position Size:     12 - Value 999981.09
+0075 - 2005-04-20 - Order Target Size: 11
+0076 - 2005-04-21 - Position Size:     11 - Value 999994.98
+0076 - 2005-04-21 - Order Target Size: 10
+0077 - 2005-04-22 - Position Size:     10 - Value 999984.32
+0077 - 2005-04-22 - Order Target Size: 09
+0078 - 2005-04-25 - Position Size:     09 - Value 999989.61
+0078 - 2005-04-25 - Order Target Size: 06
+0079 - 2005-04-26 - Position Size:     06 - Value 999985.56
+0079 - 2005-04-26 - Order Target Size: 05
+0080 - 2005-04-27 - Position Size:     05 - Value 999985.01
+0080 - 2005-04-27 - Order Target Size: 04
+0081 - 2005-04-28 - Position Size:     04 - Value 999982.28
+0081 - 2005-04-28 - Order Target Size: 03
+0082 - 2005-04-29 - Position Size:     03 - Value 999983.06
+0082 - 2005-04-29 - Order Target Size: 02
+0083 - 2005-05-02 - Position Size:     02 - Value 999982.76
+0083 - 2005-05-02 - Order Target Size: 02
+0084 - 2005-05-03 - Position Size:     02 - Value 999982.56
+0084 - 2005-05-03 - Order Target Size: 03
+0085 - 2005-05-04 - Position Size:     03 - Value 999985.11
+0085 - 2005-05-04 - Order Target Size: 04
+0086 - 2005-05-05 - Position Size:     04 - Value 999983.31
+0086 - 2005-05-05 - Order Target Size: 05
+0087 - 2005-05-06 - Position Size:     05 - Value 999982.07
+0087 - 2005-05-06 - Order Target Size: 06
+0088 - 2005-05-09 - Position Size:     06 - Value 999982.53
+0088 - 2005-05-09 - Order Target Size: 09
+0089 - 2005-05-10 - Position Size:     09 - Value 999978.63
+0089 - 2005-05-10 - Order Target Size: 10
+0090 - 2005-05-11 - Position Size:     10 - Value 999986.80
+0090 - 2005-05-11 - Order Target Size: 11
+0091 - 2005-05-12 - Position Size:     11 - Value 999984.86
+0091 - 2005-05-12 - Order Target Size: 12
+0092 - 2005-05-13 - Position Size:     12 - Value 999986.18
+0092 - 2005-05-13 - Order Target Size: 13
+0093 - 2005-05-16 - Position Size:     13 - Value 999994.41
+0093 - 2005-05-16 - Order Target Size: 16
+0094 - 2005-05-17 - Position Size:     16 - Value 999998.84
+0094 - 2005-05-17 - Order Target Size: 17
+0095 - 2005-05-18 - Position Size:     17 - Value 1000003.32
+0095 - 2005-05-18 - Order Target Size: 18
+0096 - 2005-05-19 - Position Size:     18 - Value 1000017.54
+0096 - 2005-05-19 - Order Target Size: 19
+0097 - 2005-05-20 - Position Size:     19 - Value 1000009.71
+0097 - 2005-05-20 - Order Target Size: 20
+0098 - 2005-05-23 - Position Size:     20 - Value 1000019.34
+0098 - 2005-05-23 - Order Target Size: 23
+0099 - 2005-05-24 - Position Size:     23 - Value 1000015.22
+0099 - 2005-05-24 - Order Target Size: 24
+0100 - 2005-05-25 - Position Size:     24 - Value 1000006.96
+0100 - 2005-05-25 - Order Target Size: 25
+0101 - 2005-05-26 - Position Size:     25 - Value 1000028.53
+0101 - 2005-05-26 - Order Target Size: 26
+0102 - 2005-05-27 - Position Size:     26 - Value 1000032.07
+0102 - 2005-05-27 - Order Target Size: 27
+0103 - 2005-05-31 - Position Size:     27 - Value 1000030.42
+0103 - 2005-05-31 - Order Target Size: 31
+0104 - 2005-06-01 - Position Size:     31 - Value 1000067.80
+0104 - 2005-06-01 - Order Target Size: 30
+0105 - 2005-06-02 - Position Size:     30 - Value 1000069.98
+0105 - 2005-06-02 - Order Target Size: 29
+0106 - 2005-06-03 - Position Size:     29 - Value 1000052.90
+0106 - 2005-06-03 - Order Target Size: 28
+0107 - 2005-06-06 - Position Size:     28 - Value 1000069.57
+0107 - 2005-06-06 - Order Target Size: 25
+0108 - 2005-06-07 - Position Size:     25 - Value 1000043.17
+0108 - 2005-06-07 - Order Target Size: 24
+0109 - 2005-06-08 - Position Size:     24 - Value 1000023.71
+0109 - 2005-06-08 - Order Target Size: 23
+0110 - 2005-06-09 - Position Size:     23 - Value 1000042.75
+0110 - 2005-06-09 - Order Target Size: 22
+0111 - 2005-06-10 - Position Size:     22 - Value 1000028.70
+0111 - 2005-06-10 - Order Target Size: 21
+0112 - 2005-06-13 - Position Size:     21 - Value 1000030.44
+0112 - 2005-06-13 - Order Target Size: 18
+0113 - 2005-06-14 - Position Size:     18 - Value 1000027.62
+0113 - 2005-06-14 - Order Target Size: 17
+0114 - 2005-06-15 - Position Size:     17 - Value 1000019.63
+0114 - 2005-06-15 - Order Target Size: 16
+0115 - 2005-06-16 - Position Size:     16 - Value 1000021.05
+0115 - 2005-06-16 - Order Target Size: 15
+0116 - 2005-06-17 - Position Size:     15 - Value 1000019.91
+0116 - 2005-06-17 - Order Target Size: 14
+0117 - 2005-06-20 - Position Size:     14 - Value 1000021.67
+0117 - 2005-06-20 - Order Target Size: 11
+0118 - 2005-06-21 - Position Size:     11 - Value 1000026.93
+0118 - 2005-06-21 - Order Target Size: 10
+0119 - 2005-06-22 - Position Size:     10 - Value 1000026.39
+0119 - 2005-06-22 - Order Target Size: 09
+0120 - 2005-06-23 - Position Size:     09 - Value 1000020.04
+0120 - 2005-06-23 - Order Target Size: 08
+0121 - 2005-06-24 - Position Size:     08 - Value 1000019.22
+0121 - 2005-06-24 - Order Target Size: 07
+0122 - 2005-06-27 - Position Size:     07 - Value 1000016.14
+0122 - 2005-06-27 - Order Target Size: 04
+0123 - 2005-06-28 - Position Size:     04 - Value 1000017.43
+0123 - 2005-06-28 - Order Target Size: 03
+0124 - 2005-06-29 - Position Size:     03 - Value 1000014.85
+0124 - 2005-06-29 - Order Target Size: 02
+0125 - 2005-06-30 - Position Size:     02 - Value 1000014.17
+0125 - 2005-06-30 - Order Target Size: 01
+0126 - 2005-07-01 - Position Size:     01 - Value 1000014.07
+0126 - 2005-07-01 - Order Target Size: 01
+0127 - 2005-07-05 - Position Size:     01 - Value 1000014.23
+0127 - 2005-07-05 - Order Target Size: 05
+0128 - 2005-07-06 - Position Size:     05 - Value 1000011.67
+0128 - 2005-07-06 - Order Target Size: 06
+0129 - 2005-07-07 - Position Size:     06 - Value 1000014.98
+0129 - 2005-07-07 - Order Target Size: 07
+0130 - 2005-07-08 - Position Size:     07 - Value 1000014.77
+0130 - 2005-07-08 - Order Target Size: 08
+0131 - 2005-07-11 - Position Size:     08 - Value 1000023.61
+0131 - 2005-07-11 - Order Target Size: 11
+0132 - 2005-07-12 - Position Size:     11 - Value 1000027.46
+0132 - 2005-07-12 - Order Target Size: 12
+0133 - 2005-07-13 - Position Size:     12 - Value 1000033.27
+0133 - 2005-07-13 - Order Target Size: 13
+0134 - 2005-07-14 - Position Size:     13 - Value 1000034.29
+0134 - 2005-07-14 - Order Target Size: 14
+0135 - 2005-07-15 - Position Size:     14 - Value 1000030.18
+0135 - 2005-07-15 - Order Target Size: 15
+0136 - 2005-07-18 - Position Size:     15 - Value 1000030.31
+0136 - 2005-07-18 - Order Target Size: 18
+0137 - 2005-07-19 - Position Size:     18 - Value 1000049.69
+0137 - 2005-07-19 - Order Target Size: 19
+0138 - 2005-07-20 - Position Size:     19 - Value 999970.94
+0138 - 2005-07-20 - Order Target Size: 20
+0139 - 2005-07-21 - Position Size:     20 - Value 999961.39
+0139 - 2005-07-21 - Order Target Size: 21
+0140 - 2005-07-22 - Position Size:     21 - Value 999973.37
+0140 - 2005-07-22 - Order Target Size: 22
+0141 - 2005-07-25 - Position Size:     22 - Value 999980.06
+0141 - 2005-07-25 - Order Target Size: 25
+0142 - 2005-07-26 - Position Size:     25 - Value 999986.96
+0142 - 2005-07-26 - Order Target Size: 26
+0143 - 2005-07-27 - Position Size:     26 - Value 999990.53
+0143 - 2005-07-27 - Order Target Size: 27
+0144 - 2005-07-28 - Position Size:     27 - Value 999983.03
+0144 - 2005-07-28 - Order Target Size: 28
+0145 - 2005-07-29 - Position Size:     28 - Value 999964.27
+0145 - 2005-07-29 - Order Target Size: 29
+0146 - 2005-08-01 - Position Size:     29 - Value 999963.69
+0146 - 2005-08-01 - Order Target Size: 30
+0147 - 2005-08-02 - Position Size:     30 - Value 999980.06
+0147 - 2005-08-02 - Order Target Size: 29
+0148 - 2005-08-03 - Position Size:     29 - Value 999998.20
+0148 - 2005-08-03 - Order Target Size: 28
+0149 - 2005-08-04 - Position Size:     28 - Value 999985.35
+0149 - 2005-08-04 - Order Target Size: 27
+0150 - 2005-08-05 - Position Size:     27 - Value 999970.80
+0150 - 2005-08-05 - Order Target Size: 26
+0151 - 2005-08-08 - Position Size:     26 - Value 999982.06
+0151 - 2005-08-08 - Order Target Size: 23
+0152 - 2005-08-09 - Position Size:     23 - Value 999985.45
+0152 - 2005-08-09 - Order Target Size: 22
+0153 - 2005-08-10 - Position Size:     22 - Value 999988.53
+0153 - 2005-08-10 - Order Target Size: 21
+0154 - 2005-08-11 - Position Size:     21 - Value 1000004.63
+0154 - 2005-08-11 - Order Target Size: 20
+0155 - 2005-08-12 - Position Size:     20 - Value 999997.75
+0155 - 2005-08-12 - Order Target Size: 19
+0156 - 2005-08-15 - Position Size:     19 - Value 999997.95
+0156 - 2005-08-15 - Order Target Size: 16
+0157 - 2005-08-16 - Position Size:     16 - Value 999991.94
+0157 - 2005-08-16 - Order Target Size: 15
+0158 - 2005-08-17 - Position Size:     15 - Value 999994.41
+0158 - 2005-08-17 - Order Target Size: 14
+0159 - 2005-08-18 - Position Size:     14 - Value 999993.73
+0159 - 2005-08-18 - Order Target Size: 13
+0160 - 2005-08-19 - Position Size:     13 - Value 999989.08
+0160 - 2005-08-19 - Order Target Size: 12
+0161 - 2005-08-22 - Position Size:     12 - Value 999979.55
+0161 - 2005-08-22 - Order Target Size: 09
+0162 - 2005-08-23 - Position Size:     09 - Value 999979.01
+0162 - 2005-08-23 - Order Target Size: 08
+0163 - 2005-08-24 - Position Size:     08 - Value 999981.70
+0163 - 2005-08-24 - Order Target Size: 07
+0164 - 2005-08-25 - Position Size:     07 - Value 999981.84
+0164 - 2005-08-25 - Order Target Size: 06
+0165 - 2005-08-26 - Position Size:     06 - Value 999982.41
+0165 - 2005-08-26 - Order Target Size: 05
+0166 - 2005-08-29 - Position Size:     05 - Value 999982.79
+0166 - 2005-08-29 - Order Target Size: 02
+0167 - 2005-08-30 - Position Size:     02 - Value 999981.25
+0167 - 2005-08-30 - Order Target Size: 01
+0168 - 2005-08-31 - Position Size:     01 - Value 999981.44
+0168 - 2005-08-31 - Order Target Size: 00
+0169 - 2005-09-01 - Position Size:     00 - Value 999981.40
+0169 - 2005-09-01 - Order Target Size: 01
+0170 - 2005-09-02 - Position Size:     01 - Value 999981.37
+0170 - 2005-09-02 - Order Target Size: 02
+0171 - 2005-09-06 - Position Size:     02 - Value 999982.38
+0171 - 2005-09-06 - Order Target Size: 06
+0172 - 2005-09-07 - Position Size:     06 - Value 999985.38
+0172 - 2005-09-07 - Order Target Size: 07
+0173 - 2005-09-08 - Position Size:     07 - Value 999980.66
+0173 - 2005-09-08 - Order Target Size: 08
+0174 - 2005-09-09 - Position Size:     08 - Value 999981.61
+0174 - 2005-09-09 - Order Target Size: 09
+0175 - 2005-09-12 - Position Size:     09 - Value 999985.70
+0175 - 2005-09-12 - Order Target Size: 12
+0176 - 2005-09-13 - Position Size:     12 - Value 999990.32
+0176 - 2005-09-13 - Order Target Size: 13
+0177 - 2005-09-14 - Position Size:     13 - Value 999983.82
+0177 - 2005-09-14 - Order Target Size: 14
+0178 - 2005-09-15 - Position Size:     14 - Value 999980.45
+0178 - 2005-09-15 - Order Target Size: 15
+0179 - 2005-09-16 - Position Size:     15 - Value 999974.28
+0179 - 2005-09-16 - Order Target Size: 16
+0180 - 2005-09-19 - Position Size:     16 - Value 999967.46
+0180 - 2005-09-19 - Order Target Size: 19
+0181 - 2005-09-20 - Position Size:     19 - Value 999964.98
+0181 - 2005-09-20 - Order Target Size: 20
+0182 - 2005-09-21 - Position Size:     20 - Value 999951.69
+0182 - 2005-09-21 - Order Target Size: 21
+0183 - 2005-09-22 - Position Size:     21 - Value 999953.04
+0183 - 2005-09-22 - Order Target Size: 22
+0184 - 2005-09-23 - Position Size:     22 - Value 999954.94
+0184 - 2005-09-23 - Order Target Size: 23
+0185 - 2005-09-26 - Position Size:     23 - Value 999955.74
+0185 - 2005-09-26 - Order Target Size: 26
+0186 - 2005-09-27 - Position Size:     26 - Value 999963.57
+0186 - 2005-09-27 - Order Target Size: 27
+0187 - 2005-09-28 - Position Size:     27 - Value 999959.87
+0187 - 2005-09-28 - Order Target Size: 28
+0188 - 2005-09-29 - Position Size:     28 - Value 999990.90
+0188 - 2005-09-29 - Order Target Size: 29
+0189 - 2005-09-30 - Position Size:     29 - Value 1000001.79
+0189 - 2005-09-30 - Order Target Size: 30
+0190 - 2005-10-03 - Position Size:     30 - Value 999999.73
+0190 - 2005-10-03 - Order Target Size: 28
+0191 - 2005-10-04 - Position Size:     28 - Value 999994.09
+0191 - 2005-10-04 - Order Target Size: 27
+0192 - 2005-10-05 - Position Size:     27 - Value 999992.15
+0192 - 2005-10-05 - Order Target Size: 26
+0193 - 2005-10-06 - Position Size:     26 - Value 1000000.67
+0193 - 2005-10-06 - Order Target Size: 25
+0194 - 2005-10-07 - Position Size:     25 - Value 1000009.90
+0194 - 2005-10-07 - Order Target Size: 24
+0195 - 2005-10-10 - Position Size:     24 - Value 1000018.82
+0195 - 2005-10-10 - Order Target Size: 21
+0196 - 2005-10-11 - Position Size:     21 - Value 1000009.85
+0196 - 2005-10-11 - Order Target Size: 20
+0197 - 2005-10-12 - Position Size:     20 - Value 1000006.34
+0197 - 2005-10-12 - Order Target Size: 19
+0198 - 2005-10-13 - Position Size:     19 - Value 999995.57
+0198 - 2005-10-13 - Order Target Size: 18
+0199 - 2005-10-14 - Position Size:     18 - Value 999998.52
+0199 - 2005-10-14 - Order Target Size: 17
+0200 - 2005-10-17 - Position Size:     17 - Value 1000009.73
+0200 - 2005-10-17 - Order Target Size: 14
+0201 - 2005-10-18 - Position Size:     14 - Value 1000004.01
+0201 - 2005-10-18 - Order Target Size: 13
+0202 - 2005-10-19 - Position Size:     13 - Value 1000033.66
+0202 - 2005-10-19 - Order Target Size: 12
+0203 - 2005-10-20 - Position Size:     12 - Value 1000025.85
+0203 - 2005-10-20 - Order Target Size: 11
+0204 - 2005-10-21 - Position Size:     11 - Value 1000026.91
+0204 - 2005-10-21 - Order Target Size: 10
+0205 - 2005-10-24 - Position Size:     10 - Value 1000026.82
+0205 - 2005-10-24 - Order Target Size: 07
+0206 - 2005-10-25 - Position Size:     07 - Value 1000025.43
+0206 - 2005-10-25 - Order Target Size: 06
+0207 - 2005-10-26 - Position Size:     06 - Value 1000027.41
+0207 - 2005-10-26 - Order Target Size: 05
+0208 - 2005-10-27 - Position Size:     05 - Value 1000027.24
+0208 - 2005-10-27 - Order Target Size: 04
+0209 - 2005-10-28 - Position Size:     04 - Value 1000027.93
+0209 - 2005-10-28 - Order Target Size: 03
+0210 - 2005-10-31 - Position Size:     03 - Value 1000032.12
+0210 - 2005-10-31 - Order Target Size: 00
+0211 - 2005-11-01 - Position Size:     00 - Value 1000031.07
+0211 - 2005-11-01 - Order Target Size: 01
+0212 - 2005-11-02 - Position Size:     01 - Value 1000031.57
+0212 - 2005-11-02 - Order Target Size: 02
+0213 - 2005-11-03 - Position Size:     02 - Value 1000030.22
+0213 - 2005-11-03 - Order Target Size: 03
+0214 - 2005-11-04 - Position Size:     03 - Value 1000031.34
+0214 - 2005-11-04 - Order Target Size: 04
+0215 - 2005-11-07 - Position Size:     04 - Value 1000031.64
+0215 - 2005-11-07 - Order Target Size: 07
+0216 - 2005-11-08 - Position Size:     07 - Value 1000032.58
+0216 - 2005-11-08 - Order Target Size: 08
+0217 - 2005-11-09 - Position Size:     08 - Value 1000031.03
+0217 - 2005-11-09 - Order Target Size: 09
+0218 - 2005-11-10 - Position Size:     09 - Value 1000039.72
+0218 - 2005-11-10 - Order Target Size: 10
+0219 - 2005-11-11 - Position Size:     10 - Value 1000037.72
+0219 - 2005-11-11 - Order Target Size: 11
+0220 - 2005-11-14 - Position Size:     11 - Value 1000037.34
+0220 - 2005-11-14 - Order Target Size: 14
+0221 - 2005-11-15 - Position Size:     14 - Value 1000026.71
+0221 - 2005-11-15 - Order Target Size: 15
+0222 - 2005-11-16 - Position Size:     15 - Value 1000062.31
+0222 - 2005-11-16 - Order Target Size: 16
+0223 - 2005-11-17 - Position Size:     16 - Value 1000097.07
+0223 - 2005-11-17 - Order Target Size: 17
+0224 - 2005-11-18 - Position Size:     17 - Value 1000085.53
+0224 - 2005-11-18 - Order Target Size: 18
+0225 - 2005-11-21 - Position Size:     18 - Value 1000098.95
+0225 - 2005-11-21 - Order Target Size: 21
+0226 - 2005-11-22 - Position Size:     21 - Value 1000102.46
+0226 - 2005-11-22 - Order Target Size: 22
+0227 - 2005-11-23 - Position Size:     22 - Value 1000105.69
+0227 - 2005-11-23 - Order Target Size: 23
+0228 - 2005-11-25 - Position Size:     23 - Value 1000096.97
+0228 - 2005-11-25 - Order Target Size: 25
+0229 - 2005-11-28 - Position Size:     25 - Value 1000072.47
+0229 - 2005-11-28 - Order Target Size: 28
+0230 - 2005-11-29 - Position Size:     28 - Value 1000047.01
+0230 - 2005-11-29 - Order Target Size: 29
+0231 - 2005-11-30 - Position Size:     29 - Value 1000048.98
+0231 - 2005-11-30 - Order Target Size: 30
+0232 - 2005-12-01 - Position Size:     30 - Value 1000073.67
+0232 - 2005-12-01 - Order Target Size: 30
+0233 - 2005-12-02 - Position Size:     30 - Value 1000077.87
+0233 - 2005-12-02 - Order Target Size: 29
+0234 - 2005-12-05 - Position Size:     29 - Value 1000056.08
+0234 - 2005-12-05 - Order Target Size: 26
+0235 - 2005-12-06 - Position Size:     26 - Value 1000049.73
+0235 - 2005-12-06 - Order Target Size: 25
+0236 - 2005-12-07 - Position Size:     25 - Value 1000047.85
+0236 - 2005-12-07 - Order Target Size: 24
+0237 - 2005-12-08 - Position Size:     24 - Value 1000053.75
+0237 - 2005-12-08 - Order Target Size: 23
+0238 - 2005-12-09 - Position Size:     23 - Value 1000052.98
+0238 - 2005-12-09 - Order Target Size: 22
+0239 - 2005-12-12 - Position Size:     22 - Value 1000048.02
+0239 - 2005-12-12 - Order Target Size: 19
+0240 - 2005-12-13 - Position Size:     19 - Value 1000069.09
+0240 - 2005-12-13 - Order Target Size: 18
+0241 - 2005-12-14 - Position Size:     18 - Value 1000070.81
+0241 - 2005-12-14 - Order Target Size: 17
+0242 - 2005-12-15 - Position Size:     17 - Value 1000078.39
+0242 - 2005-12-15 - Order Target Size: 16
+0243 - 2005-12-16 - Position Size:     16 - Value 1000087.62
+0243 - 2005-12-16 - Order Target Size: 15
+0244 - 2005-12-19 - Position Size:     15 - Value 1000068.41
+0244 - 2005-12-19 - Order Target Size: 12
+0245 - 2005-12-20 - Position Size:     12 - Value 1000064.60
+0245 - 2005-12-20 - Order Target Size: 11
+0246 - 2005-12-21 - Position Size:     11 - Value 1000062.13
+0246 - 2005-12-21 - Order Target Size: 10
+0247 - 2005-12-22 - Position Size:     10 - Value 1000065.95
+0247 - 2005-12-22 - Order Target Size: 09
+0248 - 2005-12-23 - Position Size:     09 - Value 1000064.41
+0248 - 2005-12-23 - Order Target Size: 08
+0249 - 2005-12-27 - Position Size:     08 - Value 1000058.91
+0249 - 2005-12-27 - Order Target Size: 04
+0250 - 2005-12-28 - Position Size:     04 - Value 1000060.79
+0250 - 2005-12-28 - Order Target Size: 03
+0251 - 2005-12-29 - Position Size:     03 - Value 1000058.72
+0251 - 2005-12-29 - Order Target Size: 02
+0252 - 2005-12-30 - Position Size:     02 - Value 1000057.80
+0252 - 2005-12-30 - Order Target Size: 01
+0253 - 2006-01-03 - Position Size:     01 - Value 1000060.04
+0253 - 2006-01-03 - Order Target Size: 03
+0254 - 2006-01-04 - Position Size:     03 - Value 1000059.60
+0254 - 2006-01-04 - Order Target Size: 04
+0255 - 2006-01-05 - Position Size:     04 - Value 1000061.88
+0255 - 2006-01-05 - Order Target Size: 05
+0256 - 2006-01-06 - Position Size:     05 - Value 1000068.93
+0256 - 2006-01-06 - Order Target Size: 06
+0257 - 2006-01-09 - Position Size:     06 - Value 1000070.30
+0257 - 2006-01-09 - Order Target Size: 09
+0258 - 2006-01-10 - Position Size:     09 - Value 1000067.72
+0258 - 2006-01-10 - Order Target Size: 10
+0259 - 2006-01-11 - Position Size:     10 - Value 1000057.41
+0259 - 2006-01-11 - Order Target Size: 11
+0260 - 2006-01-12 - Position Size:     11 - Value 1000046.58
+0260 - 2006-01-12 - Order Target Size: 12
+0261 - 2006-01-13 - Position Size:     12 - Value 1000034.59
+0261 - 2006-01-13 - Order Target Size: 13
+0262 - 2006-01-17 - Position Size:     13 - Value 1000038.13
+0262 - 2006-01-17 - Order Target Size: 17
+0263 - 2006-01-18 - Position Size:     17 - Value 999974.72
+0263 - 2006-01-18 - Order Target Size: 18
+0264 - 2006-01-19 - Position Size:     18 - Value 999958.78
+0264 - 2006-01-19 - Order Target Size: 19
+0265 - 2006-01-20 - Position Size:     19 - Value 999947.46
+0265 - 2006-01-20 - Order Target Size: 20
+0266 - 2006-01-23 - Position Size:     20 - Value 999955.58
+0266 - 2006-01-23 - Order Target Size: 23
+0267 - 2006-01-24 - Position Size:     23 - Value 999970.54
+0267 - 2006-01-24 - Order Target Size: 24
+0268 - 2006-01-25 - Position Size:     24 - Value 999960.86
+0268 - 2006-01-25 - Order Target Size: 25
+0269 - 2006-01-26 - Position Size:     25 - Value 999977.41
+0269 - 2006-01-26 - Order Target Size: 26
+0270 - 2006-01-27 - Position Size:     26 - Value 999975.24
+0270 - 2006-01-27 - Order Target Size: 27
+0271 - 2006-01-30 - Position Size:     27 - Value 999974.16
+0271 - 2006-01-30 - Order Target Size: 30
+0272 - 2006-01-31 - Position Size:     30 - Value 999953.61
+0272 - 2006-01-31 - Order Target Size: 31
+0273 - 2006-02-01 - Position Size:     31 - Value 999972.76
+0273 - 2006-02-01 - Order Target Size: 30
+0274 - 2006-02-02 - Position Size:     30 - Value 999950.27
+0274 - 2006-02-02 - Order Target Size: 29
+0275 - 2006-02-03 - Position Size:     29 - Value 999929.43
+0275 - 2006-02-03 - Order Target Size: 28
+0276 - 2006-02-06 - Position Size:     28 - Value 999912.43
+0276 - 2006-02-06 - Order Target Size: 25
+0277 - 2006-02-07 - Position Size:     25 - Value 999915.20
+0277 - 2006-02-07 - Order Target Size: 24
+0278 - 2006-02-08 - Position Size:     24 - Value 999914.94
+0278 - 2006-02-08 - Order Target Size: 23
+0279 - 2006-02-09 - Position Size:     23 - Value 999903.45
+0279 - 2006-02-09 - Order Target Size: 22
+0280 - 2006-02-10 - Position Size:     22 - Value 999903.75
+0280 - 2006-02-10 - Order Target Size: 21
+0281 - 2006-02-13 - Position Size:     21 - Value 999893.58
+0281 - 2006-02-13 - Order Target Size: 18
+0282 - 2006-02-14 - Position Size:     18 - Value 999906.12
+0282 - 2006-02-14 - Order Target Size: 17
+0283 - 2006-02-15 - Position Size:     17 - Value 999911.12
+0283 - 2006-02-15 - Order Target Size: 16
+0284 - 2006-02-16 - Position Size:     16 - Value 999907.08
+0284 - 2006-02-16 - Order Target Size: 15
+0285 - 2006-02-17 - Position Size:     15 - Value 999907.36
+0285 - 2006-02-17 - Order Target Size: 14
+0286 - 2006-02-21 - Position Size:     14 - Value 999902.32
+0286 - 2006-02-21 - Order Target Size: 10
+0287 - 2006-02-22 - Position Size:     10 - Value 999910.42
+0287 - 2006-02-22 - Order Target Size: 09
+0288 - 2006-02-23 - Position Size:     09 - Value 999910.18
+0288 - 2006-02-23 - Order Target Size: 08
+0289 - 2006-02-24 - Position Size:     08 - Value 999909.11
+0289 - 2006-02-24 - Order Target Size: 07
+0290 - 2006-02-27 - Position Size:     07 - Value 999907.32
+0290 - 2006-02-27 - Order Target Size: 04
+0291 - 2006-02-28 - Position Size:     04 - Value 999904.27
+0291 - 2006-02-28 - Order Target Size: 03
+0292 - 2006-03-01 - Position Size:     03 - Value 999904.78
+0292 - 2006-03-01 - Order Target Size: 01
+0293 - 2006-03-02 - Position Size:     01 - Value 999903.96
+0293 - 2006-03-02 - Order Target Size: 02
+0294 - 2006-03-03 - Position Size:     02 - Value 999903.46
+0294 - 2006-03-03 - Order Target Size: 03
+0295 - 2006-03-06 - Position Size:     03 - Value 999903.74
+0295 - 2006-03-06 - Order Target Size: 06
+0296 - 2006-03-07 - Position Size:     06 - Value 999903.35
+0296 - 2006-03-07 - Order Target Size: 07
+0297 - 2006-03-08 - Position Size:     07 - Value 999900.39
+0297 - 2006-03-08 - Order Target Size: 08
+0298 - 2006-03-09 - Position Size:     08 - Value 999894.65
+0298 - 2006-03-09 - Order Target Size: 09
+0299 - 2006-03-10 - Position Size:     09 - Value 999897.23
+0299 - 2006-03-10 - Order Target Size: 10
+0300 - 2006-03-13 - Position Size:     10 - Value 999892.79
+0300 - 2006-03-13 - Order Target Size: 13
+0301 - 2006-03-14 - Position Size:     13 - Value 999903.86
+0301 - 2006-03-14 - Order Target Size: 14
+0302 - 2006-03-15 - Position Size:     14 - Value 999897.16
+0302 - 2006-03-15 - Order Target Size: 15
+0303 - 2006-03-16 - Position Size:     15 - Value 999890.92
+0303 - 2006-03-16 - Order Target Size: 16
+0304 - 2006-03-17 - Position Size:     16 - Value 999889.74
+0304 - 2006-03-17 - Order Target Size: 17
+0305 - 2006-03-20 - Position Size:     17 - Value 999895.72
+0305 - 2006-03-20 - Order Target Size: 20
+0306 - 2006-03-21 - Position Size:     20 - Value 999890.11
+0306 - 2006-03-21 - Order Target Size: 21
+0307 - 2006-03-22 - Position Size:     21 - Value 999903.33
+0307 - 2006-03-22 - Order Target Size: 22
+0308 - 2006-03-23 - Position Size:     22 - Value 999926.32
+0308 - 2006-03-23 - Order Target Size: 23
+0309 - 2006-03-24 - Position Size:     23 - Value 999924.49
+0309 - 2006-03-24 - Order Target Size: 24
+0310 - 2006-03-27 - Position Size:     24 - Value 999916.74
+0310 - 2006-03-27 - Order Target Size: 27
+0311 - 2006-03-28 - Position Size:     27 - Value 999942.12
+0311 - 2006-03-28 - Order Target Size: 28
+0312 - 2006-03-29 - Position Size:     28 - Value 999946.83
+0312 - 2006-03-29 - Order Target Size: 29
+0313 - 2006-03-30 - Position Size:     29 - Value 999942.58
+0313 - 2006-03-30 - Order Target Size: 30
+0314 - 2006-03-31 - Position Size:     30 - Value 999937.75
+0314 - 2006-03-31 - Order Target Size: 31
+0315 - 2006-04-03 - Position Size:     31 - Value 999926.13
+0315 - 2006-04-03 - Order Target Size: 28
+0316 - 2006-04-04 - Position Size:     28 - Value 999931.41
+0316 - 2006-04-04 - Order Target Size: 27
+0317 - 2006-04-05 - Position Size:     27 - Value 999931.88
+0317 - 2006-04-05 - Order Target Size: 26
+0318 - 2006-04-06 - Position Size:     26 - Value 999949.57
+0318 - 2006-04-06 - Order Target Size: 25
+0319 - 2006-04-07 - Position Size:     25 - Value 999936.63
+0319 - 2006-04-07 - Order Target Size: 24
+0320 - 2006-04-10 - Position Size:     24 - Value 999943.36
+0320 - 2006-04-10 - Order Target Size: 21
+0321 - 2006-04-11 - Position Size:     21 - Value 999918.70
+0321 - 2006-04-11 - Order Target Size: 20
+0322 - 2006-04-12 - Position Size:     20 - Value 999912.95
+0322 - 2006-04-12 - Order Target Size: 19
+0323 - 2006-04-13 - Position Size:     19 - Value 999913.56
+0323 - 2006-04-13 - Order Target Size: 18
+0324 - 2006-04-17 - Position Size:     18 - Value 999910.71
+0324 - 2006-04-17 - Order Target Size: 14
+0325 - 2006-04-18 - Position Size:     14 - Value 999916.13
+0325 - 2006-04-18 - Order Target Size: 13
+0326 - 2006-04-19 - Position Size:     13 - Value 999947.42
+0326 - 2006-04-19 - Order Target Size: 12
+0327 - 2006-04-20 - Position Size:     12 - Value 999945.32
+0327 - 2006-04-20 - Order Target Size: 11
+0328 - 2006-04-21 - Position Size:     11 - Value 999940.03
+0328 - 2006-04-21 - Order Target Size: 10
+0329 - 2006-04-24 - Position Size:     10 - Value 999941.35
+0329 - 2006-04-24 - Order Target Size: 07
+0330 - 2006-04-25 - Position Size:     07 - Value 999934.15
+0330 - 2006-04-25 - Order Target Size: 06
+0331 - 2006-04-26 - Position Size:     06 - Value 999940.52
+0331 - 2006-04-26 - Order Target Size: 05
+0332 - 2006-04-27 - Position Size:     05 - Value 999941.31
+0332 - 2006-04-27 - Order Target Size: 04
+0333 - 2006-04-28 - Position Size:     04 - Value 999939.31
+0333 - 2006-04-28 - Order Target Size: 03
+0334 - 2006-05-01 - Position Size:     03 - Value 999937.42
+0334 - 2006-05-01 - Order Target Size: 01
+0335 - 2006-05-02 - Position Size:     01 - Value 999937.43
+0335 - 2006-05-02 - Order Target Size: 02
+0336 - 2006-05-03 - Position Size:     02 - Value 999937.52
+0336 - 2006-05-03 - Order Target Size: 03
+0337 - 2006-05-04 - Position Size:     03 - Value 999937.35
+0337 - 2006-05-04 - Order Target Size: 04
+0338 - 2006-05-05 - Position Size:     04 - Value 999938.79
+0338 - 2006-05-05 - Order Target Size: 05
+0339 - 2006-05-08 - Position Size:     05 - Value 999939.41
+0339 - 2006-05-08 - Order Target Size: 08
+0340 - 2006-05-09 - Position Size:     08 - Value 999936.94
+0340 - 2006-05-09 - Order Target Size: 09
+0341 - 2006-05-10 - Position Size:     09 - Value 999933.35
+0341 - 2006-05-10 - Order Target Size: 10
+0342 - 2006-05-11 - Position Size:     10 - Value 999922.48
+0342 - 2006-05-11 - Order Target Size: 11
+0343 - 2006-05-12 - Position Size:     11 - Value 999920.78
+0343 - 2006-05-12 - Order Target Size: 12
+0344 - 2006-05-15 - Position Size:     12 - Value 999923.38
+0344 - 2006-05-15 - Order Target Size: 15
+0345 - 2006-05-16 - Position Size:     15 - Value 999922.27
+0345 - 2006-05-16 - Order Target Size: 16
+0346 - 2006-05-17 - Position Size:     16 - Value 999908.87
+0346 - 2006-05-17 - Order Target Size: 17
+0347 - 2006-05-18 - Position Size:     17 - Value 999890.01
+0347 - 2006-05-18 - Order Target Size: 18
+0348 - 2006-05-19 - Position Size:     18 - Value 999899.50
+0348 - 2006-05-19 - Order Target Size: 19
+0349 - 2006-05-22 - Position Size:     19 - Value 999916.28
+0349 - 2006-05-22 - Order Target Size: 22
+0350 - 2006-05-23 - Position Size:     22 - Value 999921.14
+0350 - 2006-05-23 - Order Target Size: 23
+0351 - 2006-05-24 - Position Size:     23 - Value 999944.64
+0351 - 2006-05-24 - Order Target Size: 24
+0352 - 2006-05-25 - Position Size:     24 - Value 999970.61
+0352 - 2006-05-25 - Order Target Size: 25
+0353 - 2006-05-26 - Position Size:     25 - Value 999973.17
+0353 - 2006-05-26 - Order Target Size: 26
+0354 - 2006-05-30 - Position Size:     26 - Value 999946.94
+0354 - 2006-05-30 - Order Target Size: 30
+0355 - 2006-05-31 - Position Size:     30 - Value 999933.88
+0355 - 2006-05-31 - Order Target Size: 31
+0356 - 2006-06-01 - Position Size:     31 - Value 999946.04
+0356 - 2006-06-01 - Order Target Size: 30
+0357 - 2006-06-02 - Position Size:     30 - Value 999932.06
+0357 - 2006-06-02 - Order Target Size: 29
+0358 - 2006-06-05 - Position Size:     29 - Value 999911.43
+0358 - 2006-06-05 - Order Target Size: 26
+0359 - 2006-06-06 - Position Size:     26 - Value 999908.34
+0359 - 2006-06-06 - Order Target Size: 25
+0360 - 2006-06-07 - Position Size:     25 - Value 999904.44
+0360 - 2006-06-07 - Order Target Size: 24
+0361 - 2006-06-08 - Position Size:     24 - Value 999902.17
+0361 - 2006-06-08 - Order Target Size: 23
+0362 - 2006-06-09 - Position Size:     23 - Value 999900.58
+0362 - 2006-06-09 - Order Target Size: 22
+0363 - 2006-06-12 - Position Size:     22 - Value 999887.60
+0363 - 2006-06-12 - Order Target Size: 19
+0364 - 2006-06-13 - Position Size:     19 - Value 999885.10
+0364 - 2006-06-13 - Order Target Size: 18
+0365 - 2006-06-14 - Position Size:     18 - Value 999884.72
+0365 - 2006-06-14 - Order Target Size: 17
+0366 - 2006-06-15 - Position Size:     17 - Value 999904.97
+0366 - 2006-06-15 - Order Target Size: 16
+0367 - 2006-06-16 - Position Size:     16 - Value 999898.00
+0367 - 2006-06-16 - Order Target Size: 15
+0368 - 2006-06-19 - Position Size:     15 - Value 999898.00
+0368 - 2006-06-19 - Order Target Size: 12
+0369 - 2006-06-20 - Position Size:     12 - Value 999901.21
+0369 - 2006-06-20 - Order Target Size: 11
+0370 - 2006-06-21 - Position Size:     11 - Value 999906.44
+0370 - 2006-06-21 - Order Target Size: 10
+0371 - 2006-06-22 - Position Size:     10 - Value 999902.43
+0371 - 2006-06-22 - Order Target Size: 09
+0372 - 2006-06-23 - Position Size:     09 - Value 999909.04
+0372 - 2006-06-23 - Order Target Size: 08
+0373 - 2006-06-26 - Position Size:     08 - Value 999910.56
+0373 - 2006-06-26 - Order Target Size: 05
+0374 - 2006-06-27 - Position Size:     05 - Value 999911.26
+0374 - 2006-06-27 - Order Target Size: 04
+0375 - 2006-06-28 - Position Size:     04 - Value 999913.14
+0375 - 2006-06-28 - Order Target Size: 03
+0376 - 2006-06-29 - Position Size:     03 - Value 999916.63
+0376 - 2006-06-29 - Order Target Size: 02
+0377 - 2006-06-30 - Position Size:     02 - Value 999916.73
+0377 - 2006-06-30 - Order Target Size: 01
+0378 - 2006-07-03 - Position Size:     01 - Value 999916.93
+0378 - 2006-07-03 - Order Target Size: 03
+0379 - 2006-07-05 - Position Size:     03 - Value 999915.34
+0379 - 2006-07-05 - Order Target Size: 05
+0380 - 2006-07-06 - Position Size:     05 - Value 999917.94
+0380 - 2006-07-06 - Order Target Size: 06
+0381 - 2006-07-07 - Position Size:     06 - Value 999914.45
+0381 - 2006-07-07 - Order Target Size: 07
+0382 - 2006-07-10 - Position Size:     07 - Value 999916.49
+0382 - 2006-07-10 - Order Target Size: 10
+0383 - 2006-07-11 - Position Size:     10 - Value 999919.87
+0383 - 2006-07-11 - Order Target Size: 11
+0384 - 2006-07-12 - Position Size:     11 - Value 999922.32
+0384 - 2006-07-12 - Order Target Size: 12
+0385 - 2006-07-13 - Position Size:     12 - Value 999909.05
+0385 - 2006-07-13 - Order Target Size: 13
+0386 - 2006-07-14 - Position Size:     13 - Value 999906.99
+0386 - 2006-07-14 - Order Target Size: 14
+0387 - 2006-07-17 - Position Size:     14 - Value 999903.73
+0387 - 2006-07-17 - Order Target Size: 17
+0388 - 2006-07-18 - Position Size:     17 - Value 999909.81
+0388 - 2006-07-18 - Order Target Size: 18
+0389 - 2006-07-19 - Position Size:     18 - Value 999788.92
+0389 - 2006-07-19 - Order Target Size: 19
+0390 - 2006-07-20 - Position Size:     19 - Value 999789.90
+0390 - 2006-07-20 - Order Target Size: 20
+0391 - 2006-07-21 - Position Size:     20 - Value 999802.58
+0391 - 2006-07-21 - Order Target Size: 21
+0392 - 2006-07-24 - Position Size:     21 - Value 999824.28
+0392 - 2006-07-24 - Order Target Size: 24
+0393 - 2006-07-25 - Position Size:     24 - Value 999825.09
+0393 - 2006-07-25 - Order Target Size: 25
+0394 - 2006-07-26 - Position Size:     25 - Value 999828.51
+0394 - 2006-07-26 - Order Target Size: 26
+0395 - 2006-07-27 - Position Size:     26 - Value 999818.36
+0395 - 2006-07-27 - Order Target Size: 27
+0396 - 2006-07-28 - Position Size:     27 - Value 999838.95
+0396 - 2006-07-28 - Order Target Size: 28
+0397 - 2006-07-31 - Position Size:     28 - Value 999829.72
+0397 - 2006-07-31 - Order Target Size: 31
+0398 - 2006-08-01 - Position Size:     31 - Value 999823.76
+0398 - 2006-08-01 - Order Target Size: 30
+0399 - 2006-08-02 - Position Size:     30 - Value 999814.53
+0399 - 2006-08-02 - Order Target Size: 29
+0400 - 2006-08-03 - Position Size:     29 - Value 999822.23
+0400 - 2006-08-03 - Order Target Size: 28
+0401 - 2006-08-04 - Position Size:     28 - Value 999825.05
+0401 - 2006-08-04 - Order Target Size: 27
+0402 - 2006-08-07 - Position Size:     27 - Value 999827.41
+0402 - 2006-08-07 - Order Target Size: 24
+0403 - 2006-08-08 - Position Size:     24 - Value 999835.66
+0403 - 2006-08-08 - Order Target Size: 23
+0404 - 2006-08-09 - Position Size:     23 - Value 999830.91
+0404 - 2006-08-09 - Order Target Size: 22
+0405 - 2006-08-10 - Position Size:     22 - Value 999836.58
+0405 - 2006-08-10 - Order Target Size: 21
+0406 - 2006-08-11 - Position Size:     21 - Value 999836.82
+0406 - 2006-08-11 - Order Target Size: 20
+0407 - 2006-08-14 - Position Size:     20 - Value 999832.23
+0407 - 2006-08-14 - Order Target Size: 17
+0408 - 2006-08-15 - Position Size:     17 - Value 999848.66
+0408 - 2006-08-15 - Order Target Size: 16
+0409 - 2006-08-16 - Position Size:     16 - Value 999852.36
+0409 - 2006-08-16 - Order Target Size: 15
+0410 - 2006-08-17 - Position Size:     15 - Value 999860.15
+0410 - 2006-08-17 - Order Target Size: 14
+0411 - 2006-08-18 - Position Size:     14 - Value 999872.32
+0411 - 2006-08-18 - Order Target Size: 13
+0412 - 2006-08-21 - Position Size:     13 - Value 999860.32
+0412 - 2006-08-21 - Order Target Size: 10
+0413 - 2006-08-22 - Position Size:     10 - Value 999863.74
+0413 - 2006-08-22 - Order Target Size: 09
+0414 - 2006-08-23 - Position Size:     09 - Value 999858.78
+0414 - 2006-08-23 - Order Target Size: 08
+0415 - 2006-08-24 - Position Size:     08 - Value 999861.15
+0415 - 2006-08-24 - Order Target Size: 07
+0416 - 2006-08-25 - Position Size:     07 - Value 999859.57
+0416 - 2006-08-25 - Order Target Size: 06
+0417 - 2006-08-28 - Position Size:     06 - Value 999860.39
+0417 - 2006-08-28 - Order Target Size: 03
+0418 - 2006-08-29 - Position Size:     03 - Value 999860.39
+0418 - 2006-08-29 - Order Target Size: 02
+0419 - 2006-08-30 - Position Size:     02 - Value 999860.55
+0419 - 2006-08-30 - Order Target Size: 01
+0420 - 2006-08-31 - Position Size:     01 - Value 999860.33
+0420 - 2006-08-31 - Order Target Size: 00
+0421 - 2006-09-01 - Position Size:     00 - Value 999860.41
+0421 - 2006-09-01 - Order Target Size: 01
+0422 - 2006-09-05 - Position Size:     01 - Value 999860.03
+0422 - 2006-09-05 - Order Target Size: 05
+0423 - 2006-09-06 - Position Size:     05 - Value 999857.70
+0423 - 2006-09-06 - Order Target Size: 06
+0424 - 2006-09-07 - Position Size:     06 - Value 999853.96
+0424 - 2006-09-07 - Order Target Size: 07
+0425 - 2006-09-08 - Position Size:     07 - Value 999855.74
+0425 - 2006-09-08 - Order Target Size: 08
+0426 - 2006-09-11 - Position Size:     08 - Value 999859.59
+0426 - 2006-09-11 - Order Target Size: 11
+0427 - 2006-09-12 - Position Size:     11 - Value 999865.05
+0427 - 2006-09-12 - Order Target Size: 12
+0428 - 2006-09-13 - Position Size:     12 - Value 999866.04
+0428 - 2006-09-13 - Order Target Size: 13
+0429 - 2006-09-14 - Position Size:     13 - Value 999864.29
+0429 - 2006-09-14 - Order Target Size: 14
+0430 - 2006-09-15 - Position Size:     14 - Value 999868.08
+0430 - 2006-09-15 - Order Target Size: 15
+0431 - 2006-09-18 - Position Size:     15 - Value 999863.23
+0431 - 2006-09-18 - Order Target Size: 18
+0432 - 2006-09-19 - Position Size:     18 - Value 999804.46
+0432 - 2006-09-19 - Order Target Size: 19
+0433 - 2006-09-20 - Position Size:     19 - Value 999802.08
+0433 - 2006-09-20 - Order Target Size: 20
+0434 - 2006-09-21 - Position Size:     20 - Value 999796.19
+0434 - 2006-09-21 - Order Target Size: 21
+0435 - 2006-09-22 - Position Size:     21 - Value 999799.97
+0435 - 2006-09-22 - Order Target Size: 22
+0436 - 2006-09-25 - Position Size:     22 - Value 999794.79
+0436 - 2006-09-25 - Order Target Size: 25
+0437 - 2006-09-26 - Position Size:     25 - Value 999788.34
+0437 - 2006-09-26 - Order Target Size: 26
+0438 - 2006-09-27 - Position Size:     26 - Value 999777.99
+0438 - 2006-09-27 - Order Target Size: 27
+0439 - 2006-09-28 - Position Size:     27 - Value 999796.13
+0439 - 2006-09-28 - Order Target Size: 28
+0440 - 2006-09-29 - Position Size:     28 - Value 999794.56
+0440 - 2006-09-29 - Order Target Size: 29
+0441 - 2006-10-02 - Position Size:     29 - Value 999782.79
+0441 - 2006-10-02 - Order Target Size: 29
+0442 - 2006-10-03 - Position Size:     29 - Value 999781.63
+0442 - 2006-10-03 - Order Target Size: 28
+0443 - 2006-10-04 - Position Size:     28 - Value 999792.04
+0443 - 2006-10-04 - Order Target Size: 27
+0444 - 2006-10-05 - Position Size:     27 - Value 999791.18
+0444 - 2006-10-05 - Order Target Size: 26
+0445 - 2006-10-06 - Position Size:     26 - Value 999798.63
+0445 - 2006-10-06 - Order Target Size: 25
+0446 - 2006-10-09 - Position Size:     25 - Value 999787.61
+0446 - 2006-10-09 - Order Target Size: 22
+0447 - 2006-10-10 - Position Size:     22 - Value 999775.02
+0447 - 2006-10-10 - Order Target Size: 21
+0448 - 2006-10-11 - Position Size:     21 - Value 999770.01
+0448 - 2006-10-11 - Order Target Size: 20
+0449 - 2006-10-12 - Position Size:     20 - Value 999767.69
+0449 - 2006-10-12 - Order Target Size: 19
+0450 - 2006-10-13 - Position Size:     19 - Value 999773.17
+0450 - 2006-10-13 - Order Target Size: 18
+0451 - 2006-10-16 - Position Size:     18 - Value 999768.77
+0451 - 2006-10-16 - Order Target Size: 15
+0452 - 2006-10-17 - Position Size:     15 - Value 999767.00
+0452 - 2006-10-17 - Order Target Size: 14
+0453 - 2006-10-18 - Position Size:     14 - Value 999751.18
+0453 - 2006-10-18 - Order Target Size: 13
+0454 - 2006-10-19 - Position Size:     13 - Value 999753.16
+0454 - 2006-10-19 - Order Target Size: 12
+0455 - 2006-10-20 - Position Size:     12 - Value 999754.08
+0455 - 2006-10-20 - Order Target Size: 11
+0456 - 2006-10-23 - Position Size:     11 - Value 999755.77
+0456 - 2006-10-23 - Order Target Size: 08
+0457 - 2006-10-24 - Position Size:     08 - Value 999756.99
+0457 - 2006-10-24 - Order Target Size: 07
+0458 - 2006-10-25 - Position Size:     07 - Value 999763.91
+0458 - 2006-10-25 - Order Target Size: 06
+0459 - 2006-10-26 - Position Size:     06 - Value 999768.86
+0459 - 2006-10-26 - Order Target Size: 05
+0460 - 2006-10-27 - Position Size:     05 - Value 999769.11
+0460 - 2006-10-27 - Order Target Size: 04
+0461 - 2006-10-30 - Position Size:     04 - Value 999772.08
+0461 - 2006-10-30 - Order Target Size: 01
+0462 - 2006-10-31 - Position Size:     01 - Value 999773.94
+0462 - 2006-10-31 - Order Target Size: 00
+0463 - 2006-11-01 - Position Size:     00 - Value 999774.10
+0463 - 2006-11-01 - Order Target Size: 01
+0464 - 2006-11-02 - Position Size:     01 - Value 999774.69
+0464 - 2006-11-02 - Order Target Size: 02
+0465 - 2006-11-03 - Position Size:     02 - Value 999773.89
+0465 - 2006-11-03 - Order Target Size: 03
+0466 - 2006-11-06 - Position Size:     03 - Value 999774.96
+0466 - 2006-11-06 - Order Target Size: 06
+0467 - 2006-11-07 - Position Size:     06 - Value 999774.78
+0467 - 2006-11-07 - Order Target Size: 07
+0468 - 2006-11-08 - Position Size:     07 - Value 999777.06
+0468 - 2006-11-08 - Order Target Size: 08
+0469 - 2006-11-09 - Position Size:     08 - Value 999781.18
+0469 - 2006-11-09 - Order Target Size: 09
+0470 - 2006-11-10 - Position Size:     09 - Value 999780.69
+0470 - 2006-11-10 - Order Target Size: 10
+0471 - 2006-11-13 - Position Size:     10 - Value 999781.01
+0471 - 2006-11-13 - Order Target Size: 13
+0472 - 2006-11-14 - Position Size:     13 - Value 999778.93
+0472 - 2006-11-14 - Order Target Size: 14
+0473 - 2006-11-15 - Position Size:     14 - Value 999777.73
+0473 - 2006-11-15 - Order Target Size: 15
+0474 - 2006-11-16 - Position Size:     15 - Value 999769.92
+0474 - 2006-11-16 - Order Target Size: 16
+0475 - 2006-11-17 - Position Size:     16 - Value 999774.20
+0475 - 2006-11-17 - Order Target Size: 17
+0476 - 2006-11-20 - Position Size:     17 - Value 999770.92
+0476 - 2006-11-20 - Order Target Size: 20
+0477 - 2006-11-21 - Position Size:     20 - Value 999779.98
+0477 - 2006-11-21 - Order Target Size: 21
+0478 - 2006-11-22 - Position Size:     21 - Value 999807.96
+0478 - 2006-11-22 - Order Target Size: 22
+0479 - 2006-11-24 - Position Size:     22 - Value 999798.11
+0479 - 2006-11-24 - Order Target Size: 24
+0480 - 2006-11-27 - Position Size:     24 - Value 999780.93
+0480 - 2006-11-27 - Order Target Size: 27
+0481 - 2006-11-28 - Position Size:     27 - Value 999774.36
+0481 - 2006-11-28 - Order Target Size: 28
+0482 - 2006-11-29 - Position Size:     28 - Value 999775.08
+0482 - 2006-11-29 - Order Target Size: 29
+0483 - 2006-11-30 - Position Size:     29 - Value 999774.25
+0483 - 2006-11-30 - Order Target Size: 30
+0484 - 2006-12-01 - Position Size:     30 - Value 999758.66
+0484 - 2006-12-01 - Order Target Size: 30
+0485 - 2006-12-04 - Position Size:     30 - Value 999770.66
+0485 - 2006-12-04 - Order Target Size: 27
+0486 - 2006-12-05 - Position Size:     27 - Value 999785.18
+0486 - 2006-12-05 - Order Target Size: 26
+0487 - 2006-12-06 - Position Size:     26 - Value 999770.18
+0487 - 2006-12-06 - Order Target Size: 25
+0488 - 2006-12-07 - Position Size:     25 - Value 999764.52
+0488 - 2006-12-07 - Order Target Size: 24
+0489 - 2006-12-08 - Position Size:     24 - Value 999757.58
+0489 - 2006-12-08 - Order Target Size: 23
+0490 - 2006-12-11 - Position Size:     23 - Value 999761.06
+0490 - 2006-12-11 - Order Target Size: 20
+0491 - 2006-12-12 - Position Size:     20 - Value 999766.68
+0491 - 2006-12-12 - Order Target Size: 19
+0492 - 2006-12-13 - Position Size:     19 - Value 999764.13
+0492 - 2006-12-13 - Order Target Size: 18
+0493 - 2006-12-14 - Position Size:     18 - Value 999769.02
+0493 - 2006-12-14 - Order Target Size: 17
+0494 - 2006-12-15 - Position Size:     17 - Value 999769.66
+0494 - 2006-12-15 - Order Target Size: 16
+0495 - 2006-12-18 - Position Size:     16 - Value 999760.05
+0495 - 2006-12-18 - Order Target Size: 13
+0496 - 2006-12-19 - Position Size:     13 - Value 999760.73
+0496 - 2006-12-19 - Order Target Size: 12
+0497 - 2006-12-20 - Position Size:     12 - Value 999750.72
+0497 - 2006-12-20 - Order Target Size: 11
+0498 - 2006-12-21 - Position Size:     11 - Value 999749.63
+0498 - 2006-12-21 - Order Target Size: 10
+0499 - 2006-12-22 - Position Size:     10 - Value 999750.52
+0499 - 2006-12-22 - Order Target Size: 09
+0500 - 2006-12-26 - Position Size:     09 - Value 999749.56
+0500 - 2006-12-26 - Order Target Size: 05
+0501 - 2006-12-27 - Position Size:     05 - Value 999751.14
+0501 - 2006-12-27 - Order Target Size: 04
+0502 - 2006-12-28 - Position Size:     04 - Value 999749.45
+0502 - 2006-12-28 - Order Target Size: 03
+0503 - 2006-12-29 - Position Size:     03 - Value 999750.05
+0503 - 2006-12-29 - Order Target Size: 02

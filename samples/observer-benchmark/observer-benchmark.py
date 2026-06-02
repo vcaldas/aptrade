@@ -68,7 +68,7 @@ class St(bt.Strategy):
         if self.position:
             if self.crossover < 0.0:
                 if self.p.printout:
-                    print("CLOSE {} @%{}".format(size, self.data.close[0]))
+                    print("CLOSE {} @%{}".format(self.position.size, self.data.close[0]))
                 self.close()
 
         else:

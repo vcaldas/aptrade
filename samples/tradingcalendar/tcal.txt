@@ -1,0 +1,21 @@
+Strategy len 1 datetime 2014-01-02 Data0 len 1 datetime 2014-01-02 
+Strategy len 2 datetime 2014-01-03 Data0 len 2 datetime 2014-01-03 
+Strategy len 3 datetime 2014-01-06 Data0 len 3 datetime 2014-01-06 Data1 len 1 datetime 2014-01-03
+Strategy len 4 datetime 2014-01-07 Data0 len 4 datetime 2014-01-07 Data1 len 1 datetime 2014-01-03
+Strategy len 5 datetime 2014-01-08 Data0 len 5 datetime 2014-01-08 Data1 len 1 datetime 2014-01-03
+Strategy len 6 datetime 2014-01-09 Data0 len 6 datetime 2014-01-09 Data1 len 1 datetime 2014-01-03
+Strategy len 7 datetime 2014-01-10 Data0 len 7 datetime 2014-01-10 Data1 len 1 datetime 2014-01-03
+Strategy len 8 datetime 2014-01-13 Data0 len 8 datetime 2014-01-13 Data1 len 2 datetime 2014-01-10
+Strategy len 9 datetime 2014-01-14 Data0 len 9 datetime 2014-01-14 Data1 len 2 datetime 2014-01-10
+Strategy len 10 datetime 2014-01-15 Data0 len 10 datetime 2014-01-15 Data1 len 2 datetime 2014-01-10
+Strategy len 11 datetime 2014-01-16 Data0 len 11 datetime 2014-01-16 Data1 len 2 datetime 2014-01-10
+Strategy len 12 datetime 2014-01-17 Data0 len 12 datetime 2014-01-17 Data1 len 2 datetime 2014-01-10
+Strategy len 13 datetime 2014-01-21 Data0 len 13 datetime 2014-01-21 Data1 len 3 datetime 2014-01-17
+Strategy len 14 datetime 2014-01-22 Data0 len 14 datetime 2014-01-22 Data1 len 3 datetime 2014-01-17
+Strategy len 15 datetime 2014-01-23 Data0 len 15 datetime 2014-01-23 Data1 len 3 datetime 2014-01-17
+Strategy len 16 datetime 2014-01-24 Data0 len 16 datetime 2014-01-24 Data1 len 3 datetime 2014-01-17
+Strategy len 17 datetime 2014-01-27 Data0 len 17 datetime 2014-01-27 Data1 len 4 datetime 2014-01-24
+Strategy len 18 datetime 2014-01-28 Data0 len 18 datetime 2014-01-28 Data1 len 4 datetime 2014-01-24
+Strategy len 19 datetime 2014-01-29 Data0 len 19 datetime 2014-01-29 Data1 len 4 datetime 2014-01-24
+Strategy len 20 datetime 2014-01-30 Data0 len 20 datetime 2014-01-30 Data1 len 4 datetime 2014-01-24
+Strategy len 21 datetime 2014-01-30 Data0 len 20 datetime 2014-01-30 Data1 len 5 datetime 2014-01-30

@@ -23,6 +23,7 @@ dependencies = [
     "massive>=2.5.0",
     "matplotlib>=3.10.8",
     "pandas>=3.0.2",
+  "pyarrow>=20.0.0",
     "pydantic>=2.13.0",
     "requests>=2.33.1",
     "scipy>=1.17.1",

@@ -26,6 +26,34 @@ import datetime
 import aptrade as bt
 
 
+IND_REQUIREMENTS = {
+    "sma": "SMA",
+    "ema": "EMA",
+    "stoc": "STOCH",
+    "rsi": "RSI",
+    "macd": "MACD",
+    "bollinger": "BBANDS",
+    "aroon": "AROON",
+    "ultimate": "ULTOSC",
+    "trix": "TRIX",
+    "kama": "KAMA",
+    "adxr": "ADXR",
+    "dema": "DEMA",
+    "ppo": "PPO",
+    "tema": "TEMA",
+    "roc": "ROC",
+    "williamsr": "WILLR",
+}
+
+
+def _talib_ready(indicator_name, include_doji):
+    required = [IND_REQUIREMENTS[indicator_name]]
+    if include_doji:
+        required.append("CDLDOJI")
+
+    return all(hasattr(bt.talib, attr) for attr in required)
+
+
 class TALibStrategy(bt.Strategy):
     params = (
         ("ind", "sma"),
@@ -143,6 +171,10 @@ class TALibStrategy(bt.Strategy):
 def runstrat(args=None):
     args = parse_args(args)
 
+    if not _talib_ready(args.ind, include_doji=not args.no_doji):
+        print("TA-Lib bridge unavailable; skipping talibtest sample")
+        return
+
     cerebro = bt.Cerebro()
 
     dkwargs = dict()
@@ -159,7 +191,7 @@ def runstrat(args=None):
 
     cerebro.addstrategy(TALibStrategy, ind=args.ind, doji=not args.no_doji)
 
-    cerebro.run(runcone=not args.use_next, stdstats=False)
+    cerebro.run(runonce=not args.use_next, stdstats=False)
     if args.plot:
         pkwargs = dict(style="candle")
         if args.plot is not True:  # evals to True but is not True

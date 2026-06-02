@@ -189,7 +189,10 @@ def runstrat(args=None):
 
     cerebro.addstrategy(TheStrategy2, myname="St2", dtarget=dtarget, **st1kwargs)
 
-    results = cerebro.run()
+    results = cerebro.run(
+        runonce=not args.runnext,
+        preload=not args.nopreload,
+    )
 
     if args.plot:
         pkwargs = dict(style="bar")
@@ -242,6 +245,14 @@ def parse_args(pargs=None):
         required=False,
         action="store_true",
         help=("Copy Data for 2nd strategy"),
+    )
+
+    parser.add_argument(
+        "--runnext", action="store_true", help="Use next by next instead of runonce"
+    )
+
+    parser.add_argument(
+        "--nopreload", action="store_true", help="Do not preload the data"
     )
 
     parser.add_argument(

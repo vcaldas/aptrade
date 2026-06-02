@@ -21,6 +21,11 @@
 from __future__ import absolute_import, division, print_function, unicode_literals
 
 import datetime
+import os
+import sys
+from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from orderobserver import OrderObserver
 
@@ -101,7 +106,8 @@ class MyStrategy(bt.Strategy):
 def runstrat():
     cerebro = bt.Cerebro()
 
-    data = bt.feeds.BacktraderCSVData(dataname="../../datas/2006-day-001.txt")
+    datapath = Path(__file__).resolve().parents[2] / "datas" / "2006-day-001.txt"
+    data = bt.feeds.BacktraderCSVData(dataname=str(datapath))
     cerebro.adddata(data)
 
     cerebro.addobserver(OrderObserver)
@@ -109,7 +115,8 @@ def runstrat():
     cerebro.addstrategy(MyStrategy)
     cerebro.run()
 
-    cerebro.plot()
+    if os.environ.get("APTRADE_SAMPLE_SKIP_PLOT") != "1":
+        cerebro.plot()
 
 
 if __name__ == "__main__":

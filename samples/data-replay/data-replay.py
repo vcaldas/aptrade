@@ -86,7 +86,8 @@ def runstrat():
     cerebro.run(preload=False)
 
     # Plot the result
-    cerebro.plot(style="bar")
+    if not args.noplot:
+        cerebro.plot(style="bar")
 
 
 def parse_args():
@@ -125,6 +126,10 @@ def parse_args():
         required=False,
         type=int,
         help="Period to apply to indicator",
+    )
+
+    parser.add_argument(
+        "--noplot", required=False, action="store_true", help="Do not plot the chart"
     )
 
     return parser.parse_args()

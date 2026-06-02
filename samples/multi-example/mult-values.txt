@@ -1,0 +1,3270 @@
+2001-01-02 d0 Position 0
+2001-01-02 Data d0 OType buy Sizing to 1
+2001-01-02 d0 Main 1 Stp 2 Lmt 3
+2001-01-02 d1 Position 0
+2001-01-02 d2 Position 0
+2001-01-03 d0 Order 1 Status Accepted
+2001-01-03 d0 Order 2 Status Accepted
+2001-01-03 d0 Order 3 Status Accepted
+2001-01-03 d0 Order 1 Status Completed
+-- No longer alive main Ref
+2001-01-03 d0 Position 1
+2001-01-03 d1 Position 0
+2001-01-03 d2 Position 0
+2001-01-04 d0 Order 3 Status Completed
+-- No longer alive limit Ref
+2001-01-04 d0 Order 2 Status Canceled
+-- No longer alive stop Ref
+2001-01-04 d0 Position 0
+2001-01-04 d1 Position 0
+2001-01-04 Data d1 OType buy Sizing to 1
+2001-01-04 d1 Main 4 Stp 5 Lmt 6
+2001-01-04 d2 Position 0
+2001-01-05 d1 Order 4 Status Accepted
+2001-01-05 d1 Order 5 Status Accepted
+2001-01-05 d1 Order 6 Status Accepted
+2001-01-05 d1 Order 4 Status Completed
+-- No longer alive main Ref
+2001-01-05 d0 Position 0
+2001-01-05 d1 Position 1
+2001-01-05 d2 Position 0
+2001-01-05 Data d2 OType buy Sizing to 1
+2001-01-05 d2 Main 7 Stp 8 Lmt 9
+2001-01-08 d2 Order 7 Status Accepted
+2001-01-08 d2 Order 8 Status Accepted
+2001-01-08 d2 Order 9 Status Accepted
+2001-01-08 d1 Order 5 Status Completed
+-- No longer alive stop Ref
+2001-01-08 d1 Order 6 Status Canceled
+-- No longer alive limit Ref
+2001-01-08 d2 Order 7 Status Completed
+-- No longer alive main Ref
+2001-01-08 d0 Position 0
+2001-01-08 d1 Position 0
+2001-01-08 d2 Position 1
+2001-01-09 d2 Order 9 Status Completed
+-- No longer alive limit Ref
+2001-01-09 d2 Order 8 Status Canceled
+-- No longer alive stop Ref
+2001-01-09 d0 Position 0
+2001-01-09 Data d0 OType buy Sizing to 1
+2001-01-09 d0 Main 10 Stp 11 Lmt 12
+2001-01-09 d1 Position 0
+2001-01-09 d2 Position 0
+2001-01-10 d0 Order 10 Status Accepted
+2001-01-10 d0 Order 11 Status Accepted
+2001-01-10 d0 Order 12 Status Accepted
+2001-01-10 d0 Order 10 Status Completed
+-- No longer alive main Ref
+2001-01-10 d0 Position 1
+2001-01-10 d1 Position 0
+2001-01-10 d2 Position 0
+2001-01-11 d0 Order 12 Status Completed
+-- No longer alive limit Ref
+2001-01-11 d0 Order 11 Status Canceled
+-- No longer alive stop Ref
+2001-01-11 d0 Position 0
+2001-01-11 d1 Position 0
+2001-01-11 Data d1 OType buy Sizing to 1
+2001-01-11 d1 Main 13 Stp 14 Lmt 15
+2001-01-11 d2 Position 0
+2001-01-12 d1 Order 13 Status Accepted
+2001-01-12 d1 Order 14 Status Accepted
+2001-01-12 d1 Order 15 Status Accepted
+2001-01-12 d1 Order 13 Status Completed
+-- No longer alive main Ref
+2001-01-12 d0 Position 0
+2001-01-12 d1 Position 1
+2001-01-12 d2 Position 0
+2001-01-12 Data d2 OType buy Sizing to 1
+2001-01-12 d2 Main 16 Stp 17 Lmt 18
+2001-01-16 d2 Order 16 Status Accepted
+2001-01-16 d2 Order 17 Status Accepted
+2001-01-16 d2 Order 18 Status Accepted
+2001-01-16 d1 Order 15 Status Completed
+-- No longer alive limit Ref
+2001-01-16 d1 Order 14 Status Canceled
+-- No longer alive stop Ref
+2001-01-16 d2 Order 16 Status Completed
+-- No longer alive main Ref
+2001-01-16 d0 Position 0
+2001-01-16 Data d0 OType buy Sizing to 1
+2001-01-16 d0 Main 19 Stp 20 Lmt 21
+2001-01-16 d1 Position 0
+2001-01-16 d2 Position 1
+2001-01-17 d0 Order 19 Status Accepted
+2001-01-17 d0 Order 20 Status Accepted
+2001-01-17 d0 Order 21 Status Accepted
+2001-01-17 d2 Order 18 Status Completed
+-- No longer alive limit Ref
+2001-01-17 d2 Order 17 Status Canceled
+-- No longer alive stop Ref
+2001-01-17 d0 Position 0
+2001-01-17 d1 Position 0
+2001-01-17 d2 Position 0
+2001-01-18 d0 Position 0
+2001-01-18 d1 Position 0
+2001-01-18 Data d1 OType buy Sizing to 1
+2001-01-18 d1 Main 22 Stp 23 Lmt 24
+2001-01-18 d2 Position 0
+2001-01-19 d1 Order 22 Status Accepted
+2001-01-19 d1 Order 23 Status Accepted
+2001-01-19 d1 Order 24 Status Accepted
+2001-01-19 d1 Order 22 Status Completed
+-- No longer alive main Ref
+2001-01-19 d0 Position 0
+2001-01-19 d1 Position 1
+2001-01-19 d2 Position 0
+2001-01-19 Data d2 OType buy Sizing to 1
+2001-01-19 d2 Main 25 Stp 26 Lmt 27
+2001-01-22 d2 Order 25 Status Accepted
+2001-01-22 d2 Order 26 Status Accepted
+2001-01-22 d2 Order 27 Status Accepted
+2001-01-22 d1 Order 23 Status Completed
+-- No longer alive stop Ref
+2001-01-22 d1 Order 24 Status Canceled
+-- No longer alive limit Ref
+2001-01-22 d2 Order 25 Status Completed
+-- No longer alive main Ref
+2001-01-22 d0 Position 0
+2001-01-22 d1 Position 0
+2001-01-22 d2 Position 1
+2001-01-23 d2 Order 26 Status Completed
+-- No longer alive stop Ref
+2001-01-23 d2 Order 27 Status Canceled
+-- No longer alive limit Ref
+2001-01-23 d0 Position 0
+2001-01-23 d1 Position 0
+2001-01-23 d2 Position 0
+2001-01-24 d0 Position 0
+2001-01-24 d1 Position 0
+2001-01-24 d2 Position 0
+2001-01-25 d0 Position 0
+2001-01-25 d1 Position 0
+2001-01-25 Data d1 OType buy Sizing to 1
+2001-01-25 d1 Main 28 Stp 29 Lmt 30
+2001-01-25 d2 Position 0
+2001-01-26 d1 Order 28 Status Accepted
+2001-01-26 d1 Order 29 Status Accepted
+2001-01-26 d1 Order 30 Status Accepted
+2001-01-26 d1 Order 28 Status Completed
+-- No longer alive main Ref
+2001-01-26 d0 Position 0
+2001-01-26 d1 Position 1
+2001-01-26 d2 Position 0
+2001-01-26 Data d2 OType buy Sizing to 1
+2001-01-26 d2 Main 31 Stp 32 Lmt 33
+2001-01-29 d2 Order 31 Status Accepted
+2001-01-29 d2 Order 32 Status Accepted
+2001-01-29 d2 Order 33 Status Accepted
+2001-01-29 d0 Order 19 Status Expired
+-- No longer alive main Ref
+2001-01-29 d0 Order 20 Status Canceled
+-- No longer alive stop Ref
+2001-01-29 d0 Order 21 Status Canceled
+-- No longer alive limit Ref
+2001-01-29 d1 Order 30 Status Completed
+-- No longer alive limit Ref
+2001-01-29 d1 Order 29 Status Canceled
+-- No longer alive stop Ref
+2001-01-29 d2 Order 31 Status Completed
+-- No longer alive main Ref
+2001-01-29 d0 Position 0
+2001-01-29 d1 Position 0
+2001-01-29 d2 Position 1
+2001-01-30 d2 Order 33 Status Completed
+-- No longer alive limit Ref
+2001-01-30 d2 Order 32 Status Canceled
+-- No longer alive stop Ref
+2001-01-30 d0 Position 0
+2001-01-30 Data d0 OType buy Sizing to 1
+2001-01-30 d0 Main 34 Stp 35 Lmt 36
+2001-01-30 d1 Position 0
+2001-01-30 d2 Position 0
+2001-01-31 d0 Order 34 Status Accepted
+2001-01-31 d0 Order 35 Status Accepted
+2001-01-31 d0 Order 36 Status Accepted
+2001-01-31 d0 Order 34 Status Completed
+-- No longer alive main Ref
+2001-01-31 d0 Position 1
+2001-01-31 d1 Position 0
+2001-01-31 d2 Position 0
+2001-02-01 d0 Order 35 Status Completed
+-- No longer alive stop Ref
+2001-02-01 d0 Order 36 Status Canceled
+-- No longer alive limit Ref
+2001-02-01 d0 Position 0
+2001-02-01 d1 Position 0
+2001-02-01 Data d1 OType buy Sizing to 1
+2001-02-01 d1 Main 37 Stp 38 Lmt 39
+2001-02-01 d2 Position 0
+2001-02-02 d1 Order 37 Status Accepted
+2001-02-02 d1 Order 38 Status Accepted
+2001-02-02 d1 Order 39 Status Accepted
+2001-02-02 d1 Order 37 Status Completed
+-- No longer alive main Ref
+2001-02-02 d0 Position 0
+2001-02-02 d1 Position 1
+2001-02-02 d2 Position 0
+2001-02-02 Data d2 OType buy Sizing to 1
+2001-02-02 d2 Main 40 Stp 41 Lmt 42
+2001-02-05 d2 Order 40 Status Accepted
+2001-02-05 d2 Order 41 Status Accepted
+2001-02-05 d2 Order 42 Status Accepted
+2001-02-05 d1 Order 38 Status Completed
+-- No longer alive stop Ref
+2001-02-05 d1 Order 39 Status Canceled
+-- No longer alive limit Ref
+2001-02-05 d2 Order 40 Status Completed
+-- No longer alive main Ref
+2001-02-05 d0 Position 0
+2001-02-05 d1 Position 0
+2001-02-05 d2 Position 1
+2001-02-06 d2 Order 42 Status Completed
+-- No longer alive limit Ref
+2001-02-06 d2 Order 41 Status Canceled
+-- No longer alive stop Ref
+2001-02-06 d0 Position 0
+2001-02-06 Data d0 OType buy Sizing to 1
+2001-02-06 d0 Main 43 Stp 44 Lmt 45
+2001-02-06 d1 Position 0
+2001-02-06 d2 Position 0
+2001-02-07 d0 Order 43 Status Accepted
+2001-02-07 d0 Order 44 Status Accepted
+2001-02-07 d0 Order 45 Status Accepted
+2001-02-07 d0 Order 43 Status Completed
+-- No longer alive main Ref
+2001-02-07 d0 Position 1
+2001-02-07 d1 Position 0
+2001-02-07 d2 Position 0
+2001-02-08 d0 Order 44 Status Completed
+-- No longer alive stop Ref
+2001-02-08 d0 Order 45 Status Canceled
+-- No longer alive limit Ref
+2001-02-08 d0 Position 0
+2001-02-08 d1 Position 0
+2001-02-08 Data d1 OType buy Sizing to 1
+2001-02-08 d1 Main 46 Stp 47 Lmt 48
+2001-02-08 d2 Position 0
+2001-02-09 d1 Order 46 Status Accepted
+2001-02-09 d1 Order 47 Status Accepted
+2001-02-09 d1 Order 48 Status Accepted
+2001-02-09 d1 Order 46 Status Completed
+-- No longer alive main Ref
+2001-02-09 d0 Position 0
+2001-02-09 d1 Position 1
+2001-02-09 d2 Position 0
+2001-02-09 Data d2 OType buy Sizing to 1
+2001-02-09 d2 Main 49 Stp 50 Lmt 51
+2001-02-12 d2 Order 49 Status Accepted
+2001-02-12 d2 Order 50 Status Accepted
+2001-02-12 d2 Order 51 Status Accepted
+2001-02-12 d1 Order 47 Status Completed
+-- No longer alive stop Ref
+2001-02-12 d1 Order 48 Status Canceled
+-- No longer alive limit Ref
+2001-02-12 d2 Order 49 Status Completed
+-- No longer alive main Ref
+2001-02-12 d0 Position 0
+2001-02-12 d1 Position 0
+2001-02-12 d2 Position 1
+2001-02-13 d2 Order 50 Status Completed
+-- No longer alive stop Ref
+2001-02-13 d2 Order 51 Status Canceled
+-- No longer alive limit Ref
+2001-02-13 d0 Position 0
+2001-02-13 Data d0 OType buy Sizing to 1
+2001-02-13 d0 Main 52 Stp 53 Lmt 54
+2001-02-13 d1 Position 0
+2001-02-13 d2 Position 0
+2001-02-14 d0 Order 52 Status Accepted
+2001-02-14 d0 Order 53 Status Accepted
+2001-02-14 d0 Order 54 Status Accepted
+2001-02-14 d0 Order 52 Status Completed
+-- No longer alive main Ref
+2001-02-14 d0 Position 1
+2001-02-14 d1 Position 0
+2001-02-14 d2 Position 0
+2001-02-15 d0 Order 54 Status Completed
+-- No longer alive limit Ref
+2001-02-15 d0 Order 53 Status Canceled
+-- No longer alive stop Ref
+2001-02-15 d0 Position 0
+2001-02-15 d1 Position 0
+2001-02-15 Data d1 OType buy Sizing to 1
+2001-02-15 d1 Main 55 Stp 56 Lmt 57
+2001-02-15 d2 Position 0
+2001-02-16 d1 Order 55 Status Accepted
+2001-02-16 d1 Order 56 Status Accepted
+2001-02-16 d1 Order 57 Status Accepted
+2001-02-16 d1 Order 55 Status Completed
+-- No longer alive main Ref
+2001-02-16 d0 Position 0
+2001-02-16 d1 Position 1
+2001-02-16 d2 Position 0
+2001-02-16 Data d2 OType buy Sizing to 1
+2001-02-16 d2 Main 58 Stp 59 Lmt 60
+2001-02-20 d2 Order 58 Status Accepted
+2001-02-20 d2 Order 59 Status Accepted
+2001-02-20 d2 Order 60 Status Accepted
+2001-02-20 d1 Order 56 Status Completed
+-- No longer alive stop Ref
+2001-02-20 d1 Order 57 Status Canceled
+-- No longer alive limit Ref
+2001-02-20 d2 Order 58 Status Completed
+-- No longer alive main Ref
+2001-02-20 d0 Position 0
+2001-02-20 Data d0 OType buy Sizing to 1
+2001-02-20 d0 Main 61 Stp 62 Lmt 63
+2001-02-20 d1 Position 0
+2001-02-20 d2 Position 1
+2001-02-21 d0 Order 61 Status Accepted
+2001-02-21 d0 Order 62 Status Accepted
+2001-02-21 d0 Order 63 Status Accepted
+2001-02-21 d2 Order 59 Status Completed
+-- No longer alive stop Ref
+2001-02-21 d2 Order 60 Status Canceled
+-- No longer alive limit Ref
+2001-02-21 d0 Order 61 Status Completed
+-- No longer alive main Ref
+2001-02-21 d0 Position 1
+2001-02-21 d1 Position 0
+2001-02-21 d2 Position 0
+2001-02-22 d0 Order 63 Status Completed
+-- No longer alive limit Ref
+2001-02-22 d0 Order 62 Status Canceled
+-- No longer alive stop Ref
+2001-02-22 d0 Position 0
+2001-02-22 d1 Position 0
+2001-02-22 Data d1 OType buy Sizing to 1
+2001-02-22 d1 Main 64 Stp 65 Lmt 66
+2001-02-22 d2 Position 0
+2001-02-23 d1 Order 64 Status Accepted
+2001-02-23 d1 Order 65 Status Accepted
+2001-02-23 d1 Order 66 Status Accepted
+2001-02-23 d1 Order 64 Status Completed
+-- No longer alive main Ref
+2001-02-23 d0 Position 0
+2001-02-23 d1 Position 1
+2001-02-23 d2 Position 0
+2001-02-23 Data d2 OType buy Sizing to 1
+2001-02-23 d2 Main 67 Stp 68 Lmt 69
+2001-02-26 d2 Order 67 Status Accepted
+2001-02-26 d2 Order 68 Status Accepted
+2001-02-26 d2 Order 69 Status Accepted
+2001-02-26 d1 Order 66 Status Completed
+-- No longer alive limit Ref
+2001-02-26 d1 Order 65 Status Canceled
+-- No longer alive stop Ref
+2001-02-26 d2 Order 67 Status Completed
+-- No longer alive main Ref
+2001-02-26 d0 Position 0
+2001-02-26 d1 Position 0
+2001-02-26 d2 Position 1
+2001-02-27 d2 Order 69 Status Completed
+-- No longer alive limit Ref
+2001-02-27 d2 Order 68 Status Canceled
+-- No longer alive stop Ref
+2001-02-27 d0 Position 0
+2001-02-27 Data d0 OType buy Sizing to 1
+2001-02-27 d0 Main 70 Stp 71 Lmt 72
+2001-02-27 d1 Position 0
+2001-02-27 d2 Position 0
+2001-02-28 d0 Order 70 Status Accepted
+2001-02-28 d0 Order 71 Status Accepted
+2001-02-28 d0 Order 72 Status Accepted
+2001-02-28 d0 Order 70 Status Completed
+-- No longer alive main Ref
+2001-02-28 d0 Position 1
+2001-02-28 d1 Position 0
+2001-02-28 d2 Position 0
+2001-03-01 d0 Order 71 Status Completed
+-- No longer alive stop Ref
+2001-03-01 d0 Order 72 Status Canceled
+-- No longer alive limit Ref
+2001-03-01 d0 Position 0
+2001-03-01 d1 Position 0
+2001-03-01 Data d1 OType buy Sizing to 1
+2001-03-01 d1 Main 73 Stp 74 Lmt 75
+2001-03-01 d2 Position 0
+2001-03-02 d1 Order 73 Status Accepted
+2001-03-02 d1 Order 74 Status Accepted
+2001-03-02 d1 Order 75 Status Accepted
+2001-03-02 d1 Order 73 Status Completed
+-- No longer alive main Ref
+2001-03-02 d0 Position 0
+2001-03-02 d1 Position 1
+2001-03-02 d2 Position 0
+2001-03-02 Data d2 OType buy Sizing to 1
+2001-03-02 d2 Main 76 Stp 77 Lmt 78
+2001-03-05 d2 Order 76 Status Accepted
+2001-03-05 d2 Order 77 Status Accepted
+2001-03-05 d2 Order 78 Status Accepted
+2001-03-05 d1 Order 74 Status Completed
+-- No longer alive stop Ref
+2001-03-05 d1 Order 75 Status Canceled
+-- No longer alive limit Ref
+2001-03-05 d0 Position 0
+2001-03-05 d1 Position 0
+2001-03-05 d2 Position 0
+2001-03-06 d0 Position 0
+2001-03-06 Data d0 OType buy Sizing to 1
+2001-03-06 d0 Main 79 Stp 80 Lmt 81
+2001-03-06 d1 Position 0
+2001-03-06 d2 Position 0
+2001-03-07 d0 Order 79 Status Accepted
+2001-03-07 d0 Order 80 Status Accepted
+2001-03-07 d0 Order 81 Status Accepted
+2001-03-07 d0 Position 0
+2001-03-07 d1 Position 0
+2001-03-07 d2 Position 0
+2001-03-08 d0 Position 0
+2001-03-08 d1 Position 0
+2001-03-08 Data d1 OType buy Sizing to 1
+2001-03-08 d1 Main 82 Stp 83 Lmt 84
+2001-03-08 d2 Position 0
+2001-03-09 d1 Order 82 Status Accepted
+2001-03-09 d1 Order 83 Status Accepted
+2001-03-09 d1 Order 84 Status Accepted
+2001-03-09 d2 Order 76 Status Completed
+-- No longer alive main Ref
+2001-03-09 d0 Order 79 Status Completed
+-- No longer alive main Ref
+2001-03-09 d1 Order 82 Status Completed
+-- No longer alive main Ref
+2001-03-09 d0 Position 1
+2001-03-09 d1 Position 1
+2001-03-09 d2 Position 1
+2001-03-12 d2 Order 77 Status Completed
+-- No longer alive stop Ref
+2001-03-12 d2 Order 78 Status Canceled
+-- No longer alive limit Ref
+2001-03-12 d0 Order 81 Status Completed
+-- No longer alive limit Ref
+2001-03-12 d0 Order 80 Status Canceled
+-- No longer alive stop Ref
+2001-03-12 d1 Order 83 Status Completed
+-- No longer alive stop Ref
+2001-03-12 d1 Order 84 Status Canceled
+-- No longer alive limit Ref
+2001-03-12 d0 Position 0
+2001-03-12 d1 Position 0
+2001-03-12 d2 Position 0
+2001-03-13 d0 Position 0
+2001-03-13 Data d0 OType buy Sizing to 1
+2001-03-13 d0 Main 85 Stp 86 Lmt 87
+2001-03-13 d1 Position 0
+2001-03-13 d2 Position 0
+2001-03-14 d0 Order 85 Status Accepted
+2001-03-14 d0 Order 86 Status Accepted
+2001-03-14 d0 Order 87 Status Accepted
+2001-03-14 d0 Order 85 Status Completed
+-- No longer alive main Ref
+2001-03-14 d0 Position 1
+2001-03-14 d1 Position 0
+2001-03-14 d2 Position 0
+2001-03-15 d0 Order 87 Status Completed
+-- No longer alive limit Ref
+2001-03-15 d0 Order 86 Status Canceled
+-- No longer alive stop Ref
+2001-03-15 d0 Position 0
+2001-03-15 d1 Position 0
+2001-03-15 Data d1 OType buy Sizing to 1
+2001-03-15 d1 Main 88 Stp 89 Lmt 90
+2001-03-15 d2 Position 0
+2001-03-16 d1 Order 88 Status Accepted
+2001-03-16 d1 Order 89 Status Accepted
+2001-03-16 d1 Order 90 Status Accepted
+2001-03-16 d1 Order 88 Status Completed
+-- No longer alive main Ref
+2001-03-16 d0 Position 0
+2001-03-16 d1 Position 1
+2001-03-16 d2 Position 0
+2001-03-16 Data d2 OType buy Sizing to 1
+2001-03-16 d2 Main 91 Stp 92 Lmt 93
+2001-03-19 d2 Order 91 Status Accepted
+2001-03-19 d2 Order 92 Status Accepted
+2001-03-19 d2 Order 93 Status Accepted
+2001-03-19 d1 Order 89 Status Completed
+-- No longer alive stop Ref
+2001-03-19 d1 Order 90 Status Canceled
+-- No longer alive limit Ref
+2001-03-19 d0 Position 0
+2001-03-19 d1 Position 0
+2001-03-19 d2 Position 0
+2001-03-20 d0 Position 0
+2001-03-20 Data d0 OType buy Sizing to 1
+2001-03-20 d0 Main 94 Stp 95 Lmt 96
+2001-03-20 d1 Position 0
+2001-03-20 d2 Position 0
+2001-03-21 d0 Order 94 Status Accepted
+2001-03-21 d0 Order 95 Status Accepted
+2001-03-21 d0 Order 96 Status Accepted
+2001-03-21 d0 Position 0
+2001-03-21 d1 Position 0
+2001-03-21 d2 Position 0
+2001-03-22 d0 Position 0
+2001-03-22 d1 Position 0
+2001-03-22 Data d1 OType buy Sizing to 1
+2001-03-22 d1 Main 97 Stp 98 Lmt 99
+2001-03-22 d2 Position 0
+2001-03-23 d1 Order 97 Status Accepted
+2001-03-23 d1 Order 98 Status Accepted
+2001-03-23 d1 Order 99 Status Accepted
+2001-03-23 d1 Order 97 Status Completed
+-- No longer alive main Ref
+2001-03-23 d0 Position 0
+2001-03-23 d1 Position 1
+2001-03-23 d2 Position 0
+2001-03-26 d1 Order 98 Status Completed
+-- No longer alive stop Ref
+2001-03-26 d1 Order 99 Status Canceled
+-- No longer alive limit Ref
+2001-03-26 d0 Position 0
+2001-03-26 d1 Position 0
+2001-03-26 d2 Position 0
+2001-03-27 d2 Order 91 Status Expired
+-- No longer alive main Ref
+2001-03-27 d2 Order 92 Status Canceled
+-- No longer alive stop Ref
+2001-03-27 d2 Order 93 Status Canceled
+-- No longer alive limit Ref
+2001-03-27 d0 Position 0
+2001-03-27 d1 Position 0
+2001-03-27 d2 Position 0
+2001-03-28 d0 Position 0
+2001-03-28 d1 Position 0
+2001-03-28 d2 Position 0
+2001-03-29 d0 Position 0
+2001-03-29 d1 Position 0
+2001-03-29 Data d1 OType buy Sizing to 1
+2001-03-29 d1 Main 100 Stp 101 Lmt 102
+2001-03-29 d2 Position 0
+2001-03-30 d1 Order 100 Status Accepted
+2001-03-30 d1 Order 101 Status Accepted
+2001-03-30 d1 Order 102 Status Accepted
+2001-03-30 d1 Order 100 Status Completed
+-- No longer alive main Ref
+2001-03-30 d0 Position 0
+2001-03-30 d1 Position 1
+2001-03-30 d2 Position 0
+2001-03-30 Data d2 OType buy Sizing to 1
+2001-03-30 d2 Main 103 Stp 104 Lmt 105
+2001-04-02 d2 Order 103 Status Accepted
+2001-04-02 d2 Order 104 Status Accepted
+2001-04-02 d2 Order 105 Status Accepted
+2001-04-02 d0 Order 94 Status Expired
+-- No longer alive main Ref
+2001-04-02 d0 Order 95 Status Canceled
+-- No longer alive stop Ref
+2001-04-02 d0 Order 96 Status Canceled
+-- No longer alive limit Ref
+2001-04-02 d1 Order 101 Status Completed
+-- No longer alive stop Ref
+2001-04-02 d1 Order 102 Status Canceled
+-- No longer alive limit Ref
+2001-04-02 d0 Position 0
+2001-04-02 d1 Position 0
+2001-04-02 d2 Position 0
+2001-04-03 d2 Order 103 Status Completed
+-- No longer alive main Ref
+2001-04-03 d0 Position 0
+2001-04-03 Data d0 OType buy Sizing to 1
+2001-04-03 d0 Main 106 Stp 107 Lmt 108
+2001-04-03 d1 Position 0
+2001-04-03 d2 Position 1
+2001-04-04 d0 Order 106 Status Accepted
+2001-04-04 d0 Order 107 Status Accepted
+2001-04-04 d0 Order 108 Status Accepted
+2001-04-04 d2 Order 104 Status Completed
+-- No longer alive stop Ref
+2001-04-04 d2 Order 105 Status Canceled
+-- No longer alive limit Ref
+2001-04-04 d0 Order 106 Status Completed
+-- No longer alive main Ref
+2001-04-04 d0 Position 1
+2001-04-04 d1 Position 0
+2001-04-04 d2 Position 0
+2001-04-05 d0 Order 107 Status Completed
+-- No longer alive stop Ref
+2001-04-05 d0 Order 108 Status Canceled
+-- No longer alive limit Ref
+2001-04-05 d0 Position 0
+2001-04-05 d1 Position 0
+2001-04-05 Data d1 OType buy Sizing to 1
+2001-04-05 d1 Main 109 Stp 110 Lmt 111
+2001-04-05 d2 Position 0
+2001-04-06 d1 Order 109 Status Accepted
+2001-04-06 d1 Order 110 Status Accepted
+2001-04-06 d1 Order 111 Status Accepted
+2001-04-06 d1 Order 109 Status Completed
+-- No longer alive main Ref
+2001-04-06 d0 Position 0
+2001-04-06 d1 Position 1
+2001-04-06 d2 Position 0
+2001-04-06 Data d2 OType buy Sizing to 1
+2001-04-06 d2 Main 112 Stp 113 Lmt 114
+2001-04-09 d2 Order 112 Status Accepted
+2001-04-09 d2 Order 113 Status Accepted
+2001-04-09 d2 Order 114 Status Accepted
+2001-04-09 d1 Order 111 Status Completed
+-- No longer alive limit Ref
+2001-04-09 d1 Order 110 Status Canceled
+-- No longer alive stop Ref
+2001-04-09 d0 Position 0
+2001-04-09 d1 Position 0
+2001-04-09 d2 Position 0
+2001-04-10 d0 Position 0
+2001-04-10 Data d0 OType buy Sizing to 1
+2001-04-10 d0 Main 115 Stp 116 Lmt 117
+2001-04-10 d1 Position 0
+2001-04-10 d2 Position 0
+2001-04-11 d0 Order 115 Status Accepted
+2001-04-11 d0 Order 116 Status Accepted
+2001-04-11 d0 Order 117 Status Accepted
+2001-04-11 d0 Position 0
+2001-04-11 d1 Position 0
+2001-04-11 d2 Position 0
+2001-04-12 d0 Position 0
+2001-04-12 d1 Position 0
+2001-04-12 Data d1 OType buy Sizing to 1
+2001-04-12 d1 Main 118 Stp 119 Lmt 120
+2001-04-12 d2 Position 0
+2001-04-16 d1 Order 118 Status Accepted
+2001-04-16 d1 Order 119 Status Accepted
+2001-04-16 d1 Order 120 Status Accepted
+2001-04-16 d1 Order 118 Status Completed
+-- No longer alive main Ref
+2001-04-16 d0 Position 0
+2001-04-16 d1 Position 1
+2001-04-16 d2 Position 0
+2001-04-17 d2 Order 112 Status Expired
+-- No longer alive main Ref
+2001-04-17 d2 Order 113 Status Canceled
+-- No longer alive stop Ref
+2001-04-17 d2 Order 114 Status Canceled
+-- No longer alive limit Ref
+2001-04-17 d1 Order 120 Status Completed
+-- No longer alive limit Ref
+2001-04-17 d1 Order 119 Status Canceled
+-- No longer alive stop Ref
+2001-04-17 d0 Position 0
+2001-04-17 d1 Position 0
+2001-04-17 d2 Position 0
+2001-04-18 d0 Position 0
+2001-04-18 d1 Position 0
+2001-04-18 d2 Position 0
+2001-04-19 d0 Position 0
+2001-04-19 d1 Position 0
+2001-04-19 Data d1 OType buy Sizing to 1
+2001-04-19 d1 Main 121 Stp 122 Lmt 123
+2001-04-19 d2 Position 0
+2001-04-20 d1 Order 121 Status Accepted
+2001-04-20 d1 Order 122 Status Accepted
+2001-04-20 d1 Order 123 Status Accepted
+2001-04-20 d1 Order 121 Status Completed
+-- No longer alive main Ref
+2001-04-20 d0 Position 0
+2001-04-20 d1 Position 1
+2001-04-20 d2 Position 0
+2001-04-20 Data d2 OType buy Sizing to 1
+2001-04-20 d2 Main 124 Stp 125 Lmt 126
+2001-04-23 d2 Order 124 Status Accepted
+2001-04-23 d2 Order 125 Status Accepted
+2001-04-23 d2 Order 126 Status Accepted
+2001-04-23 d0 Order 115 Status Expired
+-- No longer alive main Ref
+2001-04-23 d0 Order 116 Status Canceled
+-- No longer alive stop Ref
+2001-04-23 d0 Order 117 Status Canceled
+-- No longer alive limit Ref
+2001-04-23 d1 Order 122 Status Completed
+-- No longer alive stop Ref
+2001-04-23 d1 Order 123 Status Canceled
+-- No longer alive limit Ref
+2001-04-23 d2 Order 124 Status Completed
+-- No longer alive main Ref
+2001-04-23 d0 Position 0
+2001-04-23 d1 Position 0
+2001-04-23 d2 Position 1
+2001-04-24 d2 Order 125 Status Completed
+-- No longer alive stop Ref
+2001-04-24 d2 Order 126 Status Canceled
+-- No longer alive limit Ref
+2001-04-24 d0 Position 0
+2001-04-24 Data d0 OType buy Sizing to 1
+2001-04-24 d0 Main 127 Stp 128 Lmt 129
+2001-04-24 d1 Position 0
+2001-04-24 d2 Position 0
+2001-04-25 d0 Order 127 Status Accepted
+2001-04-25 d0 Order 128 Status Accepted
+2001-04-25 d0 Order 129 Status Accepted
+2001-04-25 d0 Position 0
+2001-04-25 d1 Position 0
+2001-04-25 d2 Position 0
+2001-04-26 d0 Order 127 Status Completed
+-- No longer alive main Ref
+2001-04-26 d0 Position 1
+2001-04-26 d1 Position 0
+2001-04-26 Data d1 OType buy Sizing to 1
+2001-04-26 d1 Main 130 Stp 131 Lmt 132
+2001-04-26 d2 Position 0
+2001-04-27 d1 Order 130 Status Accepted
+2001-04-27 d1 Order 131 Status Accepted
+2001-04-27 d1 Order 132 Status Accepted
+2001-04-27 d0 Order 129 Status Completed
+-- No longer alive limit Ref
+2001-04-27 d0 Order 128 Status Canceled
+-- No longer alive stop Ref
+2001-04-27 d0 Position 0
+2001-04-27 d1 Position 0
+2001-04-27 d2 Position 0
+2001-04-27 Data d2 OType buy Sizing to 1
+2001-04-27 d2 Main 133 Stp 134 Lmt 135
+2001-04-30 d2 Order 133 Status Accepted
+2001-04-30 d2 Order 134 Status Accepted
+2001-04-30 d2 Order 135 Status Accepted
+2001-04-30 d2 Order 133 Status Completed
+-- No longer alive main Ref
+2001-04-30 d0 Position 0
+2001-04-30 d1 Position 0
+2001-04-30 d2 Position 1
+2001-05-01 d2 Order 134 Status Completed
+-- No longer alive stop Ref
+2001-05-01 d2 Order 135 Status Canceled
+-- No longer alive limit Ref
+2001-05-01 d0 Position 0
+2001-05-01 Data d0 OType buy Sizing to 1
+2001-05-01 d0 Main 136 Stp 137 Lmt 138
+2001-05-01 d1 Position 0
+2001-05-01 d2 Position 0
+2001-05-02 d0 Order 136 Status Accepted
+2001-05-02 d0 Order 137 Status Accepted
+2001-05-02 d0 Order 138 Status Accepted
+2001-05-02 d0 Order 136 Status Completed
+-- No longer alive main Ref
+2001-05-02 d0 Position 1
+2001-05-02 d1 Position 0
+2001-05-02 d2 Position 0
+2001-05-03 d0 Order 137 Status Completed
+-- No longer alive stop Ref
+2001-05-03 d0 Order 138 Status Canceled
+-- No longer alive limit Ref
+2001-05-03 d0 Position 0
+2001-05-03 d1 Position 0
+2001-05-03 d2 Position 0
+2001-05-04 d0 Position 0
+2001-05-04 d1 Position 0
+2001-05-04 d2 Position 0
+2001-05-04 Data d2 OType buy Sizing to 1
+2001-05-04 d2 Main 139 Stp 140 Lmt 141
+2001-05-07 d2 Order 139 Status Accepted
+2001-05-07 d2 Order 140 Status Accepted
+2001-05-07 d2 Order 141 Status Accepted
+2001-05-07 d1 Order 130 Status Expired
+-- No longer alive main Ref
+2001-05-07 d1 Order 131 Status Canceled
+-- No longer alive stop Ref
+2001-05-07 d1 Order 132 Status Canceled
+-- No longer alive limit Ref
+2001-05-07 d2 Order 139 Status Completed
+-- No longer alive main Ref
+2001-05-07 d0 Position 0
+2001-05-07 d1 Position 0
+2001-05-07 d2 Position 1
+2001-05-08 d0 Position 0
+2001-05-08 Data d0 OType buy Sizing to 1
+2001-05-08 d0 Main 142 Stp 143 Lmt 144
+2001-05-08 d1 Position 0
+2001-05-08 d2 Position 1
+2001-05-09 d0 Order 142 Status Accepted
+2001-05-09 d0 Order 143 Status Accepted
+2001-05-09 d0 Order 144 Status Accepted
+2001-05-09 d2 Order 141 Status Completed
+-- No longer alive limit Ref
+2001-05-09 d2 Order 140 Status Canceled
+-- No longer alive stop Ref
+2001-05-09 d0 Order 142 Status Completed
+-- No longer alive main Ref
+2001-05-09 d0 Position 1
+2001-05-09 d1 Position 0
+2001-05-09 d2 Position 0
+2001-05-10 d0 Order 143 Status Completed
+-- No longer alive stop Ref
+2001-05-10 d0 Order 144 Status Canceled
+-- No longer alive limit Ref
+2001-05-10 d0 Position 0
+2001-05-10 d1 Position 0
+2001-05-10 Data d1 OType buy Sizing to 1
+2001-05-10 d1 Main 145 Stp 146 Lmt 147
+2001-05-10 d2 Position 0
+2001-05-11 d1 Order 145 Status Accepted
+2001-05-11 d1 Order 146 Status Accepted
+2001-05-11 d1 Order 147 Status Accepted
+2001-05-11 d1 Order 145 Status Completed
+-- No longer alive main Ref
+2001-05-11 d0 Position 0
+2001-05-11 d1 Position 1
+2001-05-11 d2 Position 0
+2001-05-11 Data d2 OType buy Sizing to 1
+2001-05-11 d2 Main 148 Stp 149 Lmt 150
+2001-05-14 d2 Order 148 Status Accepted
+2001-05-14 d2 Order 149 Status Accepted
+2001-05-14 d2 Order 150 Status Accepted
+2001-05-14 d1 Order 146 Status Completed
+-- No longer alive stop Ref
+2001-05-14 d1 Order 147 Status Canceled
+-- No longer alive limit Ref
+2001-05-14 d0 Position 0
+2001-05-14 d1 Position 0
+2001-05-14 d2 Position 0
+2001-05-15 d0 Position 0
+2001-05-15 Data d0 OType buy Sizing to 1
+2001-05-15 d0 Main 151 Stp 152 Lmt 153
+2001-05-15 d1 Position 0
+2001-05-15 d2 Position 0
+2001-05-16 d0 Order 151 Status Accepted
+2001-05-16 d0 Order 152 Status Accepted
+2001-05-16 d0 Order 153 Status Accepted
+2001-05-16 d2 Order 148 Status Completed
+-- No longer alive main Ref
+2001-05-16 d0 Order 151 Status Completed
+-- No longer alive main Ref
+2001-05-16 d0 Position 1
+2001-05-16 d1 Position 0
+2001-05-16 d2 Position 1
+2001-05-17 d2 Order 150 Status Completed
+-- No longer alive limit Ref
+2001-05-17 d2 Order 149 Status Canceled
+-- No longer alive stop Ref
+2001-05-17 d0 Order 153 Status Completed
+-- No longer alive limit Ref
+2001-05-17 d0 Order 152 Status Canceled
+-- No longer alive stop Ref
+2001-05-17 d0 Position 0
+2001-05-17 d1 Position 0
+2001-05-17 Data d1 OType buy Sizing to 1
+2001-05-17 d1 Main 154 Stp 155 Lmt 156
+2001-05-17 d2 Position 0
+2001-05-18 d1 Order 154 Status Accepted
+2001-05-18 d1 Order 155 Status Accepted
+2001-05-18 d1 Order 156 Status Accepted
+2001-05-18 d1 Order 154 Status Completed
+-- No longer alive main Ref
+2001-05-18 d0 Position 0
+2001-05-18 d1 Position 1
+2001-05-18 d2 Position 0
+2001-05-18 Data d2 OType buy Sizing to 1
+2001-05-18 d2 Main 157 Stp 158 Lmt 159
+2001-05-21 d2 Order 157 Status Accepted
+2001-05-21 d2 Order 158 Status Accepted
+2001-05-21 d2 Order 159 Status Accepted
+2001-05-21 d1 Order 156 Status Completed
+-- No longer alive limit Ref
+2001-05-21 d1 Order 155 Status Canceled
+-- No longer alive stop Ref
+2001-05-21 d0 Position 0
+2001-05-21 d1 Position 0
+2001-05-21 d2 Position 0
+2001-05-22 d0 Position 0
+2001-05-22 Data d0 OType buy Sizing to 1
+2001-05-22 d0 Main 160 Stp 161 Lmt 162
+2001-05-22 d1 Position 0
+2001-05-22 d2 Position 0
+2001-05-23 d0 Order 160 Status Accepted
+2001-05-23 d0 Order 161 Status Accepted
+2001-05-23 d0 Order 162 Status Accepted
+2001-05-23 d0 Order 160 Status Completed
+-- No longer alive main Ref
+2001-05-23 d0 Position 1
+2001-05-23 d1 Position 0
+2001-05-23 d2 Position 0
+2001-05-24 d0 Order 161 Status Completed
+-- No longer alive stop Ref
+2001-05-24 d0 Order 162 Status Canceled
+-- No longer alive limit Ref
+2001-05-24 d0 Position 0
+2001-05-24 d1 Position 0
+2001-05-24 Data d1 OType buy Sizing to 1
+2001-05-24 d1 Main 163 Stp 164 Lmt 165
+2001-05-24 d2 Position 0
+2001-05-25 d1 Order 163 Status Accepted
+2001-05-25 d1 Order 164 Status Accepted
+2001-05-25 d1 Order 165 Status Accepted
+2001-05-25 d1 Order 163 Status Completed
+-- No longer alive main Ref
+2001-05-25 d0 Position 0
+2001-05-25 d1 Position 1
+2001-05-25 d2 Position 0
+2001-05-29 d2 Order 157 Status Expired
+-- No longer alive main Ref
+2001-05-29 d2 Order 158 Status Canceled
+-- No longer alive stop Ref
+2001-05-29 d2 Order 159 Status Canceled
+-- No longer alive limit Ref
+2001-05-29 d1 Order 164 Status Completed
+-- No longer alive stop Ref
+2001-05-29 d1 Order 165 Status Canceled
+-- No longer alive limit Ref
+2001-05-29 d0 Position 0
+2001-05-29 Data d0 OType buy Sizing to 1
+2001-05-29 d0 Main 166 Stp 167 Lmt 168
+2001-05-29 d1 Position 0
+2001-05-29 d2 Position 0
+2001-05-30 d0 Order 166 Status Accepted
+2001-05-30 d0 Order 167 Status Accepted
+2001-05-30 d0 Order 168 Status Accepted
+2001-05-30 d0 Order 166 Status Completed
+-- No longer alive main Ref
+2001-05-30 d0 Position 1
+2001-05-30 d1 Position 0
+2001-05-30 d2 Position 0
+2001-05-31 d0 Order 167 Status Completed
+-- No longer alive stop Ref
+2001-05-31 d0 Order 168 Status Canceled
+-- No longer alive limit Ref
+2001-05-31 d0 Position 0
+2001-05-31 d1 Position 0
+2001-05-31 Data d1 OType buy Sizing to 1
+2001-05-31 d1 Main 169 Stp 170 Lmt 171
+2001-05-31 d2 Position 0
+2001-06-01 d1 Order 169 Status Accepted
+2001-06-01 d1 Order 170 Status Accepted
+2001-06-01 d1 Order 171 Status Accepted
+2001-06-01 d0 Position 0
+2001-06-01 d1 Position 0
+2001-06-01 d2 Position 0
+2001-06-01 Data d2 OType buy Sizing to 1
+2001-06-01 d2 Main 172 Stp 173 Lmt 174
+2001-06-04 d2 Order 172 Status Accepted
+2001-06-04 d2 Order 173 Status Accepted
+2001-06-04 d2 Order 174 Status Accepted
+2001-06-04 d0 Position 0
+2001-06-04 d1 Position 0
+2001-06-04 d2 Position 0
+2001-06-05 d0 Position 0
+2001-06-05 Data d0 OType buy Sizing to 1
+2001-06-05 d0 Main 175 Stp 176 Lmt 177
+2001-06-05 d1 Position 0
+2001-06-05 d2 Position 0
+2001-06-06 d0 Order 175 Status Accepted
+2001-06-06 d0 Order 176 Status Accepted
+2001-06-06 d0 Order 177 Status Accepted
+2001-06-06 d0 Position 0
+2001-06-06 d1 Position 0
+2001-06-06 d2 Position 0
+2001-06-07 d0 Position 0
+2001-06-07 d1 Position 0
+2001-06-07 d2 Position 0
+2001-06-08 d0 Position 0
+2001-06-08 d1 Position 0
+2001-06-08 d2 Position 0
+2001-06-11 d1 Order 169 Status Expired
+-- No longer alive main Ref
+2001-06-11 d1 Order 170 Status Canceled
+-- No longer alive stop Ref
+2001-06-11 d1 Order 171 Status Canceled
+-- No longer alive limit Ref
+2001-06-11 d0 Position 0
+2001-06-11 d1 Position 0
+2001-06-11 d2 Position 0
+2001-06-12 d2 Order 172 Status Expired
+-- No longer alive main Ref
+2001-06-12 d2 Order 173 Status Canceled
+-- No longer alive stop Ref
+2001-06-12 d2 Order 174 Status Canceled
+-- No longer alive limit Ref
+2001-06-12 d0 Order 175 Status Completed
+-- No longer alive main Ref
+2001-06-12 d0 Position 1
+2001-06-12 d1 Position 0
+2001-06-12 d2 Position 0
+2001-06-13 d0 Order 177 Status Completed
+-- No longer alive limit Ref
+2001-06-13 d0 Order 176 Status Canceled
+-- No longer alive stop Ref
+2001-06-13 d0 Position 0
+2001-06-13 d1 Position 0
+2001-06-13 d2 Position 0
+2001-06-14 d0 Position 0
+2001-06-14 d1 Position 0
+2001-06-14 Data d1 OType buy Sizing to 1
+2001-06-14 d1 Main 178 Stp 179 Lmt 180
+2001-06-14 d2 Position 0
+2001-06-15 d1 Order 178 Status Accepted
+2001-06-15 d1 Order 179 Status Accepted
+2001-06-15 d1 Order 180 Status Accepted
+2001-06-15 d1 Order 178 Status Completed
+-- No longer alive main Ref
+2001-06-15 d0 Position 0
+2001-06-15 d1 Position 1
+2001-06-15 d2 Position 0
+2001-06-15 Data d2 OType buy Sizing to 1
+2001-06-15 d2 Main 181 Stp 182 Lmt 183
+2001-06-18 d2 Order 181 Status Accepted
+2001-06-18 d2 Order 182 Status Accepted
+2001-06-18 d2 Order 183 Status Accepted
+2001-06-18 d1 Order 179 Status Completed
+-- No longer alive stop Ref
+2001-06-18 d1 Order 180 Status Canceled
+-- No longer alive limit Ref
+2001-06-18 d2 Order 181 Status Completed
+-- No longer alive main Ref
+2001-06-18 d0 Position 0
+2001-06-18 d1 Position 0
+2001-06-18 d2 Position 1
+2001-06-19 d2 Order 183 Status Completed
+-- No longer alive limit Ref
+2001-06-19 d2 Order 182 Status Canceled
+-- No longer alive stop Ref
+2001-06-19 d0 Position 0
+2001-06-19 Data d0 OType buy Sizing to 1
+2001-06-19 d0 Main 184 Stp 185 Lmt 186
+2001-06-19 d1 Position 0
+2001-06-19 d2 Position 0
+2001-06-20 d0 Order 184 Status Accepted
+2001-06-20 d0 Order 185 Status Accepted
+2001-06-20 d0 Order 186 Status Accepted
+2001-06-20 d0 Order 184 Status Completed
+-- No longer alive main Ref
+2001-06-20 d0 Position 1
+2001-06-20 d1 Position 0
+2001-06-20 d2 Position 0
+2001-06-21 d0 Order 186 Status Completed
+-- No longer alive limit Ref
+2001-06-21 d0 Order 185 Status Canceled
+-- No longer alive stop Ref
+2001-06-21 d0 Position 0
+2001-06-21 d1 Position 0
+2001-06-21 Data d1 OType buy Sizing to 1
+2001-06-21 d1 Main 187 Stp 188 Lmt 189
+2001-06-21 d2 Position 0
+2001-06-22 d1 Order 187 Status Accepted
+2001-06-22 d1 Order 188 Status Accepted
+2001-06-22 d1 Order 189 Status Accepted
+2001-06-22 d1 Order 187 Status Completed
+-- No longer alive main Ref
+2001-06-22 d0 Position 0
+2001-06-22 d1 Position 1
+2001-06-22 d2 Position 0
+2001-06-22 Data d2 OType buy Sizing to 1
+2001-06-22 d2 Main 190 Stp 191 Lmt 192
+2001-06-25 d2 Order 190 Status Accepted
+2001-06-25 d2 Order 191 Status Accepted
+2001-06-25 d2 Order 192 Status Accepted
+2001-06-25 d1 Order 189 Status Completed
+-- No longer alive limit Ref
+2001-06-25 d1 Order 188 Status Canceled
+-- No longer alive stop Ref
+2001-06-25 d0 Position 0
+2001-06-25 d1 Position 0
+2001-06-25 d2 Position 0
+2001-06-26 d2 Order 190 Status Completed
+-- No longer alive main Ref
+2001-06-26 d0 Position 0
+2001-06-26 Data d0 OType buy Sizing to 1
+2001-06-26 d0 Main 193 Stp 194 Lmt 195
+2001-06-26 d1 Position 0
+2001-06-26 d2 Position 1
+2001-06-27 d0 Order 193 Status Accepted
+2001-06-27 d0 Order 194 Status Accepted
+2001-06-27 d0 Order 195 Status Accepted
+2001-06-27 d2 Order 192 Status Completed
+-- No longer alive limit Ref
+2001-06-27 d2 Order 191 Status Canceled
+-- No longer alive stop Ref
+2001-06-27 d0 Order 193 Status Completed
+-- No longer alive main Ref
+2001-06-27 d0 Position 1
+2001-06-27 d1 Position 0
+2001-06-27 d2 Position 0
+2001-06-28 d0 Position 1
+2001-06-28 d1 Position 0
+2001-06-28 Data d1 OType buy Sizing to 1
+2001-06-28 d1 Main 196 Stp 197 Lmt 198
+2001-06-28 d2 Position 0
+2001-06-29 d1 Order 196 Status Accepted
+2001-06-29 d1 Order 197 Status Accepted
+2001-06-29 d1 Order 198 Status Accepted
+2001-06-29 d0 Position 1
+2001-06-29 d1 Position 0
+2001-06-29 d2 Position 0
+2001-06-29 Data d2 OType buy Sizing to 1
+2001-06-29 d2 Main 199 Stp 200 Lmt 201
+2001-07-02 d2 Order 199 Status Accepted
+2001-07-02 d2 Order 200 Status Accepted
+2001-07-02 d2 Order 201 Status Accepted
+2001-07-02 d0 Order 194 Status Completed
+-- No longer alive stop Ref
+2001-07-02 d0 Order 195 Status Canceled
+-- No longer alive limit Ref
+2001-07-02 d0 Position 0
+2001-07-02 d1 Position 0
+2001-07-02 d2 Position 0
+2001-07-03 d0 Position 0
+2001-07-03 Data d0 OType buy Sizing to 1
+2001-07-03 d0 Main 202 Stp 203 Lmt 204
+2001-07-03 d1 Position 0
+2001-07-03 d2 Position 0
+2001-07-05 d0 Order 202 Status Accepted
+2001-07-05 d0 Order 203 Status Accepted
+2001-07-05 d0 Order 204 Status Accepted
+2001-07-05 d1 Order 196 Status Completed
+-- No longer alive main Ref
+2001-07-05 d0 Order 202 Status Completed
+-- No longer alive main Ref
+2001-07-05 d0 Position 1
+2001-07-05 d1 Position 1
+2001-07-05 d2 Position 0
+2001-07-06 d1 Order 197 Status Completed
+-- No longer alive stop Ref
+2001-07-06 d1 Order 198 Status Canceled
+-- No longer alive limit Ref
+2001-07-06 d2 Order 199 Status Completed
+-- No longer alive main Ref
+2001-07-06 d0 Order 203 Status Completed
+-- No longer alive stop Ref
+2001-07-06 d0 Order 204 Status Canceled
+-- No longer alive limit Ref
+2001-07-06 d0 Position 0
+2001-07-06 d1 Position 0
+2001-07-06 d2 Position 1
+2001-07-09 d2 Order 200 Status Completed
+-- No longer alive stop Ref
+2001-07-09 d2 Order 201 Status Canceled
+-- No longer alive limit Ref
+2001-07-09 d0 Position 0
+2001-07-09 d1 Position 0
+2001-07-09 d2 Position 0
+2001-07-10 d0 Position 0
+2001-07-10 Data d0 OType buy Sizing to 1
+2001-07-10 d0 Main 205 Stp 206 Lmt 207
+2001-07-10 d1 Position 0
+2001-07-10 d2 Position 0
+2001-07-11 d0 Order 205 Status Accepted
+2001-07-11 d0 Order 206 Status Accepted
+2001-07-11 d0 Order 207 Status Accepted
+2001-07-11 d0 Order 205 Status Completed
+-- No longer alive main Ref
+2001-07-11 d0 Position 1
+2001-07-11 d1 Position 0
+2001-07-11 d2 Position 0
+2001-07-12 d0 Order 207 Status Completed
+-- No longer alive limit Ref
+2001-07-12 d0 Order 206 Status Canceled
+-- No longer alive stop Ref
+2001-07-12 d0 Position 0
+2001-07-12 d1 Position 0
+2001-07-12 Data d1 OType buy Sizing to 1
+2001-07-12 d1 Main 208 Stp 209 Lmt 210
+2001-07-12 d2 Position 0
+2001-07-13 d1 Order 208 Status Accepted
+2001-07-13 d1 Order 209 Status Accepted
+2001-07-13 d1 Order 210 Status Accepted
+2001-07-13 d1 Order 208 Status Completed
+-- No longer alive main Ref
+2001-07-13 d0 Position 0
+2001-07-13 d1 Position 1
+2001-07-13 d2 Position 0
+2001-07-13 Data d2 OType buy Sizing to 1
+2001-07-13 d2 Main 211 Stp 212 Lmt 213
+2001-07-16 d2 Order 211 Status Accepted
+2001-07-16 d2 Order 212 Status Accepted
+2001-07-16 d2 Order 213 Status Accepted
+2001-07-16 d1 Order 210 Status Completed
+-- No longer alive limit Ref
+2001-07-16 d1 Order 209 Status Canceled
+-- No longer alive stop Ref
+2001-07-16 d2 Order 211 Status Completed
+-- No longer alive main Ref
+2001-07-16 d0 Position 0
+2001-07-16 d1 Position 0
+2001-07-16 d2 Position 1
+2001-07-17 d2 Order 212 Status Completed
+-- No longer alive stop Ref
+2001-07-17 d2 Order 213 Status Canceled
+-- No longer alive limit Ref
+2001-07-17 d0 Position 0
+2001-07-17 Data d0 OType buy Sizing to 1
+2001-07-17 d0 Main 214 Stp 215 Lmt 216
+2001-07-17 d1 Position 0
+2001-07-17 d2 Position 0
+2001-07-18 d0 Order 214 Status Accepted
+2001-07-18 d0 Order 215 Status Accepted
+2001-07-18 d0 Order 216 Status Accepted
+2001-07-18 d0 Order 214 Status Completed
+-- No longer alive main Ref
+2001-07-18 d0 Position 1
+2001-07-18 d1 Position 0
+2001-07-18 d2 Position 0
+2001-07-19 d0 Order 216 Status Completed
+-- No longer alive limit Ref
+2001-07-19 d0 Order 215 Status Canceled
+-- No longer alive stop Ref
+2001-07-19 d0 Position 0
+2001-07-19 d1 Position 0
+2001-07-19 Data d1 OType buy Sizing to 1
+2001-07-19 d1 Main 217 Stp 218 Lmt 219
+2001-07-19 d2 Position 0
+2001-07-20 d1 Order 217 Status Accepted
+2001-07-20 d1 Order 218 Status Accepted
+2001-07-20 d1 Order 219 Status Accepted
+2001-07-20 d0 Position 0
+2001-07-20 d1 Position 0
+2001-07-20 d2 Position 0
+2001-07-20 Data d2 OType buy Sizing to 1
+2001-07-20 d2 Main 220 Stp 221 Lmt 222
+2001-07-23 d2 Order 220 Status Accepted
+2001-07-23 d2 Order 221 Status Accepted
+2001-07-23 d2 Order 222 Status Accepted
+2001-07-23 d2 Order 220 Status Completed
+-- No longer alive main Ref
+2001-07-23 d0 Position 0
+2001-07-23 d1 Position 0
+2001-07-23 d2 Position 1
+2001-07-24 d1 Order 217 Status Completed
+-- No longer alive main Ref
+2001-07-24 d2 Order 221 Status Completed
+-- No longer alive stop Ref
+2001-07-24 d2 Order 222 Status Canceled
+-- No longer alive limit Ref
+2001-07-24 d0 Position 0
+2001-07-24 Data d0 OType buy Sizing to 1
+2001-07-24 d0 Main 223 Stp 224 Lmt 225
+2001-07-24 d1 Position 1
+2001-07-24 d2 Position 0
+2001-07-25 d0 Order 223 Status Accepted
+2001-07-25 d0 Order 224 Status Accepted
+2001-07-25 d0 Order 225 Status Accepted
+2001-07-25 d1 Order 218 Status Completed
+-- No longer alive stop Ref
+2001-07-25 d1 Order 219 Status Canceled
+-- No longer alive limit Ref
+2001-07-25 d0 Order 223 Status Completed
+-- No longer alive main Ref
+2001-07-25 d0 Position 1
+2001-07-25 d1 Position 0
+2001-07-25 d2 Position 0
+2001-07-26 d0 Order 225 Status Completed
+-- No longer alive limit Ref
+2001-07-26 d0 Order 224 Status Canceled
+-- No longer alive stop Ref
+2001-07-26 d0 Position 0
+2001-07-26 d1 Position 0
+2001-07-26 Data d1 OType buy Sizing to 1
+2001-07-26 d1 Main 226 Stp 227 Lmt 228
+2001-07-26 d2 Position 0
+2001-07-27 d1 Order 226 Status Accepted
+2001-07-27 d1 Order 227 Status Accepted
+2001-07-27 d1 Order 228 Status Accepted
+2001-07-27 d1 Order 226 Status Completed
+-- No longer alive main Ref
+2001-07-27 d0 Position 0
+2001-07-27 d1 Position 1
+2001-07-27 d2 Position 0
+2001-07-27 Data d2 OType buy Sizing to 1
+2001-07-27 d2 Main 229 Stp 230 Lmt 231
+2001-07-30 d2 Order 229 Status Accepted
+2001-07-30 d2 Order 230 Status Accepted
+2001-07-30 d2 Order 231 Status Accepted
+2001-07-30 d1 Order 228 Status Completed
+-- No longer alive limit Ref
+2001-07-30 d1 Order 227 Status Canceled
+-- No longer alive stop Ref
+2001-07-30 d2 Order 229 Status Completed
+-- No longer alive main Ref
+2001-07-30 d0 Position 0
+2001-07-30 d1 Position 0
+2001-07-30 d2 Position 1
+2001-07-31 d2 Order 230 Status Completed
+-- No longer alive stop Ref
+2001-07-31 d2 Order 231 Status Canceled
+-- No longer alive limit Ref
+2001-07-31 d0 Position 0
+2001-07-31 Data d0 OType buy Sizing to 1
+2001-07-31 d0 Main 232 Stp 233 Lmt 234
+2001-07-31 d1 Position 0
+2001-07-31 d2 Position 0
+2001-08-01 d0 Order 232 Status Accepted
+2001-08-01 d0 Order 233 Status Accepted
+2001-08-01 d0 Order 234 Status Accepted
+2001-08-01 d0 Position 0
+2001-08-01 d1 Position 0
+2001-08-01 d2 Position 0
+2001-08-02 d0 Position 0
+2001-08-02 d1 Position 0
+2001-08-02 Data d1 OType buy Sizing to 1
+2001-08-02 d1 Main 235 Stp 236 Lmt 237
+2001-08-02 d2 Position 0
+2001-08-03 d1 Order 235 Status Accepted
+2001-08-03 d1 Order 236 Status Accepted
+2001-08-03 d1 Order 237 Status Accepted
+2001-08-03 d1 Order 235 Status Completed
+-- No longer alive main Ref
+2001-08-03 d0 Position 0
+2001-08-03 d1 Position 1
+2001-08-03 d2 Position 0
+2001-08-03 Data d2 OType buy Sizing to 1
+2001-08-03 d2 Main 238 Stp 239 Lmt 240
+2001-08-06 d2 Order 238 Status Accepted
+2001-08-06 d2 Order 239 Status Accepted
+2001-08-06 d2 Order 240 Status Accepted
+2001-08-06 d1 Order 236 Status Completed
+-- No longer alive stop Ref
+2001-08-06 d1 Order 237 Status Canceled
+-- No longer alive limit Ref
+2001-08-06 d2 Order 238 Status Completed
+-- No longer alive main Ref
+2001-08-06 d0 Position 0
+2001-08-06 d1 Position 0
+2001-08-06 d2 Position 1
+2001-08-07 d2 Order 239 Status Completed
+-- No longer alive stop Ref
+2001-08-07 d2 Order 240 Status Canceled
+-- No longer alive limit Ref
+2001-08-07 d0 Position 0
+2001-08-07 d1 Position 0
+2001-08-07 d2 Position 0
+2001-08-08 d0 Position 0
+2001-08-08 d1 Position 0
+2001-08-08 d2 Position 0
+2001-08-09 d0 Position 0
+2001-08-09 d1 Position 0
+2001-08-09 Data d1 OType buy Sizing to 1
+2001-08-09 d1 Main 241 Stp 242 Lmt 243
+2001-08-09 d2 Position 0
+2001-08-10 d1 Order 241 Status Accepted
+2001-08-10 d1 Order 242 Status Accepted
+2001-08-10 d1 Order 243 Status Accepted
+2001-08-10 d1 Order 241 Status Completed
+-- No longer alive main Ref
+2001-08-10 d0 Position 0
+2001-08-10 d1 Position 1
+2001-08-10 d2 Position 0
+2001-08-10 Data d2 OType buy Sizing to 1
+2001-08-10 d2 Main 244 Stp 245 Lmt 246
+2001-08-13 d2 Order 244 Status Accepted
+2001-08-13 d2 Order 245 Status Accepted
+2001-08-13 d2 Order 246 Status Accepted
+2001-08-13 d0 Order 232 Status Expired
+-- No longer alive main Ref
+2001-08-13 d0 Order 233 Status Canceled
+-- No longer alive stop Ref
+2001-08-13 d0 Order 234 Status Canceled
+-- No longer alive limit Ref
+2001-08-13 d1 Order 242 Status Completed
+-- No longer alive stop Ref
+2001-08-13 d1 Order 243 Status Canceled
+-- No longer alive limit Ref
+2001-08-13 d2 Order 244 Status Completed
+-- No longer alive main Ref
+2001-08-13 d0 Position 0
+2001-08-13 d1 Position 0
+2001-08-13 d2 Position 1
+2001-08-14 d2 Order 246 Status Completed
+-- No longer alive limit Ref
+2001-08-14 d2 Order 245 Status Canceled
+-- No longer alive stop Ref
+2001-08-14 d0 Position 0
+2001-08-14 Data d0 OType buy Sizing to 1
+2001-08-14 d0 Main 247 Stp 248 Lmt 249
+2001-08-14 d1 Position 0
+2001-08-14 d2 Position 0
+2001-08-15 d0 Order 247 Status Accepted
+2001-08-15 d0 Order 248 Status Accepted
+2001-08-15 d0 Order 249 Status Accepted
+2001-08-15 d0 Position 0
+2001-08-15 d1 Position 0
+2001-08-15 d2 Position 0
+2001-08-16 d0 Order 247 Status Completed
+-- No longer alive main Ref
+2001-08-16 d0 Position 1
+2001-08-16 d1 Position 0
+2001-08-16 Data d1 OType buy Sizing to 1
+2001-08-16 d1 Main 250 Stp 251 Lmt 252
+2001-08-16 d2 Position 0
+2001-08-17 d1 Order 250 Status Accepted
+2001-08-17 d1 Order 251 Status Accepted
+2001-08-17 d1 Order 252 Status Accepted
+2001-08-17 d0 Order 249 Status Completed
+-- No longer alive limit Ref
+2001-08-17 d0 Order 248 Status Canceled
+-- No longer alive stop Ref
+2001-08-17 d1 Order 250 Status Completed
+-- No longer alive main Ref
+2001-08-17 d0 Position 0
+2001-08-17 d1 Position 1
+2001-08-17 d2 Position 0
+2001-08-17 Data d2 OType buy Sizing to 1
+2001-08-17 d2 Main 253 Stp 254 Lmt 255
+2001-08-20 d2 Order 253 Status Accepted
+2001-08-20 d2 Order 254 Status Accepted
+2001-08-20 d2 Order 255 Status Accepted
+2001-08-20 d1 Order 251 Status Completed
+-- No longer alive stop Ref
+2001-08-20 d1 Order 252 Status Canceled
+-- No longer alive limit Ref
+2001-08-20 d2 Order 253 Status Completed
+-- No longer alive main Ref
+2001-08-20 d0 Position 0
+2001-08-20 d1 Position 0
+2001-08-20 d2 Position 1
+2001-08-21 d2 Order 255 Status Completed
+-- No longer alive limit Ref
+2001-08-21 d2 Order 254 Status Canceled
+-- No longer alive stop Ref
+2001-08-21 d0 Position 0
+2001-08-21 Data d0 OType buy Sizing to 1
+2001-08-21 d0 Main 256 Stp 257 Lmt 258
+2001-08-21 d1 Position 0
+2001-08-21 d2 Position 0
+2001-08-22 d0 Order 256 Status Accepted
+2001-08-22 d0 Order 257 Status Accepted
+2001-08-22 d0 Order 258 Status Accepted
+2001-08-22 d0 Position 0
+2001-08-22 d1 Position 0
+2001-08-22 d2 Position 0
+2001-08-23 d0 Position 0
+2001-08-23 d1 Position 0
+2001-08-23 Data d1 OType buy Sizing to 1
+2001-08-23 d1 Main 259 Stp 260 Lmt 261
+2001-08-23 d2 Position 0
+2001-08-24 d1 Order 259 Status Accepted
+2001-08-24 d1 Order 260 Status Accepted
+2001-08-24 d1 Order 261 Status Accepted
+2001-08-24 d0 Position 0
+2001-08-24 d1 Position 0
+2001-08-24 d2 Position 0
+2001-08-24 Data d2 OType buy Sizing to 1
+2001-08-24 d2 Main 262 Stp 263 Lmt 264
+2001-08-27 d2 Order 262 Status Accepted
+2001-08-27 d2 Order 263 Status Accepted
+2001-08-27 d2 Order 264 Status Accepted
+2001-08-27 d1 Order 259 Status Completed
+-- No longer alive main Ref
+2001-08-27 d2 Order 262 Status Completed
+-- No longer alive main Ref
+2001-08-27 d0 Position 0
+2001-08-27 d1 Position 1
+2001-08-27 d2 Position 1
+2001-08-28 d1 Order 261 Status Completed
+-- No longer alive limit Ref
+2001-08-28 d1 Order 260 Status Canceled
+-- No longer alive stop Ref
+2001-08-28 d2 Order 263 Status Completed
+-- No longer alive stop Ref
+2001-08-28 d2 Order 264 Status Canceled
+-- No longer alive limit Ref
+2001-08-28 d0 Position 0
+2001-08-28 d1 Position 0
+2001-08-28 d2 Position 0
+2001-08-29 d0 Position 0
+2001-08-29 d1 Position 0
+2001-08-29 d2 Position 0
+2001-08-30 d0 Position 0
+2001-08-30 d1 Position 0
+2001-08-30 Data d1 OType buy Sizing to 1
+2001-08-30 d1 Main 265 Stp 266 Lmt 267
+2001-08-30 d2 Position 0
+2001-08-31 d1 Order 265 Status Accepted
+2001-08-31 d1 Order 266 Status Accepted
+2001-08-31 d1 Order 267 Status Accepted
+2001-08-31 d0 Position 0
+2001-08-31 d1 Position 0
+2001-08-31 d2 Position 0
+2001-08-31 Data d2 OType buy Sizing to 1
+2001-08-31 d2 Main 268 Stp 269 Lmt 270
+2001-09-04 d2 Order 268 Status Accepted
+2001-09-04 d2 Order 269 Status Accepted
+2001-09-04 d2 Order 270 Status Accepted
+2001-09-04 d0 Order 256 Status Expired
+-- No longer alive main Ref
+2001-09-04 d0 Order 257 Status Canceled
+-- No longer alive stop Ref
+2001-09-04 d0 Order 258 Status Canceled
+-- No longer alive limit Ref
+2001-09-04 d2 Order 268 Status Completed
+-- No longer alive main Ref
+2001-09-04 d0 Position 0
+2001-09-04 Data d0 OType buy Sizing to 1
+2001-09-04 d0 Main 271 Stp 272 Lmt 273
+2001-09-04 d1 Position 0
+2001-09-04 d2 Position 1
+2001-09-05 d0 Order 271 Status Accepted
+2001-09-05 d0 Order 272 Status Accepted
+2001-09-05 d0 Order 273 Status Accepted
+2001-09-05 d1 Order 265 Status Completed
+-- No longer alive main Ref
+2001-09-05 d2 Order 269 Status Completed
+-- No longer alive stop Ref
+2001-09-05 d2 Order 270 Status Canceled
+-- No longer alive limit Ref
+2001-09-05 d0 Order 271 Status Completed
+-- No longer alive main Ref
+2001-09-05 d0 Position 1
+2001-09-05 d1 Position 1
+2001-09-05 d2 Position 0
+2001-09-06 d1 Order 266 Status Completed
+-- No longer alive stop Ref
+2001-09-06 d1 Order 267 Status Canceled
+-- No longer alive limit Ref
+2001-09-06 d0 Order 273 Status Completed
+-- No longer alive limit Ref
+2001-09-06 d0 Order 272 Status Canceled
+-- No longer alive stop Ref
+2001-09-06 d0 Position 0
+2001-09-06 d1 Position 0
+2001-09-06 Data d1 OType buy Sizing to 1
+2001-09-06 d1 Main 274 Stp 275 Lmt 276
+2001-09-06 d2 Position 0
+2001-09-07 d1 Order 274 Status Accepted
+2001-09-07 d1 Order 275 Status Accepted
+2001-09-07 d1 Order 276 Status Accepted
+2001-09-07 d1 Order 274 Status Completed
+-- No longer alive main Ref
+2001-09-07 d0 Position 0
+2001-09-07 d1 Position 1
+2001-09-07 d2 Position 0
+2001-09-07 Data d2 OType buy Sizing to 1
+2001-09-07 d2 Main 277 Stp 278 Lmt 279
+2001-09-10 d2 Order 277 Status Accepted
+2001-09-10 d2 Order 278 Status Accepted
+2001-09-10 d2 Order 279 Status Accepted
+2001-09-10 d1 Order 276 Status Completed
+-- No longer alive limit Ref
+2001-09-10 d1 Order 275 Status Canceled
+-- No longer alive stop Ref
+2001-09-10 d2 Order 277 Status Completed
+-- No longer alive main Ref
+2001-09-10 d0 Position 0
+2001-09-10 d1 Position 0
+2001-09-10 d2 Position 1
+2001-09-17 d2 Order 278 Status Completed
+-- No longer alive stop Ref
+2001-09-17 d2 Order 279 Status Canceled
+-- No longer alive limit Ref
+2001-09-17 d0 Position 0
+2001-09-17 d1 Position 0
+2001-09-17 d2 Position 0
+2001-09-18 d0 Position 0
+2001-09-18 Data d0 OType buy Sizing to 1
+2001-09-18 d0 Main 280 Stp 281 Lmt 282
+2001-09-18 d1 Position 0
+2001-09-18 d2 Position 0
+2001-09-19 d0 Order 280 Status Accepted
+2001-09-19 d0 Order 281 Status Accepted
+2001-09-19 d0 Order 282 Status Accepted
+2001-09-19 d0 Order 280 Status Completed
+-- No longer alive main Ref
+2001-09-19 d0 Position 1
+2001-09-19 d1 Position 0
+2001-09-19 d2 Position 0
+2001-09-20 d0 Order 281 Status Completed
+-- No longer alive stop Ref
+2001-09-20 d0 Order 282 Status Canceled
+-- No longer alive limit Ref
+2001-09-20 d0 Position 0
+2001-09-20 d1 Position 0
+2001-09-20 Data d1 OType buy Sizing to 1
+2001-09-20 d1 Main 283 Stp 284 Lmt 285
+2001-09-20 d2 Position 0
+2001-09-21 d1 Order 283 Status Accepted
+2001-09-21 d1 Order 284 Status Accepted
+2001-09-21 d1 Order 285 Status Accepted
+2001-09-21 d1 Order 283 Status Completed
+-- No longer alive main Ref
+2001-09-21 d0 Position 0
+2001-09-21 d1 Position 1
+2001-09-21 d2 Position 0
+2001-09-21 Data d2 OType buy Sizing to 1
+2001-09-21 d2 Main 286 Stp 287 Lmt 288
+2001-09-24 d2 Order 286 Status Accepted
+2001-09-24 d2 Order 287 Status Accepted
+2001-09-24 d2 Order 288 Status Accepted
+2001-09-24 d1 Order 284 Status Completed
+-- No longer alive stop Ref
+2001-09-24 d1 Order 285 Status Canceled
+-- No longer alive limit Ref
+2001-09-24 d0 Position 0
+2001-09-24 d1 Position 0
+2001-09-24 d2 Position 0
+2001-09-25 d0 Position 0
+2001-09-25 Data d0 OType buy Sizing to 1
+2001-09-25 d0 Main 289 Stp 290 Lmt 291
+2001-09-25 d1 Position 0
+2001-09-25 d2 Position 0
+2001-09-26 d0 Order 289 Status Accepted
+2001-09-26 d0 Order 290 Status Accepted
+2001-09-26 d0 Order 291 Status Accepted
+2001-09-26 d0 Order 289 Status Completed
+-- No longer alive main Ref
+2001-09-26 d0 Position 1
+2001-09-26 d1 Position 0
+2001-09-26 d2 Position 0
+2001-09-27 d0 Order 290 Status Completed
+-- No longer alive stop Ref
+2001-09-27 d0 Order 291 Status Canceled
+-- No longer alive limit Ref
+2001-09-27 d0 Position 0
+2001-09-27 d1 Position 0
+2001-09-27 Data d1 OType buy Sizing to 1
+2001-09-27 d1 Main 292 Stp 293 Lmt 294
+2001-09-27 d2 Position 0
+2001-09-28 d1 Order 292 Status Accepted
+2001-09-28 d1 Order 293 Status Accepted
+2001-09-28 d1 Order 294 Status Accepted
+2001-09-28 d1 Order 292 Status Completed
+-- No longer alive main Ref
+2001-09-28 d0 Position 0
+2001-09-28 d1 Position 1
+2001-09-28 d2 Position 0
+2001-10-01 d1 Order 293 Status Completed
+-- No longer alive stop Ref
+2001-10-01 d1 Order 294 Status Canceled
+-- No longer alive limit Ref
+2001-10-01 d0 Position 0
+2001-10-01 d1 Position 0
+2001-10-01 d2 Position 0
+2001-10-02 d2 Order 286 Status Expired
+-- No longer alive main Ref
+2001-10-02 d2 Order 287 Status Canceled
+-- No longer alive stop Ref
+2001-10-02 d2 Order 288 Status Canceled
+-- No longer alive limit Ref
+2001-10-02 d0 Position 0
+2001-10-02 Data d0 OType buy Sizing to 1
+2001-10-02 d0 Main 295 Stp 296 Lmt 297
+2001-10-02 d1 Position 0
+2001-10-02 d2 Position 0
+2001-10-03 d0 Order 295 Status Accepted
+2001-10-03 d0 Order 296 Status Accepted
+2001-10-03 d0 Order 297 Status Accepted
+2001-10-03 d0 Position 0
+2001-10-03 d1 Position 0
+2001-10-03 d2 Position 0
+2001-10-04 d0 Position 0
+2001-10-04 d1 Position 0
+2001-10-04 Data d1 OType buy Sizing to 1
+2001-10-04 d1 Main 298 Stp 299 Lmt 300
+2001-10-04 d2 Position 0
+2001-10-05 d1 Order 298 Status Accepted
+2001-10-05 d1 Order 299 Status Accepted
+2001-10-05 d1 Order 300 Status Accepted
+2001-10-05 d1 Order 298 Status Completed
+-- No longer alive main Ref
+2001-10-05 d0 Position 0
+2001-10-05 d1 Position 1
+2001-10-05 d2 Position 0
+2001-10-05 Data d2 OType buy Sizing to 1
+2001-10-05 d2 Main 301 Stp 302 Lmt 303
+2001-10-08 d2 Order 301 Status Accepted
+2001-10-08 d2 Order 302 Status Accepted
+2001-10-08 d2 Order 303 Status Accepted
+2001-10-08 d1 Order 299 Status Completed
+-- No longer alive stop Ref
+2001-10-08 d1 Order 300 Status Canceled
+-- No longer alive limit Ref
+2001-10-08 d2 Order 301 Status Completed
+-- No longer alive main Ref
+2001-10-08 d0 Position 0
+2001-10-08 d1 Position 0
+2001-10-08 d2 Position 1
+2001-10-09 d2 Order 302 Status Completed
+-- No longer alive stop Ref
+2001-10-09 d2 Order 303 Status Canceled
+-- No longer alive limit Ref
+2001-10-09 d0 Position 0
+2001-10-09 d1 Position 0
+2001-10-09 d2 Position 0
+2001-10-10 d0 Position 0
+2001-10-10 d1 Position 0
+2001-10-10 d2 Position 0
+2001-10-11 d0 Position 0
+2001-10-11 d1 Position 0
+2001-10-11 Data d1 OType buy Sizing to 1
+2001-10-11 d1 Main 304 Stp 305 Lmt 306
+2001-10-11 d2 Position 0
+2001-10-12 d1 Order 304 Status Accepted
+2001-10-12 d1 Order 305 Status Accepted
+2001-10-12 d1 Order 306 Status Accepted
+2001-10-12 d1 Order 304 Status Completed
+-- No longer alive main Ref
+2001-10-12 d0 Position 0
+2001-10-12 d1 Position 1
+2001-10-12 d2 Position 0
+2001-10-12 Data d2 OType buy Sizing to 1
+2001-10-12 d2 Main 307 Stp 308 Lmt 309
+2001-10-15 d2 Order 307 Status Accepted
+2001-10-15 d2 Order 308 Status Accepted
+2001-10-15 d2 Order 309 Status Accepted
+2001-10-15 d0 Order 295 Status Expired
+-- No longer alive main Ref
+2001-10-15 d0 Order 296 Status Canceled
+-- No longer alive stop Ref
+2001-10-15 d0 Order 297 Status Canceled
+-- No longer alive limit Ref
+2001-10-15 d1 Order 305 Status Completed
+-- No longer alive stop Ref
+2001-10-15 d1 Order 306 Status Canceled
+-- No longer alive limit Ref
+2001-10-15 d2 Order 307 Status Completed
+-- No longer alive main Ref
+2001-10-15 d0 Position 0
+2001-10-15 d1 Position 0
+2001-10-15 d2 Position 1
+2001-10-16 d0 Position 0
+2001-10-16 Data d0 OType buy Sizing to 1
+2001-10-16 d0 Main 310 Stp 311 Lmt 312
+2001-10-16 d1 Position 0
+2001-10-16 d2 Position 1
+2001-10-17 d0 Order 310 Status Accepted
+2001-10-17 d0 Order 311 Status Accepted
+2001-10-17 d0 Order 312 Status Accepted
+2001-10-17 d2 Order 308 Status Completed
+-- No longer alive stop Ref
+2001-10-17 d2 Order 309 Status Canceled
+-- No longer alive limit Ref
+2001-10-17 d0 Order 310 Status Completed
+-- No longer alive main Ref
+2001-10-17 d0 Position 1
+2001-10-17 d1 Position 0
+2001-10-17 d2 Position 0
+2001-10-18 d0 Order 311 Status Completed
+-- No longer alive stop Ref
+2001-10-18 d0 Order 312 Status Canceled
+-- No longer alive limit Ref
+2001-10-18 d0 Position 0
+2001-10-18 d1 Position 0
+2001-10-18 Data d1 OType buy Sizing to 1
+2001-10-18 d1 Main 313 Stp 314 Lmt 315
+2001-10-18 d2 Position 0
+2001-10-19 d1 Order 313 Status Accepted
+2001-10-19 d1 Order 314 Status Accepted
+2001-10-19 d1 Order 315 Status Accepted
+2001-10-19 d1 Order 313 Status Completed
+-- No longer alive main Ref
+2001-10-19 d0 Position 0
+2001-10-19 d1 Position 1
+2001-10-19 d2 Position 0
+2001-10-19 Data d2 OType buy Sizing to 1
+2001-10-19 d2 Main 316 Stp 317 Lmt 318
+2001-10-22 d2 Order 316 Status Accepted
+2001-10-22 d2 Order 317 Status Accepted
+2001-10-22 d2 Order 318 Status Accepted
+2001-10-22 d1 Order 315 Status Completed
+-- No longer alive limit Ref
+2001-10-22 d1 Order 314 Status Canceled
+-- No longer alive stop Ref
+2001-10-22 d2 Order 316 Status Completed
+-- No longer alive main Ref
+2001-10-22 d0 Position 0
+2001-10-22 d1 Position 0
+2001-10-22 d2 Position 1
+2001-10-23 d2 Order 318 Status Completed
+-- No longer alive limit Ref
+2001-10-23 d2 Order 317 Status Canceled
+-- No longer alive stop Ref
+2001-10-23 d0 Position 0
+2001-10-23 Data d0 OType buy Sizing to 1
+2001-10-23 d0 Main 319 Stp 320 Lmt 321
+2001-10-23 d1 Position 0
+2001-10-23 d2 Position 0
+2001-10-24 d0 Order 319 Status Accepted
+2001-10-24 d0 Order 320 Status Accepted
+2001-10-24 d0 Order 321 Status Accepted
+2001-10-24 d0 Order 319 Status Completed
+-- No longer alive main Ref
+2001-10-24 d0 Position 1
+2001-10-24 d1 Position 0
+2001-10-24 d2 Position 0
+2001-10-25 d0 Order 321 Status Completed
+-- No longer alive limit Ref
+2001-10-25 d0 Order 320 Status Canceled
+-- No longer alive stop Ref
+2001-10-25 d0 Position 0
+2001-10-25 d1 Position 0
+2001-10-25 Data d1 OType buy Sizing to 1
+2001-10-25 d1 Main 322 Stp 323 Lmt 324
+2001-10-25 d2 Position 0
+2001-10-26 d1 Order 322 Status Accepted
+2001-10-26 d1 Order 323 Status Accepted
+2001-10-26 d1 Order 324 Status Accepted
+2001-10-26 d1 Order 322 Status Completed
+-- No longer alive main Ref
+2001-10-26 d0 Position 0
+2001-10-26 d1 Position 1
+2001-10-26 d2 Position 0
+2001-10-26 Data d2 OType buy Sizing to 1
+2001-10-26 d2 Main 325 Stp 326 Lmt 327
+2001-10-29 d2 Order 325 Status Accepted
+2001-10-29 d2 Order 326 Status Accepted
+2001-10-29 d2 Order 327 Status Accepted
+2001-10-29 d1 Order 323 Status Completed
+-- No longer alive stop Ref
+2001-10-29 d1 Order 324 Status Canceled
+-- No longer alive limit Ref
+2001-10-29 d2 Order 325 Status Completed
+-- No longer alive main Ref
+2001-10-29 d0 Position 0
+2001-10-29 d1 Position 0
+2001-10-29 d2 Position 1
+2001-10-30 d2 Order 327 Status Completed
+-- No longer alive limit Ref
+2001-10-30 d2 Order 326 Status Canceled
+-- No longer alive stop Ref
+2001-10-30 d0 Position 0
+2001-10-30 Data d0 OType buy Sizing to 1
+2001-10-30 d0 Main 328 Stp 329 Lmt 330
+2001-10-30 d1 Position 0
+2001-10-30 d2 Position 0
+2001-10-31 d0 Order 328 Status Accepted
+2001-10-31 d0 Order 329 Status Accepted
+2001-10-31 d0 Order 330 Status Accepted
+2001-10-31 d0 Position 0
+2001-10-31 d1 Position 0
+2001-10-31 d2 Position 0
+2001-11-01 d0 Position 0
+2001-11-01 d1 Position 0
+2001-11-01 Data d1 OType buy Sizing to 1
+2001-11-01 d1 Main 331 Stp 332 Lmt 333
+2001-11-01 d2 Position 0
+2001-11-02 d1 Order 331 Status Accepted
+2001-11-02 d1 Order 332 Status Accepted
+2001-11-02 d1 Order 333 Status Accepted
+2001-11-02 d1 Order 331 Status Completed
+-- No longer alive main Ref
+2001-11-02 d0 Position 0
+2001-11-02 d1 Position 1
+2001-11-02 d2 Position 0
+2001-11-02 Data d2 OType buy Sizing to 1
+2001-11-02 d2 Main 334 Stp 335 Lmt 336
+2001-11-05 d2 Order 334 Status Accepted
+2001-11-05 d2 Order 335 Status Accepted
+2001-11-05 d2 Order 336 Status Accepted
+2001-11-05 d1 Order 333 Status Completed
+-- No longer alive limit Ref
+2001-11-05 d1 Order 332 Status Canceled
+-- No longer alive stop Ref
+2001-11-05 d0 Position 0
+2001-11-05 d1 Position 0
+2001-11-05 d2 Position 0
+2001-11-06 d0 Position 0
+2001-11-06 d1 Position 0
+2001-11-06 d2 Position 0
+2001-11-07 d0 Position 0
+2001-11-07 d1 Position 0
+2001-11-07 d2 Position 0
+2001-11-08 d0 Position 0
+2001-11-08 d1 Position 0
+2001-11-08 Data d1 OType buy Sizing to 1
+2001-11-08 d1 Main 337 Stp 338 Lmt 339
+2001-11-08 d2 Position 0
+2001-11-09 d1 Order 337 Status Accepted
+2001-11-09 d1 Order 338 Status Accepted
+2001-11-09 d1 Order 339 Status Accepted
+2001-11-09 d0 Position 0
+2001-11-09 d1 Position 0
+2001-11-09 d2 Position 0
+2001-11-12 d0 Order 328 Status Expired
+-- No longer alive main Ref
+2001-11-12 d0 Order 329 Status Canceled
+-- No longer alive stop Ref
+2001-11-12 d0 Order 330 Status Canceled
+-- No longer alive limit Ref
+2001-11-12 d1 Order 337 Status Completed
+-- No longer alive main Ref
+2001-11-12 d0 Position 0
+2001-11-12 d1 Position 1
+2001-11-12 d2 Position 0
+2001-11-13 d2 Order 334 Status Expired
+-- No longer alive main Ref
+2001-11-13 d2 Order 335 Status Canceled
+-- No longer alive stop Ref
+2001-11-13 d2 Order 336 Status Canceled
+-- No longer alive limit Ref
+2001-11-13 d1 Order 339 Status Completed
+-- No longer alive limit Ref
+2001-11-13 d1 Order 338 Status Canceled
+-- No longer alive stop Ref
+2001-11-13 d0 Position 0
+2001-11-13 Data d0 OType buy Sizing to 1
+2001-11-13 d0 Main 340 Stp 341 Lmt 342
+2001-11-13 d1 Position 0
+2001-11-13 d2 Position 0
+2001-11-14 d0 Order 340 Status Accepted
+2001-11-14 d0 Order 341 Status Accepted
+2001-11-14 d0 Order 342 Status Accepted
+2001-11-14 d0 Order 340 Status Completed
+-- No longer alive main Ref
+2001-11-14 d0 Position 1
+2001-11-14 d1 Position 0
+2001-11-14 d2 Position 0
+2001-11-15 d0 Order 341 Status Completed
+-- No longer alive stop Ref
+2001-11-15 d0 Order 342 Status Canceled
+-- No longer alive limit Ref
+2001-11-15 d0 Position 0
+2001-11-15 d1 Position 0
+2001-11-15 Data d1 OType buy Sizing to 1
+2001-11-15 d1 Main 343 Stp 344 Lmt 345
+2001-11-15 d2 Position 0
+2001-11-16 d1 Order 343 Status Accepted
+2001-11-16 d1 Order 344 Status Accepted
+2001-11-16 d1 Order 345 Status Accepted
+2001-11-16 d0 Position 0
+2001-11-16 d1 Position 0
+2001-11-16 d2 Position 0
+2001-11-16 Data d2 OType buy Sizing to 1
+2001-11-16 d2 Main 346 Stp 347 Lmt 348
+2001-11-19 d2 Order 346 Status Accepted
+2001-11-19 d2 Order 347 Status Accepted
+2001-11-19 d2 Order 348 Status Accepted
+2001-11-19 d0 Position 0
+2001-11-19 d1 Position 0
+2001-11-19 d2 Position 0
+2001-11-20 d0 Position 0
+2001-11-20 Data d0 OType buy Sizing to 1
+2001-11-20 d0 Main 349 Stp 350 Lmt 351
+2001-11-20 d1 Position 0
+2001-11-20 d2 Position 0
+2001-11-21 d0 Order 349 Status Accepted
+2001-11-21 d0 Order 350 Status Accepted
+2001-11-21 d0 Order 351 Status Accepted
+2001-11-21 d1 Order 343 Status Completed
+-- No longer alive main Ref
+2001-11-21 d2 Order 346 Status Completed
+-- No longer alive main Ref
+2001-11-21 d0 Order 349 Status Completed
+-- No longer alive main Ref
+2001-11-21 d0 Position 1
+2001-11-21 d1 Position 1
+2001-11-21 d2 Position 1
+2001-11-23 d1 Order 345 Status Completed
+-- No longer alive limit Ref
+2001-11-23 d1 Order 344 Status Canceled
+-- No longer alive stop Ref
+2001-11-23 d0 Position 1
+2001-11-23 d1 Position 0
+2001-11-23 d2 Position 1
+2001-11-26 d2 Order 348 Status Completed
+-- No longer alive limit Ref
+2001-11-26 d2 Order 347 Status Canceled
+-- No longer alive stop Ref
+2001-11-26 d0 Order 351 Status Completed
+-- No longer alive limit Ref
+2001-11-26 d0 Order 350 Status Canceled
+-- No longer alive stop Ref
+2001-11-26 d0 Position 0
+2001-11-26 d1 Position 0
+2001-11-26 d2 Position 0
+2001-11-27 d0 Position 0
+2001-11-27 Data d0 OType buy Sizing to 1
+2001-11-27 d0 Main 352 Stp 353 Lmt 354
+2001-11-27 d1 Position 0
+2001-11-27 d2 Position 0
+2001-11-28 d0 Order 352 Status Accepted
+2001-11-28 d0 Order 353 Status Accepted
+2001-11-28 d0 Order 354 Status Accepted
+2001-11-28 d0 Order 352 Status Completed
+-- No longer alive main Ref
+2001-11-28 d0 Position 1
+2001-11-28 d1 Position 0
+2001-11-28 d2 Position 0
+2001-11-29 d0 Order 354 Status Completed
+-- No longer alive limit Ref
+2001-11-29 d0 Order 353 Status Canceled
+-- No longer alive stop Ref
+2001-11-29 d0 Position 0
+2001-11-29 d1 Position 0
+2001-11-29 Data d1 OType buy Sizing to 1
+2001-11-29 d1 Main 355 Stp 356 Lmt 357
+2001-11-29 d2 Position 0
+2001-11-30 d1 Order 355 Status Accepted
+2001-11-30 d1 Order 356 Status Accepted
+2001-11-30 d1 Order 357 Status Accepted
+2001-11-30 d1 Order 355 Status Completed
+-- No longer alive main Ref
+2001-11-30 d0 Position 0
+2001-11-30 d1 Position 1
+2001-11-30 d2 Position 0
+2001-11-30 Data d2 OType buy Sizing to 1
+2001-11-30 d2 Main 358 Stp 359 Lmt 360
+2001-12-03 d2 Order 358 Status Accepted
+2001-12-03 d2 Order 359 Status Accepted
+2001-12-03 d2 Order 360 Status Accepted
+2001-12-03 d1 Order 356 Status Completed
+-- No longer alive stop Ref
+2001-12-03 d1 Order 357 Status Canceled
+-- No longer alive limit Ref
+2001-12-03 d2 Order 358 Status Completed
+-- No longer alive main Ref
+2001-12-03 d0 Position 0
+2001-12-03 d1 Position 0
+2001-12-03 d2 Position 1
+2001-12-04 d2 Order 359 Status Completed
+-- No longer alive stop Ref
+2001-12-04 d2 Order 360 Status Canceled
+-- No longer alive limit Ref
+2001-12-04 d0 Position 0
+2001-12-04 Data d0 OType buy Sizing to 1
+2001-12-04 d0 Main 361 Stp 362 Lmt 363
+2001-12-04 d1 Position 0
+2001-12-04 d2 Position 0
+2001-12-05 d0 Order 361 Status Accepted
+2001-12-05 d0 Order 362 Status Accepted
+2001-12-05 d0 Order 363 Status Accepted
+2001-12-05 d0 Position 0
+2001-12-05 d1 Position 0
+2001-12-05 d2 Position 0
+2001-12-06 d0 Position 0
+2001-12-06 d1 Position 0
+2001-12-06 Data d1 OType buy Sizing to 1
+2001-12-06 d1 Main 364 Stp 365 Lmt 366
+2001-12-06 d2 Position 0
+2001-12-07 d1 Order 364 Status Accepted
+2001-12-07 d1 Order 365 Status Accepted
+2001-12-07 d1 Order 366 Status Accepted
+2001-12-07 d1 Order 364 Status Completed
+-- No longer alive main Ref
+2001-12-07 d0 Position 0
+2001-12-07 d1 Position 1
+2001-12-07 d2 Position 0
+2001-12-07 Data d2 OType buy Sizing to 1
+2001-12-07 d2 Main 367 Stp 368 Lmt 369
+2001-12-10 d2 Order 367 Status Accepted
+2001-12-10 d2 Order 368 Status Accepted
+2001-12-10 d2 Order 369 Status Accepted
+2001-12-10 d1 Order 365 Status Completed
+-- No longer alive stop Ref
+2001-12-10 d1 Order 366 Status Canceled
+-- No longer alive limit Ref
+2001-12-10 d2 Order 367 Status Completed
+-- No longer alive main Ref
+2001-12-10 d0 Position 0
+2001-12-10 d1 Position 0
+2001-12-10 d2 Position 1
+2001-12-11 d2 Order 368 Status Completed
+-- No longer alive stop Ref
+2001-12-11 d2 Order 369 Status Canceled
+-- No longer alive limit Ref
+2001-12-11 d0 Position 0
+2001-12-11 d1 Position 0
+2001-12-11 d2 Position 0
+2001-12-12 d0 Position 0
+2001-12-12 d1 Position 0
+2001-12-12 d2 Position 0
+2001-12-13 d0 Position 0
+2001-12-13 d1 Position 0
+2001-12-13 Data d1 OType buy Sizing to 1
+2001-12-13 d1 Main 370 Stp 371 Lmt 372
+2001-12-13 d2 Position 0
+2001-12-14 d1 Order 370 Status Accepted
+2001-12-14 d1 Order 371 Status Accepted
+2001-12-14 d1 Order 372 Status Accepted
+2001-12-14 d1 Order 370 Status Completed
+-- No longer alive main Ref
+2001-12-14 d0 Position 0
+2001-12-14 d1 Position 1
+2001-12-14 d2 Position 0
+2001-12-14 Data d2 OType buy Sizing to 1
+2001-12-14 d2 Main 373 Stp 374 Lmt 375
+2001-12-17 d2 Order 373 Status Accepted
+2001-12-17 d2 Order 374 Status Accepted
+2001-12-17 d2 Order 375 Status Accepted
+2001-12-17 d0 Order 361 Status Expired
+-- No longer alive main Ref
+2001-12-17 d0 Order 362 Status Canceled
+-- No longer alive stop Ref
+2001-12-17 d0 Order 363 Status Canceled
+-- No longer alive limit Ref
+2001-12-17 d1 Order 372 Status Completed
+-- No longer alive limit Ref
+2001-12-17 d1 Order 371 Status Canceled
+-- No longer alive stop Ref
+2001-12-17 d0 Position 0
+2001-12-17 d1 Position 0
+2001-12-17 d2 Position 0
+2001-12-18 d0 Position 0
+2001-12-18 Data d0 OType buy Sizing to 1
+2001-12-18 d0 Main 376 Stp 377 Lmt 378
+2001-12-18 d1 Position 0
+2001-12-18 d2 Position 0
+2001-12-19 d0 Order 376 Status Accepted
+2001-12-19 d0 Order 377 Status Accepted
+2001-12-19 d0 Order 378 Status Accepted
+2001-12-19 d0 Order 376 Status Completed
+-- No longer alive main Ref
+2001-12-19 d0 Position 1
+2001-12-19 d1 Position 0
+2001-12-19 d2 Position 0
+2001-12-20 d0 Order 377 Status Completed
+-- No longer alive stop Ref
+2001-12-20 d0 Order 378 Status Canceled
+-- No longer alive limit Ref
+2001-12-20 d0 Position 0
+2001-12-20 d1 Position 0
+2001-12-20 Data d1 OType buy Sizing to 1
+2001-12-20 d1 Main 379 Stp 380 Lmt 381
+2001-12-20 d2 Position 0
+2001-12-21 d1 Order 379 Status Accepted
+2001-12-21 d1 Order 380 Status Accepted
+2001-12-21 d1 Order 381 Status Accepted
+2001-12-21 d2 Order 373 Status Completed
+-- No longer alive main Ref
+2001-12-21 d0 Position 0
+2001-12-21 d1 Position 0
+2001-12-21 d2 Position 1
+2001-12-24 d0 Position 0
+2001-12-24 d1 Position 0
+2001-12-24 d2 Position 1
+2001-12-26 d0 Position 0
+2001-12-26 d1 Position 0
+2001-12-26 d2 Position 1
+2001-12-27 d2 Order 374 Status Completed
+-- No longer alive stop Ref
+2001-12-27 d2 Order 375 Status Canceled
+-- No longer alive limit Ref
+2001-12-27 d0 Position 0
+2001-12-27 d1 Position 0
+2001-12-27 d2 Position 0
+2001-12-28 d0 Position 0
+2001-12-28 d1 Position 0
+2001-12-28 d2 Position 0
+2001-12-28 Data d2 OType buy Sizing to 1
+2001-12-28 d2 Main 382 Stp 383 Lmt 384
+2001-12-31 d2 Order 382 Status Accepted
+2001-12-31 d2 Order 383 Status Accepted
+2001-12-31 d2 Order 384 Status Accepted
+2001-12-31 d1 Order 379 Status Expired
+-- No longer alive main Ref
+2001-12-31 d1 Order 380 Status Canceled
+-- No longer alive stop Ref
+2001-12-31 d1 Order 381 Status Canceled
+-- No longer alive limit Ref
+2001-12-31 d2 Order 382 Status Completed
+-- No longer alive main Ref
+2001-12-31 d0 Position 0
+2001-12-31 d1 Position 0
+2001-12-31 d2 Position 1
+2002-01-02 d0 Position 0
+2002-01-02 d1 Position 0
+2002-01-02 d2 Position 1
+2002-01-03 d2 Order 384 Status Completed
+-- No longer alive limit Ref
+2002-01-03 d2 Order 383 Status Canceled
+-- No longer alive stop Ref
+2002-01-03 d0 Position 0
+2002-01-03 d1 Position 0
+2002-01-03 Data d1 OType buy Sizing to 1
+2002-01-03 d1 Main 385 Stp 386 Lmt 387
+2002-01-03 d2 Position 0
+2002-01-04 d1 Order 385 Status Accepted
+2002-01-04 d1 Order 386 Status Accepted
+2002-01-04 d1 Order 387 Status Accepted
+2002-01-04 d1 Order 385 Status Completed
+-- No longer alive main Ref
+2002-01-04 d0 Position 0
+2002-01-04 d1 Position 1
+2002-01-04 d2 Position 0
+2002-01-04 Data d2 OType buy Sizing to 1
+2002-01-04 d2 Main 388 Stp 389 Lmt 390
+2002-01-07 d2 Order 388 Status Accepted
+2002-01-07 d2 Order 389 Status Accepted
+2002-01-07 d2 Order 390 Status Accepted
+2002-01-07 d1 Order 387 Status Completed
+-- No longer alive limit Ref
+2002-01-07 d1 Order 386 Status Canceled
+-- No longer alive stop Ref
+2002-01-07 d0 Position 0
+2002-01-07 d1 Position 0
+2002-01-07 d2 Position 0
+2002-01-08 d0 Position 0
+2002-01-08 Data d0 OType buy Sizing to 1
+2002-01-08 d0 Main 391 Stp 392 Lmt 393
+2002-01-08 d1 Position 0
+2002-01-08 d2 Position 0
+2002-01-09 d0 Order 391 Status Accepted
+2002-01-09 d0 Order 392 Status Accepted
+2002-01-09 d0 Order 393 Status Accepted
+2002-01-09 d0 Order 391 Status Completed
+-- No longer alive main Ref
+2002-01-09 d0 Position 1
+2002-01-09 d1 Position 0
+2002-01-09 d2 Position 0
+2002-01-10 d0 Order 392 Status Completed
+-- No longer alive stop Ref
+2002-01-10 d0 Order 393 Status Canceled
+-- No longer alive limit Ref
+2002-01-10 d0 Position 0
+2002-01-10 d1 Position 0
+2002-01-10 Data d1 OType buy Sizing to 1
+2002-01-10 d1 Main 394 Stp 395 Lmt 396
+2002-01-10 d2 Position 0
+2002-01-11 d1 Order 394 Status Accepted
+2002-01-11 d1 Order 395 Status Accepted
+2002-01-11 d1 Order 396 Status Accepted
+2002-01-11 d1 Order 394 Status Completed
+-- No longer alive main Ref
+2002-01-11 d0 Position 0
+2002-01-11 d1 Position 1
+2002-01-11 d2 Position 0
+2002-01-14 d1 Order 395 Status Completed
+-- No longer alive stop Ref
+2002-01-14 d1 Order 396 Status Canceled
+-- No longer alive limit Ref
+2002-01-14 d0 Position 0
+2002-01-14 d1 Position 0
+2002-01-14 d2 Position 0
+2002-01-15 d2 Order 388 Status Expired
+-- No longer alive main Ref
+2002-01-15 d2 Order 389 Status Canceled
+-- No longer alive stop Ref
+2002-01-15 d2 Order 390 Status Canceled
+-- No longer alive limit Ref
+2002-01-15 d0 Position 0
+2002-01-15 Data d0 OType buy Sizing to 1
+2002-01-15 d0 Main 397 Stp 398 Lmt 399
+2002-01-15 d1 Position 0
+2002-01-15 d2 Position 0
+2002-01-16 d0 Order 397 Status Accepted
+2002-01-16 d0 Order 398 Status Accepted
+2002-01-16 d0 Order 399 Status Accepted
+2002-01-16 d0 Order 397 Status Completed
+-- No longer alive main Ref
+2002-01-16 d0 Position 1
+2002-01-16 d1 Position 0
+2002-01-16 d2 Position 0
+2002-01-17 d0 Position 1
+2002-01-17 d1 Position 0
+2002-01-17 Data d1 OType buy Sizing to 1
+2002-01-17 d1 Main 400 Stp 401 Lmt 402
+2002-01-17 d2 Position 0
+2002-01-18 d1 Order 400 Status Accepted
+2002-01-18 d1 Order 401 Status Accepted
+2002-01-18 d1 Order 402 Status Accepted
+2002-01-18 d1 Order 400 Status Completed
+-- No longer alive main Ref
+2002-01-18 d0 Position 1
+2002-01-18 d1 Position 1
+2002-01-18 d2 Position 0
+2002-01-18 Data d2 OType buy Sizing to 1
+2002-01-18 d2 Main 403 Stp 404 Lmt 405
+2002-01-22 d2 Order 403 Status Accepted
+2002-01-22 d2 Order 404 Status Accepted
+2002-01-22 d2 Order 405 Status Accepted
+2002-01-22 d0 Order 398 Status Completed
+-- No longer alive stop Ref
+2002-01-22 d0 Order 399 Status Canceled
+-- No longer alive limit Ref
+2002-01-22 d1 Order 401 Status Completed
+-- No longer alive stop Ref
+2002-01-22 d1 Order 402 Status Canceled
+-- No longer alive limit Ref
+2002-01-22 d2 Order 403 Status Completed
+-- No longer alive main Ref
+2002-01-22 d0 Position 0
+2002-01-22 Data d0 OType buy Sizing to 1
+2002-01-22 d0 Main 406 Stp 407 Lmt 408
+2002-01-22 d1 Position 0
+2002-01-22 d2 Position 1
+2002-01-23 d0 Order 406 Status Accepted
+2002-01-23 d0 Order 407 Status Accepted
+2002-01-23 d0 Order 408 Status Accepted
+2002-01-23 d2 Order 405 Status Completed
+-- No longer alive limit Ref
+2002-01-23 d2 Order 404 Status Canceled
+-- No longer alive stop Ref
+2002-01-23 d0 Position 0
+2002-01-23 d1 Position 0
+2002-01-23 d2 Position 0
+2002-01-24 d0 Position 0
+2002-01-24 d1 Position 0
+2002-01-24 Data d1 OType buy Sizing to 1
+2002-01-24 d1 Main 409 Stp 410 Lmt 411
+2002-01-24 d2 Position 0
+2002-01-25 d1 Order 409 Status Accepted
+2002-01-25 d1 Order 410 Status Accepted
+2002-01-25 d1 Order 411 Status Accepted
+2002-01-25 d0 Position 0
+2002-01-25 d1 Position 0
+2002-01-25 d2 Position 0
+2002-01-25 Data d2 OType buy Sizing to 1
+2002-01-25 d2 Main 412 Stp 413 Lmt 414
+2002-01-28 d2 Order 412 Status Accepted
+2002-01-28 d2 Order 413 Status Accepted
+2002-01-28 d2 Order 414 Status Accepted
+2002-01-28 d0 Position 0
+2002-01-28 d1 Position 0
+2002-01-28 d2 Position 0
+2002-01-29 d1 Order 409 Status Completed
+-- No longer alive main Ref
+2002-01-29 d2 Order 412 Status Completed
+-- No longer alive main Ref
+2002-01-29 d0 Position 0
+2002-01-29 d1 Position 1
+2002-01-29 d2 Position 1
+2002-01-30 d1 Order 410 Status Completed
+-- No longer alive stop Ref
+2002-01-30 d1 Order 411 Status Canceled
+-- No longer alive limit Ref
+2002-01-30 d2 Order 413 Status Completed
+-- No longer alive stop Ref
+2002-01-30 d2 Order 414 Status Canceled
+-- No longer alive limit Ref
+2002-01-30 d0 Position 0
+2002-01-30 d1 Position 0
+2002-01-30 d2 Position 0
+2002-01-31 d0 Position 0
+2002-01-31 d1 Position 0
+2002-01-31 Data d1 OType buy Sizing to 1
+2002-01-31 d1 Main 415 Stp 416 Lmt 417
+2002-01-31 d2 Position 0
+2002-02-01 d1 Order 415 Status Accepted
+2002-02-01 d1 Order 416 Status Accepted
+2002-02-01 d1 Order 417 Status Accepted
+2002-02-01 d1 Order 415 Status Completed
+-- No longer alive main Ref
+2002-02-01 d0 Position 0
+2002-02-01 d1 Position 1
+2002-02-01 d2 Position 0
+2002-02-01 Data d2 OType buy Sizing to 1
+2002-02-01 d2 Main 418 Stp 419 Lmt 420
+2002-02-04 d2 Order 418 Status Accepted
+2002-02-04 d2 Order 419 Status Accepted
+2002-02-04 d2 Order 420 Status Accepted
+2002-02-04 d0 Order 406 Status Expired
+-- No longer alive main Ref
+2002-02-04 d0 Order 407 Status Canceled
+-- No longer alive stop Ref
+2002-02-04 d0 Order 408 Status Canceled
+-- No longer alive limit Ref
+2002-02-04 d1 Order 416 Status Completed
+-- No longer alive stop Ref
+2002-02-04 d1 Order 417 Status Canceled
+-- No longer alive limit Ref
+2002-02-04 d2 Order 418 Status Completed
+-- No longer alive main Ref
+2002-02-04 d0 Position 0
+2002-02-04 d1 Position 0
+2002-02-04 d2 Position 1
+2002-02-05 d0 Position 0
+2002-02-05 Data d0 OType buy Sizing to 1
+2002-02-05 d0 Main 421 Stp 422 Lmt 423
+2002-02-05 d1 Position 0
+2002-02-05 d2 Position 1
+2002-02-06 d0 Order 421 Status Accepted
+2002-02-06 d0 Order 422 Status Accepted
+2002-02-06 d0 Order 423 Status Accepted
+2002-02-06 d2 Order 419 Status Completed
+-- No longer alive stop Ref
+2002-02-06 d2 Order 420 Status Canceled
+-- No longer alive limit Ref
+2002-02-06 d0 Position 0
+2002-02-06 d1 Position 0
+2002-02-06 d2 Position 0
+2002-02-07 d0 Position 0
+2002-02-07 d1 Position 0
+2002-02-07 Data d1 OType buy Sizing to 1
+2002-02-07 d1 Main 424 Stp 425 Lmt 426
+2002-02-07 d2 Position 0
+2002-02-08 d1 Order 424 Status Accepted
+2002-02-08 d1 Order 425 Status Accepted
+2002-02-08 d1 Order 426 Status Accepted
+2002-02-08 d0 Order 421 Status Completed
+-- No longer alive main Ref
+2002-02-08 d0 Position 1
+2002-02-08 d1 Position 0
+2002-02-08 d2 Position 0
+2002-02-08 Data d2 OType buy Sizing to 1
+2002-02-08 d2 Main 427 Stp 428 Lmt 429
+2002-02-11 d2 Order 427 Status Accepted
+2002-02-11 d2 Order 428 Status Accepted
+2002-02-11 d2 Order 429 Status Accepted
+2002-02-11 d0 Order 422 Status Completed
+-- No longer alive stop Ref
+2002-02-11 d0 Order 423 Status Canceled
+-- No longer alive limit Ref
+2002-02-11 d2 Order 427 Status Completed
+-- No longer alive main Ref
+2002-02-11 d0 Position 0
+2002-02-11 d1 Position 0
+2002-02-11 d2 Position 1
+2002-02-12 d2 Order 429 Status Completed
+-- No longer alive limit Ref
+2002-02-12 d2 Order 428 Status Canceled
+-- No longer alive stop Ref
+2002-02-12 d0 Position 0
+2002-02-12 Data d0 OType buy Sizing to 1
+2002-02-12 d0 Main 430 Stp 431 Lmt 432
+2002-02-12 d1 Position 0
+2002-02-12 d2 Position 0
+2002-02-13 d0 Order 430 Status Accepted
+2002-02-13 d0 Order 431 Status Accepted
+2002-02-13 d0 Order 432 Status Accepted
+2002-02-13 d0 Order 430 Status Completed
+-- No longer alive main Ref
+2002-02-13 d0 Position 1
+2002-02-13 d1 Position 0
+2002-02-13 d2 Position 0
+2002-02-14 d0 Order 432 Status Completed
+-- No longer alive limit Ref
+2002-02-14 d0 Order 431 Status Canceled
+-- No longer alive stop Ref
+2002-02-14 d0 Position 0
+2002-02-14 d1 Position 0
+2002-02-14 d2 Position 0
+2002-02-15 d0 Position 0
+2002-02-15 d1 Position 0
+2002-02-15 d2 Position 0
+2002-02-15 Data d2 OType buy Sizing to 1
+2002-02-15 d2 Main 433 Stp 434 Lmt 435
+2002-02-19 d2 Order 433 Status Accepted
+2002-02-19 d2 Order 434 Status Accepted
+2002-02-19 d2 Order 435 Status Accepted
+2002-02-19 d1 Order 424 Status Expired
+-- No longer alive main Ref
+2002-02-19 d1 Order 425 Status Canceled
+-- No longer alive stop Ref
+2002-02-19 d1 Order 426 Status Canceled
+-- No longer alive limit Ref
+2002-02-19 d2 Order 433 Status Completed
+-- No longer alive main Ref
+2002-02-19 d0 Position 0
+2002-02-19 Data d0 OType buy Sizing to 1
+2002-02-19 d0 Main 436 Stp 437 Lmt 438
+2002-02-19 d1 Position 0
+2002-02-19 d2 Position 1
+2002-02-20 d0 Order 436 Status Accepted
+2002-02-20 d0 Order 437 Status Accepted
+2002-02-20 d0 Order 438 Status Accepted
+2002-02-20 d2 Order 435 Status Completed
+-- No longer alive limit Ref
+2002-02-20 d2 Order 434 Status Canceled
+-- No longer alive stop Ref
+2002-02-20 d0 Order 436 Status Completed
+-- No longer alive main Ref
+2002-02-20 d0 Position 1
+2002-02-20 d1 Position 0
+2002-02-20 d2 Position 0
+2002-02-21 d0 Order 438 Status Completed
+-- No longer alive limit Ref
+2002-02-21 d0 Order 437 Status Canceled
+-- No longer alive stop Ref
+2002-02-21 d0 Position 0
+2002-02-21 d1 Position 0
+2002-02-21 Data d1 OType buy Sizing to 1
+2002-02-21 d1 Main 439 Stp 440 Lmt 441
+2002-02-21 d2 Position 0
+2002-02-22 d1 Order 439 Status Accepted
+2002-02-22 d1 Order 440 Status Accepted
+2002-02-22 d1 Order 441 Status Accepted
+2002-02-22 d1 Order 439 Status Completed
+-- No longer alive main Ref
+2002-02-22 d0 Position 0
+2002-02-22 d1 Position 1
+2002-02-22 d2 Position 0
+2002-02-22 Data d2 OType buy Sizing to 1
+2002-02-22 d2 Main 442 Stp 443 Lmt 444
+2002-02-25 d2 Order 442 Status Accepted
+2002-02-25 d2 Order 443 Status Accepted
+2002-02-25 d2 Order 444 Status Accepted
+2002-02-25 d1 Order 441 Status Completed
+-- No longer alive limit Ref
+2002-02-25 d1 Order 440 Status Canceled
+-- No longer alive stop Ref
+2002-02-25 d0 Position 0
+2002-02-25 d1 Position 0
+2002-02-25 d2 Position 0
+2002-02-26 d0 Position 0
+2002-02-26 Data d0 OType buy Sizing to 1
+2002-02-26 d0 Main 445 Stp 446 Lmt 447
+2002-02-26 d1 Position 0
+2002-02-26 d2 Position 0
+2002-02-27 d0 Order 445 Status Accepted
+2002-02-27 d0 Order 446 Status Accepted
+2002-02-27 d0 Order 447 Status Accepted
+2002-02-27 d0 Order 445 Status Completed
+-- No longer alive main Ref
+2002-02-27 d0 Position 1
+2002-02-27 d1 Position 0
+2002-02-27 d2 Position 0
+2002-02-28 d0 Order 446 Status Completed
+-- No longer alive stop Ref
+2002-02-28 d0 Order 447 Status Canceled
+-- No longer alive limit Ref
+2002-02-28 d0 Position 0
+2002-02-28 d1 Position 0
+2002-02-28 Data d1 OType buy Sizing to 1
+2002-02-28 d1 Main 448 Stp 449 Lmt 450
+2002-02-28 d2 Position 0
+2002-03-01 d1 Order 448 Status Accepted
+2002-03-01 d1 Order 449 Status Accepted
+2002-03-01 d1 Order 450 Status Accepted
+2002-03-01 d0 Position 0
+2002-03-01 d1 Position 0
+2002-03-01 d2 Position 0
+2002-03-04 d2 Order 442 Status Completed
+-- No longer alive main Ref
+2002-03-04 d0 Position 0
+2002-03-04 d1 Position 0
+2002-03-04 d2 Position 1
+2002-03-05 d2 Order 443 Status Completed
+-- No longer alive stop Ref
+2002-03-05 d2 Order 444 Status Canceled
+-- No longer alive limit Ref
+2002-03-05 d0 Position 0
+2002-03-05 Data d0 OType buy Sizing to 1
+2002-03-05 d0 Main 451 Stp 452 Lmt 453
+2002-03-05 d1 Position 0
+2002-03-05 d2 Position 0
+2002-03-06 d0 Order 451 Status Accepted
+2002-03-06 d0 Order 452 Status Accepted
+2002-03-06 d0 Order 453 Status Accepted
+2002-03-06 d0 Order 451 Status Completed
+-- No longer alive main Ref
+2002-03-06 d0 Position 1
+2002-03-06 d1 Position 0
+2002-03-06 d2 Position 0
+2002-03-07 d0 Order 452 Status Completed
+-- No longer alive stop Ref
+2002-03-07 d0 Order 453 Status Canceled
+-- No longer alive limit Ref
+2002-03-07 d0 Position 0
+2002-03-07 d1 Position 0
+2002-03-07 d2 Position 0
+2002-03-08 d0 Position 0
+2002-03-08 d1 Position 0
+2002-03-08 d2 Position 0
+2002-03-08 Data d2 OType buy Sizing to 1
+2002-03-08 d2 Main 454 Stp 455 Lmt 456
+2002-03-11 d2 Order 454 Status Accepted
+2002-03-11 d2 Order 455 Status Accepted
+2002-03-11 d2 Order 456 Status Accepted
+2002-03-11 d1 Order 448 Status Expired
+-- No longer alive main Ref
+2002-03-11 d1 Order 449 Status Canceled
+-- No longer alive stop Ref
+2002-03-11 d1 Order 450 Status Canceled
+-- No longer alive limit Ref
+2002-03-11 d0 Position 0
+2002-03-11 d1 Position 0
+2002-03-11 d2 Position 0
+2002-03-12 d0 Position 0
+2002-03-12 Data d0 OType buy Sizing to 1
+2002-03-12 d0 Main 457 Stp 458 Lmt 459
+2002-03-12 d1 Position 0
+2002-03-12 d2 Position 0
+2002-03-13 d0 Order 457 Status Accepted
+2002-03-13 d0 Order 458 Status Accepted
+2002-03-13 d0 Order 459 Status Accepted
+2002-03-13 d2 Order 454 Status Completed
+-- No longer alive main Ref
+2002-03-13 d0 Order 457 Status Completed
+-- No longer alive main Ref
+2002-03-13 d0 Position 1
+2002-03-13 d1 Position 0
+2002-03-13 d2 Position 1
+2002-03-14 d2 Order 455 Status Completed
+-- No longer alive stop Ref
+2002-03-14 d2 Order 456 Status Canceled
+-- No longer alive limit Ref
+2002-03-14 d0 Order 458 Status Completed
+-- No longer alive stop Ref
+2002-03-14 d0 Order 459 Status Canceled
+-- No longer alive limit Ref
+2002-03-14 d0 Position 0
+2002-03-14 d1 Position 0
+2002-03-14 Data d1 OType buy Sizing to 1
+2002-03-14 d1 Main 460 Stp 461 Lmt 462
+2002-03-14 d2 Position 0
+2002-03-15 d1 Order 460 Status Accepted
+2002-03-15 d1 Order 461 Status Accepted
+2002-03-15 d1 Order 462 Status Accepted
+2002-03-15 d1 Order 460 Status Completed
+-- No longer alive main Ref
+2002-03-15 d0 Position 0
+2002-03-15 d1 Position 1
+2002-03-15 d2 Position 0
+2002-03-15 Data d2 OType buy Sizing to 1
+2002-03-15 d2 Main 463 Stp 464 Lmt 465
+2002-03-18 d2 Order 463 Status Accepted
+2002-03-18 d2 Order 464 Status Accepted
+2002-03-18 d2 Order 465 Status Accepted
+2002-03-18 d0 Position 0
+2002-03-18 d1 Position 1
+2002-03-18 d2 Position 0
+2002-03-19 d0 Position 0
+2002-03-19 Data d0 OType buy Sizing to 1
+2002-03-19 d0 Main 466 Stp 467 Lmt 468
+2002-03-19 d1 Position 1
+2002-03-19 d2 Position 0
+2002-03-20 d0 Order 466 Status Accepted
+2002-03-20 d0 Order 467 Status Accepted
+2002-03-20 d0 Order 468 Status Accepted
+2002-03-20 d1 Order 461 Status Completed
+-- No longer alive stop Ref
+2002-03-20 d1 Order 462 Status Canceled
+-- No longer alive limit Ref
+2002-03-20 d0 Order 466 Status Completed
+-- No longer alive main Ref
+2002-03-20 d0 Position 1
+2002-03-20 d1 Position 0
+2002-03-20 d2 Position 0
+2002-03-21 d0 Order 467 Status Completed
+-- No longer alive stop Ref
+2002-03-21 d0 Order 468 Status Canceled
+-- No longer alive limit Ref
+2002-03-21 d0 Position 0
+2002-03-21 d1 Position 0
+2002-03-21 Data d1 OType buy Sizing to 1
+2002-03-21 d1 Main 469 Stp 470 Lmt 471
+2002-03-21 d2 Position 0
+2002-03-22 d1 Order 469 Status Accepted
+2002-03-22 d1 Order 470 Status Accepted
+2002-03-22 d1 Order 471 Status Accepted
+2002-03-22 d1 Order 469 Status Completed
+-- No longer alive main Ref
+2002-03-22 d0 Position 0
+2002-03-22 d1 Position 1
+2002-03-22 d2 Position 0
+2002-03-25 d1 Order 470 Status Completed
+-- No longer alive stop Ref
+2002-03-25 d1 Order 471 Status Canceled
+-- No longer alive limit Ref
+2002-03-25 d0 Position 0
+2002-03-25 d1 Position 0
+2002-03-25 d2 Position 0
+2002-03-26 d2 Order 463 Status Expired
+-- No longer alive main Ref
+2002-03-26 d2 Order 464 Status Canceled
+-- No longer alive stop Ref
+2002-03-26 d2 Order 465 Status Canceled
+-- No longer alive limit Ref
+2002-03-26 d0 Position 0
+2002-03-26 Data d0 OType buy Sizing to 1
+2002-03-26 d0 Main 472 Stp 473 Lmt 474
+2002-03-26 d1 Position 0
+2002-03-26 d2 Position 0
+2002-03-27 d0 Order 472 Status Accepted
+2002-03-27 d0 Order 473 Status Accepted
+2002-03-27 d0 Order 474 Status Accepted
+2002-03-27 d0 Order 472 Status Completed
+-- No longer alive main Ref
+2002-03-27 d0 Position 1
+2002-03-27 d1 Position 0
+2002-03-27 d2 Position 0
+2002-03-28 d0 Order 473 Status Completed
+-- No longer alive stop Ref
+2002-03-28 d0 Order 474 Status Canceled
+-- No longer alive limit Ref
+2002-03-28 d0 Position 0
+2002-03-28 d1 Position 0
+2002-03-28 Data d1 OType buy Sizing to 1
+2002-03-28 d1 Main 475 Stp 476 Lmt 477
+2002-03-28 d2 Position 0
+2002-04-01 d1 Order 475 Status Accepted
+2002-04-01 d1 Order 476 Status Accepted
+2002-04-01 d1 Order 477 Status Accepted
+2002-04-01 d1 Order 475 Status Completed
+-- No longer alive main Ref
+2002-04-01 d0 Position 0
+2002-04-01 d1 Position 1
+2002-04-01 d2 Position 0
+2002-04-02 d0 Position 0
+2002-04-02 Data d0 OType buy Sizing to 1
+2002-04-02 d0 Main 478 Stp 479 Lmt 480
+2002-04-02 d1 Position 1
+2002-04-02 d2 Position 0
+2002-04-03 d0 Order 478 Status Accepted
+2002-04-03 d0 Order 479 Status Accepted
+2002-04-03 d0 Order 480 Status Accepted
+2002-04-03 d1 Order 476 Status Completed
+-- No longer alive stop Ref
+2002-04-03 d1 Order 477 Status Canceled
+-- No longer alive limit Ref
+2002-04-03 d0 Order 478 Status Completed
+-- No longer alive main Ref
+2002-04-03 d0 Position 1
+2002-04-03 d1 Position 0
+2002-04-03 d2 Position 0
+2002-04-04 d0 Order 480 Status Completed
+-- No longer alive limit Ref
+2002-04-04 d0 Order 479 Status Canceled
+-- No longer alive stop Ref
+2002-04-04 d0 Position 0
+2002-04-04 d1 Position 0
+2002-04-04 Data d1 OType buy Sizing to 1
+2002-04-04 d1 Main 481 Stp 482 Lmt 483
+2002-04-04 d2 Position 0
+2002-04-05 d1 Order 481 Status Accepted
+2002-04-05 d1 Order 482 Status Accepted
+2002-04-05 d1 Order 483 Status Accepted
+2002-04-05 d0 Position 0
+2002-04-05 d1 Position 0
+2002-04-05 d2 Position 0
+2002-04-05 Data d2 OType buy Sizing to 1
+2002-04-05 d2 Main 484 Stp 485 Lmt 486
+2002-04-08 d2 Order 484 Status Accepted
+2002-04-08 d2 Order 485 Status Accepted
+2002-04-08 d2 Order 486 Status Accepted
+2002-04-08 d1 Order 481 Status Completed
+-- No longer alive main Ref
+2002-04-08 d2 Order 484 Status Completed
+-- No longer alive main Ref
+2002-04-08 d0 Position 0
+2002-04-08 d1 Position 1
+2002-04-08 d2 Position 1
+2002-04-09 d1 Order 483 Status Completed
+-- No longer alive limit Ref
+2002-04-09 d1 Order 482 Status Canceled
+-- No longer alive stop Ref
+2002-04-09 d2 Order 486 Status Completed
+-- No longer alive limit Ref
+2002-04-09 d2 Order 485 Status Canceled
+-- No longer alive stop Ref
+2002-04-09 d0 Position 0
+2002-04-09 Data d0 OType buy Sizing to 1
+2002-04-09 d0 Main 487 Stp 488 Lmt 489
+2002-04-09 d1 Position 0
+2002-04-09 d2 Position 0
+2002-04-10 d0 Order 487 Status Accepted
+2002-04-10 d0 Order 488 Status Accepted
+2002-04-10 d0 Order 489 Status Accepted
+2002-04-10 d0 Order 487 Status Completed
+-- No longer alive main Ref
+2002-04-10 d0 Position 1
+2002-04-10 d1 Position 0
+2002-04-10 d2 Position 0
+2002-04-11 d0 Order 488 Status Completed
+-- No longer alive stop Ref
+2002-04-11 d0 Order 489 Status Canceled
+-- No longer alive limit Ref
+2002-04-11 d0 Position 0
+2002-04-11 d1 Position 0
+2002-04-11 Data d1 OType buy Sizing to 1
+2002-04-11 d1 Main 490 Stp 491 Lmt 492
+2002-04-11 d2 Position 0
+2002-04-12 d1 Order 490 Status Accepted
+2002-04-12 d1 Order 491 Status Accepted
+2002-04-12 d1 Order 492 Status Accepted
+2002-04-12 d0 Position 0
+2002-04-12 d1 Position 0
+2002-04-12 d2 Position 0
+2002-04-12 Data d2 OType buy Sizing to 1
+2002-04-12 d2 Main 493 Stp 494 Lmt 495
+2002-04-15 d2 Order 493 Status Accepted
+2002-04-15 d2 Order 494 Status Accepted
+2002-04-15 d2 Order 495 Status Accepted
+2002-04-15 d2 Order 493 Status Completed
+-- No longer alive main Ref
+2002-04-15 d0 Position 0
+2002-04-15 d1 Position 0
+2002-04-15 d2 Position 1
+2002-04-16 d1 Order 490 Status Completed
+-- No longer alive main Ref
+2002-04-16 d2 Order 495 Status Completed
+-- No longer alive limit Ref
+2002-04-16 d2 Order 494 Status Canceled
+-- No longer alive stop Ref
+2002-04-16 d0 Position 0
+2002-04-16 Data d0 OType buy Sizing to 1
+2002-04-16 d0 Main 496 Stp 497 Lmt 498
+2002-04-16 d1 Position 1
+2002-04-16 d2 Position 0
+2002-04-17 d0 Order 496 Status Accepted
+2002-04-17 d0 Order 497 Status Accepted
+2002-04-17 d0 Order 498 Status Accepted
+2002-04-17 d1 Order 492 Status Completed
+-- No longer alive limit Ref
+2002-04-17 d1 Order 491 Status Canceled
+-- No longer alive stop Ref
+2002-04-17 d0 Order 496 Status Completed
+-- No longer alive main Ref
+2002-04-17 d0 Position 1
+2002-04-17 d1 Position 0
+2002-04-17 d2 Position 0
+2002-04-18 d0 Position 1
+2002-04-18 d1 Position 0
+2002-04-18 Data d1 OType buy Sizing to 1
+2002-04-18 d1 Main 499 Stp 500 Lmt 501
+2002-04-18 d2 Position 0
+2002-04-19 d1 Order 499 Status Accepted
+2002-04-19 d1 Order 500 Status Accepted
+2002-04-19 d1 Order 501 Status Accepted
+2002-04-19 d0 Order 497 Status Completed
+-- No longer alive stop Ref
+2002-04-19 d0 Order 498 Status Canceled
+-- No longer alive limit Ref
+2002-04-19 d1 Order 499 Status Completed
+-- No longer alive main Ref
+2002-04-19 d0 Position 0
+2002-04-19 d1 Position 1
+2002-04-19 d2 Position 0
+2002-04-19 Data d2 OType buy Sizing to 1
+2002-04-19 d2 Main 502 Stp 503 Lmt 504
+2002-04-22 d2 Order 502 Status Accepted
+2002-04-22 d2 Order 503 Status Accepted
+2002-04-22 d2 Order 504 Status Accepted
+2002-04-22 d1 Order 500 Status Completed
+-- No longer alive stop Ref
+2002-04-22 d1 Order 501 Status Canceled
+-- No longer alive limit Ref
+2002-04-22 d2 Order 502 Status Completed
+-- No longer alive main Ref
+2002-04-22 d0 Position 0
+2002-04-22 d1 Position 0
+2002-04-22 d2 Position 1
+2002-04-23 d2 Order 503 Status Completed
+-- No longer alive stop Ref
+2002-04-23 d2 Order 504 Status Canceled
+-- No longer alive limit Ref
+2002-04-23 d0 Position 0
+2002-04-23 Data d0 OType buy Sizing to 1
+2002-04-23 d0 Main 505 Stp 506 Lmt 507
+2002-04-23 d1 Position 0
+2002-04-23 d2 Position 0
+2002-04-24 d0 Order 505 Status Accepted
+2002-04-24 d0 Order 506 Status Accepted
+2002-04-24 d0 Order 507 Status Accepted
+2002-04-24 d0 Order 505 Status Completed
+-- No longer alive main Ref
+2002-04-24 d0 Position 1
+2002-04-24 d1 Position 0
+2002-04-24 d2 Position 0
+2002-04-25 d0 Order 506 Status Completed
+-- No longer alive stop Ref
+2002-04-25 d0 Order 507 Status Canceled
+-- No longer alive limit Ref
+2002-04-25 d0 Position 0
+2002-04-25 d1 Position 0
+2002-04-25 Data d1 OType buy Sizing to 1
+2002-04-25 d1 Main 508 Stp 509 Lmt 510
+2002-04-25 d2 Position 0
+2002-04-26 d1 Order 508 Status Accepted
+2002-04-26 d1 Order 509 Status Accepted
+2002-04-26 d1 Order 510 Status Accepted
+2002-04-26 d0 Position 0
+2002-04-26 d1 Position 0
+2002-04-26 d2 Position 0
+2002-04-26 Data d2 OType buy Sizing to 1
+2002-04-26 d2 Main 511 Stp 512 Lmt 513
+2002-04-29 d2 Order 511 Status Accepted
+2002-04-29 d2 Order 512 Status Accepted
+2002-04-29 d2 Order 513 Status Accepted
+2002-04-29 d1 Order 508 Status Completed
+-- No longer alive main Ref
+2002-04-29 d0 Position 0
+2002-04-29 d1 Position 1
+2002-04-29 d2 Position 0
+2002-04-30 d1 Order 510 Status Completed
+-- No longer alive limit Ref
+2002-04-30 d1 Order 509 Status Canceled
+-- No longer alive stop Ref
+2002-04-30 d0 Position 0
+2002-04-30 Data d0 OType buy Sizing to 1
+2002-04-30 d0 Main 514 Stp 515 Lmt 516
+2002-04-30 d1 Position 0
+2002-04-30 d2 Position 0
+2002-05-01 d0 Order 514 Status Accepted
+2002-05-01 d0 Order 515 Status Accepted
+2002-05-01 d0 Order 516 Status Accepted
+2002-05-01 d2 Order 511 Status Completed
+-- No longer alive main Ref
+2002-05-01 d0 Order 514 Status Completed
+-- No longer alive main Ref
+2002-05-01 d0 Position 1
+2002-05-01 d1 Position 0
+2002-05-01 d2 Position 1
+2002-05-02 d2 Order 512 Status Completed
+-- No longer alive stop Ref
+2002-05-02 d2 Order 513 Status Canceled
+-- No longer alive limit Ref
+2002-05-02 d0 Order 516 Status Completed
+-- No longer alive limit Ref
+2002-05-02 d0 Order 515 Status Canceled
+-- No longer alive stop Ref
+2002-05-02 d0 Position 0
+2002-05-02 d1 Position 0
+2002-05-02 Data d1 OType buy Sizing to 1
+2002-05-02 d1 Main 517 Stp 518 Lmt 519
+2002-05-02 d2 Position 0
+2002-05-03 d1 Order 517 Status Accepted
+2002-05-03 d1 Order 518 Status Accepted
+2002-05-03 d1 Order 519 Status Accepted
+2002-05-03 d1 Order 517 Status Completed
+-- No longer alive main Ref
+2002-05-03 d0 Position 0
+2002-05-03 d1 Position 1
+2002-05-03 d2 Position 0
+2002-05-03 Data d2 OType buy Sizing to 1
+2002-05-03 d2 Main 520 Stp 521 Lmt 522
+2002-05-06 d2 Order 520 Status Accepted
+2002-05-06 d2 Order 521 Status Accepted
+2002-05-06 d2 Order 522 Status Accepted
+2002-05-06 d1 Order 519 Status Completed
+-- No longer alive limit Ref
+2002-05-06 d1 Order 518 Status Canceled
+-- No longer alive stop Ref
+2002-05-06 d2 Order 520 Status Completed
+-- No longer alive main Ref
+2002-05-06 d0 Position 0
+2002-05-06 d1 Position 0
+2002-05-06 d2 Position 1
+2002-05-07 d2 Order 521 Status Completed
+-- No longer alive stop Ref
+2002-05-07 d2 Order 522 Status Canceled
+-- No longer alive limit Ref
+2002-05-07 d0 Position 0
+2002-05-07 Data d0 OType buy Sizing to 1
+2002-05-07 d0 Main 523 Stp 524 Lmt 525
+2002-05-07 d1 Position 0
+2002-05-07 d2 Position 0
+2002-05-08 d0 Order 523 Status Accepted
+2002-05-08 d0 Order 524 Status Accepted
+2002-05-08 d0 Order 525 Status Accepted
+2002-05-08 d0 Position 0
+2002-05-08 d1 Position 0
+2002-05-08 d2 Position 0
+2002-05-09 d0 Position 0
+2002-05-09 d1 Position 0
+2002-05-09 Data d1 OType buy Sizing to 1
+2002-05-09 d1 Main 526 Stp 527 Lmt 528
+2002-05-09 d2 Position 0
+2002-05-10 d1 Order 526 Status Accepted
+2002-05-10 d1 Order 527 Status Accepted
+2002-05-10 d1 Order 528 Status Accepted
+2002-05-10 d0 Order 523 Status Completed
+-- No longer alive main Ref
+2002-05-10 d1 Order 526 Status Completed
+-- No longer alive main Ref
+2002-05-10 d0 Position 1
+2002-05-10 d1 Position 1
+2002-05-10 d2 Position 0
+2002-05-10 Data d2 OType buy Sizing to 1
+2002-05-10 d2 Main 529 Stp 530 Lmt 531
+2002-05-13 d2 Order 529 Status Accepted
+2002-05-13 d2 Order 530 Status Accepted
+2002-05-13 d2 Order 531 Status Accepted
+2002-05-13 d0 Order 525 Status Completed
+-- No longer alive limit Ref
+2002-05-13 d0 Order 524 Status Canceled
+-- No longer alive stop Ref
+2002-05-13 d0 Position 0
+2002-05-13 d1 Position 1
+2002-05-13 d2 Position 0
+2002-05-14 d1 Order 528 Status Completed
+-- No longer alive limit Ref
+2002-05-14 d1 Order 527 Status Canceled
+-- No longer alive stop Ref
+2002-05-14 d0 Position 0
+2002-05-14 Data d0 OType buy Sizing to 1
+2002-05-14 d0 Main 532 Stp 533 Lmt 534
+2002-05-14 d1 Position 0
+2002-05-14 d2 Position 0
+2002-05-15 d0 Order 532 Status Accepted
+2002-05-15 d0 Order 533 Status Accepted
+2002-05-15 d0 Order 534 Status Accepted
+2002-05-15 d0 Order 532 Status Completed
+-- No longer alive main Ref
+2002-05-15 d0 Position 1
+2002-05-15 d1 Position 0
+2002-05-15 d2 Position 0
+2002-05-16 d0 Order 534 Status Completed
+-- No longer alive limit Ref
+2002-05-16 d0 Order 533 Status Canceled
+-- No longer alive stop Ref
+2002-05-16 d0 Position 0
+2002-05-16 d1 Position 0
+2002-05-16 Data d1 OType buy Sizing to 1
+2002-05-16 d1 Main 535 Stp 536 Lmt 537
+2002-05-16 d2 Position 0
+2002-05-17 d1 Order 535 Status Accepted
+2002-05-17 d1 Order 536 Status Accepted
+2002-05-17 d1 Order 537 Status Accepted
+2002-05-17 d1 Order 535 Status Completed
+-- No longer alive main Ref
+2002-05-17 d0 Position 0
+2002-05-17 d1 Position 1
+2002-05-17 d2 Position 0
+2002-05-20 d1 Order 536 Status Completed
+-- No longer alive stop Ref
+2002-05-20 d1 Order 537 Status Canceled
+-- No longer alive limit Ref
+2002-05-20 d0 Position 0
+2002-05-20 d1 Position 0
+2002-05-20 d2 Position 0
+2002-05-21 d2 Order 529 Status Expired
+-- No longer alive main Ref
+2002-05-21 d2 Order 530 Status Canceled
+-- No longer alive stop Ref
+2002-05-21 d2 Order 531 Status Canceled
+-- No longer alive limit Ref
+2002-05-21 d0 Position 0
+2002-05-21 Data d0 OType buy Sizing to 1
+2002-05-21 d0 Main 538 Stp 539 Lmt 540
+2002-05-21 d1 Position 0
+2002-05-21 d2 Position 0
+2002-05-22 d0 Order 538 Status Accepted
+2002-05-22 d0 Order 539 Status Accepted
+2002-05-22 d0 Order 540 Status Accepted
+2002-05-22 d0 Position 0
+2002-05-22 d1 Position 0
+2002-05-22 d2 Position 0
+2002-05-23 d0 Order 538 Status Completed
+-- No longer alive main Ref
+2002-05-23 d0 Position 1
+2002-05-23 d1 Position 0
+2002-05-23 Data d1 OType buy Sizing to 1
+2002-05-23 d1 Main 541 Stp 542 Lmt 543
+2002-05-23 d2 Position 0
+2002-05-24 d1 Order 541 Status Accepted
+2002-05-24 d1 Order 542 Status Accepted
+2002-05-24 d1 Order 543 Status Accepted
+2002-05-24 d0 Order 539 Status Completed
+-- No longer alive stop Ref
+2002-05-24 d0 Order 540 Status Canceled
+-- No longer alive limit Ref
+2002-05-24 d1 Order 541 Status Completed
+-- No longer alive main Ref
+2002-05-24 d0 Position 0
+2002-05-24 d1 Position 1
+2002-05-24 d2 Position 0
+2002-05-24 Data d2 OType buy Sizing to 1
+2002-05-24 d2 Main 544 Stp 545 Lmt 546
+2002-05-28 d2 Order 544 Status Accepted
+2002-05-28 d2 Order 545 Status Accepted
+2002-05-28 d2 Order 546 Status Accepted
+2002-05-28 d1 Order 542 Status Completed
+-- No longer alive stop Ref
+2002-05-28 d1 Order 543 Status Canceled
+-- No longer alive limit Ref
+2002-05-28 d2 Order 544 Status Completed
+-- No longer alive main Ref
+2002-05-28 d0 Position 0
+2002-05-28 Data d0 OType buy Sizing to 1
+2002-05-28 d0 Main 547 Stp 548 Lmt 549
+2002-05-28 d1 Position 0
+2002-05-28 d2 Position 1
+2002-05-29 d0 Order 547 Status Accepted
+2002-05-29 d0 Order 548 Status Accepted
+2002-05-29 d0 Order 549 Status Accepted
+2002-05-29 d2 Order 545 Status Completed
+-- No longer alive stop Ref
+2002-05-29 d2 Order 546 Status Canceled
+-- No longer alive limit Ref
+2002-05-29 d0 Order 547 Status Completed
+-- No longer alive main Ref
+2002-05-29 d0 Position 1
+2002-05-29 d1 Position 0
+2002-05-29 d2 Position 0
+2002-05-30 d0 Order 549 Status Completed
+-- No longer alive limit Ref
+2002-05-30 d0 Order 548 Status Canceled
+-- No longer alive stop Ref
+2002-05-30 d0 Position 0
+2002-05-30 d1 Position 0
+2002-05-30 Data d1 OType buy Sizing to 1
+2002-05-30 d1 Main 550 Stp 551 Lmt 552
+2002-05-30 d2 Position 0
+2002-05-31 d1 Order 550 Status Accepted
+2002-05-31 d1 Order 551 Status Accepted
+2002-05-31 d1 Order 552 Status Accepted
+2002-05-31 d1 Order 550 Status Completed
+-- No longer alive main Ref
+2002-05-31 d0 Position 0
+2002-05-31 d1 Position 1
+2002-05-31 d2 Position 0
+2002-05-31 Data d2 OType buy Sizing to 1
+2002-05-31 d2 Main 553 Stp 554 Lmt 555
+2002-06-03 d2 Order 553 Status Accepted
+2002-06-03 d2 Order 554 Status Accepted
+2002-06-03 d2 Order 555 Status Accepted
+2002-06-03 d1 Order 551 Status Completed
+-- No longer alive stop Ref
+2002-06-03 d1 Order 552 Status Canceled
+-- No longer alive limit Ref
+2002-06-03 d2 Order 553 Status Completed
+-- No longer alive main Ref
+2002-06-03 d0 Position 0
+2002-06-03 d1 Position 0
+2002-06-03 d2 Position 1
+2002-06-04 d2 Order 554 Status Completed
+-- No longer alive stop Ref
+2002-06-04 d2 Order 555 Status Canceled
+-- No longer alive limit Ref
+2002-06-04 d0 Position 0
+2002-06-04 Data d0 OType buy Sizing to 1
+2002-06-04 d0 Main 556 Stp 557 Lmt 558
+2002-06-04 d1 Position 0
+2002-06-04 d2 Position 0
+2002-06-05 d0 Order 556 Status Accepted
+2002-06-05 d0 Order 557 Status Accepted
+2002-06-05 d0 Order 558 Status Accepted
+2002-06-05 d0 Order 556 Status Completed
+-- No longer alive main Ref
+2002-06-05 d0 Position 1
+2002-06-05 d1 Position 0
+2002-06-05 d2 Position 0
+2002-06-06 d0 Position 1
+2002-06-06 d1 Position 0
+2002-06-06 Data d1 OType buy Sizing to 1
+2002-06-06 d1 Main 559 Stp 560 Lmt 561
+2002-06-06 d2 Position 0
+2002-06-07 d1 Order 559 Status Accepted
+2002-06-07 d1 Order 560 Status Accepted
+2002-06-07 d1 Order 561 Status Accepted
+2002-06-07 d0 Order 557 Status Completed
+-- No longer alive stop Ref
+2002-06-07 d0 Order 558 Status Canceled
+-- No longer alive limit Ref
+2002-06-07 d1 Order 559 Status Completed
+-- No longer alive main Ref
+2002-06-07 d0 Position 0
+2002-06-07 d1 Position 1
+2002-06-07 d2 Position 0
+2002-06-07 Data d2 OType buy Sizing to 1
+2002-06-07 d2 Main 562 Stp 563 Lmt 564
+2002-06-10 d2 Order 562 Status Accepted
+2002-06-10 d2 Order 563 Status Accepted
+2002-06-10 d2 Order 564 Status Accepted
+2002-06-10 d2 Order 562 Status Completed
+-- No longer alive main Ref
+2002-06-10 d0 Position 0
+2002-06-10 d1 Position 1
+2002-06-10 d2 Position 1
+2002-06-11 d1 Order 561 Status Completed
+-- No longer alive limit Ref
+2002-06-11 d1 Order 560 Status Canceled
+-- No longer alive stop Ref
+2002-06-11 d2 Order 563 Status Completed
+-- No longer alive stop Ref
+2002-06-11 d2 Order 564 Status Canceled
+-- No longer alive limit Ref
+2002-06-11 d0 Position 0
+2002-06-11 Data d0 OType buy Sizing to 1
+2002-06-11 d0 Main 565 Stp 566 Lmt 567
+2002-06-11 d1 Position 0
+2002-06-11 d2 Position 0
+2002-06-12 d0 Order 565 Status Accepted
+2002-06-12 d0 Order 566 Status Accepted
+2002-06-12 d0 Order 567 Status Accepted
+2002-06-12 d0 Order 565 Status Completed
+-- No longer alive main Ref
+2002-06-12 d0 Position 1
+2002-06-12 d1 Position 0
+2002-06-12 d2 Position 0
+2002-06-13 d0 Order 566 Status Completed
+-- No longer alive stop Ref
+2002-06-13 d0 Order 567 Status Canceled
+-- No longer alive limit Ref
+2002-06-13 d0 Position 0
+2002-06-13 d1 Position 0
+2002-06-13 Data d1 OType buy Sizing to 1
+2002-06-13 d1 Main 568 Stp 569 Lmt 570
+2002-06-13 d2 Position 0
+2002-06-14 d1 Order 568 Status Accepted
+2002-06-14 d1 Order 569 Status Accepted
+2002-06-14 d1 Order 570 Status Accepted
+2002-06-14 d1 Order 568 Status Completed
+-- No longer alive main Ref
+2002-06-14 d0 Position 0
+2002-06-14 d1 Position 1
+2002-06-14 d2 Position 0
+2002-06-14 Data d2 OType buy Sizing to 1
+2002-06-14 d2 Main 571 Stp 572 Lmt 573
+2002-06-17 d2 Order 571 Status Accepted
+2002-06-17 d2 Order 572 Status Accepted
+2002-06-17 d2 Order 573 Status Accepted
+2002-06-17 d1 Order 570 Status Completed
+-- No longer alive limit Ref
+2002-06-17 d1 Order 569 Status Canceled
+-- No longer alive stop Ref
+2002-06-17 d0 Position 0
+2002-06-17 d1 Position 0
+2002-06-17 d2 Position 0
+2002-06-18 d0 Position 0
+2002-06-18 Data d0 OType buy Sizing to 1
+2002-06-18 d0 Main 574 Stp 575 Lmt 576
+2002-06-18 d1 Position 0
+2002-06-18 d2 Position 0
+2002-06-19 d0 Order 574 Status Accepted
+2002-06-19 d0 Order 575 Status Accepted
+2002-06-19 d0 Order 576 Status Accepted
+2002-06-19 d0 Order 574 Status Completed
+-- No longer alive main Ref
+2002-06-19 d0 Position 1
+2002-06-19 d1 Position 0
+2002-06-19 d2 Position 0
+2002-06-20 d2 Order 571 Status Completed
+-- No longer alive main Ref
+2002-06-20 d0 Order 575 Status Completed
+-- No longer alive stop Ref
+2002-06-20 d0 Order 576 Status Canceled
+-- No longer alive limit Ref
+2002-06-20 d0 Position 0
+2002-06-20 d1 Position 0
+2002-06-20 Data d1 OType buy Sizing to 1
+2002-06-20 d1 Main 577 Stp 578 Lmt 579
+2002-06-20 d2 Position 1
+2002-06-21 d1 Order 577 Status Accepted
+2002-06-21 d1 Order 578 Status Accepted
+2002-06-21 d1 Order 579 Status Accepted
+2002-06-21 d2 Order 572 Status Completed
+-- No longer alive stop Ref
+2002-06-21 d2 Order 573 Status Canceled
+-- No longer alive limit Ref
+2002-06-21 d1 Order 577 Status Completed
+-- No longer alive main Ref
+2002-06-21 d0 Position 0
+2002-06-21 d1 Position 1
+2002-06-21 d2 Position 0
+2002-06-21 Data d2 OType buy Sizing to 1
+2002-06-21 d2 Main 580 Stp 581 Lmt 582
+2002-06-24 d2 Order 580 Status Accepted
+2002-06-24 d2 Order 581 Status Accepted
+2002-06-24 d2 Order 582 Status Accepted
+2002-06-24 d1 Order 578 Status Completed
+-- No longer alive stop Ref
+2002-06-24 d1 Order 579 Status Canceled
+-- No longer alive limit Ref
+2002-06-24 d2 Order 580 Status Completed
+-- No longer alive main Ref
+2002-06-24 d0 Position 0
+2002-06-24 d1 Position 0
+2002-06-24 d2 Position 1
+2002-06-25 d2 Order 582 Status Completed
+-- No longer alive limit Ref
+2002-06-25 d2 Order 581 Status Canceled
+-- No longer alive stop Ref
+2002-06-25 d0 Position 0
+2002-06-25 Data d0 OType buy Sizing to 1
+2002-06-25 d0 Main 583 Stp 584 Lmt 585
+2002-06-25 d1 Position 0
+2002-06-25 d2 Position 0
+2002-06-26 d0 Order 583 Status Accepted
+2002-06-26 d0 Order 584 Status Accepted
+2002-06-26 d0 Order 585 Status Accepted
+2002-06-26 d0 Order 583 Status Completed
+-- No longer alive main Ref
+2002-06-26 d0 Position 1
+2002-06-26 d1 Position 0
+2002-06-26 d2 Position 0
+2002-06-27 d0 Order 584 Status Completed
+-- No longer alive stop Ref
+2002-06-27 d0 Order 585 Status Canceled
+-- No longer alive limit Ref
+2002-06-27 d0 Position 0
+2002-06-27 d1 Position 0
+2002-06-27 Data d1 OType buy Sizing to 1
+2002-06-27 d1 Main 586 Stp 587 Lmt 588
+2002-06-27 d2 Position 0
+2002-06-28 d1 Order 586 Status Accepted
+2002-06-28 d1 Order 587 Status Accepted
+2002-06-28 d1 Order 588 Status Accepted
+2002-06-28 d1 Order 586 Status Completed
+-- No longer alive main Ref
+2002-06-28 d0 Position 0
+2002-06-28 d1 Position 1
+2002-06-28 d2 Position 0
+2002-06-28 Data d2 OType buy Sizing to 1
+2002-06-28 d2 Main 589 Stp 590 Lmt 591

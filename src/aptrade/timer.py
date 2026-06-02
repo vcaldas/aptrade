@@ -22,6 +22,7 @@ from __future__ import absolute_import, division, print_function, unicode_litera
 
 import bisect
 import collections
+from numbers import Integral
 from datetime import date, datetime, timedelta
 from itertools import islice
 
@@ -30,6 +31,8 @@ from .metabase import MetaParams
 from .utils import TIME_MAX, date2num, num2date
 
 __all__ = ["SESSION_TIME", "SESSION_START", "SESSION_END", "Timer"]
+
+integer_types = (Integral,)
 
 SESSION_TIME, SESSION_START, SESSION_END = range(3)
 
