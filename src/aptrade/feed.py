@@ -258,7 +258,9 @@ class AbstractDataBase(dataseries.OHLCDateTime, metaclass=MetaAbstractDataBase):
 
     def date2num(self, dt):
         if self._tz is not None:
-            return date2num(self._tz.localize(dt))
+            if hasattr(self._tz, "localize"):
+                return date2num(self._tz.localize(dt))
+            return date2num(dt.replace(tzinfo=self._tz))
 
         return date2num(dt)
 
@@ -510,7 +512,10 @@ class AbstractDataBase(dataseries.OHLCDateTime, metaclass=MetaAbstractDataBase):
                 # the input stream
                 dtime = num2date(dt)  # get it in a naive datetime
                 # localize it
-                dtime = self._tzinput.localize(dtime)  # pytz compatible-ized
+                if hasattr(self._tzinput, "localize"):
+                    dtime = self._tzinput.localize(dtime)  # pytz compatible-ized
+                else:
+                    dtime = dtime.replace(tzinfo=self._tzinput)
                 self.lines.datetime[0] = dt = date2num(dtime)  # keep UTC val
 
             # Check standard date from/to filters

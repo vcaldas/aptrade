@@ -22,6 +22,7 @@ from __future__ import absolute_import, division, print_function, unicode_litera
 
 import argparse
 import datetime
+import os
 
 import aptrade as bt
 
@@ -49,9 +50,12 @@ class St(bt.Strategy):
         pass
 
     def start(self):
-        self.t0 = datetime.datetime.utcnow()
+        self.t0 = None if os.getenv("APTRADE_SAMPLE_SKIP_DURATION") else datetime.datetime.utcnow()
 
     def stop(self):
+        if self.t0 is None:
+            return
+
         t1 = datetime.datetime.utcnow()
         print("Duration:", t1 - self.t0)
 

@@ -20,6 +20,8 @@
 ###############################################################################
 from __future__ import absolute_import, division, print_function, unicode_literals
 
+import math
+
 import aptrade as bt
 
 __all__ = ["LogReturns", "LogReturns2"]
@@ -79,7 +81,7 @@ class LogReturns(bt.Observer):
         )
 
     def next(self):
-        self.lines.logret1[0] = self.logret1.rets[self.logret1.dtkey]
+        self.lines.logret1[0] = self.logret1.rets.get(self.logret1.dtkey, math.nan)
 
 
 class LogReturns2(LogReturns):
@@ -96,4 +98,4 @@ class LogReturns2(LogReturns):
 
     def next(self):
         super(LogReturns2, self).next()
-        self.lines.logret2[0] = self.logret2.rets[self.logret2.dtkey]
+        self.lines.logret2[0] = self.logret2.rets.get(self.logret2.dtkey, math.nan)

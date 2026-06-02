@@ -1,0 +1,22 @@
+sell: Size: -100 @ Price 22.480000
+Close[-1]: 22.400000 - Open[0]: 22.480000
+buy: Size: 100 @ Price 23.120001
+Close[-1]: 23.260000 - Open[0]: 23.120001
+sell: Size: -100 @ Price 24.850000
+Close[-1]: 24.680000 - Open[0]: 24.850000
+buy: Size: 100 @ Price 25.879999
+Close[-1]: 25.750000 - Open[0]: 25.879999
+buy: Size: 100 @ Price 25.219999
+Close[-1]: 24.959999 - Open[0]: 25.219999
+sell: Size: -100 @ Price 25.719999
+Close[-1]: 25.680000 - Open[0]: 25.719999
+sell: Size: -100 @ Price 28.030001
+Close[-1]: 27.860001 - Open[0]: 28.030001
+buy: Size: 100 @ Price 27.309999
+Close[-1]: 27.320000 - Open[0]: 27.309999
+sell: Size: -100 @ Price 29.719999
+Close[-1]: 29.190001 - Open[0]: 29.719999
+buy: Size: 100 @ Price 32.090000
+Close[-1]: 32.250000 - Open[0]: 32.090000
+sell: Size: -100 @ Price 35.029999
+Close[-1]: 34.980000 - Open[0]: 35.029999

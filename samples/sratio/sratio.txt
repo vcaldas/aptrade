@@ -1,0 +1,4 @@
+returns is: [0.023286, 0.0257816485323]  - retfree is: 0.01
+returns excess mean: 0.014533824266149999
+returns standard deviation: 0.0012478242661499994
+Sharpe Ratio is: 11.647332609576695

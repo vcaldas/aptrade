@@ -18,6 +18,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
+import argparse
 from datetime import datetime
 
 import aptrade as bt
@@ -31,14 +32,61 @@ class SmaCross(bt.SignalStrategy):
         self.signal_add(bt.SIGNAL_LONG, crossover)
 
 
-cerebro = bt.Cerebro()
-cerebro.addstrategy(SmaCross)
+def runstrat(pargs=None):
+    args = parse_args(pargs)
 
-data0 = bt.feeds.YahooFinanceData(
-    dataname="YHOO", fromdate=datetime(2011, 1, 1), todate=datetime(2012, 12, 31)
-)
+    cerebro = bt.Cerebro()
+    cerebro.addstrategy(SmaCross)
 
-cerebro.adddata(data0)
+    data0 = bt.feeds.YahooFinanceData(
+        dataname=args.data,
+        fromdate=datetime.strptime(args.fromdate, "%Y-%m-%d"),
+        todate=datetime.strptime(args.todate, "%Y-%m-%d"),
+    )
 
-cerebro.run()
-cerebro.plot()
+    cerebro.adddata(data0)
+
+    cerebro.run()
+    if not args.noplot:
+        cerebro.plot()
+
+
+def parse_args(pargs=None):
+    parser = argparse.ArgumentParser(
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter,
+        description="sigsmacross2",
+    )
+
+    parser.add_argument(
+        "--data",
+        required=False,
+        default="../../datas/yhoo-1996-2015.txt",
+        help="Yahoo CSV data path",
+    )
+
+    parser.add_argument(
+        "--fromdate",
+        required=False,
+        default="2011-01-01",
+        help="Starting date in YYYY-MM-DD format",
+    )
+
+    parser.add_argument(
+        "--todate",
+        required=False,
+        default="2012-12-31",
+        help="Ending date in YYYY-MM-DD format",
+    )
+
+    parser.add_argument(
+        "--noplot",
+        required=False,
+        action="store_true",
+        help="Skip plotting so the sample can run without optional chart dependencies",
+    )
+
+    return parser.parse_args(pargs)
+
+
+if __name__ == "__main__":
+    runstrat()

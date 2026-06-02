@@ -26,6 +26,10 @@ import datetime
 import aptrade as bt
 
 
+def _talib_ready():
+    return hasattr(bt.talib, "SAR")
+
+
 class TALibStrategy(bt.Strategy):
     def __init__(self):
         bt.talib.SAR(self.data.high, self.data.low)
@@ -34,6 +38,10 @@ class TALibStrategy(bt.Strategy):
 
 def runstrat(args=None):
     args = parse_args(args)
+
+    if not _talib_ready():
+        print("TA-Lib bridge unavailable; skipping tablibsartest sample")
+        return
 
     cerebro = bt.Cerebro()
 

@@ -1647,13 +1647,10 @@ class Cerebro(metaclass=MetaParams):
                 if onlyresample or noresample:
                     dt0 = min((d for d in dts if d is not None))
                 else:
-                    dt0 = min(
-                        (
-                            d
-                            for i, d in enumerate(dts)
-                            if d is not None and i not in rsonly
-                        )
-                    )
+                    master_dts = [d for i, d in enumerate(dts) if d is not None and i not in rsonly]
+                    if not master_dts:
+                        master_dts = [d for d in dts if d is not None]
+                    dt0 = min(master_dts)
 
                 dmaster = datas[dts.index(dt0)]  # and timemaster
                 self._dtmaster = dmaster.num2date(dt0)

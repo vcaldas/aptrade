@@ -22,12 +22,12 @@ from __future__ import absolute_import, division, print_function, unicode_litera
 
 import argparse
 import datetime
+import os
 import time
 
 import aptrade as bt
 import aptrade.feeds as btfeeds
 import aptrade.indicators as btind
-from aptrade.utils.py3 import range
 
 
 class OptimizeStrategy(bt.Strategy):
@@ -100,7 +100,10 @@ def runstrat():
     print("==================================================")
 
     # print out the result
-    print("Time used:", str(tend - tstart))
+    if os.getenv("APTRADE_SAMPLE_SKIP_DURATION"):
+        print("Time used: <skipped>")
+    else:
+        print("Time used:", str(tend - tstart))
 
 
 def parse_args():

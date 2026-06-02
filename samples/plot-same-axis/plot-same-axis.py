@@ -96,7 +96,8 @@ def runstrategy():
     cerebro.run(stdstats=args.stdstats)
 
     # Plot
-    cerebro.plot(numfigs=args.numfigs, volume=False)
+    if not args.noplot:
+        cerebro.plot(numfigs=args.numfigs, volume=False)
 
 
 def parse_args():
@@ -168,6 +169,12 @@ def parse_args():
     )
 
     parser.add_argument("--numfigs", "-n", default=1, help="Plot using numfigs figures")
+
+    parser.add_argument(
+        "--noplot",
+        action="store_true",
+        help="Skip plotting so the sample can run without optional chart dependencies",
+    )
 
     return parser.parse_args()
 

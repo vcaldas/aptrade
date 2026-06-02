@@ -29,7 +29,7 @@ import aptrade as bt
 BTVERSION = tuple(int(x) for x in bt.__version__.split("."))
 
 
-class FixedPerc(bt.Sizer):
+class FixedPerc(bt.sizers.AbstractSizer):
     """This sizer simply returns a fixed size for any operation
 
     Params:

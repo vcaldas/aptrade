@@ -26,8 +26,8 @@ import datetime
 import aptrade as bt
 
 
-class TestSizer(bt.Sizer):
-    params = dict(stake=1)
+class TestSizer(bt.sizers.AbstractSizer):
+    params = (("stake", 1),)
 
     def _getsizing(self, comminfo, cash, data, isbuy):
         dt, i = self.strategy.datetime.date(), data._id

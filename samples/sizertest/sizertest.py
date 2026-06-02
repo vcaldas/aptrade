@@ -42,7 +42,7 @@ class CloseSMA(bt.Strategy):
             self.sell()
 
 
-class LongOnly(bt.Sizer):
+class LongOnly(bt.sizers.AbstractSizer):
     params = (("stake", 1),)
 
     def _getsizing(self, comminfo, cash, data, isbuy):
@@ -57,7 +57,7 @@ class LongOnly(bt.Sizer):
         return self.p.stake
 
 
-class FixedReverser(bt.Sizer):
+class FixedReverser(bt.sizers.AbstractSizer):
     params = (("stake", 1),)
 
     def _getsizing(self, comminfo, cash, data, isbuy):
@@ -89,7 +89,7 @@ def runstrat(args=None):
     if args.longonly:
         cerebro.addsizer(LongOnly, stake=args.stake)
     else:
-        cerebro.addsizer(bt.sizers.FixedReverser, stake=args.stake)
+        cerebro.addsizer(FixedReverser, stake=args.stake)
 
     cerebro.run()
     if args.plot:

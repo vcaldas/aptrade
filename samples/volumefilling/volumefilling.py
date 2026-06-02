@@ -37,7 +37,27 @@ class St(bt.Strategy):
 
     def notify_order(self, order):
         print("-- NOTIFY ORDER BEGIN")
-        print(order)
+        comminfo = order.comminfo.__class__.__name__ if order.comminfo is not None else None
+        order_lines = [
+            f"Ref: {order.ref}",
+            f"OrdType: {order.ordtype}",
+            f"OrdType: {order.getordername()}",
+            f"Status: {order.status}",
+            f"Status: {order.getstatusname()}",
+            f"Size: {order.size}",
+            f"Price: {order.price}",
+            f"Price Limit: {order.pricelimit}",
+            f"TrailAmount: {order.trailamount}",
+            f"TrailPercent: {order.trailpercent}",
+            f"ExecType: {order.exectype}",
+            f"ExecType: {order.getordername(exectype=order.exectype)}",
+            f"CommInfo: {comminfo}",
+            f"End of Session: {order.dteos}",
+            f"Info: {order.info}",
+            f"Broker: {order.broker}",
+            f"Alive: {order.alive()}",
+        ]
+        print("\n".join(order_lines))
         print("-- NOTIFY ORDER END")
         print("-- ORDER REMSIZE:", order.executed.remsize)
 

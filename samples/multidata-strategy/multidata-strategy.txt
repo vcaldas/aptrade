@@ -1,0 +1,307 @@
+Self  len: 2
+Data0 len: 2
+Data1 len: 2
+Data0 len == Data1 len: True
+Data0 dt: 2003-02-04 23:59:59.999989
+Data1 dt: 2003-02-04 23:59:59.999989
+Self  len: 3
+Data0 len: 3
+Data1 len: 3
+Data0 len == Data1 len: True
+Data0 dt: 2003-02-05 23:59:59.999989
+Data1 dt: 2003-02-05 23:59:59.999989
+Self  len: 4
+Data0 len: 4
+Data1 len: 4
+Data0 len == Data1 len: True
+Data0 dt: 2003-02-06 23:59:59.999989
+Data1 dt: 2003-02-06 23:59:59.999989
+Self  len: 5
+Data0 len: 5
+Data1 len: 5
+Data0 len == Data1 len: True
+Data0 dt: 2003-02-07 23:59:59.999989
+Data1 dt: 2003-02-07 23:59:59.999989
+Self  len: 6
+Data0 len: 6
+Data1 len: 6
+Data0 len == Data1 len: True
+Data0 dt: 2003-02-10 23:59:59.999989
+Data1 dt: 2003-02-10 23:59:59.999989
+Self  len: 7
+Data0 len: 7
+Data1 len: 7
+Data0 len == Data1 len: True
+Data0 dt: 2003-02-11 23:59:59.999989
+Data1 dt: 2003-02-11 23:59:59.999989
+Self  len: 8
+Data0 len: 8
+Data1 len: 8
+Data0 len == Data1 len: True
+Data0 dt: 2003-02-12 23:59:59.999989
+Data1 dt: 2003-02-12 23:59:59.999989
+Self  len: 9
+Data0 len: 9
+Data1 len: 9
+Data0 len == Data1 len: True
+Data0 dt: 2003-02-13 23:59:59.999989
+Data1 dt: 2003-02-13 23:59:59.999989
+Self  len: 10
+Data0 len: 10
+Data1 len: 10
+Data0 len == Data1 len: True
+Data0 dt: 2003-02-14 23:59:59.999989
+Data1 dt: 2003-02-14 23:59:59.999989
+Self  len: 11
+Data0 len: 11
+Data1 len: 11
+Data0 len == Data1 len: True
+Data0 dt: 2003-02-18 23:59:59.999989
+Data1 dt: 2003-02-18 23:59:59.999989
+Self  len: 12
+Data0 len: 12
+Data1 len: 12
+Data0 len == Data1 len: True
+Data0 dt: 2003-02-19 23:59:59.999989
+Data1 dt: 2003-02-19 23:59:59.999989
+Self  len: 13
+Data0 len: 13
+Data1 len: 13
+Data0 len == Data1 len: True
+Data0 dt: 2003-02-20 23:59:59.999989
+Data1 dt: 2003-02-20 23:59:59.999989
+Self  len: 14
+Data0 len: 14
+Data1 len: 14
+Data0 len == Data1 len: True
+Data0 dt: 2003-02-21 23:59:59.999989
+Data1 dt: 2003-02-21 23:59:59.999989
+Self  len: 15
+Data0 len: 15
+Data1 len: 15
+Data0 len == Data1 len: True
+Data0 dt: 2003-02-24 23:59:59.999989
+Data1 dt: 2003-02-24 23:59:59.999989
+Self  len: 16
+Data0 len: 16
+Data1 len: 16
+Data0 len == Data1 len: True
+Data0 dt: 2003-02-25 23:59:59.999989
+Data1 dt: 2003-02-25 23:59:59.999989
+Self  len: 17
+Data0 len: 17
+Data1 len: 17
+Data0 len == Data1 len: True
+Data0 dt: 2003-02-26 23:59:59.999989
+Data1 dt: 2003-02-26 23:59:59.999989
+Self  len: 18
+Data0 len: 18
+Data1 len: 18
+Data0 len == Data1 len: True
+Data0 dt: 2003-02-27 23:59:59.999989
+Data1 dt: 2003-02-27 23:59:59.999989
+Self  len: 19
+Data0 len: 19
+Data1 len: 19
+Data0 len == Data1 len: True
+Data0 dt: 2003-02-28 23:59:59.999989
+Data1 dt: 2003-02-28 23:59:59.999989
+Self  len: 20
+Data0 len: 20
+Data1 len: 20
+Data0 len == Data1 len: True
+Data0 dt: 2003-03-03 23:59:59.999989
+Data1 dt: 2003-03-03 23:59:59.999989
+Self  len: 21
+Data0 len: 21
+Data1 len: 21
+Data0 len == Data1 len: True
+Data0 dt: 2003-03-04 23:59:59.999989
+Data1 dt: 2003-03-04 23:59:59.999989
+Self  len: 22
+Data0 len: 22
+Data1 len: 22
+Data0 len == Data1 len: True
+Data0 dt: 2003-03-05 23:59:59.999989
+Data1 dt: 2003-03-05 23:59:59.999989
+Self  len: 23
+Data0 len: 23
+Data1 len: 23
+Data0 len == Data1 len: True
+Data0 dt: 2003-03-06 23:59:59.999989
+Data1 dt: 2003-03-06 23:59:59.999989
+Self  len: 24
+Data0 len: 24
+Data1 len: 24
+Data0 len == Data1 len: True
+Data0 dt: 2003-03-07 23:59:59.999989
+Data1 dt: 2003-03-07 23:59:59.999989
+Self  len: 25
+Data0 len: 25
+Data1 len: 25
+Data0 len == Data1 len: True
+Data0 dt: 2003-03-10 23:59:59.999989
+Data1 dt: 2003-03-10 23:59:59.999989
+Self  len: 26
+Data0 len: 26
+Data1 len: 26
+Data0 len == Data1 len: True
+Data0 dt: 2003-03-11 23:59:59.999989
+Data1 dt: 2003-03-11 23:59:59.999989
+Self  len: 27
+Data0 len: 27
+Data1 len: 27
+Data0 len == Data1 len: True
+Data0 dt: 2003-03-12 23:59:59.999989
+Data1 dt: 2003-03-12 23:59:59.999989
+Self  len: 28
+Data0 len: 28
+Data1 len: 28
+Data0 len == Data1 len: True
+Data0 dt: 2003-03-13 23:59:59.999989
+Data1 dt: 2003-03-13 23:59:59.999989
+2003-03-13T23:59:59.999989, BUY CREATE , 10.12
+2003-03-14T23:59:59.999989, BUY COMPLETE, 10.58
+2003-03-14T23:59:59.999989, BUY COMPLETE, 10.25
+Self  len: 29
+Data0 len: 29
+Data1 len: 29
+Data0 len == Data1 len: True
+Data0 dt: 2003-03-14 23:59:59.999989
+Data1 dt: 2003-03-14 23:59:59.999989
+Self  len: 30
+Data0 len: 30
+Data1 len: 30
+Data0 len == Data1 len: True
+Data0 dt: 2003-03-17 23:59:59.999989
+Data1 dt: 2003-03-17 23:59:59.999989
+Self  len: 31
+Data0 len: 31
+Data1 len: 31
+Data0 len == Data1 len: True
+Data0 dt: 2003-03-18 23:59:59.999989
+Data1 dt: 2003-03-18 23:59:59.999989
+Self  len: 32
+Data0 len: 32
+Data1 len: 32
+Data0 len == Data1 len: True
+Data0 dt: 2003-03-19 23:59:59.999989
+Data1 dt: 2003-03-19 23:59:59.999989
+Self  len: 33
+Data0 len: 33
+Data1 len: 33
+Data0 len == Data1 len: True
+Data0 dt: 2003-03-20 23:59:59.999989
+Data1 dt: 2003-03-20 23:59:59.999989
+Self  len: 34
+Data0 len: 34
+Data1 len: 34
+Data0 len == Data1 len: True
+Data0 dt: 2003-03-21 23:59:59.999989
+Data1 dt: 2003-03-21 23:59:59.999989
+Self  len: 35
+Data0 len: 35
+Data1 len: 35
+Data0 len == Data1 len: True
+Data0 dt: 2003-03-24 23:59:59.999989
+Data1 dt: 2003-03-24 23:59:59.999989
+Self  len: 36
+Data0 len: 36
+Data1 len: 36
+Data0 len == Data1 len: True
+Data0 dt: 2003-03-25 23:59:59.999989
+Data1 dt: 2003-03-25 23:59:59.999989
+Self  len: 37
+Data0 len: 37
+Data1 len: 37
+Data0 len == Data1 len: True
+Data0 dt: 2003-03-26 23:59:59.999989
+Data1 dt: 2003-03-26 23:59:59.999989
+Self  len: 38
+Data0 len: 38
+Data1 len: 38
+Data0 len == Data1 len: True
+Data0 dt: 2003-03-27 23:59:59.999989
+Data1 dt: 2003-03-27 23:59:59.999989
+Self  len: 39
+Data0 len: 39
+Data1 len: 39
+Data0 len == Data1 len: True
+Data0 dt: 2003-03-28 23:59:59.999989
+Data1 dt: 2003-03-28 23:59:59.999989
+Self  len: 40
+Data0 len: 40
+Data1 len: 40
+Data0 len == Data1 len: True
+Data0 dt: 2003-03-31 23:59:59.999989
+Data1 dt: 2003-03-31 23:59:59.999989
+Self  len: 41
+Data0 len: 41
+Data1 len: 41
+Data0 len == Data1 len: True
+Data0 dt: 2003-04-01 23:59:59.999989
+Data1 dt: 2003-04-01 23:59:59.999989
+Self  len: 42
+Data0 len: 42
+Data1 len: 42
+Data0 len == Data1 len: True
+Data0 dt: 2003-04-02 23:59:59.999989
+Data1 dt: 2003-04-02 23:59:59.999989
+Self  len: 43
+Data0 len: 43
+Data1 len: 43
+Data0 len == Data1 len: True
+Data0 dt: 2003-04-03 23:59:59.999989
+Data1 dt: 2003-04-03 23:59:59.999989
+Self  len: 44
+Data0 len: 44
+Data1 len: 44
+Data0 len == Data1 len: True
+Data0 dt: 2003-04-04 23:59:59.999989
+Data1 dt: 2003-04-04 23:59:59.999989
+Self  len: 45
+Data0 len: 45
+Data1 len: 45
+Data0 len == Data1 len: True
+Data0 dt: 2003-04-07 23:59:59.999989
+Data1 dt: 2003-04-07 23:59:59.999989
+Self  len: 46
+Data0 len: 46
+Data1 len: 46
+Data0 len == Data1 len: True
+Data0 dt: 2003-04-08 23:59:59.999989
+Data1 dt: 2003-04-08 23:59:59.999989
+Self  len: 47
+Data0 len: 47
+Data1 len: 47
+Data0 len == Data1 len: True
+Data0 dt: 2003-04-09 23:59:59.999989
+Data1 dt: 2003-04-09 23:59:59.999989
+2003-04-09T23:59:59.999989, SELL CREATE , 11.44
+2003-04-10T23:59:59.999989, SELL COMPLETE, 9.95
+2003-04-10T23:59:59.999989, SELL COMPLETE, 11.86
+Self  len: 48
+Data0 len: 48
+Data1 len: 48
+Data0 len == Data1 len: True
+Data0 dt: 2003-04-10 23:59:59.999989
+Data1 dt: 2003-04-10 23:59:59.999989
+2003-04-10T23:59:59.999989, BUY CREATE , 12.13
+2003-04-11T23:59:59.999989, BUY COMPLETE, 10.25
+2003-04-11T23:59:59.999989, BUY COMPLETE, 12.18
+Self  len: 49
+Data0 len: 49
+Data1 len: 49
+Data0 len == Data1 len: True
+Data0 dt: 2003-04-11 23:59:59.999989
+Data1 dt: 2003-04-11 23:59:59.999989
+Self  len: 50
+Data0 len: 50
+Data1 len: 50
+Data0 len == Data1 len: True
+Data0 dt: 2003-04-14 23:59:59.999989
+Data1 dt: 2003-04-14 23:59:59.999989
+==================================================
+Starting Value - 100000.00
+Ending   Value - 100007.75
+==================================================

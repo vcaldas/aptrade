@@ -23,8 +23,10 @@ from __future__ import absolute_import, division, print_function, unicode_litera
 import argparse
 import datetime
 import os.path
+import os
 import sys
 import time
+from pathlib import Path
 
 import aptrade as bt
 import aptrade.feeds as btfeeds
@@ -71,7 +73,8 @@ class MyStrategy(bt.Strategy):
 def runstrat():
     cerebro = bt.Cerebro()
 
-    data = bt.feeds.BacktraderCSVData(dataname="../../datas/2006-day-001.txt")
+    datapath = Path(__file__).resolve().parents[2] / "datas" / "2006-day-001.txt"
+    data = bt.feeds.BacktraderCSVData(dataname=str(datapath))
     cerebro.adddata(data)
 
     cerebro.addobserver(bt.observers.DrawDown)
@@ -80,7 +83,8 @@ def runstrat():
     cerebro.addstrategy(MyStrategy)
     cerebro.run()
 
-    cerebro.plot()
+    if os.environ.get("APTRADE_SAMPLE_SKIP_PLOT") != "1":
+        cerebro.plot()
 
 
 if __name__ == "__main__":

@@ -199,7 +199,7 @@ def getdata(args):
         dfkwargs["fromdate"] = fromdate
 
     if args.todate:
-        fromdate = datetime.datetime.strptime(args.todate, "%Y-%m-%d")
+        todate = datetime.datetime.strptime(args.todate, "%Y-%m-%d")
         dfkwargs["todate"] = todate
 
     dfkwargs["dataname"] = args.infile

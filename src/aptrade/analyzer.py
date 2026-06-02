@@ -46,7 +46,7 @@ class MetaAnalyzer(bt.MetaParams):
         # Register with a master observer if created inside one
         masterobs = bt.metabase.findowner(_obj, bt.Observer)
         if masterobs is not None:
-            masterobs._register_Analyzer(_obj)
+            masterobs._register_analyzer(_obj)
 
         _obj.datas = strategy.datas
 

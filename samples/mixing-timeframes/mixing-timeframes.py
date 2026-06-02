@@ -42,6 +42,9 @@ class St(bt.Strategy):
             self.sellsignal = self.data0.close < pp.s1()
 
     def next(self):
+        if len(self.pp.s1) == 0:
+            return
+
         txt = ",".join(
             [
                 "%04d" % len(self),

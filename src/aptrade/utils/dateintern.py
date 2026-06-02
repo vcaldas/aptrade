@@ -24,6 +24,12 @@ import datetime
 import math
 import time as _time
 
+try:
+    from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
+except ImportError:
+    ZoneInfo = None
+    ZoneInfoNotFoundError = Exception
+
 ZERO = datetime.timedelta(0)
 
 STDOFFSET = datetime.timedelta(seconds=-_time.timezone)
@@ -49,10 +55,17 @@ def tzparse(tz):
     if tz is None or not tzstr:
         return Localizer(tz)
 
+    if ZoneInfo is not None:
+        tzs = "CST6CDT" if tz == "CST" else tz
+        try:
+            return ZoneInfo(tzs)
+        except ZoneInfoNotFoundError:
+            pass
+
     try:
         import pytz  # keep the import very local
     except ImportError:
-        return Localizer(tz)  # nothing can be done
+        return None  # keep datetimes naive if no timezone database is available
 
     tzs = tz
     if tzs == "CST":  # usual alias
@@ -61,7 +74,7 @@ def tzparse(tz):
     try:
         tz = pytz.timezone(tzs)
     except pytz.UnknownTimeZoneError:
-        return Localizer(tz)  # nothing can be done
+        return None  # keep datetimes naive if timezone cannot be resolved
 
     return tz
 
@@ -71,6 +84,12 @@ def Localizer(tz):
 
     def localize(self, dt):
         return dt.replace(tzinfo=self)
+
+    if isinstance(tz, str):
+        return None
+
+    if tz is not None and isinstance(tz, datetime.tzinfo):
+        return tz
 
     if tz is not None and not hasattr(tz, "localize"):
         # patch the tz instance with a bound method
@@ -216,7 +235,10 @@ def date2num(dt, tz=None):
     is a :func:`float`.
     """
     if tz is not None:
-        dt = tz.localize(dt)
+        if hasattr(tz, "localize"):
+            dt = tz.localize(dt)
+        else:
+            dt = dt.replace(tzinfo=tz)
 
     if hasattr(dt, "tzinfo") and dt.tzinfo is not None:
         delta = dt.tzinfo.utcoffset(dt)

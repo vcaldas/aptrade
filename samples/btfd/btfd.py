@@ -28,7 +28,7 @@ import aptrade as bt
 # References:
 #  - https://www.reddit.com/r/algotrading/comments/5jez2b/can_anyone_replicate_this_strategy/
 #  - http://dark-bid.com/BTFD-only-strategy-that-matters.html
-
+# https://www.backtrader.com/blog/posts/2016-12-26-btfd/btfd/#sample-code
 
 class ValueUnlever(bt.observers.Value):
     """Extension of regular Value observer to add leveraged view"""

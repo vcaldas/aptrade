@@ -23,6 +23,7 @@ from __future__ import absolute_import, division, print_function, unicode_litera
 import collections
 import io
 import itertools
+import json
 from datetime import date, datetime
 from urllib.parse import quote
 
@@ -245,8 +246,88 @@ class YahooFinanceData(YahooFinanceCSVData):
         ("reverse", False),
         ("urlhist", "https://finance.yahoo.com/quote/{}/history"),
         ("urldown", "https://query1.finance.yahoo.com/v7/finance/download"),
+        ("urlchart", "https://query1.finance.yahoo.com/v8/finance/chart/{}"),
         ("retries", 3),
     )
+
+    def _build_chart_csv(self, payload):
+        chart = payload.get("chart", {})
+        result = chart.get("result") or []
+        if not result:
+            error = chart.get("error") or {}
+            self.error = error.get("description") or "Yahoo chart API returned no data"
+            return None
+
+        result0 = result[0]
+        timestamps = result0.get("timestamp") or []
+        indicators = result0.get("indicators") or {}
+        quotes = indicators.get("quote") or []
+        adjcloses = indicators.get("adjclose") or []
+        if not timestamps or not quotes:
+            self.error = "Yahoo chart API returned incomplete data"
+            return None
+
+        quote0 = quotes[0]
+        adjclose0 = adjcloses[0] if adjcloses else {}
+
+        f = io.StringIO(newline=None)
+        f.write("Date,Open,High,Low,Close,Adj Close,Volume\n")
+        for i, ts in enumerate(timestamps):
+            dt = datetime.utcfromtimestamp(ts).date().isoformat()
+            row = [
+                dt,
+                quote0.get("open", [None])[i],
+                quote0.get("high", [None])[i],
+                quote0.get("low", [None])[i],
+                quote0.get("close", [None])[i],
+                adjclose0.get("adjclose", [None])[i],
+                quote0.get("volume", [None])[i],
+            ]
+            f.write(",".join("null" if value is None else str(value) for value in row))
+            f.write("\n")
+
+        f.seek(0)
+        self.error = None
+        return f
+
+    def _start_v7_chart(self, sess, sesskwargs):
+        posix = date(1970, 1, 1)
+        period1 = int((self.p.fromdate.date() - posix).total_seconds())
+        period2 = int((self.p.todate.date() - posix).total_seconds())
+
+        intervals = {
+            bt.TimeFrame.Days: "1d",
+            bt.TimeFrame.Weeks: "1wk",
+            bt.TimeFrame.Months: "1mo",
+        }
+
+        urlargs = [
+            "period1={}".format(period1),
+            "period2={}".format(period2),
+            "interval={}".format(intervals[self.p.timeframe]),
+            "includeAdjustedClose=true",
+        ]
+        url = "{}?{}".format(
+            self.p.urlchart.format(quote(self.p.dataname)), "&".join(urlargs)
+        )
+
+        for i in range(self.p.retries + 1):
+            resp = sess.get(url, **sesskwargs)
+            if resp.status_code != 200:
+                self.error = "Yahoo chart API request failed: {}".format(resp.status_code)
+                continue
+
+            try:
+                payload = resp.json()
+            except (TypeError, ValueError, json.JSONDecodeError):
+                self.error = "Yahoo chart API returned invalid JSON"
+                continue
+
+            f = self._build_chart_csv(payload)
+            if f is not None:
+                return f
+
+        return None
 
     def start_v7(self):
         try:
@@ -269,6 +350,9 @@ class YahooFinanceData(YahooFinanceCSVData):
         crumb = None
         sess = requests.Session()
         sess.headers["User-Agent"] = "backtrader"
+        # Some Yahoo responses advertise gzip but send an invalid payload.
+        # Request identity encoding to avoid requests/urllib3 decode failures.
+        sess.headers["Accept-Encoding"] = "identity"
         for i in range(self.p.retries + 1):  # at least once
             resp = sess.get(url, **sesskwargs)
             if resp.status_code != requests.codes.ok:
@@ -295,7 +379,7 @@ class YahooFinanceData(YahooFinanceCSVData):
 
         if crumb is None:
             self.error = "Crumb not found"
-            self.f = None
+            self.f = self._start_v7_chart(sess, sesskwargs)
             return
 
         crumb = quote(crumb)
@@ -348,6 +432,8 @@ class YahooFinanceData(YahooFinanceCSVData):
             break
 
         self.f = f
+        if self.f is None:
+            self.f = self._start_v7_chart(sess, sesskwargs)
 
     def start(self):
         self.start_v7()

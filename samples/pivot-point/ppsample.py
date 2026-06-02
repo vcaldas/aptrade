@@ -21,6 +21,7 @@
 from __future__ import absolute_import, division, print_function, unicode_literals
 
 import argparse
+import datetime
 
 import aptrade as bt
 import aptrade.feeds as btfeeds
@@ -35,6 +36,9 @@ class St(bt.Strategy):
         self.pp = pp = bt.ind.PivotPoint(self.data1, _autoplot=autoplot)
 
     def next(self):
+        if len(self.pp) == 0:
+            return
+
         txt = ",".join(
             [
                 "%04d" % len(self),
@@ -53,7 +57,14 @@ def runstrat():
     args = parse_args()
 
     cerebro = bt.Cerebro()
-    data = btfeeds.BacktraderCSVData(dataname=args.data)
+
+    dkwargs = {}
+    if args.fromdate:
+        dkwargs["fromdate"] = datetime.datetime.strptime(args.fromdate, "%Y-%m-%d")
+    if args.todate:
+        dkwargs["todate"] = datetime.datetime.strptime(args.todate, "%Y-%m-%d")
+
+    data = btfeeds.BacktraderCSVData(dataname=args.data, **dkwargs)
     cerebro.adddata(data)
     cerebro.resampledata(data, timeframe=bt.TimeFrame.Months)
 
@@ -77,6 +88,20 @@ def parse_args():
     )
 
     parser.add_argument(
+        "--fromdate",
+        required=False,
+        default="",
+        help="Starting date in YYYY-MM-DD format",
+    )
+
+    parser.add_argument(
+        "--todate",
+        required=False,
+        default="",
+        help="Ending date in YYYY-MM-DD format",
+    )
+
+    parser.add_argument(
         "--plot", required=False, action="store_true", help=("Plot the result")
     )
 
@@ -85,6 +110,13 @@ def parse_args():
         required=False,
         action="store_true",
         help=("Plot the indicator on the daily data"),
+    )
+
+    parser.add_argument(
+        "--usepp1",
+        required=False,
+        action="store_true",
+        help=("Keep compatibility with the legacy alternate pivot-point flag"),
     )
 
     return parser.parse_args()

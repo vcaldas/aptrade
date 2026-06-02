@@ -1,0 +1,34 @@
+strategy notify_timer with tid 1, when 2006-01-02 09:00:00 cheat True
+-- 2006-01-02 09:05:00 Create buy order
+strategy notify_timer with tid 0, when 2006-01-02 09:00:00 cheat False
+1, 2006-01-02 09:05:00, Week 1, Day 1, O 3578.73, H 3587.88, L 3578.73, C 3582.99
+-- 2006-01-02 09:10:00 Buy Exec @ 3583.01
+2, 2006-01-02 09:10:00, Week 1, Day 1, O 3583.01, H 3588.4, L 3583.01, C 3588.03
+strategy notify_timer with tid 1, when 2006-01-02 09:15:00 cheat True
+strategy notify_timer with tid 0, when 2006-01-02 09:15:00 cheat False
+3, 2006-01-02 09:15:00, Week 1, Day 1, O 3588.09, H 3591.83, L 3587.75, C 3591.83
+4, 2006-01-02 09:20:00, Week 1, Day 1, O 3591.42, H 3591.58, L 3589.58, C 3590.62
+5, 2006-01-02 09:25:00, Week 1, Day 1, O 3590.64, H 3591.86, L 3590.29, C 3591.16
+strategy notify_timer with tid 1, when 2006-01-02 09:30:00 cheat True
+strategy notify_timer with tid 0, when 2006-01-02 09:30:00 cheat False
+6, 2006-01-02 09:30:00, Week 1, Day 1, O 3591.18, H 3591.18, L 3590.02, C 3590.65
+7, 2006-01-02 09:35:00, Week 1, Day 1, O 3591.4, H 3596.42, L 3591.34, C 3596.41
+8, 2006-01-02 09:40:00, Week 1, Day 1, O 3597.27, H 3602.86, L 3597.27, C 3602.43
+strategy notify_timer with tid 1, when 2006-01-02 09:45:00 cheat True
+strategy notify_timer with tid 0, when 2006-01-02 09:45:00 cheat False
+9, 2006-01-02 09:45:00, Week 1, Day 1, O 3602.96, H 3605.49, L 3602.57, C 3604.35
+10, 2006-01-02 09:50:00, Week 1, Day 1, O 3604.02, H 3604.11, L 3602.7, C 3602.7
+11, 2006-01-02 09:55:00, Week 1, Day 1, O 3602.61, H 3602.61, L 3601.56, C 3601.79
+strategy notify_timer with tid 1, when 2006-01-02 10:00:00 cheat True
+strategy notify_timer with tid 0, when 2006-01-02 10:00:00 cheat False
+12, 2006-01-02 10:00:00, Week 1, Day 1, O 3601.58, H 3601.58, L 3599.29, C 3600.4
+13, 2006-01-02 10:05:00, Week 1, Day 1, O 3600.28, H 3602.7, L 3600.28, C 3602.7
+14, 2006-01-02 10:10:00, Week 1, Day 1, O 3602.34, H 3603.31, L 3600.95, C 3601.05
+strategy notify_timer with tid 1, when 2006-01-02 10:15:00 cheat True
+strategy notify_timer with tid 0, when 2006-01-02 10:15:00 cheat False
+15, 2006-01-02 10:15:00, Week 1, Day 1, O 3600.82, H 3600.82, L 3598.58, C 3598.85
+16, 2006-01-02 10:20:00, Week 1, Day 1, O 3598.7, H 3600.52, L 3598.6, C 3599.74
+17, 2006-01-02 10:25:00, Week 1, Day 1, O 3599.96, H 3601.35, L 3599.87, C 3601.02
+strategy notify_timer with tid 1, when 2006-01-02 10:30:00 cheat True
+strategy notify_timer with tid 0, when 2006-01-02 10:30:00 cheat False
+18, 2006-01-02 10:30:00, Week 1, Day 1, O 3601.47, H 3601.57, L 3600.7, C 3601.11

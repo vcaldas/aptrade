@@ -21,6 +21,7 @@
 from __future__ import absolute_import, division, print_function, unicode_literals
 
 import argparse
+from pathlib import Path
 
 import pandas
 
@@ -66,7 +67,7 @@ def runstrat():
     cerebro.addstrategy(StrategyOptix)
 
     # Get a pandas dataframe
-    datapath = "../../datas/2006-day-001-optix.txt"
+    datapath = args.data
 
     # Simulate the header row isn't there if noheaders requested
     skiprows = 1 if args.noheaders else 0
@@ -96,6 +97,13 @@ def runstrat():
 
 def parse_args():
     parser = argparse.ArgumentParser(description="Pandas test script")
+
+    parser.add_argument(
+        "--data",
+        default=str(Path(__file__).resolve().parents[2] / "datas" / "2006-day-001-optix.txt"),
+        required=False,
+        help="Data file to load",
+    )
 
     parser.add_argument(
         "--noheaders",

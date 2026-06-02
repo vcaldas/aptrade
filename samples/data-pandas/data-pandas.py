@@ -21,6 +21,7 @@
 from __future__ import absolute_import, division, print_function, unicode_literals
 
 import argparse
+from pathlib import Path
 
 import pandas
 
@@ -38,7 +39,7 @@ def runstrat():
     cerebro.addstrategy(bt.Strategy)
 
     # Get a pandas dataframe
-    datapath = "./datas/2006-day-001.txt"
+    datapath = args.data
 
     # Simulate the header row isn't there if noheaders requested
     skiprows = 1 if args.noheaders else 0
@@ -71,11 +72,19 @@ def runstrat():
     cerebro.run()
 
     # Plot the result
-    cerebro.plot(style="bar")
+    if not args.noplot:
+        cerebro.plot(style="bar")
 
 
 def parse_args():
     parser = argparse.ArgumentParser(description="Pandas test script")
+
+    parser.add_argument(
+        "--data",
+        default=str(Path(__file__).resolve().parents[2] / "datas" / "2006-day-001.txt"),
+        required=False,
+        help="Data file to load",
+    )
 
     parser.add_argument(
         "--noheaders",
@@ -87,6 +96,10 @@ def parse_args():
 
     parser.add_argument(
         "--noprint", action="store_true", default=False, help="Print the dataframe"
+    )
+
+    parser.add_argument(
+        "--noplot", action="store_true", default=False, help="Do not plot the chart"
     )
 
     return parser.parse_args()

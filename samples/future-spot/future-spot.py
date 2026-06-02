@@ -22,6 +22,7 @@ from __future__ import absolute_import, division, print_function, unicode_litera
 
 import argparse
 import random
+from pathlib import Path
 
 import aptrade as bt
 
@@ -58,9 +59,10 @@ class St(bt.Strategy):
 
 def runstrat(args=None):
     args = parse_args(args)
+    random.seed(args.seed)
     cerebro = bt.Cerebro()
 
-    dataname = "../../datas/2006-day-001.txt"  # data feed
+    dataname = args.data
 
     data0 = bt.feeds.BacktraderCSVData(dataname=dataname, name="data0")
     cerebro.adddata(data0)
@@ -81,7 +83,8 @@ def runstrat(args=None):
 
     cerebro.broker.set_coc(True)
     cerebro.run(stdstats=False)  # execute
-    cerebro.plot(volume=False)  # and plot
+    if not args.noplot:
+        cerebro.plot(volume=False)  # and plot
 
 
 def parse_args(pargs=None):
@@ -92,6 +95,16 @@ def parse_args(pargs=None):
 
     parser.add_argument("--no-comp", required=False, action="store_true")
     parser.add_argument("--sameaxis", required=False, action="store_true")
+    parser.add_argument(
+        "--data",
+        default=str(Path(__file__).resolve().parents[2] / "datas" / "2006-day-001.txt"),
+        required=False,
+        help="Data file to load",
+    )
+    parser.add_argument(
+        "--seed", default=0, required=False, type=int, help="Random seed"
+    )
+    parser.add_argument("--noplot", required=False, action="store_true")
     return parser.parse_args(pargs)
 
 

@@ -33,6 +33,7 @@ class WeekDaysFiller(object):
     def __init__(self, data, fillclose=False):
         self.fillclose = fillclose
         self.voidbar = [float("Nan")] * data.size()  # init a void bar
+        self.datetime_idx = data.getlinealiases().index("datetime")
 
     def __call__(self, data):
         """Empty bars (NaN) or with last close price are added for weekdays with no
@@ -54,7 +55,7 @@ class WeekDaysFiller(object):
                 if self.fillclose:
                     self.voidbar = [self.lastclose] * data.size()
                 dtime = datetime.datetime.combine(lastdt, data.p.sessionend)
-                self.voidbar[-1] = data.date2num(dtime)
+                self.voidbar[self.datetime_idx] = data.date2num(dtime)
                 data._add2stack(self.voidbar[:])
 
             lastdt += self.ONEDAY  # move lastdt forward
