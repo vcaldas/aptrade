@@ -22,12 +22,9 @@ from __future__ import absolute_import, division, print_function, unicode_litera
 
 import argparse
 import datetime
-import os.path
 import sys
-import time
 
 import aptrade as bt
-from aptrade.utils.py3 import bytes
 
 DATAFORMATS = dict(
     btcsv=bt.feeds.BacktraderCSVData,
