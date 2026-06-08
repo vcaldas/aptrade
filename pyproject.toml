@@ -27,9 +27,10 @@ dependencies = [
     "pydantic>=2.13.0",
     "requests>=2.33.1",
     "scipy>=1.17.1",
+    "typer>=0.16.0",
 ]
 [project.scripts]
-hello = "backtrader:main.main"
+aptrade = "aptrade.cli:app"
 
 [build-system]
 requires = ["uv_build>=0.8.4,<0.9.0"]
