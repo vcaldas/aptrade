@@ -21,20 +21,10 @@
 from __future__ import absolute_import, division, print_function, unicode_literals
 
 import argparse
-import collections
 import datetime
 import io
 import logging
 import sys
-
-PY2 = sys.version_info.major == 2
-if PY2:
-    from urllib import quote as urlquote
-
-    from urllib2 import urlopen
-else:
-    from urllib.parse import quote as urlquote
-    from urllib.request import urlopen
 
 
 logging.basicConfig(format="%(levelname)s: %(message)s", level=logging.INFO)
