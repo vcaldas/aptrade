@@ -1,11 +1,30 @@
 from __future__ import annotations
 
+import datetime as dt
+
 import typer
+
+from aptrade.core.config import settings
+from aptrade.telegram_bot import disable_telegram_notifications
+from aptrade.version import VERSION as APP_VERSION
+from aptrade.core.logger import get_logger
+
+APP_AUTHOR = "Victor Caldas"
+APP_COPYRIGHT = "2025-2026"
+
+CLI_HELP_TEXT = (
+    "APTrade Command Line Interface\n\n"
+    f"Author: {APP_AUTHOR}\n"
+    f"Years: {APP_COPYRIGHT}\n"
+    f"Version: {APP_VERSION}"
+)
+
+logger = get_logger()
 
 
 app = typer.Typer(
+    help=CLI_HELP_TEXT, no_args_is_help=True,
     add_completion=False,
-    help="Aptrade command line interface.",
     invoke_without_command=True,
 )
 
