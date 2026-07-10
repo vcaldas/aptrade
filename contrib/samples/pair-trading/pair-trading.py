@@ -1,11 +1,9 @@
-# coding: utf-8
 # ##################################################################
 # Pair Trading adapted to backtrader
 # with PD.OLS and info for StatsModel.API
 # author: Remi Roche
 ##################################################################
 
-from __future__ import absolute_import, division, print_function, unicode_literals
 
 import argparse
 import datetime

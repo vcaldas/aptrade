@@ -1,8 +1,6 @@
 #!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
 
 import argparse
-import io
 import logging
 import os
 import sys
@@ -12,7 +10,7 @@ from influxdb import DataFrameClient as dfclient
 from influxdb.exceptions import InfluxDBClientError
 
 
-class InfluxDBTool(object):
+class InfluxDBTool:
     def __init__(self):
         self._host = args.host if args.host else "localhost"
         self._port = args.port if args.port else 8086
@@ -54,7 +52,7 @@ class InfluxDBTool(object):
             log.error("Ticker List file does not exist: %s", filename)
 
         tickers = []
-        with io.open(filename, "r") as fd:
+        with open(filename) as fd:
             for ticker in fd:
                 tickers.append(ticker.rstrip())
         return tickers

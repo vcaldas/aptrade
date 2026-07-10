@@ -1,9 +1,7 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8; py-indent-offset:4 -*-
 
 import argparse
 import datetime as dt
-import io
 import logging
 import os
 import socket
@@ -15,7 +13,7 @@ from influxdb import DataFrameClient as dfclient
 from influxdb.exceptions import InfluxDBClientError
 
 
-class IQFeedTool(object):
+class IQFeedTool:
     def __init__(self):
         timeout = 10.0
         self._dbhost = args.dbhost if args.dbhost else "localhost"
@@ -146,7 +144,7 @@ class IQFeedTool(object):
             log.error("Ticker List file does not exist: %s", filename)
 
         tickers = []
-        with io.open(filename, "r") as fd:
+        with open(filename) as fd:
             for ticker in fd:
                 tickers.append(ticker.rstrip())
         return tickers
