@@ -18,4 +18,3 @@ the original Backtrader library.
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
-
