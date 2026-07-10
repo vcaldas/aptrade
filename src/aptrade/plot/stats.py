@@ -3,21 +3,30 @@
 # GPL 3.0 license <http://www.gnu.org/licenses/>
 #
 
-import pandas as pd
-import numpy as np
-import plotly.graph_objects as go
-import plotly.io as pio
 import webbrowser
 from html import escape
 from pathlib import Path
 
+import numpy as np
+import pandas as pd
+import plotly.graph_objects as go
+import plotly.io as pio
 
-class Statistics(object):
+
+class Statistics:
     def __init__(self):
         self.graphs = []
         self.tables = []
 
-    def report(self, name="Statistics", performance=None, strats=None, show=True, filename="strat_quantstats.html", iplot=False):
+    def report(
+        self,
+        name="Statistics",
+        performance=None,
+        strats=None,
+        show=True,
+        filename="strat_quantstats.html",
+        iplot=False,
+    ):
         """Prepare statistics for the report"""
         if performance is None:
             exception = "No performance data provided"
@@ -30,16 +39,23 @@ class Statistics(object):
         df_stats = performance.compute_stats()
 
         df_desc = pd.Series(dtype=object)
-        df_desc_name = strats[0].__class__.__name__ if strats and len(strats) == 1 else "Multiple Strategies"
+        df_desc_name = (
+            strats[0].__class__.__name__
+            if strats and len(strats) == 1
+            else "Multiple Strategies"
+        )
         if strats and len(strats) == 1:
             for key, val in strats[0].p._getitems():
-                df_desc.loc[key]= strats[0].p._get(key)
+                df_desc.loc[key] = strats[0].p._get(key)
 
-        annual_trading_days = float(365 if df_eq.index.dayofweek.to_series().between(5, 6).mean() > 2 / 7 * .6
-                                        else 252)
+        annual_trading_days = float(
+            365
+            if df_eq.index.dayofweek.to_series().between(5, 6).mean() > 2 / 7 * 0.6
+            else 252
+        )
         win_year = int(annual_trading_days)
         win_half_year = int(annual_trading_days // 2)
-        daily = df_eq['value'].resample('D').last().dropna()
+        daily = df_eq["value"].resample("D").last().dropna()
         d_returns = daily.pct_change().dropna()
         d_cum_returns = (1 + d_returns).cumprod() - 1
         d_drawdown = ((daily / daily.cummax()) - 1) * 100
@@ -47,13 +63,22 @@ class Statistics(object):
 
         self.graphs.append(
             create_fig(
-                x=d_cum_returns.index, y=d_cum_returns.values * 100,
-                title="Cumulative Returns %", color="green", fill="tozeroy")
+                x=d_cum_returns.index,
+                y=d_cum_returns.values * 100,
+                title="Cumulative Returns %",
+                color="green",
+                fill="tozeroy",
+            )
         )
         self.graphs.append(
             create_fig(
-                x=d_drawdown.index, y=d_drawdown.values,
-                title="Drawdown %", color="red", fill="tozeroy", height=350)
+                x=d_drawdown.index,
+                y=d_drawdown.values,
+                title="Drawdown %",
+                color="red",
+                fill="tozeroy",
+                height=350,
+            )
         )
 
         # Use pandas where to handle edge cases and avoid log of negative/zero values
@@ -62,30 +87,56 @@ class Statistics(object):
         d_cum_retunrs_log_pct = np.log(d_cum_retunrs_log_pct) * 100
         self.graphs.append(
             create_fig(
-                x=d_cum_retunrs_log_pct.index, y=d_cum_retunrs_log_pct.values,
-                title="Cumulative Returns (Log Scaled) %", color="green", fill="tozeroy")
+                x=d_cum_retunrs_log_pct.index,
+                y=d_cum_retunrs_log_pct.values,
+                title="Cumulative Returns (Log Scaled) %",
+                color="green",
+                fill="tozeroy",
+            )
         )
 
-        d_eoy_returns = d_returns.resample('YE').apply(_comp) * 100
+        d_eoy_returns = d_returns.resample("YE").apply(_comp) * 100
         d_eoy_returns.index = d_eoy_returns.index.year
         self.graphs.append(
             create_bar(
-                x=d_eoy_returns.index, y=d_eoy_returns.values,
-                title="End of Year Returns %", color="dodgerblue")
+                x=d_eoy_returns.index,
+                y=d_eoy_returns.values,
+                title="End of Year Returns %",
+                color="dodgerblue",
+            )
         )
 
-        d_distribution_monthly = d_returns.resample('ME').apply(_comp) * 100
+        d_distribution_monthly = d_returns.resample("ME").apply(_comp) * 100
         self.graphs.append(
             create_bar(
-                x=d_distribution_monthly.index, y=d_distribution_monthly.values,
-                title="Monthly Returns %", color="dodgerblue")
+                x=d_distribution_monthly.index,
+                y=d_distribution_monthly.values,
+                title="Monthly Returns %",
+                color="dodgerblue",
+            )
         )
 
-        month_labels = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
-                        "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
-        monthly_heatmap = d_distribution_monthly.groupby(
-            [d_distribution_monthly.index.year, d_distribution_monthly.index.month]
-        ).first().unstack()
+        month_labels = [
+            "Jan",
+            "Feb",
+            "Mar",
+            "Apr",
+            "May",
+            "Jun",
+            "Jul",
+            "Aug",
+            "Sep",
+            "Oct",
+            "Nov",
+            "Dec",
+        ]
+        monthly_heatmap = (
+            d_distribution_monthly.groupby(
+                [d_distribution_monthly.index.year, d_distribution_monthly.index.month]
+            )
+            .first()
+            .unstack()
+        )
         monthly_heatmap = monthly_heatmap.reindex(columns=range(1, 13))
         monthly_heatmap.columns = month_labels
         monthly_heatmap = monthly_heatmap.sort_index(ascending=False)
@@ -93,7 +144,9 @@ class Statistics(object):
             fig = create_empty_fig(title="Monthly Returns Heatmap %", height=380)
         else:
             monthly_heatmap_labels = monthly_heatmap.apply(
-                lambda column: column.map(lambda value: "" if pd.isna(value) else f"{value:.2f}")
+                lambda column: column.map(
+                    lambda value: "" if pd.isna(value) else f"{value:.2f}"
+                )
             )
             fig = create_heatmap(
                 z=monthly_heatmap.to_numpy(),
@@ -150,84 +203,177 @@ class Statistics(object):
             )
         self.graphs.append(fig)
 
-
-        d_rolling_sharpe = (d_returns.rolling(window=win_half_year).mean() / d_returns.rolling(window=win_half_year).std()) * np.sqrt(win_year)
+        d_rolling_sharpe = (
+            d_returns.rolling(window=win_half_year).mean()
+            / d_returns.rolling(window=win_half_year).std()
+        ) * np.sqrt(win_year)
         fig = create_fig(
-                x=d_rolling_sharpe.index, y=d_rolling_sharpe.values,
-                title="Rolling Sharpe (6-Months)", color="blue")
+            x=d_rolling_sharpe.index,
+            y=d_rolling_sharpe.values,
+            title="Rolling Sharpe (6-Months)",
+            color="blue",
+        )
         if not d_rolling_sharpe.empty:
-            add_level(fig, x0=d_rolling_sharpe.index[0], x1=d_rolling_sharpe.index[-1], y0=1.0, y1=1.0)
-            add_level(fig, x0=d_rolling_sharpe.index[0], x1=d_rolling_sharpe.index[-1], y0=2.0, y1=2.0, color="green")
+            add_level(
+                fig,
+                x0=d_rolling_sharpe.index[0],
+                x1=d_rolling_sharpe.index[-1],
+                y0=1.0,
+                y1=1.0,
+            )
+            add_level(
+                fig,
+                x0=d_rolling_sharpe.index[0],
+                x1=d_rolling_sharpe.index[-1],
+                y0=2.0,
+                y1=2.0,
+                color="green",
+            )
         self.graphs.append(fig)
 
         _rolling_downside_std = d_returns.rolling(window=win_half_year).apply(
             lambda x: np.sqrt(np.mean(np.minimum(x, 0) ** 2))
         )
         _rolling_downside_std = _rolling_downside_std.where(_rolling_downside_std != 0)
-        d_rolling_sortino = (d_returns.rolling(window=win_half_year).mean() / _rolling_downside_std) * np.sqrt(win_year)
+        d_rolling_sortino = (
+            d_returns.rolling(window=win_half_year).mean() / _rolling_downside_std
+        ) * np.sqrt(win_year)
         fig = create_fig(
-                x=d_rolling_sortino.index, y=d_rolling_sortino.values,
-                title="Rolling Sortino (6-Months)", color="blue")
+            x=d_rolling_sortino.index,
+            y=d_rolling_sortino.values,
+            title="Rolling Sortino (6-Months)",
+            color="blue",
+        )
         if not d_rolling_sortino.empty:
-            add_level(fig, x0=d_rolling_sortino.index[0], x1=d_rolling_sortino.index[-1], y0=1.0, y1=1.0)
-            add_level(fig, x0=d_rolling_sortino.index[0], x1=d_rolling_sortino.index[-1], y0=2.0, y1=2.0, color="green")
+            add_level(
+                fig,
+                x0=d_rolling_sortino.index[0],
+                x1=d_rolling_sortino.index[-1],
+                y0=1.0,
+                y1=1.0,
+            )
+            add_level(
+                fig,
+                x0=d_rolling_sortino.index[0],
+                x1=d_rolling_sortino.index[-1],
+                y0=2.0,
+                y1=2.0,
+                color="green",
+            )
         self.graphs.append(fig)
 
-        d_rolling_win_rate = (d_returns.gt(0).rolling(window=win_half_year).mean() * 100)
+        d_rolling_win_rate = d_returns.gt(0).rolling(window=win_half_year).mean() * 100
         fig = create_fig(
-            x=d_rolling_win_rate.index, y=d_rolling_win_rate.values,
-            title="Rolling Win Rate (6-Months) %", color="seagreen")
+            x=d_rolling_win_rate.index,
+            y=d_rolling_win_rate.values,
+            title="Rolling Win Rate (6-Months) %",
+            color="seagreen",
+        )
         fig.update_layout(yaxis=dict(range=[0, 100]))
         if not d_rolling_win_rate.empty:
-            add_level(fig, x0=d_rolling_win_rate.index[0], x1=d_rolling_win_rate.index[-1], y0=50.0, y1=50.0)
+            add_level(
+                fig,
+                x0=d_rolling_win_rate.index[0],
+                x1=d_rolling_win_rate.index[-1],
+                y0=50.0,
+                y1=50.0,
+            )
         self.graphs.append(fig)
 
-
-        d_rolling_volatility = d_returns.rolling(window=win_half_year).std() * np.sqrt(win_year)
+        d_rolling_volatility = d_returns.rolling(window=win_half_year).std() * np.sqrt(
+            win_year
+        )
         fig = create_fig(
-                x=d_rolling_volatility.index, y=d_rolling_volatility.values,
-                title="Rolling Volatility (6-Months)", color="blue")
+            x=d_rolling_volatility.index,
+            y=d_rolling_volatility.values,
+            title="Rolling Volatility (6-Months)",
+            color="blue",
+        )
         self.graphs.append(fig)
 
-        d_rolling_geomean = d_returns.rolling(window=win_half_year).apply(_expected_return, raw=False)
+        d_rolling_geomean = d_returns.rolling(window=win_half_year).apply(
+            _expected_return, raw=False
+        )
         d_rolling_ann_return_pct = ((1 + d_rolling_geomean) ** win_year - 1) * 100
-        d_rolling_window_max_drawdown = daily.rolling(window=win_half_year).apply(_window_max_drawdown_pct, raw=False)
-        d_rolling_calmar = d_rolling_ann_return_pct / d_rolling_window_max_drawdown.abs()
+        d_rolling_window_max_drawdown = daily.rolling(window=win_half_year).apply(
+            _window_max_drawdown_pct, raw=False
+        )
+        d_rolling_calmar = (
+            d_rolling_ann_return_pct / d_rolling_window_max_drawdown.abs()
+        )
         d_rolling_calmar = d_rolling_calmar.where(d_rolling_window_max_drawdown != 0)
         fig = create_fig(
-            x=d_rolling_calmar.index, y=d_rolling_calmar.values,
-            title="Rolling Calmar (6-Months)", color="mediumpurple")
+            x=d_rolling_calmar.index,
+            y=d_rolling_calmar.values,
+            title="Rolling Calmar (6-Months)",
+            color="mediumpurple",
+        )
         if not d_rolling_calmar.empty:
-            add_level(fig, x0=d_rolling_calmar.index[0], x1=d_rolling_calmar.index[-1], y0=1.0, y1=1.0)
+            add_level(
+                fig,
+                x0=d_rolling_calmar.index[0],
+                x1=d_rolling_calmar.index[-1],
+                y0=1.0,
+                y1=1.0,
+            )
         self.graphs.append(fig)
 
-        d_rolling_ulcer_index = daily.rolling(window=win_half_year).apply(_window_ulcer_index, raw=False)
+        d_rolling_ulcer_index = daily.rolling(window=win_half_year).apply(
+            _window_ulcer_index, raw=False
+        )
         fig = create_fig(
-            x=d_rolling_ulcer_index.index, y=d_rolling_ulcer_index.values,
-            title="Rolling Ulcer Index (6-Months)", color="indianred", fill="tozeroy", height=350)
+            x=d_rolling_ulcer_index.index,
+            y=d_rolling_ulcer_index.values,
+            title="Rolling Ulcer Index (6-Months)",
+            color="indianred",
+            fill="tozeroy",
+            height=350,
+        )
         self.graphs.append(fig)
 
-        d_rolling_max_drawdown = d_drawdown.rolling(window=win_half_year, min_periods=1).min()
+        d_rolling_max_drawdown = d_drawdown.rolling(
+            window=win_half_year, min_periods=1
+        ).min()
         fig = create_fig(
-            x=d_rolling_max_drawdown.index, y=d_rolling_max_drawdown.values,
-            title="Rolling Max Drawdown (6-Months) %", color="crimson", fill="tozeroy", height=350)
+            x=d_rolling_max_drawdown.index,
+            y=d_rolling_max_drawdown.values,
+            title="Rolling Max Drawdown (6-Months) %",
+            color="crimson",
+            fill="tozeroy",
+            height=350,
+        )
         self.graphs.append(fig)
 
         d_time_under_water = _time_under_water(d_drawdown)
         fig = create_fig(
-            x=d_time_under_water.index, y=d_time_under_water.values,
-            title="Time Under Water (Trading Days)", color="darkorange", fill="tozeroy", height=350)
+            x=d_time_under_water.index,
+            y=d_time_under_water.values,
+            title="Time Under Water (Trading Days)",
+            color="darkorange",
+            fill="tozeroy",
+            height=350,
+        )
         self.graphs.append(fig)
 
         trades_df = performance.gen_trades().copy()
         if trades_df.empty:
-            self.graphs.append(create_empty_fig(title="Trade Duration vs Return", height=380))
-            self.graphs.append(create_empty_fig(title="Trade Returns Distribution %", height=360))
-            self.graphs.append(create_empty_fig(title="Trade PnL Distribution", height=360))
-            self.graphs.append(create_empty_fig(title="MFE/MAE vs Final Return %", height=420))
+            self.graphs.append(
+                create_empty_fig(title="Trade Duration vs Return", height=380)
+            )
+            self.graphs.append(
+                create_empty_fig(title="Trade Returns Distribution %", height=360)
+            )
+            self.graphs.append(
+                create_empty_fig(title="Trade PnL Distribution", height=360)
+            )
+            self.graphs.append(
+                create_empty_fig(title="MFE/MAE vs Final Return %", height=420)
+            )
         else:
             trades_df["Duration"] = trades_df["dateclose"] - trades_df["dateopen"]
-            trades_df["Duration Hours"] = trades_df["Duration"].dt.total_seconds().div(3600)
+            trades_df["Duration Hours"] = (
+                trades_df["Duration"].dt.total_seconds().div(3600)
+            )
             trades_df["Return %"] = trades_df["return_pct"] * 100
 
             fig = create_scatter(
@@ -243,12 +389,14 @@ class Statistics(object):
                     showscale=True,
                 ),
                 height=380,
-                customdata=np.column_stack([
-                    trades_df["data_name"].astype(str).values,
-                    trades_df["pnlcomm"].round(2).values,
-                    trades_df["dateopen"].astype(str).values,
-                    trades_df["dateclose"].astype(str).values,
-                ]),
+                customdata=np.column_stack(
+                    [
+                        trades_df["data_name"].astype(str).values,
+                        trades_df["pnlcomm"].round(2).values,
+                        trades_df["dateopen"].astype(str).values,
+                        trades_df["dateclose"].astype(str).values,
+                    ]
+                ),
                 hovertemplate=(
                     "Instrument %{customdata[0]}<br>Duration %{x:.2f}h<br>Return %{y:.2f}%"
                     "<br>PnL %{customdata[1]}<br>Open %{customdata[2]}<br>Close %{customdata[3]}<extra></extra>"
@@ -289,122 +437,215 @@ class Statistics(object):
             self.graphs.append(fig)
 
             trade_excursions = _compute_trade_excursions(performance, trades_df)
-            excursions_df = pd.concat([trades_df.reset_index(drop=True), trade_excursions], axis=1)
-            excursions_df = excursions_df.dropna(subset=["mfe_pct", "mae_pct", "final_return_pct"], how="all")
+            excursions_df = pd.concat(
+                [trades_df.reset_index(drop=True), trade_excursions], axis=1
+            )
+            excursions_df = excursions_df.dropna(
+                subset=["mfe_pct", "mae_pct", "final_return_pct"], how="all"
+            )
             if excursions_df.empty:
                 fig = create_empty_fig(title="MFE/MAE vs Final Return %", height=420)
             else:
-                fig = create_multi_scatter(title="MFE/MAE vs Final Return %", height=420)
-                customdata = np.column_stack([
-                    excursions_df["data_name"].astype(str).values,
-                    excursions_df["pnlcomm"].round(2).values,
-                    excursions_df["dateopen"].astype(str).values,
-                    excursions_df["dateclose"].astype(str).values,
-                ])
-                fig.add_trace(go.Scatter(
-                    x=excursions_df["final_return_pct"].values,
-                    y=excursions_df["mfe_pct"].values,
-                    mode="markers",
-                    name="MFE",
-                    marker=dict(color="goldenrod", size=8, opacity=0.75),
-                    customdata=customdata,
-                    hovertemplate=(
-                        "Instrument %{customdata[0]}<br>Final Return %{x:.2f}%<br>MFE %{y:.2f}%"
-                        "<br>PnL %{customdata[1]}<br>Open %{customdata[2]}<br>Close %{customdata[3]}<extra></extra>"
-                    ),
-                ))
-                fig.add_trace(go.Scatter(
-                    x=excursions_df["final_return_pct"].values,
-                    y=excursions_df["mae_pct"].values,
-                    mode="markers",
-                    name="MAE",
-                    marker=dict(color="indianred", size=8, opacity=0.75),
-                    customdata=customdata,
-                    hovertemplate=(
-                        "Instrument %{customdata[0]}<br>Final Return %{x:.2f}%<br>MAE %{y:.2f}%"
-                        "<br>PnL %{customdata[1]}<br>Open %{customdata[2]}<br>Close %{customdata[3]}<extra></extra>"
-                    ),
-                ))
-                fig.update_layout(xaxis_title="Final Return %", yaxis_title="Excursion %")
+                fig = create_multi_scatter(
+                    title="MFE/MAE vs Final Return %", height=420
+                )
+                customdata = np.column_stack(
+                    [
+                        excursions_df["data_name"].astype(str).values,
+                        excursions_df["pnlcomm"].round(2).values,
+                        excursions_df["dateopen"].astype(str).values,
+                        excursions_df["dateclose"].astype(str).values,
+                    ]
+                )
+                fig.add_trace(
+                    go.Scatter(
+                        x=excursions_df["final_return_pct"].values,
+                        y=excursions_df["mfe_pct"].values,
+                        mode="markers",
+                        name="MFE",
+                        marker=dict(color="goldenrod", size=8, opacity=0.75),
+                        customdata=customdata,
+                        hovertemplate=(
+                            "Instrument %{customdata[0]}<br>Final Return %{x:.2f}%<br>MFE %{y:.2f}%"
+                            "<br>PnL %{customdata[1]}<br>Open %{customdata[2]}<br>Close %{customdata[3]}<extra></extra>"
+                        ),
+                    )
+                )
+                fig.add_trace(
+                    go.Scatter(
+                        x=excursions_df["final_return_pct"].values,
+                        y=excursions_df["mae_pct"].values,
+                        mode="markers",
+                        name="MAE",
+                        marker=dict(color="indianred", size=8, opacity=0.75),
+                        customdata=customdata,
+                        hovertemplate=(
+                            "Instrument %{customdata[0]}<br>Final Return %{x:.2f}%<br>MAE %{y:.2f}%"
+                            "<br>PnL %{customdata[1]}<br>Open %{customdata[2]}<br>Close %{customdata[3]}<extra></extra>"
+                        ),
+                    )
+                )
+                fig.update_layout(
+                    xaxis_title="Final Return %", yaxis_title="Excursion %"
+                )
                 fig.add_hline(y=0, line_color="black", line_width=1, line_dash="dot")
                 fig.add_vline(x=0, line_color="black", line_width=1, line_dash="dot")
             self.graphs.append(fig)
 
-
         ### Params ####
         if strats and len(strats) == 1:
-            fig_params = go.Figure(data=[go.Table(
-                header=dict(values=["Parameter", "Value"], fill_color='lightgray'),
-                cells=dict(values=[df_desc.index.tolist(), [str(val) for val in df_desc.values]],
-            	    align=["left", "right"],
-            	    font=dict(size=13),
-            	    height=26,
-            	    line_color='darkgray',
-            	    fill_color=[["#f0f0f0" if i % 2 == 0 else "rgb(244,255,255)" for i in range(len(df_desc))]],
-                ),
-            )])
-            fig_params.update_layout(title=f"Strategy [{df_desc_name}] Parameters", margin=dict(l=20, r=10, t=30, b=10), height=300, font=dict(size=12))
+            fig_params = go.Figure(
+                data=[
+                    go.Table(
+                        header=dict(
+                            values=["Parameter", "Value"], fill_color="lightgray"
+                        ),
+                        cells=dict(
+                            values=[
+                                df_desc.index.tolist(),
+                                [str(val) for val in df_desc.values],
+                            ],
+                            align=["left", "right"],
+                            font=dict(size=13),
+                            height=26,
+                            line_color="darkgray",
+                            fill_color=[
+                                [
+                                    "#f0f0f0" if i % 2 == 0 else "rgb(244,255,255)"
+                                    for i in range(len(df_desc))
+                                ]
+                            ],
+                        ),
+                    )
+                ]
+            )
+            fig_params.update_layout(
+                title=f"Strategy [{df_desc_name}] Parameters",
+                margin=dict(l=20, r=10, t=30, b=10),
+                height=300,
+                font=dict(size=12),
+            )
             self.tables.append(fig_params)
 
         ### Metrics ####
-        fig_metrics = go.Figure(data=[go.Table(
-            header=dict(values=["Metric", "Value"], fill_color='lightgray'),
-            cells=dict(values=[df_stats.index.tolist(), [str(val) for val in df_stats.values]],
-            	align=["left", "right"],
-            	font=dict(size=13),
-            	height=26,
-            	line_color='darkgray',
-            	fill_color=[["#f0f0f0" if i % 2 == 0 else "rgb(244,255,255)" for i in range(len(df_stats))]],
-            ),
-        )])
-        fig_metrics.update_layout(title="Performance Metrics", margin=dict(l=20, r=10, t=30, b=10), height=1040, font=dict(size=12))
+        fig_metrics = go.Figure(
+            data=[
+                go.Table(
+                    header=dict(values=["Metric", "Value"], fill_color="lightgray"),
+                    cells=dict(
+                        values=[
+                            df_stats.index.tolist(),
+                            [str(val) for val in df_stats.values],
+                        ],
+                        align=["left", "right"],
+                        font=dict(size=13),
+                        height=26,
+                        line_color="darkgray",
+                        fill_color=[
+                            [
+                                "#f0f0f0" if i % 2 == 0 else "rgb(244,255,255)"
+                                for i in range(len(df_stats))
+                            ]
+                        ],
+                    ),
+                )
+            ]
+        )
+        fig_metrics.update_layout(
+            title="Performance Metrics",
+            margin=dict(l=20, r=10, t=30, b=10),
+            height=1040,
+            font=dict(size=12),
+        )
         self.tables.append(fig_metrics)
-
 
         # Metrics Additional
         addons = pd.Series(dtype=object)
         addons["Max Consecutive Wins"] = round(_consecutive_wins(d_returns), 0)
         addons["Max Consecutive Losses"] = round(_consecutive_losses(d_returns), 0)
         addons["Expected Daily [%]"] = round(_expected_return(d_returns) * 100, 2)
-        addons["Expected Monthly [%]"] = round(_expected_return(d_returns, aggregate="M") * 100, 2)
-        addons["Expected Yearly [%]"] = round(_expected_return(d_returns, aggregate="A") * 100, 2)
+        addons["Expected Monthly [%]"] = round(
+            _expected_return(d_returns, aggregate="M") * 100, 2
+        )
+        addons["Expected Yearly [%]"] = round(
+            _expected_return(d_returns, aggregate="A") * 100, 2
+        )
 
-        fig_addons = go.Figure(data=[go.Table(
-            header=dict(values=["Metric", "Value"], fill_color='lightgray'),
-            cells=dict(values=[addons.index.tolist(), addons.values.tolist()],
-            align=["left", "left"],
-            font=dict(size=13),
-            height=26,
-            line_color='darkgray',
-            fill_color=[["#f0f0f0" if i % 2 == 0 else "rgb(244,255,255)" for i in range(len(addons))]],
-            ),
-        )])
-        fig_addons.update_layout(title="Additional Metrics", margin=dict(l=20, r=10, t=30, b=10), height=220, font=dict(size=12))
+        fig_addons = go.Figure(
+            data=[
+                go.Table(
+                    header=dict(values=["Metric", "Value"], fill_color="lightgray"),
+                    cells=dict(
+                        values=[addons.index.tolist(), addons.values.tolist()],
+                        align=["left", "left"],
+                        font=dict(size=13),
+                        height=26,
+                        line_color="darkgray",
+                        fill_color=[
+                            [
+                                "#f0f0f0" if i % 2 == 0 else "rgb(244,255,255)"
+                                for i in range(len(addons))
+                            ]
+                        ],
+                    ),
+                )
+            ]
+        )
+        fig_addons.update_layout(
+            title="Additional Metrics",
+            margin=dict(l=20, r=10, t=30, b=10),
+            height=220,
+            font=dict(size=12),
+        )
         self.tables.append(fig_addons)
 
-
         # EOY Returns
-        yoy = pd.DataFrame(_group_returns(d_returns, d_returns.index.year, compounded=True) * 100)
+        yoy = pd.DataFrame(
+            _group_returns(d_returns, d_returns.index.year, compounded=True) * 100
+        )
         yoy.columns = ["Return"]
         yoy["Cumulative"] = d_cum_returns.groupby(d_cum_returns.index.year).last()
         yoy["Return"] = yoy["Return"].round(2)
         yoy["Cumulative"] = (yoy["Cumulative"] * 100).round(2)
-        yoy_drawdown = d_drawdown.resample('YE').min().round(2)
+        yoy_drawdown = d_drawdown.resample("YE").min().round(2)
         yoy_drawdown.index = yoy_drawdown.index.year
         yoy["Drawdown"] = yoy_drawdown
         yoy.index.name = "Year"
 
-        fig_yoy = go.Figure(data=[go.Table(
-            header=dict(values=["Year", "Return %", "Cumulative %", "Max Drawdown %"], fill_color='lightgray'),
-            cells=dict(values=[yoy.index.tolist(), yoy["Return"].tolist(), yoy["Cumulative"].tolist(), yoy["Drawdown"].tolist()],
-            align=["right", "right", "right", "right"],
-            font=dict(size=13),
-            height=26,
-            line_color='darkgray',
-            fill_color=[["#f0f0f0" if i % 2 == 0 else "rgb(244,255,255)" for i in range(len(yoy))]],
-            ),
-        )])
-        fig_yoy.update_layout(title="EOY Returns", margin=dict(l=20, r=10, t=30, b=10), height=400, font=dict(size=12))
+        fig_yoy = go.Figure(
+            data=[
+                go.Table(
+                    header=dict(
+                        values=["Year", "Return %", "Cumulative %", "Max Drawdown %"],
+                        fill_color="lightgray",
+                    ),
+                    cells=dict(
+                        values=[
+                            yoy.index.tolist(),
+                            yoy["Return"].tolist(),
+                            yoy["Cumulative"].tolist(),
+                            yoy["Drawdown"].tolist(),
+                        ],
+                        align=["right", "right", "right", "right"],
+                        font=dict(size=13),
+                        height=26,
+                        line_color="darkgray",
+                        fill_color=[
+                            [
+                                "#f0f0f0" if i % 2 == 0 else "rgb(244,255,255)"
+                                for i in range(len(yoy))
+                            ]
+                        ],
+                    ),
+                )
+            ]
+        )
+        fig_yoy.update_layout(
+            title="EOY Returns",
+            margin=dict(l=20, r=10, t=30, b=10),
+            height=400,
+            font=dict(size=12),
+        )
         self.tables.append(fig_yoy)
 
         # Worst 10 Drawdowns
@@ -412,19 +653,41 @@ class Statistics(object):
         dd_info = d_drawdown_details.sort_values(by="max drawdown", ascending=True)[:10]
         dd_info = dd_info[["start", "end", "max drawdown", "days"]]
         dd_info.columns = ["Started", "Recovered", "Drawdown", "Days"]
-        fig_dd = go.Figure(data=[go.Table(
-            header=dict(values=["Started", "Recovered", "Drawdown %", "Days"], fill_color='lightgray'),
-            cells=dict(values=[dd_info["Started"].tolist(), dd_info["Recovered"].tolist(), dd_info["Drawdown"].tolist(), dd_info["Days"].tolist()],
-            align=["left", "left", "right", "right"],
-            font=dict(size=13),
-            height=26,
-            line_color='darkgray',
-            fill_color=[["#f0f0f0" if i % 2 == 0 else "rgb(244,255,255)" for i in range(len(dd_info))]],
-            ),
-        )])
-        fig_dd.update_layout(title="Worst 10 Drawdowns", margin=dict(l=20, r=10, t=30, b=10), height=360, font=dict(size=12))
+        fig_dd = go.Figure(
+            data=[
+                go.Table(
+                    header=dict(
+                        values=["Started", "Recovered", "Drawdown %", "Days"],
+                        fill_color="lightgray",
+                    ),
+                    cells=dict(
+                        values=[
+                            dd_info["Started"].tolist(),
+                            dd_info["Recovered"].tolist(),
+                            dd_info["Drawdown"].tolist(),
+                            dd_info["Days"].tolist(),
+                        ],
+                        align=["left", "left", "right", "right"],
+                        font=dict(size=13),
+                        height=26,
+                        line_color="darkgray",
+                        fill_color=[
+                            [
+                                "#f0f0f0" if i % 2 == 0 else "rgb(244,255,255)"
+                                for i in range(len(dd_info))
+                            ]
+                        ],
+                    ),
+                )
+            ]
+        )
+        fig_dd.update_layout(
+            title="Worst 10 Drawdowns",
+            margin=dict(l=20, r=10, t=30, b=10),
+            height=360,
+            font=dict(size=12),
+        )
         self.tables.append(fig_dd)
-
 
         ## Gen HTML report
         _apply_initial_dark_theme(self.graphs)
@@ -432,16 +695,26 @@ class Statistics(object):
 
         graph_items = []
         for i, fig in enumerate(self.graphs):
-            graph_items.append({
-                "id": f"graph-{i + 1}",
-                "title": getattr(getattr(fig.layout, "title", None), "text", None) or f"Graph {i + 1}",
-                "html": pio.to_html(fig, full_html=False, include_plotlyjs="cdn" if i == 0 else False),
-            })
+            graph_items.append(
+                {
+                    "id": f"graph-{i + 1}",
+                    "title": getattr(getattr(fig.layout, "title", None), "text", None)
+                    or f"Graph {i + 1}",
+                    "html": pio.to_html(
+                        fig,
+                        full_html=False,
+                        include_plotlyjs="cdn" if i == 0 else False,
+                    ),
+                }
+            )
 
-        graph_filters_html = "".join(
-            f'<label class="graph-filter-item"><input class="graph-filter-checkbox" type="checkbox" data-graph-id="{item["id"]}" checked><span>{escape(item["title"])}</span></label>'
-            for item in graph_items
-        ) or '<div class="graph-filter-empty">No charts available</div>'
+        graph_filters_html = (
+            "".join(
+                f'<label class="graph-filter-item"><input class="graph-filter-checkbox" type="checkbox" data-graph-id="{item["id"]}" checked><span>{escape(item["title"])}</span></label>'
+                for item in graph_items
+            )
+            or '<div class="graph-filter-empty">No charts available</div>'
+        )
         html_graphs = "".join(
             f'<div class="plot-container graph-card" data-graph-id="{item["id"]}" data-graph-title="{escape(item["title"], quote=True)}"><button class="fullscreen-btn" onclick="toggleFullscreen(this)">⛶</button>{item["html"]}</div>'
             for item in graph_items
@@ -836,7 +1109,7 @@ class Statistics(object):
             {html_graphs}
         </div>
         <div class="column right-column">
-            {''.join(f'<div class="plot-container">{t}</div>' for t in html_tables)}
+            {"".join(f'<div class="plot-container">{t}</div>' for t in html_tables)}
         </div>
     </div>
     <script>
@@ -1242,7 +1515,9 @@ def _apply_initial_dark_theme_to_figure(fig, palette):
     current_title_font = current_title.get("font", {})
     current_legend = fig.layout.legend.to_plotly_json() if fig.layout.legend else {}
     current_legend_font = current_legend.get("font", {})
-    current_hover = fig.layout.hoverlabel.to_plotly_json() if fig.layout.hoverlabel else {}
+    current_hover = (
+        fig.layout.hoverlabel.to_plotly_json() if fig.layout.hoverlabel else {}
+    )
     current_hover_font = current_hover.get("font", {})
     current_font = fig.layout.font.to_plotly_json() if fig.layout.font else {}
 
@@ -1250,23 +1525,45 @@ def _apply_initial_dark_theme_to_figure(fig, palette):
         paper_bgcolor=palette["plot_paper_bg"],
         plot_bgcolor=palette["plot_bg"],
         font={**current_font, "color": palette["plot_font"]},
-        title={**current_title, "font": {**current_title_font, "color": palette["plot_font"]}},
-        legend={**current_legend, "bgcolor": "rgba(0,0,0,0)", "font": {**current_legend_font, "color": palette["plot_font"]}},
-        hoverlabel={**current_hover, "bgcolor": palette["plot_hover_bg"], "font": {**current_hover_font, "color": palette["plot_hover_font"]}},
+        title={
+            **current_title,
+            "font": {**current_title_font, "color": palette["plot_font"]},
+        },
+        legend={
+            **current_legend,
+            "bgcolor": "rgba(0,0,0,0)",
+            "font": {**current_legend_font, "color": palette["plot_font"]},
+        },
+        hoverlabel={
+            **current_hover,
+            "bgcolor": palette["plot_hover_bg"],
+            "font": {**current_hover_font, "color": palette["plot_hover_font"]},
+        },
     )
 
     if any(getattr(trace, "type", None) != "table" for trace in fig.data):
         if fig.layout.xaxis:
-            layout_update["xaxis"] = _apply_initial_dark_theme_to_axis(fig.layout.xaxis.to_plotly_json(), palette)
+            layout_update["xaxis"] = _apply_initial_dark_theme_to_axis(
+                fig.layout.xaxis.to_plotly_json(), palette
+            )
         if fig.layout.yaxis:
-            layout_update["yaxis"] = _apply_initial_dark_theme_to_axis(fig.layout.yaxis.to_plotly_json(), palette)
+            layout_update["yaxis"] = _apply_initial_dark_theme_to_axis(
+                fig.layout.yaxis.to_plotly_json(), palette
+            )
 
     shapes = []
     for shape in fig.layout.shapes or []:
         shape_json = shape.to_plotly_json()
         line = shape_json.get("line", {})
         current_color = str(line.get("color", "")).replace(" ", "").lower()
-        if current_color in {"", "black", "#000", "#000000", "rgb(0,0,0)", "rgba(0,0,0,1)"}:
+        if current_color in {
+            "",
+            "black",
+            "#000",
+            "#000000",
+            "rgb(0,0,0)",
+            "rgba(0,0,0,1)",
+        }:
             shape_json["line"] = {**line, "color": palette["shape_neutral"]}
         shapes.append(shape_json)
     if shapes:
@@ -1289,7 +1586,12 @@ def _apply_initial_dark_theme_to_figure(fig, palette):
         cells_line = cells.get("line", {})
         cells_values = cells.get("values", [])
         row_count = len(cells_values[0]) if cells_values else 0
-        stripe_colors = [[palette["table_cell_even"] if i % 2 == 0 else palette["table_cell_odd"] for i in range(row_count)]]
+        stripe_colors = [
+            [
+                palette["table_cell_even"] if i % 2 == 0 else palette["table_cell_odd"]
+                for i in range(row_count)
+            ]
+        ]
 
         trace.update(
             header={
@@ -1331,6 +1633,7 @@ def create_fig(x, y, title, color="blue", fill=None, height=550, margin=None):
     fig.update_layout(title=title, margin=margin, height=height, font=dict(size=12))
     return fig
 
+
 def create_bar(x, y, title, color="blue", height=550, margin=None):
     if margin is None:
         margin = dict(l=50, r=10, t=30, b=10)
@@ -1338,7 +1641,19 @@ def create_bar(x, y, title, color="blue", height=550, margin=None):
     fig.update_layout(title=title, margin=margin, height=height, font=dict(size=12))
     return fig
 
-def create_heatmap(z, x, y, title, colorscale="RdYlGn", zmid=0, height=550, margin=None, colorbar_title=None, hovertemplate=None):
+
+def create_heatmap(
+    z,
+    x,
+    y,
+    title,
+    colorscale="RdYlGn",
+    zmid=0,
+    height=550,
+    margin=None,
+    colorbar_title=None,
+    hovertemplate=None,
+):
     if margin is None:
         margin = dict(l=50, r=10, t=30, b=10)
     heatmap_kwargs = dict(
@@ -1359,28 +1674,44 @@ def create_heatmap(z, x, y, title, colorscale="RdYlGn", zmid=0, height=550, marg
     fig.update_layout(title=title, margin=margin, height=height, font=dict(size=12))
     return fig
 
+
 def create_histogram(x, title, color="blue", height=550, margin=None, nbinsx=40):
     if margin is None:
         margin = dict(l=50, r=10, t=30, b=10)
     fig = go.Figure(go.Histogram(x=x, marker_color=color, nbinsx=nbinsx, opacity=0.85))
-    fig.update_layout(title=title, margin=margin, height=height, font=dict(size=12), bargap=0.05)
+    fig.update_layout(
+        title=title, margin=margin, height=height, font=dict(size=12), bargap=0.05
+    )
     return fig
 
-def create_scatter(x, y, title, marker=None, height=550, margin=None, customdata=None, hovertemplate=None):
+
+def create_scatter(
+    x,
+    y,
+    title,
+    marker=None,
+    height=550,
+    margin=None,
+    customdata=None,
+    hovertemplate=None,
+):
     if margin is None:
         margin = dict(l=50, r=10, t=30, b=10)
     if marker is None:
         marker = dict(color="blue", size=8, opacity=0.75)
-    fig = go.Figure(go.Scatter(
-        x=x,
-        y=y,
-        mode="markers",
-        marker=marker,
-        customdata=customdata,
-        hovertemplate=hovertemplate,
-    ))
+    fig = go.Figure(
+        go.Scatter(
+            x=x,
+            y=y,
+            mode="markers",
+            marker=marker,
+            customdata=customdata,
+            hovertemplate=hovertemplate,
+        )
+    )
     fig.update_layout(title=title, margin=margin, height=height, font=dict(size=12))
     return fig
+
 
 def create_multi_scatter(title, height=550, margin=None):
     if margin is None:
@@ -1389,6 +1720,7 @@ def create_multi_scatter(title, height=550, margin=None):
     fig.update_layout(title=title, margin=margin, height=height, font=dict(size=12))
     return fig
 
+
 def create_empty_fig(title, height=550, margin=None):
     if margin is None:
         margin = dict(l=50, r=10, t=30, b=10)
@@ -1396,23 +1728,35 @@ def create_empty_fig(title, height=550, margin=None):
     fig.update_layout(title=title, margin=margin, height=height, font=dict(size=12))
     return fig
 
+
 def add_level(fig, x0, x1, y0, y1, color="black", width=1, dash="dash"):
     fig.add_shape(
         type="line",
-        x0=x0, x1=x1,
-        y0=y0, y1=y1,
-        line=dict(color=color, width=width, dash=dash)
+        x0=x0,
+        x1=x1,
+        y0=y0,
+        y1=y1,
+        line=dict(color=color, width=width, dash=dash),
     )
+
 
 #### Statistics Functions
 def _remove_outliers(returns, quantile=0.95):
     """Returns series of returns without the outliers"""
     return returns[returns < returns.quantile(quantile)]
 
+
 def _drawdown_details(drawdown):
     # mark no drawdown
     no_dd = drawdown == 0
-    _cols = ("start", "valley", "end", "days", "max drawdown", "99% max drawdown",)
+    _cols = (
+        "start",
+        "valley",
+        "end",
+        "days",
+        "max drawdown",
+        "99% max drawdown",
+    )
 
     # extract dd start dates, first date of the drawdown
     starts = ~no_dd & no_dd.shift(1)
@@ -1441,7 +1785,14 @@ def _drawdown_details(drawdown):
         dd = drawdown[starts[i] : ends[i]]
         clean_dd = -_remove_outliers(-dd, 0.99)
         data.append(
-            (starts[i],  dd.idxmin(), ends[i],  (ends[i] - starts[i]).days + 1,  dd.min(),  clean_dd.min(),)
+            (
+                starts[i],
+                dd.idxmin(),
+                ends[i],
+                (ends[i] - starts[i]).days + 1,
+                dd.min(),
+                clean_dd.min(),
+            )
         )
 
     df = pd.DataFrame(data=data, columns=_cols)
@@ -1453,9 +1804,11 @@ def _drawdown_details(drawdown):
     df["valley"] = df["valley"].dt.strftime("%Y-%m-%d")
     return df
 
+
 def _comp(returns):
     """Calculates total compounded returns"""
     return returns.add(1).prod() - 1
+
 
 def _group_returns(returns, groupby, compounded=False):
     """Summarize returns
@@ -1487,18 +1840,23 @@ def _aggregate_returns(returns, period=None, compounded=True):
         return _group_returns(returns, iso_calendar.week, compounded=compounded)
 
     if "eow" in period or period == "W":
-        return _group_returns(returns, [iso_calendar.year, iso_calendar.week], compounded=compounded)
+        return _group_returns(
+            returns, [iso_calendar.year, iso_calendar.week], compounded=compounded
+        )
 
     if "eom" in period or period == "M":
         return _group_returns(returns, [index.year, index.month], compounded=compounded)
 
     if "eoq" in period or period == "Q":
-        return _group_returns(returns, [index.year, index.quarter], compounded=compounded)
+        return _group_returns(
+            returns, [index.year, index.quarter], compounded=compounded
+        )
 
     if not isinstance(period, str):
         return _group_returns(returns, period, compounded)
 
     return returns
+
 
 def _expected_return(returns, aggregate=None, compounded=True):
     """
@@ -1531,10 +1889,12 @@ def _count_consecutive(data):
         return data
     return _count(data)
 
+
 def _consecutive_wins(returns, aggregate=None, compounded=True):
     """Returns the maximum consecutive wins by day/month/week/quarter/year"""
     returns = _aggregate_returns(returns, aggregate, compounded) > 0
     return _count_consecutive(returns).max()
+
 
 def _consecutive_losses(returns, aggregate=None, compounded=True):
     """
@@ -1544,9 +1904,11 @@ def _consecutive_losses(returns, aggregate=None, compounded=True):
     returns = _aggregate_returns(returns, aggregate, compounded) < 0
     return _count_consecutive(returns).max()
 
+
 def _time_under_water(drawdown):
     underwater = (drawdown < 0).astype(int)
     return underwater.groupby((underwater == 0).cumsum()).cumsum()
+
 
 def _compute_trade_excursions(performance, trades_df):
     if trades_df.empty:
@@ -1554,7 +1916,11 @@ def _compute_trade_excursions(performance, trades_df):
 
     strategy = getattr(performance, "strategy", None)
     if strategy is None:
-        return pd.DataFrame(np.nan, index=trades_df.index, columns=["mfe_pct", "mae_pct", "final_return_pct"])
+        return pd.DataFrame(
+            np.nan,
+            index=trades_df.index,
+            columns=["mfe_pct", "mae_pct", "final_return_pct"],
+        )
 
     price_frame_cache = {}
     records = []
@@ -1565,13 +1931,20 @@ def _compute_trade_excursions(performance, trades_df):
             records.append((np.nan, np.nan, final_return_pct))
             continue
 
-        trade_slice = price_frame.loc[(price_frame.index >= trade.dateopen) & (price_frame.index <= trade.dateclose)]
+        trade_slice = price_frame.loc[
+            (price_frame.index >= trade.dateopen)
+            & (price_frame.index <= trade.dateclose)
+        ]
         if trade_slice.empty:
             records.append((np.nan, np.nan, final_return_pct))
             continue
 
-        high_series = trade_slice["high"] if "high" in trade_slice else trade_slice["close"]
-        low_series = trade_slice["low"] if "low" in trade_slice else trade_slice["close"]
+        high_series = (
+            trade_slice["high"] if "high" in trade_slice else trade_slice["close"]
+        )
+        low_series = (
+            trade_slice["low"] if "low" in trade_slice else trade_slice["close"]
+        )
         if trade.size >= 0:
             mfe_pct = (high_series.max() / trade.priceopen - 1) * 100
             mae_pct = (low_series.min() / trade.priceopen - 1) * 100
@@ -1582,6 +1955,7 @@ def _compute_trade_excursions(performance, trades_df):
         records.append((mfe_pct, mae_pct, final_return_pct))
 
     return pd.DataFrame(records, columns=["mfe_pct", "mae_pct", "final_return_pct"])
+
 
 def _trade_price_frame(strategy, data_name, cache):
     if data_name in cache:
@@ -1607,7 +1981,9 @@ def _trade_price_frame(strategy, data_name, cache):
         cache[data_name] = None
         return None
 
-    datetime_col = _resolve_trade_frame_column(frame, getattr(data, "_colmapping", {}), "datetime")
+    datetime_col = _resolve_trade_frame_column(
+        frame, getattr(data, "_colmapping", {}), "datetime"
+    )
     if datetime_col is not None:
         frame = frame.set_index(datetime_col)
 
@@ -1615,20 +1991,35 @@ def _trade_price_frame(strategy, data_name, cache):
     frame = frame.sort_index()
 
     normalized = pd.DataFrame(index=frame.index)
-    close_col = _resolve_trade_frame_column(frame, getattr(data, "_colmapping", {}), "close")
+    close_col = _resolve_trade_frame_column(
+        frame, getattr(data, "_colmapping", {}), "close"
+    )
     if close_col is None:
         cache[data_name] = None
         return None
     normalized["close"] = pd.to_numeric(frame[close_col], errors="coerce")
 
-    high_col = _resolve_trade_frame_column(frame, getattr(data, "_colmapping", {}), "high")
-    low_col = _resolve_trade_frame_column(frame, getattr(data, "_colmapping", {}), "low")
-    normalized["high"] = pd.to_numeric(frame[high_col], errors="coerce") if high_col is not None else normalized["close"]
-    normalized["low"] = pd.to_numeric(frame[low_col], errors="coerce") if low_col is not None else normalized["close"]
+    high_col = _resolve_trade_frame_column(
+        frame, getattr(data, "_colmapping", {}), "high"
+    )
+    low_col = _resolve_trade_frame_column(
+        frame, getattr(data, "_colmapping", {}), "low"
+    )
+    normalized["high"] = (
+        pd.to_numeric(frame[high_col], errors="coerce")
+        if high_col is not None
+        else normalized["close"]
+    )
+    normalized["low"] = (
+        pd.to_numeric(frame[low_col], errors="coerce")
+        if low_col is not None
+        else normalized["close"]
+    )
     normalized = normalized.dropna(subset=["close"])
 
     cache[data_name] = normalized
     return normalized
+
 
 def _resolve_trade_frame_column(frame, mapping, field):
     candidate = mapping.get(field) if isinstance(mapping, dict) else None
@@ -1646,10 +2037,12 @@ def _resolve_trade_frame_column(frame, mapping, field):
             return column
     return None
 
+
 def _window_max_drawdown_pct(equity_window):
     drawdown = ((equity_window / equity_window.cummax()) - 1) * 100
     return drawdown.min()
 
+
 def _window_ulcer_index(equity_window):
     drawdown = ((equity_window / equity_window.cummax()) - 1) * 100
-    return np.sqrt(np.mean(drawdown ** 2))
+    return np.sqrt(np.mean(drawdown**2))

@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
 ###############################################################################
 #
 # Copyright (C) 2015-2023 Daniel Rodriguez
@@ -18,7 +17,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
-from __future__ import absolute_import, division, print_function, unicode_literals
 
 import aptrade.feed as feed
 from aptrade import date2num
@@ -54,7 +52,7 @@ class BlazeData(feed.DataBase):
     datafields = ["datetime", "open", "high", "low", "close", "volume", "openinterest"]
 
     def start(self):
-        super(BlazeData, self).start()
+        super().start()
 
         # reset the iterator on each start
         self._rows = iter(self.p.dataname)

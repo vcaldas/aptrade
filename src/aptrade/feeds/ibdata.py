@@ -1,8 +1,7 @@
 #!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
 ###############################################################################
 #
-# Copyright (C) 2015-2023 Daniel Rodriguez
+# Copyright (C) 2015-2020 Daniel Rodriguez
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -17,30 +16,71 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
+# Source obtained from https://github.com/ultra1971/backtrader_ib_insync
+
 ###############################################################################
-from __future__ import absolute_import, division, print_function, unicode_literals
+"""IBData — Backtrader data feed for Interactive Brokers.
+
+This module provides a single public class, ``IBData``, which implements
+Backtrader's ``DataBase`` interface and delivers OHLCV bars from IB to a
+Cerebro strategy.
+
+Data flow overview
+------------------
+1. ``IBData.__init__`` parses the ``dataname`` string into a preliminary
+   ``ib_insync.Contract`` object (``precontract``).
+2. ``IBData.start`` asks ``IBStore`` for full contract details (resolves the
+   conId), decides whether to use RTBars or RTVolume for live data, and
+   kicks off the first data request via ``_st_start``.
+3. ``IBData._load`` is the Backtrader hook called once per bar.  It drives a
+   simple finite state machine:
+
+   - **_ST_HISTORBACK** — draining a queue of historical bars that were
+     pre-fetched by ``_st_start`` (or backfill-on-reconnect).  When the
+     queue empties the feed transitions to ``_ST_LIVE``.
+   - **_ST_LIVE** — on every ``_load`` call, issues a fresh ``reqMktData``
+     (RTVolume ticks) or ``reqRealTimeBars`` (5-second bars) request and
+     processes one message from the result queue.
+   - **_ST_FROM** — draining an external ``backfill_from`` data source before
+     switching to IB historical/live.
+   - **_ST_OVER** — terminal state, returns ``False`` to signal end-of-data.
+
+Live data modes
+---------------
+``rtbar=False`` (default)
+    Tick data via ``reqMktData`` tick type 233 (RTVolume for equities) or
+    plain BBO ticks for CASH/CFD.  Each tick populates a complete bar with
+    open = high = low = close = tick price.
+
+``rtbar=True``
+    5-second real-time bars via ``reqRealTimeBars``.  Only available for
+    timeframe/compression ≥ Seconds/5.  Uses MIDPOINT pricing.
+"""
 
 import datetime
+import time
 
 import aptrade as bt
 from aptrade import TimeFrame, date2num, num2date
 from aptrade.feed import DataBase
-from aptrade.metabase import MetaParams
-from aptrade.stores import ibstore
-from aptrade.utils.py3 import integer_types, queue, string_types, with_metaclass
+from aptrade.stores import IBStore
 
 
 class MetaIBData(DataBase.__class__):
+    """Metaclass that auto-registers ``IBData`` with ``IBStore``.
+
+    When Python finishes creating the ``IBData`` class, this metaclass fires
+    and stores a reference to the class in ``IBStore.DataCls``.  This lets
+    ``IBStore.getdata()`` instantiate the data feed without a circular import.
+    """
+
     def __init__(cls, name, bases, dct):
-        """Class has already been created ... register"""
-        # Initialize the class
-        super(MetaIBData, cls).__init__(name, bases, dct)
-
-        # Register with the store
-        ibstore.IBStore.DataCls = cls
+        """Register the newly created data class with the store."""
+        super().__init__(name, bases, dct)
+        IBStore.DataCls = cls
 
 
-class IBData(with_metaclass(MetaIBData, DataBase)):
+class IBData(DataBase, metaclass=MetaIBData):
     """Interactive Brokers Data Feed.
 
     Supports the following contract specifications in parameter ``dataname``:
@@ -118,7 +158,7 @@ class IBData(with_metaclass(MetaIBData, DataBase)):
       - ``rtbar`` (default: ``False``)
 
         If ``True`` the ``5 Seconds Realtime bars`` provided by Interactive
-        Brokers will be used as the smalles tick. According to the
+        Brokers will be used as the smallest tick. According to the
         documentation they correspond to real-time values (once collated and
         curated by IB)
 
@@ -158,121 +198,184 @@ class IBData(with_metaclass(MetaIBData, DataBase)):
 
         If the data source is resampled/replayed, some ticks may come in too
         late for the already delivered resampled/replayed bar. If this is
-        ``True`` those ticks will bet let through in any case.
+        ``True`` those ticks will be let through in any case.
 
-        Check the Resampler documentation to see who to take those ticks into
+        Check the Resampler documentation to see how to take those ticks into
         account.
 
-        This can happen especially if ``timeoffset`` is set to ``False``  in
+        This can happen especially if ``timeoffset`` is set to ``False`` in
         the ``IBStore`` instance and the TWS server time is not in sync with
         that of the local computer
 
       - ``tradename`` (default: ``None``)
+
         Useful for some specific cases like ``CFD`` in which prices are offered
-        by one asset and trading happens in a different onel
+        by one asset and trading happens in a different one:
 
         - SPY-STK-SMART-USD -> SP500 ETF (will be specified as ``dataname``)
-
         - SPY-CFD-SMART-USD -> which is the corresponding CFD which offers not
           price tracking but in this case will be the trading asset (specified
           as ``tradename``)
 
-    The default values in the params are the to allow things like ```TICKER``,
-    to which the parameter ``sectype`` (default: ``STK``) and ``exchange``
-    (default: ``SMART``) are applied.
+      - ``hist_tzo`` (default: ``0``)
 
-    Some assets like ``AAPL`` need full specification including ``currency``
-    (default: '') whereas others like ``TWTR`` can be simply passed as it is.
+        Timezone offset in hours to apply to historical bar timestamps.
+        Backtrader expects UTC; if the IB server returns bars in local time,
+        set this to the server's UTC offset (e.g. ``-5`` for US Eastern
+        Standard Time) so bars are shifted back to UTC.
 
-      - ``AAPL-STK-SMART-USD`` would be the full specification for dataname
+    The default values allow a bare ``TICKER`` string, to which ``sectype``
+    (default: ``STK``) and ``exchange`` (default: ``SMART``) are applied.
 
-        Or else: ``IBData`` as ``IBData(dataname='AAPL', currency='USD')``
-        which uses the default values (``STK`` and ``SMART``) and overrides
-        the currency to be ``USD``
+    Some assets like ``AAPL`` need an explicit currency::
+
+        IBData(dataname='AAPL', currency='USD')
+        # equivalent to dataname='AAPL-STK-SMART-USD'
     """
 
     params = (
-        ("sectype", "STK"),  # usual industry value
-        ("exchange", "SMART"),  # usual industry value
-        ("currency", ""),
-        ("rtbar", False),  # use RealTime 5 seconds bars
-        ("historical", False),  # only historical download
-        ("what", None),  # historical - what to show
-        ("useRTH", False),  # historical - download only Regular Trading Hours
-        ("qcheck", 0.5),  # timeout in seconds (float) to check for events
-        ("backfill_start", True),  # do backfilling at the start
-        ("backfill", True),  # do backfilling when reconnecting
-        ("backfill_from", None),  # additional data source to do backfill from
-        ("latethrough", False),  # let late samples through
-        ("tradename", None),  # use a different asset as order target
+        ("sectype", "STK"),  # security type default
+        ("exchange", "SMART"),  # exchange default
+        ("currency", ""),  # currency default (empty = IB default)
+        ("rtbar", False),  # True = use 5-second RTBars; False = RTVolume ticks
+        ("historical", False),  # True = download only, then stop
+        ("what", None),  # what to show: TRADES, BID, ASK, MIDPOINT, …
+        ("useRTH", False),  # True = regular trading hours only
+        ("qcheck", 0.5),  # seconds to wait for queue data before yielding
+        ("backfill_start", True),  # backfill at startup
+        ("backfill", True),  # backfill after reconnection
+        ("backfill_from", None),  # alternative data source for initial backfill
+        ("latethrough", False),  # allow late ticks through the resampler
+        ("tradename", None),  # separate contract for order placement
+        ("hist_tzo", 0),  # timezone offset (hours) for historical bars
     )
 
-    _store = ibstore.IBStore
+    _store = IBStore
 
-    # Minimum size supported by real-time bars
+    # The minimum timeframe/compression supported by IB real-time bars.
+    # Anything finer must use RTVolume ticks instead.
     RTBAR_MINSIZE = (TimeFrame.Seconds, 5)
 
-    # States for the Finite State Machine in _load
-    _ST_FROM, _ST_START, _ST_LIVE, _ST_HISTORBACK, _ST_OVER = range(5)
-
-    def _timeoffset(self):
-        return self.ib.timeoffset()
+    # States for the finite state machine (FSM) inside ``_load``.
+    # The integer values are assigned left-to-right by range(5).
+    _ST_FROM = 0  # consuming an external backfill_from data source
+    _ST_START = 1  # initial state — about to call _st_start()
+    _ST_LIVE = 2  # live data mode (reqMktData or reqRealTimeBars)
+    _ST_HISTORBACK = 3  # draining a historical data queue
+    _ST_OVER = 4  # terminal — feed is finished
 
     def _gettz(self):
-        # If no object has been provided by the user and a timezone can be
-        # found via contractdtails, then try to get it from pytz, which may or
-        # may not be available.
+        """Resolve the timezone to use for bar timestamps.
 
-        # The timezone specifications returned by TWS seem to be abbreviations
-        # understood by pytz, but the full list which TWS may return is not
-        # documented and one of the abbreviations may fail
-        tzstr = isinstance(self.p.tz, string_types)
+        Priority:
+        1. If ``self.p.tz`` is a non-string object (e.g. a pytz timezone),
+           wrap it in a Backtrader ``Localizer`` and return it.
+        2. If ``self.p.tz`` is a string, treat it as a pytz timezone name.
+        3. Otherwise fall back to the ``timeZoneId`` reported in the IB
+           contract details.
+
+        Returns:
+            A pytz timezone object, a Backtrader Localizer, or ``None`` if
+            the timezone cannot be determined (pytz not installed, unknown
+            zone, no contract details yet).
+        """
+        tzstr = isinstance(self.p.tz, str)
         if self.p.tz is not None and not tzstr:
+            # Caller passed a tzinfo object directly — wrap it.
             return bt.utils.date.Localizer(self.p.tz)
 
         if self.contractdetails is None:
-            return None  # nothing can be done
+            return None  # contract details not yet available
 
         try:
-            import pytz  # keep the import very local
+            import pytz  # optional dependency — keep the import local
         except ImportError:
-            return None  # nothing can be done
+            return None  # pytz not installed
 
-        tzs = self.p.tz if tzstr else self.contractdetails.m_timeZoneId
+        # Use the explicit tz string if provided, otherwise use the IB zone.
+        tzs = self.p.tz if tzstr else self.contractdetails.timeZoneId
 
-        if tzs == "CST":  # reported by TWS, not compatible with pytz. patch it
+        if tzs == "CST":
+            # TWS reports 'CST' but pytz only knows 'CST6CDT' for US Central.
             tzs = "CST6CDT"
 
         try:
             tz = pytz.timezone(tzs)
         except pytz.UnknownTimeZoneError:
-            return None  # nothing can be done
+            return None
 
-        # contractdetails there, import ok, timezone found, return it
         return tz
 
     def islive(self):
-        """Returns ``True`` to notify ``Cerebro`` that preloading and runonce
-        should be deactivated"""
+        """Tell Cerebro whether this feed delivers live data.
+
+        Returns ``True`` (live) when ``historical=False``, which causes
+        Cerebro to disable preloading and ``runonce`` mode so that the
+        strategy's ``next()`` is called bar-by-bar in real time.
+        """
         return not self.p.historical
 
     def __init__(self, **kwargs):
-        self.ib = self._store(**kwargs)
+        """Initialise the data feed and parse the contract string.
+
+        Stores a reference to the ``IBStore`` singleton and pre-parses both
+        ``dataname`` and ``tradename`` into preliminary ``Contract`` objects.
+        Full contract resolution (conId, etc.) happens in ``start()`` once the
+        IB connection is available.
+
+        Args:
+            **kwargs: Forwarded to ``IBStore`` and to the ``DataBase`` params
+                system.  Includes ``dataname``, ``tradename``, ``sectype``,
+                ``exchange``, ``currency``, ``rtbar``, ``historical``, etc.
+        """
+        self.ibstore = self._store(**kwargs)
+        # Parse the dataname/tradename strings into skeletal Contract objects.
+        # These will be resolved against the live IB API in start().
         self.precontract = self.parsecontract(self.p.dataname)
         self.pretradecontract = self.parsecontract(self.p.tradename)
 
     def setenvironment(self, env):
-        """Receives an environment (cerebro) and passes it over to the store it
-        belongs to"""
-        super(IBData, self).setenvironment(env)
-        env.addstore(self.ib)
+        """Register the shared ``IBStore`` with the Cerebro environment.
+
+        Called by Cerebro when the data feed is added.  Ensures the store is
+        known to Cerebro so that ``start()`` / ``stop()`` lifecycle calls reach
+        it correctly.
+
+        Args:
+            env: The Cerebro instance (Backtrader environment).
+        """
+        super().setenvironment(env)
+        env.addstore(self.ibstore)
 
     def parsecontract(self, dataname):
-        """Parses dataname generates a default contract"""
-        # Set defaults for optional tokens in the ticker string
+        """Parse a ``dataname`` string into a preliminary IB ``Contract``.
+
+        The dataname format is a dash-separated string.  Supported formats::
+
+            TICKER                                    → STK, SMART exchange
+            TICKER-STK-EXCHANGE-CURRENCY              → stock
+            CUR1.CUR2-CASH-IDEALPRO                   → forex
+            TICKER-YYYYMM-EXCHANGE-CURRENCY-MULT      → future
+            TICKER-YYYYMMDD-EXCHANGE-CURRENCY-STRIKE-RIGHT-MULT → option
+            TICKER-FUT-EXCHANGE-CURRENCY-YYYYMM-MULT  → future (explicit)
+            TICKER-FOP-EXCHANGE-CURRENCY-YYYYMM-STRIKE-RIGHT-MULT → FOP
+            TICKER-OPT-EXCHANGE-CURRENCY-YYYYMMDD-STRIKE-RIGHT-MULT → option
+
+        The returned ``Contract`` is "pre-resolved" — it has enough fields for
+        ``IBStore.getContractDetails()`` to look up the full IB contract
+        (including the numeric ``conId``).
+
+        Args:
+            dataname (str or None): Contract identifier string, or ``None``.
+
+        Returns:
+            ib_insync.Contract or None: Skeletal contract, or ``None`` if
+            ``dataname`` is ``None``.
+        """
         if dataname is None:
             return None
 
+        # Start with the defaults from params; override as tokens are parsed.
         exch = self.p.exchange
         curr = self.p.currency
         expiry = ""
@@ -280,59 +383,59 @@ class IBData(with_metaclass(MetaIBData, DataBase)):
         right = ""
         mult = ""
 
-        # split the ticker string
+        # Split the dash-separated string into a token iterator.
         tokens = iter(dataname.split("-"))
 
-        # Symbol and security type are compulsory
+        # First token is always the symbol (e.g. 'AAPL', 'EUR.USD').
         symbol = next(tokens)
         try:
             sectype = next(tokens)
         except StopIteration:
+            # Only a bare ticker was given — use the default security type.
             sectype = self.p.sectype
 
-        # security type can be an expiration date
+        # A pure-digit second token means an expiry date was provided instead
+        # of an explicit security type — infer the type from the digit count.
         if sectype.isdigit():
-            expiry = sectype  # save the expiration ate
-
-            if len(sectype) == 6:  # YYYYMM
+            expiry = sectype  # save the expiry string
+            if len(sectype) == 6:  # YYYYMM format → future
                 sectype = "FUT"
-            else:  # Assume OPTIONS - YYYYMMDD
+            else:  # YYYYMMDD format → option
                 sectype = "OPT"
 
-        if sectype == "CASH":  # need to address currency for Forex
+        if sectype == "CASH":
+            # Forex pairs are encoded as 'BASE.QUOTE'; split them apart.
             symbol, curr = symbol.split(".")
 
-        # See if the optional tokens were provided
         try:
-            exch = next(tokens)  # on exception it will be the default
-            curr = next(tokens)  # on exception it will be the default
+            exch = next(tokens)  # exchange (e.g. 'SMART', 'CME')
+            curr = next(tokens)  # currency (e.g. 'USD', 'EUR')
 
             if sectype == "FUT":
                 if not expiry:
-                    expiry = next(tokens)
-                mult = next(tokens)
+                    expiry = next(tokens)  # YYYYMM expiry
+                mult = next(tokens)  # contract multiplier
 
-                # Try to see if this is FOP - Futures on OPTIONS
+                # If a 'right' token (C/P) follows the multiplier, this is
+                # actually a Futures on Options (FOP) contract, not a future.
                 right = next(tokens)
-                # if still here this is a FOP and not a FUT
                 sectype = "FOP"
-                strike, mult = float(mult), ""  # assign to strike and void
-
-                mult = next(tokens)  # try again to see if there is any
+                strike, mult = float(mult), ""  # mult was actually the strike
+                mult = next(tokens)  # try to read the real multiplier
 
             elif sectype == "OPT":
                 if not expiry:
-                    expiry = next(tokens)
-                strike = float(next(tokens))  # on exception - default
-                right = next(tokens)  # on exception it will be the default
-
-                mult = next(tokens)  # ?? no harm in any case
+                    expiry = next(tokens)  # YYYYMMDD expiry
+                strike = float(next(tokens))  # strike price
+                right = next(tokens)  # 'C' or 'P'
+                mult = next(tokens)  # contract multiplier
 
         except StopIteration:
+            # Not all optional tokens were present — use whatever was parsed.
             pass
 
-        # Make the initial contract
-        precon = self.ib.makecontract(
+        # Build the ib_insync Contract object from the parsed components.
+        precon = self.ibstore.makecontract(
             symbol=symbol,
             sectype=sectype,
             exch=exch,
@@ -346,310 +449,180 @@ class IBData(with_metaclass(MetaIBData, DataBase)):
         return precon
 
     def start(self):
-        """Starts the IB connecction and gets the real contract and
-        contractdetails if it exists"""
-        super(IBData, self).start()
-        # Kickstart store and get queue to wait on
-        self.qlive = self.ib.start(data=self)
-        self.qhist = None
+        """Connect to IB, resolve the contract, and initiate data requests.
 
+        Called by Cerebro before the first bar.  Steps:
+
+        1. Kicks off the ``IBStore`` (creates the data queue).
+        2. Decides whether to use RTVolume (``_usertvol=True``) or RTBars.
+        3. Resolves ``precontract`` and ``pretradecontract`` to full IB
+           contracts with ``conId`` via ``IBStore.getContractDetails()``.
+        4. Calls ``_st_start()`` to issue the first historical / live request.
+
+        Sends ``CONNECTED`` on success or ``DISCONNECTED`` if the contract
+        cannot be resolved.
+        """
+        super().start()
+
+        # Register with the store and get the initial queue.
+        self.q = self.ibstore.start(data=self)
+
+        # Decide live data mode.  RTBars are only supported at Seconds/5+.
         self._usertvol = not self.p.rtbar
         tfcomp = (self._timeframe, self._compression)
         if tfcomp < self.RTBAR_MINSIZE:
-            # Requested timeframe/compression not supported by rtbars
+            # The requested bar size is too small for RTBars — fall back to
+            # RTVolume ticks regardless of the rtbar parameter.
             self._usertvol = True
 
+        # These are set after contract resolution below.
         self.contract = None
         self.contractdetails = None
         self.tradecontract = None
         self.tradecontractdetails = None
 
         if self.p.backfill_from is not None:
+            # An external backfill source was provided — start there.
             self._state = self._ST_FROM
             self.p.backfill_from.setenvironment(self._env)
             self.p.backfill_from._start()
         else:
-            self._state = self._ST_START  # initial state for _load
-        self._statelivereconn = False  # if reconnecting in live state
-        self._subcription_valid = False  # subscription state
-        self._storedmsg = dict()  # keep pending live message (under None)
-
-        if not self.ib.connected():
-            return
+            self._state = self._ST_START  # normal startup path
 
         self.put_notification(self.CONNECTED)
-        # get real contract details with real conId (contractId)
-        cds = self.ib.getContractDetails(self.precontract, maxcount=1)
+
+        # Resolve the data contract to its full IB representation (gets conId,
+        # exchange details, timezone, etc.).
+        cds = self.ibstore.getContractDetails(self.precontract, maxcount=1)
         if cds is not None:
             cdetails = cds[0]
-            self.contract = cdetails.contractDetails.m_summary
-            self.contractdetails = cdetails.contractDetails
+            self.contract = cdetails.contract
+            self.contractdetails = cdetails
         else:
-            # no contract can be found (or many)
+            # Contract not found or ambiguous.
             self.put_notification(self.DISCONNECTED)
             return
 
         if self.pretradecontract is None:
-            # no different trading asset - default to standard asset
+            # No separate trading asset — data and trading use the same contract.
             self.tradecontract = self.contract
             self.tradecontractdetails = self.contractdetails
         else:
-            # different target asset (typical of some CDS products)
-            # use other set of details
-            cds = self.ib.getContractDetails(self.pretradecontract, maxcount=1)
+            # A tradename was given (e.g. SPY-CFD while tracking SPY-STK).
+            # Resolve the trading contract separately.
+            cds = self.ibstore.getContractDetails(self.pretradecontract, maxcount=1)
             if cds is not None:
                 cdetails = cds[0]
-                self.tradecontract = cdetails.contractDetails.m_summary
-                self.tradecontractdetails = cdetails.contractDetails
+                self.tradecontract = cdetails.contract
+                self.tradecontractdetails = cdetails
             else:
-                # no contract can be found (or many)
                 self.put_notification(self.DISCONNECTED)
                 return
 
         if self._state == self._ST_START:
-            self._start_finish()  # to finish initialization
+            # No external backfill source — proceed to first IB request.
+            self._start_finish()
             self._st_start()
 
     def stop(self):
-        """Stops and tells the store to stop"""
-        super(IBData, self).stop()
-        self.ib.stop()
-
-    def reqdata(self):
-        """request real-time data. checks cash vs non-cash) and param useRT"""
-        if self.contract is None or self._subcription_valid:
-            return
-
-        if self._usertvol:
-            self.qlive = self.ib.reqMktData(self.contract, self.p.what)
-        else:
-            self.qlive = self.ib.reqRealTimeBars(self.contract)
-
-        self._subcription_valid = True
-        return self.qlive
-
-    def canceldata(self):
-        """Cancels Market Data subscription, checking asset type and rtbar"""
-        if self.contract is None:
-            return
-
-        if self._usertvol:
-            self.ib.cancelMktData(self.qlive)
-        else:
-            self.ib.cancelRealTimeBars(self.qlive)
+        """Stop the data feed and disconnect from IB."""
+        super().stop()
+        self.ibstore.stop()
 
     def haslivedata(self):
-        return bool(self._storedmsg or self.qlive)
+        """Return ``True`` if the data queue exists and is non-empty.
+
+        Used by Cerebro to decide whether to call ``_load`` again immediately
+        or to yield control to the event loop.
+        """
+        return bool(self.q)
 
     def _load(self):
+        """Load the next bar into Backtrader's line buffers.
+
+        This is the core FSM loop called by Cerebro on every bar cycle.
+
+        FSM transitions
+        ---------------
+        Any state ≠ _ST_LIVE
+            Drain the pre-fetched historical queue ``self.q`` one bar at a
+            time.  When the queue is empty, transition to ``_ST_LIVE`` and
+            notify LIVE.
+
+        _ST_LIVE
+            Issue a fresh market data / RTBar request on every call and
+            process one message from the result queue.
+
+        Returns:
+            True if a bar was successfully loaded into the line buffers.
+            False if the feed has ended (``_ST_OVER`` or no contract).
+            None (implicit) if no data was available this cycle.
+        """
         if self.contract is None or self._state == self._ST_OVER:
-            return False  # nothing can be done
+            return False  # no contract or explicitly finished
 
         while True:
+            # --- Historical / backfill phase ---
+            if self._state != self._ST_LIVE:
+                if not self.q.empty():
+                    # A bar is waiting in the queue — load it.
+                    msg = self.q.get()
+                    ret = self._load_rtbar(msg, hist=True, hist_tzo=self.p.hist_tzo)
+                    if ret:
+                        return True
+                else:
+                    # Queue exhausted — switch to live mode.
+                    self.put_notification(self.LIVE)
+                    self._state = self._ST_LIVE
+
+            # --- Live data phase ---
             if self._state == self._ST_LIVE:
-                try:
-                    msg = self._storedmsg.pop(None, None) or self.qlive.get(
-                        timeout=self._qcheck
-                    )
-                except queue.Empty:
-                    if True:
-                        return None
+                # Issue a fresh data request each cycle.
+                if self._usertvol:
+                    # RTVolume / tick data (default for most instruments).
+                    self.q = self.ibstore.reqMktData(self.contract, self.p.what)
+                else:
+                    # 5-second real-time bars.
+                    self.q = self.ibstore.reqRealTimeBars(self.contract)
 
-                    # Code invalidated until further checking is done
-                    if not self._statelivereconn:
-                        return None  # indicate timeout situation
-
-                    # Awaiting data and nothing came in - fake it up until now
-                    dtend = self.num2date(date2num(datetime.datetime.utcnow()))
-                    dtbegin = None
-                    if len(self) > 1:
-                        dtbegin = self.num2date(self.datetime[-1])
-
-                    self.qhist = self.ib.reqHistoricalDataEx(
-                        contract=self.contract,
-                        enddate=dtend,
-                        begindate=dtbegin,
-                        timeframe=self._timeframe,
-                        compression=self._compression,
-                        what=self.p.what,
-                        useRTH=self.p.useRTH,
-                        tz=self._tz,
-                        sessionend=self.p.sessionend,
-                    )
-
-                    if self._laststatus != self.DELAYED:
-                        self.put_notification(self.DELAYED)
-
-                    self._state = self._ST_HISTORBACK
-
-                    self._statelivereconn = False
-                    continue  # to reenter the loop and hit st_historback
-
-                if msg is None:  # Conn broken during historical/backfilling
-                    self._subcription_valid = False
-                    self.put_notification(self.CONNBROKEN)
-                    # Try to reconnect
-                    if not self.ib.reconnect(resub=True):
-                        self.put_notification(self.DISCONNECTED)
-                        return False  # failed
-
-                    self._statelivereconn = self.p.backfill
-                    continue
-
-                if msg == -354:
-                    self.put_notification(self.NOTSUBSCRIBED)
-                    return False
-
-                elif msg == -1100:  # conn broken
-                    # Tell to wait for a message to do a backfill
-                    # self._state = self._ST_DISCONN
-                    self._subcription_valid = False
-                    self._statelivereconn = self.p.backfill
-                    continue
-
-                elif msg == -1102:  # conn broken/restored tickerId maintained
-                    # The message may be duplicated
-                    if not self._statelivereconn:
-                        self._statelivereconn = self.p.backfill
-                    continue
-
-                elif msg == -1101:  # conn broken/restored tickerId gone
-                    # The message may be duplicated
-                    self._subcription_valid = False
-                    if not self._statelivereconn:
-                        self._statelivereconn = self.p.backfill
-                        self.reqdata()  # resubscribe
-                    continue
-
-                elif (
-                    msg == -10225
-                ):  # Bust event occurred, current subscription is deactivated.
-                    self._subcription_valid = False
-                    if not self._statelivereconn:
-                        self._statelivereconn = self.p.backfill
-                        self.reqdata()  # resubscribe
-                    continue
-
-                elif isinstance(msg, integer_types):
-                    # Unexpected notification for historical data skip it
-                    # May be a "not connected not yet processed"
-                    self.put_notification(self.UNKNOWN, msg)
-                    continue
-
-                # Process the message according to expected return type
-                if not self._statelivereconn:
-                    if self._laststatus != self.LIVE:
-                        if self.qlive.qsize() <= 1:  # very short live queue
-                            self.put_notification(self.LIVE)
+                if not self.q.empty():
+                    msg = self.q.get()
 
                     if self._usertvol:
+                        # Tick-based bar: open=high=low=close=tick price.
                         ret = self._load_rtvolume(msg)
                     else:
-                        ret = self._load_rtbar(msg)
+                        # OHLCV bar from reqRealTimeBars.
+                        ret = self._load_rtbar(
+                            msg, hist=False, hist_tzo=self.p.hist_tzo
+                        )
                     if ret:
                         return True
 
-                    # could not load bar ... go and get new one
-                    continue
-
-                # Fall through to processing reconnect - try to backfill
-                self._storedmsg[None] = msg  # keep the msg
-
-                # else do a backfill
-                if self._laststatus != self.DELAYED:
-                    self.put_notification(self.DELAYED)
-
-                dtend = None
-                if len(self) > 1:
-                    # len == 1 ... forwarded for the 1st time
-                    # get begin date in utc-like format like msg.datetime
-                    dtbegin = num2date(self.datetime[-1])
-                elif self.fromdate > float("-inf"):
-                    dtbegin = num2date(self.fromdate)
-                else:  # 1st bar and no begin set
-                    # passing None to fetch max possible in 1 request
-                    dtbegin = None
-
-                dtend = msg.datetime if self._usertvol else msg.time
-
-                self.qhist = self.ib.reqHistoricalDataEx(
-                    contract=self.contract,
-                    enddate=dtend,
-                    begindate=dtbegin,
-                    timeframe=self._timeframe,
-                    compression=self._compression,
-                    what=self.p.what,
-                    useRTH=self.p.useRTH,
-                    tz=self._tz,
-                    sessionend=self.p.sessionend,
-                )
-
-                self._state = self._ST_HISTORBACK
-                self._statelivereconn = False  # no longer in live
-                continue
-
-            elif self._state == self._ST_HISTORBACK:
-                msg = self.qhist.get()
-                if msg is None:  # Conn broken during historical/backfilling
-                    # Situation not managed. Simply bail out
-                    self._subcription_valid = False
-                    self.put_notification(self.DISCONNECTED)
-                    return False  # error management cancelled the queue
-
-                elif msg == -354:  # Data not subscribed
-                    self._subcription_valid = False
-                    self.put_notification(self.NOTSUBSCRIBED)
-                    return False
-
-                elif msg == -420:  # No permissions for the data
-                    self._subcription_valid = False
-                    self.put_notification(self.NOTSUBSCRIBED)
-                    return False
-
-                elif isinstance(msg, integer_types):
-                    # Unexpected notification for historical data skip it
-                    # May be a "not connected not yet processed"
-                    self.put_notification(self.UNKNOWN, msg)
-                    continue
-
-                if msg.date is not None:
-                    if self._load_rtbar(msg, hist=True):
-                        return True  # loading worked
-
-                    # the date is from overlapping historical request
-                    continue
-
-                # End of histdata
-                if self.p.historical:  # only historical
-                    self.put_notification(self.DISCONNECTED)
-                    return False  # end of historical
-
-                # Live is also wished - go for it
-                self._state = self._ST_LIVE
-                continue
-
-            elif self._state == self._ST_FROM:
-                if not self.p.backfill_from.next():
-                    # additional data source is consumed
-                    self._state = self._ST_START
-                    continue
-
-                # copy lines of the same name
-                for alias in self.lines.getlinealiases():
-                    lsrc = getattr(self.p.backfill_from.lines, alias)
-                    ldst = getattr(self.lines, alias)
-
-                    ldst[0] = lsrc[0]
-
-                return True
-
-            elif self._state == self._ST_START:
-                if not self._st_start():
-                    return False
-
     def _st_start(self):
+        """Issue the first data request after the contract is resolved.
+
+        Two paths depending on ``self.p.historical``:
+
+        Historical mode (``historical=True``)
+            Sends a ``reqHistoricalDataEx`` request spanning ``fromdate`` →
+            ``todate``, puts the feed in ``_ST_HISTORBACK``, and returns.
+            ``_load`` will drain the result queue bar by bar; the feed ends
+            when the queue is empty.
+
+        Live mode (``historical=False``)
+            If ``backfill_start=True``, sends a historical request first to
+            fill the gap from the beginning of data to now, then transitions
+            to ``_ST_LIVE`` once that queue is drained.
+            If ``backfill_start=False``, goes straight to ``_ST_LIVE``.
+
+        Returns:
+            True in all cases (signals to the caller to continue the loop).
+        """
         if self.p.historical:
+            # Historical-only mode.
             self.put_notification(self.DELAYED)
+
             dtend = None
             if self.todate < float("inf"):
                 dtend = num2date(self.todate)
@@ -658,7 +631,9 @@ class IBData(with_metaclass(MetaIBData, DataBase)):
             if self.fromdate > float("-inf"):
                 dtbegin = num2date(self.fromdate)
 
-            self.qhist = self.ib.reqHistoricalDataEx(
+            # Request the full historical range.  IBStore.reqHistoricalDataEx
+            # automatically splits it into multiple IB requests if needed.
+            self.q = self.ibstore.reqHistoricalDataEx(
                 contract=self.contract,
                 enddate=dtend,
                 begindate=dtbegin,
@@ -671,53 +646,110 @@ class IBData(with_metaclass(MetaIBData, DataBase)):
             )
 
             self._state = self._ST_HISTORBACK
-            return True  # continue before
+            return True
 
-        # Live is requested
-        if not self.ib.reconnect(resub=True):
-            self.put_notification(self.DISCONNECTED)
-            self._state = self._ST_OVER
-            return False  # failed - was so
+        else:
+            # Live mode — optionally backfill first.
+            self._statelivereconn = self.p.backfill_start
+            if self.p.backfill_start:
+                dtend = None
+                if self.p.backfill_from is not None:
+                    # Backfill from the end of the external source.
+                    dtbegin = num2date(self.p.backfill_from)
+                    self._state = self._ST_FROM
+                else:
+                    dtbegin = None  # fetch max available history
+                    self._state = self._ST_START
 
-        self._statelivereconn = self.p.backfill_start
-        if self.p.backfill_start:
-            self.put_notification(self.DELAYED)
+                # Fetch historical bars to backfill up to the current moment.
+                self.q = self.ibstore.reqHistoricalDataEx(
+                    contract=self.contract,
+                    enddate=dtend,
+                    begindate=dtbegin,
+                    timeframe=self._timeframe,
+                    compression=self._compression,
+                    what=self.p.what,
+                    useRTH=self.p.useRTH,
+                    tz=self._tz,
+                    sessionend=self.p.sessionend,
+                )
+                self.put_notification(self.DELAYED)
+            else:
+                # Skip backfill — go live immediately.
+                self._state = self._ST_LIVE
 
-        self._state = self._ST_LIVE
-        return True  # no return before - implicit continue
+        return True
 
-    def _load_rtbar(self, rtbar, hist=False):
-        # A complete 5 second bar made of real-time ticks is delivered and
-        # contains open/high/low/close/volume prices
-        # The historical data has the same data but with 'date' instead of
-        # 'time' for datetime
-        dt = date2num(rtbar.time if not hist else rtbar.date)
+    def _load_rtbar(self, rtbar, hist=False, hist_tzo=None):
+        """Load a single OHLCV bar (RTBar or historical bar) into line buffers.
+
+        IB historical bars use a ``date`` attribute while live RTBars use
+        ``time``.  Both provide open, high, low, close, and volume.
+
+        Args:
+            rtbar: An ``ib_insync.BarData`` object (historical or RTBar).
+            hist (bool): ``True`` for historical bars (use ``rtbar.date``),
+                ``False`` for live RTBars (use ``rtbar.time``).
+            hist_tzo: Timezone offset in hours for historical bars, or
+                ``None`` to auto-detect from the system timezone.
+
+        Returns:
+            True if the bar was loaded successfully.
+            False if the bar is older than the last delivered bar and
+            ``latethrough`` is False (i.e. the bar is discarded).
+        """
+        if hist:
+            if hist_tzo is None:
+                # Fall back to the system local UTC offset (seconds → hours).
+                hist_tzo = time.timezone / 3600
+                rtbar.date = rtbar.date + datetime.timedelta(hours=hist_tzo)
+            dt = date2num(rtbar.date)
+        else:
+            dt = date2num(rtbar.time)
+
+        # Reject out-of-order bars unless latethrough is enabled.
         if dt < self.lines.datetime[-1] and not self.p.latethrough:
-            return False  # cannot deliver earlier than already delivered
+            return False
 
         self.lines.datetime[0] = dt
-        # Put the tick into the bar
-        self.lines.open[0] = rtbar.open
+
+        # Populate the OHLCV lines.  ``open`` is a Python keyword in some
+        # contexts, so ib_insync may expose it as ``open_``.
+        try:
+            self.lines.open[0] = rtbar.open
+        except AttributeError:
+            self.lines.open[0] = rtbar.open_  # ib_insync ≥ 0.9.70 uses open_
         self.lines.high[0] = rtbar.high
         self.lines.low[0] = rtbar.low
         self.lines.close[0] = rtbar.close
         self.lines.volume[0] = rtbar.volume
-        self.lines.openinterest[0] = 0
+        self.lines.openinterest[0] = 0  # IB does not provide OI via RTBars
 
         return True
 
     def _load_rtvolume(self, rtvol):
-        # A single tick is delivered and is therefore used for the entire set
-        # of prices. Ideally the
-        # contains open/high/low/close/volume prices
-        # Datetime transformation
-        dt = date2num(rtvol.datetime)
+        """Load a single RTVolume tick into line buffers as a flat bar.
+
+        Because a tick is a single price point, open = high = low = close =
+        tick price.  Volume is the size reported with the tick.
+
+        Args:
+            rtvol: An ``ib_insync.Ticker`` object (from ``reqMktData``).
+                Expected to have ``time`` and ``price`` and ``size``
+                attributes from the latest tick.
+
+        Returns:
+            True if the tick was loaded successfully.
+            False if the tick is older than the last bar and ``latethrough``
+            is False.
+        """
+        dt = date2num(rtvol.time)
         if dt < self.lines.datetime[-1] and not self.p.latethrough:
-            return False  # cannot deliver earlier than already delivered
+            return False  # discard late tick
 
         self.lines.datetime[0] = dt
 
-        # Put the tick into the bar
+        # All OHLC values are set to the single tick price.
         tick = rtvol.price
         self.lines.open[0] = tick
         self.lines.high[0] = tick

@@ -50,7 +50,7 @@ tableau10_light = [
 tab10_index = [3, 0, 2, 1, 2, 4, 5, 6, 7, 8, 9]
 
 
-class PlotScheme(object):
+class PlotScheme:
     def __init__(self):
         # to have a tight packing on the chart wether only the x axis or also
         # the y axis have (see matplotlib)

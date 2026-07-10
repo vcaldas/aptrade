@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
 ###############################################################################
 #
 # Copyright (C) 2015-2023 Daniel Rodriguez
@@ -18,40 +17,22 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
-from __future__ import (absolute_import, division, print_function,
-                        unicode_literals)
 
 
-from .csvgeneric import *
 from .btcsv import *
-from .vchartcsv import *
-from .vchart import *
-from .yahoo import *
-from .sierrachart import *
-from .mt4csv import *
-from .pandafeed import *
+from .csvgeneric import *
 from .influxfeed import *
+from .pandafeed import *
 from .parquetgeneric import *
+from .yahoo import *
+
 try:
     from .ibdata import *
 except ImportError:
     pass  # The user may not have ibpy installed
 
-try:
-    from .vcdata import *
-except ImportError:
-    pass  # The user may not have something installed
-
-try:
-    from .oanda import OandaData
-except ImportError:
-    pass  # The user may not have something installed
-
-
-from .vchartfile import VChartFile
-
-from .rollover import RollOver
 from .chainer import Chainer
+from .rollover import RollOver
 
 try:
     from .massivefeed import *

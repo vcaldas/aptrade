@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
 ###############################################################################
 #
 # Copyright (C) 2015-2023 Daniel Rodriguez
@@ -18,7 +17,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
-from __future__ import absolute_import, division, print_function, unicode_literals
 
 from datetime import datetime
 
@@ -29,12 +27,12 @@ class MetaChainer(bt.DataBase.__class__):
     def __init__(cls, name, bases, dct):
         """Class has already been created ... register"""
         # Initialize the class
-        super(MetaChainer, cls).__init__(name, bases, dct)
+        super().__init__(name, bases, dct)
 
     def donew(cls, *args, **kwargs):
         """Intercept const. to copy timeframe/compression from 1st data"""
         # Create the object and set the params in place
-        _obj, args, kwargs = super(MetaChainer, cls).donew(*args, **kwargs)
+        _obj, args, kwargs = super().donew(*args, **kwargs)
 
         if args:
             _obj.p.timeframe = args[0]._timeframe
@@ -55,7 +53,7 @@ class Chainer(bt.DataBase, metaclass=MetaChainer):
         self._args = args
 
     def start(self):
-        super(Chainer, self).start()
+        super().start()
         for d in self._args:
             d.setenvironment(self._env)
             d._start()
@@ -66,7 +64,7 @@ class Chainer(bt.DataBase, metaclass=MetaChainer):
         self._lastdt = datetime.min
 
     def stop(self):
-        super(Chainer, self).stop()
+        super().stop()
         for d in self._args:
             d.stop()
 

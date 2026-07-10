@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
 ###############################################################################
 #
 # Copyright (C) 2015-2023 Daniel Rodriguez
@@ -18,7 +17,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
-from __future__ import absolute_import, division, print_function, unicode_literals
 
 import array as array
 
@@ -58,7 +56,7 @@ class PandasDirectData(feed.DataBase):
     datafields = ["datetime", "open", "high", "low", "close", "volume", "openinterest"]
 
     def start(self):
-        super(PandasDirectData, self).start()
+        super().start()
 
         # reset the iterator on each start
         self._rows = self.p.dataname.itertuples()
@@ -88,7 +86,7 @@ class PandasDirectData(feed.DataBase):
             line[0] = row[colidx]
 
         # datetime
-        colidx = getattr(self.params, "datetime")
+        colidx = self.params.datetime
         tstamp = row[colidx]
 
         # convert to float via datetime and store it
@@ -96,7 +94,7 @@ class PandasDirectData(feed.DataBase):
         dtnum = date2num(dt)
 
         # get the line to be set
-        line = getattr(self.lines, "datetime")
+        line = self.lines.datetime
         line[0] = dtnum
 
         # Done ... return
@@ -156,7 +154,7 @@ class PandasData(feed.DataBase):
     datafields = ["datetime", "open", "high", "low", "close", "volume", "openinterest"]
 
     def __init__(self):
-        super(PandasData, self).__init__()
+        super().__init__()
 
         # these "colnames" can be strings or numeric types
         colnames = list(self.p.dataname.columns.values)
@@ -197,7 +195,7 @@ class PandasData(feed.DataBase):
                 self._colmapping[datafield] = defmapping
 
     def start(self):
-        super(PandasData, self).start()
+        super().start()
 
         # reset the length with each start
         self._idx = -1
@@ -322,7 +320,7 @@ class PandasDataNew(feed.DataBase):
     datafields = ["datetime", "open", "high", "low", "close", "volume", "openinterest"]
 
     def __init__(self):
-        super(PandasDataNew, self).__init__()
+        super().__init__()
         self._preloaded = False
 
         if self.p.dataframe is None:
@@ -390,11 +388,11 @@ class PandasDataNew(feed.DataBase):
                 ].copy()
 
     def reset(self):
-        super(PandasDataNew, self).reset()
+        super().reset()
         self._preloaded = False
 
     def start(self):
-        super(PandasDataNew, self).start()
+        super().start()
 
         # reset the length with each start
         self._idx = -1

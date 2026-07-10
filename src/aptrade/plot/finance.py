@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
 ###############################################################################
 #
 # Copyright (C) 2015-2023 Daniel Rodriguez
@@ -18,7 +17,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
-from __future__ import absolute_import, division, print_function, unicode_literals
 
 import matplotlib.collections as mcol
 import matplotlib.colors as mcolors
@@ -28,7 +26,7 @@ import matplotlib.lines as mlines
 from .utils import shade_color
 
 
-class CandlestickPlotHandler(object):
+class CandlestickPlotHandler:
     legend_opens = [0.50, 0.50, 0.50]
     legend_highs = [1.00, 1.00, 1.00]
     legend_lows = [0.00, 0.00, 0.00]
@@ -291,7 +289,7 @@ def plot_candlestick(
     return chandler.barcol, chandler.tickcol
 
 
-class VolumePlotHandler(object):
+class VolumePlotHandler:
     legend_vols = [0.5, 1.0, 0.75]
     legend_opens = [0, 1, 0]
     legend_closes = [1, 0, 1]
@@ -449,7 +447,7 @@ def plot_volume(
     return (vhandler.barcol,)
 
 
-class OHLCPlotHandler(object):
+class OHLCPlotHandler:
     legend_opens = [0.50, 0.50, 0.50]
     legend_highs = [1.00, 1.00, 1.00]
     legend_lows = [0.00, 0.00, 0.00]
@@ -644,7 +642,7 @@ def plot_ohlc(
     return handler.barcol, handler.opencol, handler.closecol
 
 
-class LineOnClosePlotHandler(object):
+class LineOnClosePlotHandler:
     legend_closes = [0.00, 0.66, 0.33, 1.00]
 
     def __init__(

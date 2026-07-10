@@ -61,7 +61,7 @@
 # position of each line avoiding the distorsion
 
 
-class Widget(object):
+class Widget:
     """
     Abstract base class for GUI neutral widgets
     """

@@ -17,17 +17,17 @@ from bn_lightweight_charts.widgets import HTMLChart_BN
 from aptrade.analyzers.eq import Eq
 from aptrade.dataseries import TimeFrame
 from aptrade.metabase import AutoInfoClass, MetaParams
+from aptrade.plot.scheme import PlotScheme
 
 # from aptrade_next import order
 from aptrade.strategy import Strategy
-from aptrade.utils.dateintern import date2num, num2date
 from aptrade.utils import format_datetime
-from aptrade.plot.scheme import PlotScheme
+from aptrade.utils.dateintern import date2num, num2date
 
 logger = logging.getLogger(__name__)
 
 
-class PInfo(object):
+class PInfo:
     def __init__(self, sch):
         self.sch = sch
         self.reset()
@@ -55,8 +55,8 @@ class Plot(metaclass=MetaParams):
         for pname, pvalue in kwargs.items():
             setattr(self.p.scheme, pname, pvalue)
         if not hasattr(self.p.scheme, "locbg"):
-            setattr(self.p.scheme, "locbg", "white")
-            setattr(self.p.scheme, "locbgother", "white")
+            self.p.scheme.locbg = "white"
+            self.p.scheme.locbgother = "white"
         self.chart = None
 
     @staticmethod

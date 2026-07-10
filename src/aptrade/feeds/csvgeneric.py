@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
 ###############################################################################
 #
 # Copyright (C) 2015-2023 Daniel Rodriguez
@@ -18,7 +17,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
-from __future__ import absolute_import, division, print_function, unicode_literals
 
 from datetime import datetime
 
@@ -81,7 +79,7 @@ class GenericCSVData(feed.CSVDataBase):
     )
 
     def start(self):
-        super(GenericCSVData, self).start()
+        super().start()
 
         self._dtstr = False
         if isinstance(self.p.dtformat, str):
