@@ -5,10 +5,9 @@ This module provides a centralized logging solution for the FastAPI application.
 It configures appropriate loggers for the FastAPI server environment.
 """
 
+import datetime as dt
 import logging
 import os
-import datetime as dt
-from typing import Optional
 from zoneinfo import ZoneInfo
 
 from .config import settings
@@ -23,7 +22,7 @@ VALID_LEVELS = {
 }
 
 # Global logger instance
-_logger: Optional[logging.Logger] = None
+_logger: logging.Logger | None = None
 
 
 class TimezoneFormatter(logging.Formatter):
