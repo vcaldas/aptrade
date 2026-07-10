@@ -70,3 +70,4 @@ datas/*.py
 
 .idea/
 tmp/
+src/aptrade/private/
