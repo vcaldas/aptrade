@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
 ###############################################################################
 #
 # Copyright (C) 2015-2023 Daniel Rodriguez
@@ -18,15 +17,15 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
-from __future__ import absolute_import, division, print_function, unicode_literals
 
 import argparse
 import datetime
 
 import aptrade as bt
+from aptrade.tradingcal import TradingCalendar
 
 
-class NYSE_2016(bt.TradingCalendar):
+class NYSE_2016(TradingCalendar):
     params = dict(
         holidays=[
             datetime.date(2016, 1, 1),
@@ -58,22 +57,18 @@ class St(bt.Strategy):
 
     def next(self):
         print(
-            "Strategy len {} datetime {}".format(len(self), self.datetime.datetime()),
+            f"Strategy len {len(self)} datetime {self.datetime.datetime()}",
             end=" ",
         )
 
         print(
-            "Data0 len {} datetime {}".format(
-                len(self.data0), self.data0.datetime.datetime()
-            ),
+            f"Data0 len {len(self.data0)} datetime {self.data0.datetime.datetime()}",
             end=" ",
         )
 
         if len(self.data1):
             print(
-                "Data1 len {} datetime {}".format(
-                    len(self.data1), self.data1.datetime.datetime()
-                )
+                f"Data1 len {len(self.data1)} datetime {self.data1.datetime.datetime()}"
             )
         else:
             print()

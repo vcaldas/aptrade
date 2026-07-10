@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
 ###############################################################################
 #
 # Copyright (C) 2015-2023 Daniel Rodriguez
@@ -24,9 +23,6 @@
 # BID: <tickPrice tickerId=16777217, field=1, price=1.11582, canAutoExecute=1>
 # ASK: <tickPrice tickerId=16777219, field=2, price=1.11583, canAutoExecute=1>
 
-from __future__ import absolute_import, division, print_function, unicode_literals
-
-import datetime
 
 import aptrade as bt
 
@@ -34,17 +30,17 @@ import aptrade as bt
 class St(bt.Strategy):
     def logdata(self):
         txt = []
-        txt.append("{}".format(len(self)))
-        txt.append("{}".format(self.data.datetime.datetime(0).isoformat()))
-        txt.append(" open BID: " + "{}".format(self.datas[0].open[0]))
-        txt.append(" open ASK: " + "{}".format(self.datas[1].open[0]))
-        txt.append(" high BID: " + "{}".format(self.datas[0].high[0]))
-        txt.append(" high ASK: " + "{}".format(self.datas[1].high[0]))
-        txt.append(" low BID: " + "{}".format(self.datas[0].low[0]))
-        txt.append(" low ASK: " + "{}".format(self.datas[1].low[0]))
-        txt.append(" close BID: " + "{}".format(self.datas[0].close[0]))
-        txt.append(" close ASK: " + "{}".format(self.datas[1].close[0]))
-        txt.append(" volume: " + "{:.2f}".format(self.data.volume[0]))
+        txt.append(f"{len(self)}")
+        txt.append(f"{self.data.datetime.datetime(0).isoformat()}")
+        txt.append(" open BID: " + f"{self.datas[0].open[0]}")
+        txt.append(" open ASK: " + f"{self.datas[1].open[0]}")
+        txt.append(" high BID: " + f"{self.datas[0].high[0]}")
+        txt.append(" high ASK: " + f"{self.datas[1].high[0]}")
+        txt.append(" low BID: " + f"{self.datas[0].low[0]}")
+        txt.append(" low ASK: " + f"{self.datas[1].low[0]}")
+        txt.append(" close BID: " + f"{self.datas[0].close[0]}")
+        txt.append(" close ASK: " + f"{self.datas[1].close[0]}")
+        txt.append(" volume: " + f"{self.data.volume[0]:.2f}")
         print(",".join(txt))
 
     data_live = False

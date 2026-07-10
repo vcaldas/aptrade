@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
 ###############################################################################
 #
 # Copyright (C) 2015-2023 Daniel Rodriguez
@@ -18,10 +17,8 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
-from __future__ import absolute_import, division, print_function, unicode_literals
 
 import argparse
-import collections
 import datetime
 import itertools
 
@@ -47,8 +44,8 @@ class SlipSt(bt.SignalStrategy):
     def notify_order(self, order):
         if order.status == bt.Order.Completed:
             t = ""
-            t += "{:02d}".format(next(self.opcounter))
-            t += " {}".format(order.data.datetime.datetime())
+            t += f"{next(self.opcounter):02d}"
+            t += f" {order.data.datetime.datetime()}"
             t += " BUY " * order.isbuy() or " SELL"
             t += " Size: {:+d} / Price: {:.2f}"
             print(t.format(order.executed.size, order.executed.price))

@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
 ###############################################################################
 #
 # Copyright (C) 2015-2023 Daniel Rodriguez
@@ -18,7 +17,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
-from __future__ import absolute_import, division, print_function, unicode_literals
 
 import argparse
 import datetime
@@ -87,11 +85,7 @@ class St(bt.Strategy):
                         exectype=bt.Order.Limit, price=p1, valid=valid1, transmit=False
                     )
 
-                    print(
-                        "{}: Oref {} / Buy at {}".format(
-                            self.datetime.date(), o1.ref, p1
-                        )
-                    )
+                    print(f"{self.datetime.date()}: Oref {o1.ref} / Buy at {p1}")
 
                     o2 = self.sell(
                         exectype=bt.Order.Stop,
@@ -101,11 +95,7 @@ class St(bt.Strategy):
                         transmit=False,
                     )
 
-                    print(
-                        "{}: Oref {} / Sell Stop at {}".format(
-                            self.datetime.date(), o2.ref, p2
-                        )
-                    )
+                    print(f"{self.datetime.date()}: Oref {o2.ref} / Sell Stop at {p2}")
 
                     o3 = self.sell(
                         exectype=bt.Order.Limit,
@@ -115,11 +105,7 @@ class St(bt.Strategy):
                         transmit=True,
                     )
 
-                    print(
-                        "{}: Oref {} / Sell Limit at {}".format(
-                            self.datetime.date(), o3.ref, p3
-                        )
-                    )
+                    print(f"{self.datetime.date()}: Oref {o3.ref} / Sell Limit at {p3}")
 
                     self.orefs = [o1.ref, o2.ref, o3.ref]
 

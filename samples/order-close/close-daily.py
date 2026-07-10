@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
 ###############################################################################
 #
 # Copyright (C) 2015-2023 Daniel Rodriguez
@@ -18,7 +17,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
-from __future__ import absolute_import, division, print_function
 
 import argparse
 import datetime
@@ -60,7 +58,7 @@ class St(bt.Strategy):
                 self.order = self.buy(exectype=bt.Order.Close)
 
 
-class SessionEndFiller(object, metaclass=bt.metabase.MetaParams):
+class SessionEndFiller(metaclass=bt.metabase.MetaParams):
     """This data filter simply adds the time given in param ``endtime`` to the
     current data datetime
 
@@ -104,8 +102,6 @@ def runstrat():
 def getdata(args):
     dataformat = dict(
         bt=btfeeds.BacktraderCSVData,
-        visualchart=btfeeds.VChartCSVData,
-        sierrachart=btfeeds.SierraChartCSVData,
         yahoo=btfeeds.YahooFinanceCSVData,
         yahoo_unreversed=btfeeds.YahooFinanceCSVData,
     )

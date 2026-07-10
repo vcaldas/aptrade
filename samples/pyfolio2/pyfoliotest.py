@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
 ###############################################################################
 #
 # Copyright (C) 2015-2023 Daniel Rodriguez
@@ -18,7 +17,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
-from __future__ import absolute_import, division, print_function, unicode_literals
 
 import argparse
 import collections
@@ -139,17 +137,17 @@ def runstrat(args=None):
     al = strat.analyzers.timereturn
     print("-- Time Return:")
     for k, v in al.get_analysis().items():
-        print("{}: {}".format(k, v))
+        print(f"{k}: {v}")
 
     al = strat.analyzers.sharperatio
     print("-- Sharpe Ratio:")
     for k, v in al.get_analysis().items():
-        print("{}: {}".format(k, v))
+        print(f"{k}: {v}")
 
     al = strat.analyzers.sqn
     print("-- SQN:")
     for k, v in al.get_analysis().items():
-        print("{}: {}".format(k, v))
+        print(f"{k}: {v}")
 
     if args.pyfolio:
         pyfoliozer = strat.analyzers.getbyname(

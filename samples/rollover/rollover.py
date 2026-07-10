@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
 ###############################################################################
 #
 # Copyright (C) 2015-2023 Daniel Rodriguez
@@ -18,10 +17,8 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
-from __future__ import absolute_import, division, print_function, unicode_literals
 
 import argparse
-import bisect
 import calendar
 import datetime
 
@@ -48,17 +45,17 @@ class TheStrategy(bt.Strategy):
     def next(self):
         txt = list()
         txt.append("%04d" % len(self.data0))
-        txt.append("{}".format(self.data0._dataname))
+        txt.append(f"{self.data0._dataname}")
         # Internal knowledge ... current expiration in use is in _d
-        txt.append("{}".format(self.data0._d._dataname))
-        txt.append("{}".format(self.data.datetime.date()))
+        txt.append(f"{self.data0._d._dataname}")
+        txt.append(f"{self.data.datetime.date()}")
         txt.append("{}".format(self.data.datetime.date().strftime("%a")))
-        txt.append("{}".format(self.data.open[0]))
-        txt.append("{}".format(self.data.high[0]))
-        txt.append("{}".format(self.data.low[0]))
-        txt.append("{}".format(self.data.close[0]))
-        txt.append("{}".format(self.data.volume[0]))
-        txt.append("{}".format(self.data.openinterest[0]))
+        txt.append(f"{self.data.open[0]}")
+        txt.append(f"{self.data.high[0]}")
+        txt.append(f"{self.data.low[0]}")
+        txt.append(f"{self.data.close[0]}")
+        txt.append(f"{self.data.volume[0]}")
+        txt.append(f"{self.data.openinterest[0]}")
         print(", ".join(txt))
 
 

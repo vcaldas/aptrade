@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
 ###############################################################################
 #
 # Copyright (C) 2015-2023 Daniel Rodriguez
@@ -18,14 +17,12 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
-from __future__ import absolute_import, division, print_function, unicode_literals
 
 import argparse
 import datetime
 
 # The above could be sent to an independent module
 import aptrade as bt
-from aptrade.utils import flushfile  # win32 quick stdout flushing
 
 
 class TestStrategy(bt.Strategy):
@@ -92,15 +89,15 @@ class TestStrategy(bt.Strategy):
         txt.append("Data0")
         txt.append("%04d" % len(self.data0))
         dtfmt = "%Y-%m-%dT%H:%M:%S.%f"
-        txt.append("{}".format(self.data.datetime[0]))
+        txt.append(f"{self.data.datetime[0]}")
         txt.append("%s" % self.data.datetime.datetime(0).strftime(dtfmt))
-        txt.append("{}".format(self.data.open[0]))
-        txt.append("{}".format(self.data.high[0]))
-        txt.append("{}".format(self.data.low[0]))
-        txt.append("{}".format(self.data.close[0]))
-        txt.append("{}".format(self.data.volume[0]))
-        txt.append("{}".format(self.data.openinterest[0]))
-        txt.append("{}".format(self.sma[0]))
+        txt.append(f"{self.data.open[0]}")
+        txt.append(f"{self.data.high[0]}")
+        txt.append(f"{self.data.low[0]}")
+        txt.append(f"{self.data.close[0]}")
+        txt.append(f"{self.data.volume[0]}")
+        txt.append(f"{self.data.openinterest[0]}")
+        txt.append(f"{self.sma[0]}")
         print(", ".join(txt))
 
         if len(self.datas) > 1 and len(self.data1):
@@ -108,14 +105,14 @@ class TestStrategy(bt.Strategy):
             txt.append("Data1")
             txt.append("%04d" % len(self.data1))
             dtfmt = "%Y-%m-%dT%H:%M:%S.%f"
-            txt.append("{}".format(self.data1.datetime[0]))
+            txt.append(f"{self.data1.datetime[0]}")
             txt.append("%s" % self.data1.datetime.datetime(0).strftime(dtfmt))
-            txt.append("{}".format(self.data1.open[0]))
-            txt.append("{}".format(self.data1.high[0]))
-            txt.append("{}".format(self.data1.low[0]))
-            txt.append("{}".format(self.data1.close[0]))
-            txt.append("{}".format(self.data1.volume[0]))
-            txt.append("{}".format(self.data1.openinterest[0]))
+            txt.append(f"{self.data1.open[0]}")
+            txt.append(f"{self.data1.high[0]}")
+            txt.append(f"{self.data1.low[0]}")
+            txt.append(f"{self.data1.close[0]}")
+            txt.append(f"{self.data1.volume[0]}")
+            txt.append(f"{self.data1.openinterest[0]}")
             txt.append("{}".format(float("NaN")))
             print(", ".join(txt))
 
@@ -212,9 +209,7 @@ class TestStrategy(bt.Strategy):
     def start(self):
         if self.data0.contractdetails is not None:
             print(
-                "Timezone from ContractDetails: {}".format(
-                    self.data0.contractdetails.m_timeZoneId
-                )
+                f"Timezone from ContractDetails: {self.data0.contractdetails.m_timeZoneId}"
             )
 
         header = [
@@ -243,9 +238,7 @@ def runstrategy():
         port=args.port,
         clientId=args.clientId,
         timeoffset=not args.no_timeoffset,
-        reconnect=args.reconnect,
         timeout=args.timeout,
-        notifyall=args.notifyall,
         _debug=args.debug,
     )
 

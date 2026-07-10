@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
 ###############################################################################
 #
 # Copyright (C) 2015-2023 Daniel Rodriguez
@@ -18,7 +17,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
-from __future__ import absolute_import, division, print_function, unicode_literals
 
 import argparse
 import datetime
@@ -72,12 +70,12 @@ class St(bt.Strategy):
                     size = curpos.size // 2
                     self.sell(data=data, size=size)
                     if self.p.printout:
-                        print("SELL {} @%{}".format(size, data.close[0]))
+                        print(f"SELL {size} @%{data.close[0]}")
 
             elif toss < 5:
                 self.buy(data=data, size=self.p.stake)
                 if self.p.printout:
-                    print("BUY  {} @%{}".format(self.p.stake, data.close[0]))
+                    print(f"BUY  {self.p.stake} @%{data.close[0]}")
 
 
 def runstrat(args=None):

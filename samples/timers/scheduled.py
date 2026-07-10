@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
 ###############################################################################
 #
 # Copyright (C) 2015-2023 Daniel Rodriguez
@@ -18,7 +17,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
-from __future__ import absolute_import, division, print_function, unicode_literals
 
 import argparse
 import datetime
@@ -60,37 +58,22 @@ class St(bt.Strategy):
 
     def next(self):
         _, isowk, isowkday = self.datetime.date().isocalendar()
-        txt = "{}, {}, Week {}, Day {}, O {}, H {}, L {}, C {}".format(
-            len(self),
-            self.datetime.datetime(),
-            isowk,
-            isowkday,
-            self.data.open[0],
-            self.data.high[0],
-            self.data.low[0],
-            self.data.close[0],
-        )
+        txt = f"{len(self)}, {self.datetime.datetime()}, Week {isowk}, Day {isowkday}, O {self.data.open[0]}, H {self.data.high[0]}, L {self.data.low[0]}, C {self.data.close[0]}"
 
         print(txt)
 
     def notify_timer(self, timer, when, *args, **kwargs):
         print(
-            "strategy notify_timer with tid {}, when {} cheat {}".format(
-                timer.p.tid, when, timer.p.cheat
-            )
+            f"strategy notify_timer with tid {timer.p.tid}, when {when} cheat {timer.p.cheat}"
         )
 
         if self.order is None and timer.p.cheat:
-            print("-- {} Create buy order".format(self.data.datetime.date()))
+            print(f"-- {self.data.datetime.date()} Create buy order")
             self.order = self.buy()
 
     def notify_order(self, order):
         if order.status == order.Completed:
-            print(
-                "-- {} Buy Exec @ {}".format(
-                    self.data.datetime.date(), order.executed.price
-                )
-            )
+            print(f"-- {self.data.datetime.date()} Buy Exec @ {order.executed.price}")
 
 
 def runstrat(args=None):

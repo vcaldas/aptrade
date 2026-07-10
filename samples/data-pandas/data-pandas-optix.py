@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
 ###############################################################################
 #
 # Copyright (C) 2015-2023 Daniel Rodriguez
@@ -18,7 +17,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
-from __future__ import absolute_import, division, print_function, unicode_literals
 
 import argparse
 from pathlib import Path
@@ -100,7 +98,9 @@ def parse_args():
 
     parser.add_argument(
         "--data",
-        default=str(Path(__file__).resolve().parents[2] / "datas" / "2006-day-001-optix.txt"),
+        default=str(
+            Path(__file__).resolve().parents[2] / "datas" / "2006-day-001-optix.txt"
+        ),
         required=False,
         help="Data file to load",
     )

@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
 ###############################################################################
 #
 # Copyright (C) 2015-2023 Daniel Rodriguez
@@ -18,11 +17,9 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
-from __future__ import absolute_import, division, print_function, unicode_literals
 
 import argparse
 import datetime
-import random
 
 import aptrade as bt
 
@@ -68,14 +65,14 @@ class St(bt.Strategy):
         if self.position:
             if self.crossover < 0.0:
                 if self.p.printout:
-                    print("CLOSE {} @%{}".format(self.position.size, self.data.close[0]))
+                    print(f"CLOSE {self.position.size} @%{self.data.close[0]}")
                 self.close()
 
         else:
             if self.crossover > 0.0:
                 self.buy(size=self.p.stake)
                 if self.p.printout:
-                    print("BUY   {} @%{}".format(self.p.stake, self.data.close[0]))
+                    print(f"BUY   {self.p.stake} @%{self.data.close[0]}")
 
 
 TIMEFRAMES = {

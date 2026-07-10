@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
 ###############################################################################
 #
 # Copyright (C) 2015-2023 Daniel Rodriguez
@@ -18,15 +17,12 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
-from __future__ import absolute_import, division, print_function, unicode_literals
 
 import argparse
 import datetime
 
 # The above could be sent to an independent module
 import aptrade as bt
-from aptrade.utils import flushfile  # win32 quick stdout flushing
-from aptrade.utils.py3 import string_types
 
 
 class TestStrategy(bt.Strategy):
@@ -88,13 +84,13 @@ class TestStrategy(bt.Strategy):
         txt.append("%04d" % len(self))
         dtfmt = "%Y-%m-%dT%H:%M:%S.%f"
         txt.append("%s" % self.data.datetime.datetime(0).strftime(dtfmt))
-        txt.append("{}".format(self.data.open[0]))
-        txt.append("{}".format(self.data.high[0]))
-        txt.append("{}".format(self.data.low[0]))
-        txt.append("{}".format(self.data.close[0]))
-        txt.append("{}".format(self.data.volume[0]))
-        txt.append("{}".format(self.data.openinterest[0]))
-        txt.append("{}".format(self.sma[0]))
+        txt.append(f"{self.data.open[0]}")
+        txt.append(f"{self.data.high[0]}")
+        txt.append(f"{self.data.low[0]}")
+        txt.append(f"{self.data.close[0]}")
+        txt.append(f"{self.data.volume[0]}")
+        txt.append(f"{self.data.openinterest[0]}")
+        txt.append(f"{self.sma[0]}")
         print(", ".join(txt))
 
         if len(self.datas) > 1:
@@ -102,12 +98,12 @@ class TestStrategy(bt.Strategy):
             txt.append("%04d" % len(self))
             dtfmt = "%Y-%m-%dT%H:%M:%S.%f"
             txt.append("%s" % self.data1.datetime.datetime(0).strftime(dtfmt))
-            txt.append("{}".format(self.data1.open[0]))
-            txt.append("{}".format(self.data1.high[0]))
-            txt.append("{}".format(self.data1.low[0]))
-            txt.append("{}".format(self.data1.close[0]))
-            txt.append("{}".format(self.data1.volume[0]))
-            txt.append("{}".format(self.data1.openinterest[0]))
+            txt.append(f"{self.data1.open[0]}")
+            txt.append(f"{self.data1.high[0]}")
+            txt.append(f"{self.data1.low[0]}")
+            txt.append(f"{self.data1.close[0]}")
+            txt.append(f"{self.data1.volume[0]}")
+            txt.append(f"{self.data1.openinterest[0]}")
             txt.append("{}".format(float("NaN")))
             print(", ".join(txt))
 

@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
 ###############################################################################
 #
 # Copyright (C) 2015-2023 Daniel Rodriguez
@@ -18,7 +17,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
-from __future__ import absolute_import, division, print_function, unicode_literals
 
 import argparse
 
@@ -141,7 +139,9 @@ def parse_args():
         "--noplot",
         required=False,
         action="store_true",
-        help=("Skip plotting so the sample can run without optional chart dependencies"),
+        help=(
+            "Skip plotting so the sample can run without optional chart dependencies"
+        ),
     )
 
     return parser.parse_args()

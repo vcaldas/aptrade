@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
 ###############################################################################
 #
 # Copyright (C) 2015-2023 Daniel Rodriguez
@@ -18,7 +17,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
-from __future__ import absolute_import, division, print_function, unicode_literals
 
 import argparse
 import datetime
@@ -94,16 +92,12 @@ class St(bt.Strategy):
                 kargs[("target" * self.p.usetarget) or "size"] = 1
 
                 o1 = self._dobuy(price=p1, valid=valid1, **kargs)
-                print(
-                    "{}: Oref {} / Buy at {}".format(self.datetime.date(), o1.ref, p1)
-                )
+                print(f"{self.datetime.date()}: Oref {o1.ref} / Buy at {p1}")
 
                 oco2 = o1 if self.p.do_oco else None
                 o2 = self._dobuy(price=p2, valid=valid2, oco=oco2, **kargs)
 
-                print(
-                    "{}: Oref {} / Buy at {}".format(self.datetime.date(), o2.ref, p2)
-                )
+                print(f"{self.datetime.date()}: Oref {o2.ref} / Buy at {p2}")
 
                 if self.p.do_oco:
                     oco3 = o1 if not self.p.oco1oco2 else oco2
@@ -112,9 +106,7 @@ class St(bt.Strategy):
 
                 o3 = self._dobuy(price=p3, valid=valid3, oco=oco3, **kargs)
 
-                print(
-                    "{}: Oref {} / Buy at {}".format(self.datetime.date(), o3.ref, p3)
-                )
+                print(f"{self.datetime.date()}: Oref {o3.ref} / Buy at {p3}")
 
                 self.orefs = [o1.ref, o2.ref, o3.ref]
 

@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
 ###############################################################################
 #
 # Copyright (C) 2015-2023 Daniel Rodriguez
@@ -18,11 +17,9 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
-from __future__ import absolute_import, division, print_function, unicode_literals
 
 import collections
 import datetime
-import math
 
 import aptrade as bt
 
@@ -57,7 +54,7 @@ class RelativeVolumeByBar(bt.Indicator):
         self.dtlast = datetime.date.min
 
         # Done after calc to ensure coop inheritance and composition work
-        super(RelativeVolumeByBar, self).__init__()
+        super().__init__()
 
     def _barisvalid(self, tm):
         return self.p.start <= tm <= self.p.end

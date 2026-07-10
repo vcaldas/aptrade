@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
 ###############################################################################
 #
 # Copyright (C) 2015-2023 Daniel Rodriguez
@@ -18,7 +17,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
-from __future__ import absolute_import, division, print_function, unicode_literals
 
 import argparse
 import datetime
@@ -51,11 +49,11 @@ class ManualStopOrStopTrail(BaseStrategy):
             return  # discard any other notification
 
         if not self.position:  # we left the market
-            print("SELL@price: {:.2f}".format(order.executed.price))
+            print(f"SELL@price: {order.executed.price:.2f}")
             return
 
         # We have entered the market
-        print("BUY @price: {:.2f}".format(order.executed.price))
+        print(f"BUY @price: {order.executed.price:.2f}")
 
         if not self.p.trail:
             stop_price = order.executed.price * (1.0 - self.p.stop_loss)
@@ -84,11 +82,11 @@ class ManualStopOrStopTrailCheat(BaseStrategy):
             return  # discard any other notification
 
         if not self.position:  # we left the market
-            print("SELL@price: {:.2f}".format(order.executed.price))
+            print(f"SELL@price: {order.executed.price:.2f}")
             return
 
         # We have entered the market
-        print("BUY @price: {:.2f}".format(order.executed.price))
+        print(f"BUY @price: {order.executed.price:.2f}")
 
     def next(self):
         if not self.position and self.crossup > 0:
@@ -124,11 +122,11 @@ class AutoStopOrStopTrail(BaseStrategy):
             return  # discard any other notification
 
         if not self.position:  # we left the market
-            print("SELL@price: {:.2f}".format(order.executed.price))
+            print(f"SELL@price: {order.executed.price:.2f}")
             return
 
         # We have entered the market
-        print("BUY @price: {:.2f}".format(order.executed.price))
+        print(f"BUY @price: {order.executed.price:.2f}")
 
     def next(self):
         if not self.position and self.crossup > 0:

@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
 ###############################################################################
 #
 # Copyright (C) 2015-2023 Daniel Rodriguez
@@ -18,13 +17,9 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
-from __future__ import absolute_import, division, print_function, unicode_literals
 
 import argparse
 import datetime
-import os.path
-import sys
-import time
 
 import aptrade as bt
 import aptrade.feeds as btfeeds
@@ -184,8 +179,6 @@ def runstrat():
 def getdata(args):
     dataformat = dict(
         bt=btfeeds.BacktraderCSVData,
-        visualchart=btfeeds.VChartCSVData,
-        sierrachart=btfeeds.SierraChartCSVData,
         yahoo=btfeeds.YahooFinanceCSVData,
         yahoo_unreversed=btfeeds.YahooFinanceCSVData,
     )

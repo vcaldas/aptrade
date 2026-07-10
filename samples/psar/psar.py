@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
 ###############################################################################
 #
 # Copyright (C) 2015-2023 Daniel Rodriguez
@@ -18,7 +17,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
-from __future__ import absolute_import, division, print_function, unicode_literals
 
 import argparse
 import datetime
@@ -34,9 +32,9 @@ class St(bt.Strategy):
         pass
 
     def next(self):
-        txt = ["{:4d}".format(len(self))]
-        txt.append("{}".format(self.datetime.date()))
-        txt.append("{:.2f}".format(self.psar[0]))
+        txt = [f"{len(self):4d}"]
+        txt.append(f"{self.datetime.date()}")
+        txt.append(f"{self.psar[0]:.2f}")
         print(",".join(txt))
 
 

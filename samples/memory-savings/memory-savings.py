@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
 ###############################################################################
 #
 # Copyright (C) 2015-2023 Daniel Rodriguez
@@ -18,7 +17,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
-from __future__ import absolute_import, division, print_function, unicode_literals
 
 import argparse
 
@@ -67,7 +65,7 @@ class St(bt.Strategy):
             print(msg)
 
     def stop(self):
-        super(St, self).stop()
+        super().stop()
 
         tlen = 0
         self.loglendetails("-- Evaluating Datas")
@@ -96,7 +94,7 @@ class St(bt.Strategy):
             logtxt = "---- Observer {} Total Cells {} - Cells per Line {}"
             self.loglendetails(logtxt.format(i, tobs, tline))
 
-        print("Total memory cells used: {}".format(tlen))
+        print(f"Total memory cells used: {tlen}")
 
     def rindicator(self, ind, i, deep):
         tind = 0

@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
 ###############################################################################
 #
 # Copyright (C) 2015-2023 Daniel Rodriguez
@@ -18,13 +17,9 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
-from __future__ import absolute_import, division, print_function, unicode_literals
 
 import argparse
 import datetime
-import os.path
-import sys
-import time
 
 import aptrade as bt
 
@@ -37,7 +32,9 @@ class St(bt.Strategy):
 
     def notify_order(self, order):
         print("-- NOTIFY ORDER BEGIN")
-        comminfo = order.comminfo.__class__.__name__ if order.comminfo is not None else None
+        comminfo = (
+            order.comminfo.__class__.__name__ if order.comminfo is not None else None
+        )
         order_lines = [
             f"Ref: {order.ref}",
             f"OrdType: {order.ordtype}",
