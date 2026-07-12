@@ -19,4 +19,4 @@
 ###############################################################################
 
 
-from aptrade.indicator import Indicator  #noqa: F401
+from aptrade.indicator import Indicator  # noqa: F401
