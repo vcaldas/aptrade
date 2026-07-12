@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
 ###############################################################################
 #
 # Copyright (C) 2015-2023 Daniel Rodriguez
@@ -18,7 +17,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
-from __future__ import absolute_import, division, print_function, unicode_literals
 
 from . import CmpEx, Indicator
 
@@ -69,7 +67,7 @@ class PivotPoint(Indicator):
         "r1",
         "r2",
     )
-    plotinfo = dict(subplot=False)
+    plotinfo = {"subplot": False}
 
     params = (
         ("open", False),  # add opening price to the pivot point
@@ -102,7 +100,7 @@ class PivotPoint(Indicator):
         self.lines.s2 = p - (h - l)
         self.lines.r2 = p + (h - l)
 
-        super(PivotPoint, self).__init__()  # enable coopertive inheritance
+        super().__init__()  # enable coopertive inheritance
 
         if self.p._autoplot:
             self.plotinfo.plot = False  # disable own plotting
@@ -152,7 +150,7 @@ class FibonacciPivotPoint(Indicator):
     """
 
     lines = ("p", "s1", "s2", "s3", "r1", "r2", "r3")
-    plotinfo = dict(subplot=False)
+    plotinfo = {"subplot": False}
     params = (
         ("open", False),  # add opening price to the pivot point
         ("close", False),  # use close twice in the calcs
@@ -189,7 +187,7 @@ class FibonacciPivotPoint(Indicator):
         self.lines.r2 = p + self.p.level2 * (h - l)
         self.lines.r3 = p + self.p.level3 * (h - l)
 
-        super(FibonacciPivotPoint, self).__init__()
+        super().__init__()
 
         if self.p._autoplot:
             self.plotinfo.plot = False  # disable own plotting
@@ -244,7 +242,7 @@ class DemarkPivotPoint(Indicator):
         "s1",
         "r1",
     )
-    plotinfo = dict(subplot=False)
+    plotinfo = {"subplot": False}
     params = (
         ("open", False),  # add opening price to the pivot point
         ("close", False),  # use close twice in the calcs
@@ -271,7 +269,7 @@ class DemarkPivotPoint(Indicator):
         self.lines.s1 = x / 2.0 - self.data.high
         self.lines.r1 = x / 2.0 - self.data.low
 
-        super(DemarkPivotPoint, self).__init__()
+        super().__init__()
 
         if self.p._autoplot:
             self.plotinfo.plot = False  # disable own plotting

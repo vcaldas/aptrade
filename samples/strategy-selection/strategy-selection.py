@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
 ###############################################################################
 #
 # Copyright (C) 2015-2023 Daniel Rodriguez
@@ -18,7 +17,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
-from __future__ import absolute_import, division, print_function, unicode_literals
 
 import argparse
 
@@ -39,7 +37,7 @@ class St1(bt.SignalStrategy):
         self.signal_add(bt.SIGNAL_LONG, crossover)
 
 
-class StFetcher(object):
+class StFetcher:
     _STRATS = [St0, St1]
 
     def __new__(cls, *args, **kwargs):
@@ -63,11 +61,7 @@ def runstrat(pargs=None):
     strats = [x[0] for x in results]  # flatten the result
     for i, strat in enumerate(strats):
         rets = strat.analyzers.returns.get_analysis()
-        print(
-            "Strat {} Name {}:\n  - analyzer: {}\n".format(
-                i, strat.__class__.__name__, rets
-            )
-        )
+        print(f"Strat {i} Name {strat.__class__.__name__}:\n  - analyzer: {rets}\n")
 
 
 def parse_args(pargs=None):

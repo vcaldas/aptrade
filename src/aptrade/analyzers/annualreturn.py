@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
 ###############################################################################
 #
 # Copyright (C) 2015-2023 Daniel Rodriguez
@@ -18,11 +17,10 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
-from __future__ import absolute_import, division, print_function, unicode_literals
 
 from collections import OrderedDict
 
-from aptrade import Analyzer
+from aptrade.analyzer import Analyzer
 
 
 class AnnualReturn(Analyzer):
@@ -53,7 +51,7 @@ class AnnualReturn(Analyzer):
         value_cur = 0.0
         value_end = 0.0
 
-        self.rets = list()
+        self.rets = []
         self.ret = OrderedDict()
 
         for i in range(len(self.data) - 1, -1, -1):

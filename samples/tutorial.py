@@ -1,5 +1,3 @@
-from __future__ import absolute_import, division, print_function, unicode_literals
-
 import datetime  # For datetime objects
 import os.path  # To manage paths
 import sys  # To find out the script name (in argv[0])
@@ -15,7 +13,7 @@ class TestStrategy(bt.Strategy):
     def log(self, txt, dt=None):
         """Logging function fot this strategy"""
         dt = dt or self.datas[0].datetime.date(0)
-        print("%s, %s" % (dt.isoformat(), txt))
+        print(f"{dt.isoformat()}, {txt}")
 
     def __init__(self):
         # Keep a reference to the "close" line in the data[0] dataseries
@@ -50,16 +48,14 @@ class TestStrategy(bt.Strategy):
         if order.status in [order.Completed]:
             if order.isbuy():
                 self.log(
-                    "BUY EXECUTED, Price: %.2f, Cost: %.2f, Comm %.2f"
-                    % (order.executed.price, order.executed.value, order.executed.comm)
+                    f"BUY EXECUTED, Price: {order.executed.price:.2f}, Cost: {order.executed.value:.2f}, Comm {order.executed.comm:.2f}"
                 )
 
                 self.buyprice = order.executed.price
                 self.buycomm = order.executed.comm
             else:  # Sell
                 self.log(
-                    "SELL EXECUTED, Price: %.2f, Cost: %.2f, Comm %.2f"
-                    % (order.executed.price, order.executed.value, order.executed.comm)
+                    f"SELL EXECUTED, Price: {order.executed.price:.2f}, Cost: {order.executed.value:.2f}, Comm {order.executed.comm:.2f}"
                 )
 
             self.bar_executed = len(self)
@@ -74,11 +70,11 @@ class TestStrategy(bt.Strategy):
         if not trade.isclosed:
             return
 
-        self.log("OPERATION PROFIT, GROSS %.2f, NET %.2f" % (trade.pnl, trade.pnlcomm))
+        self.log(f"OPERATION PROFIT, GROSS {trade.pnl:.2f}, NET {trade.pnlcomm:.2f}")
 
     def next(self):
         # Simply log the closing price of the series from the reference
-        self.log("Close, %.2f" % self.dataclose[0])
+        self.log(f"Close, {self.dataclose[0]:.2f}")
 
         # Check if an order is pending ... if yes, we cannot send a 2nd one
         if self.order:
@@ -89,7 +85,7 @@ class TestStrategy(bt.Strategy):
             # Not yet ... we MIGHT BUY if ...
             if self.dataclose[0] > self.sma[0]:
                 # BUY, BUY, BUY!!! (with all possible default parameters)
-                self.log("BUY CREATE, %.2f" % self.dataclose[0])
+                self.log(f"BUY CREATE, {self.dataclose[0]:.2f}")
 
                 # Keep track of the created order to avoid a 2nd order
                 self.order = self.buy()
@@ -97,7 +93,7 @@ class TestStrategy(bt.Strategy):
         else:
             if self.dataclose[0] < self.sma[0]:
                 # SELL, SELL, SELL!!! (with all possible default parameters)
-                self.log("SELL CREATE, %.2f" % self.dataclose[0])
+                self.log(f"SELL CREATE, {self.dataclose[0]:.2f}")
 
                 # Keep track of the created order to avoid a 2nd order
                 self.order = self.sell()
@@ -139,13 +135,13 @@ if __name__ == "__main__":
     cerebro.broker.setcommission(commission=0.0)
 
     # Print out the starting conditions
-    print("Starting Portfolio Value: %.2f" % cerebro.broker.getvalue())
+    print(f"Starting Portfolio Value: {cerebro.broker.getvalue():.2f}")
 
     # Run over everything
     cerebro.run()
 
     # Print out the final result
-    print("Final Portfolio Value: %.2f" % cerebro.broker.getvalue())
+    print(f"Final Portfolio Value: {cerebro.broker.getvalue():.2f}")
 
     # Plot the result
     cerebro.plot()

@@ -1,9 +1,7 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8; py-indent-offset:4 -*-
 
 import argparse
 import datetime as dt
-import io
 import logging
 import os
 import socket
@@ -15,7 +13,7 @@ from influxdb import DataFrameClient as dfclient
 from influxdb.exceptions import InfluxDBClientError
 
 
-class IQFeedTool(object):
+class IQFeedTool:
     def __init__(self):
         timeout = 10.0
         self._dbhost = args.dbhost if args.dbhost else "localhost"
@@ -102,9 +100,9 @@ class IQFeedTool(object):
             start = start[:4]
 
         for year in range(int(start), int(stop) + 1):
-            beg_time = "%s0101000000" % year
-            end_time = "%s1231235959" % year
-            msg = "HIT,%s,60,%s,%s,,,,1,,,s\r\n" % (ticker, beg_time, end_time)
+            beg_time = f"{year}0101000000"
+            end_time = f"{year}1231235959"
+            msg = f"HIT,{ticker},60,{beg_time},{end_time},,,,1,,,s\r\n"
             try:
                 data = iq.iq_query(message=msg)
                 iq.add_data_to_df(data=data)
@@ -114,7 +112,7 @@ class IQFeedTool(object):
         try:
             self.dfdb.write_points(self._ndf, ticker)
         except InfluxDBClientError as err:
-            log.error("Write to database failed: %s" % err)
+            log.error(f"Write to database failed: {err}")
 
     def add_data_to_df(self, data: np.array):
         """Build Pandas Dataframe in memory"""
@@ -146,7 +144,7 @@ class IQFeedTool(object):
             log.error("Ticker List file does not exist: %s", filename)
 
         tickers = []
-        with io.open(filename, "r") as fd:
+        with open(filename) as fd:
             for ticker in fd:
                 tickers.append(ticker.rstrip())
         return tickers

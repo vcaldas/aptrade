@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
 ###############################################################################
 #
 # Copyright (C) 2015-2023 Daniel Rodriguez
@@ -18,7 +17,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
-from __future__ import absolute_import, division, print_function, unicode_literals
 
 import itertools
 import time
@@ -28,10 +26,9 @@ try:
 except:
     time_clock = time.clock
 
-import testcommon
-
 import aptrade as bt
 import aptrade.indicators as btind
+import testcommon
 
 CHKVALUES = [
     "14525.80",
@@ -133,7 +130,7 @@ class CurrentTestStrategy(bt.Strategy):
     def log(self, txt, dt=None):
         dt = dt or self.data.datetime[0]
         dt = bt.num2date(dt)
-        print("%s, %s" % (dt.isoformat(), txt))
+        print(f"{dt.isoformat()}, {txt}")
 
     def __init__(self):
         # Flag to allow new orders in the system or not
@@ -154,19 +151,13 @@ class CurrentTestStrategy(bt.Strategy):
         tused = time_clock() - self.tstart
         if self.p.printdata:
             self.log(
-                ("Time used: %s  - Period % d - Start value: %.2f - End value: %.2f")
-                % (
-                    str(tused),
-                    self.p.period,
-                    self.broker.startingcash,
-                    self.broker.getvalue(),
-                )
+                f"Time used: {tused}  - Period {d: d} - Start value: {svalue:.2f} - End value: {evalue:.2f}"
             )
 
-        value = "%.2f" % self.broker.getvalue()
+        value = f"{self.broker.getvalue():.2f}"
         _chkvalues.append(value)
 
-        cash = "%.2f" % self.broker.getcash()
+        cash = f"{self.broker.getcash():.2f}"
         _chkcash.append(cash)
 
     def next(self):
@@ -193,8 +184,8 @@ def test_run(main=False):
     for runonce in [True, False]:
         for preload in [True, False]:
             for exbar in [True, False, -1, -2]:
-                _chkvalues = list()
-                _chkcash = list()
+                _chkvalues = []
+                _chkcash = []
 
                 datas = [testcommon.getdata(i) for i in range(chkdatas)]
                 testcommon.runtest(

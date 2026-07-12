@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
 ###############################################################################
 #
 # Copyright (C) 2015-2023 Daniel Rodriguez
@@ -18,7 +17,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
-from __future__ import absolute_import, division, print_function, unicode_literals
 
 import argparse
 
@@ -29,7 +27,7 @@ import aptrade.utils.flushfile
 
 
 class St(bt.Strategy):
-    params = dict(multi=True)
+    params = {"multi": True}
 
     def __init__(self):
         self.pp = pp = btind.PivotPoint(self.data1)
@@ -51,9 +49,9 @@ class St(bt.Strategy):
                 "%04d" % len(self.data0),
                 "%04d" % len(self.data1),
                 self.data.datetime.date(0).isoformat(),
-                "%.2f" % self.data0.close[0],
-                "%.2f" % self.pp.s1[0],
-                "%.2f" % self.sellsignal[0],
+                f"{self.data0.close[0]:.2f}",
+                f"{self.pp.s1[0]:.2f}",
+                f"{self.sellsignal[0]:.2f}",
             ]
         )
 

@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
 ###############################################################################
 #
 # Copyright (C) 2015-2023 Daniel Rodriguez
@@ -18,14 +17,14 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
-from __future__ import absolute_import, division, print_function, unicode_literals
 
 import sys
 
-from . import Indicator, MovingAverage
+from aptrade.indicator import Indicator
+from aptrade.indicators.mabase import MovingAverage
 
 
-class EnvelopeMixIn(object):
+class EnvelopeMixIn:
     """
     MixIn class to create a subclass with another indicator. The main line of
     that indicator will be surrounded by an upper and lower band separated a
@@ -49,10 +48,10 @@ class EnvelopeMixIn(object):
         "bot",
     )
     params = (("perc", 2.5),)
-    plotlines = dict(
-        top=dict(_samecolor=True),
-        bot=dict(_samecolor=True),
-    )
+    plotlines = {
+        "top": {"_samecolor": True},
+        "bot": {"_samecolor": True},
+    }
 
     def __init__(self):
         # Mix-in & directly from object -> does not necessarily need super
@@ -62,21 +61,21 @@ class EnvelopeMixIn(object):
         self.lines.top = self.lines[0] * (1.0 + perc)
         self.lines.bot = self.lines[0] * (1.0 - perc)
 
-        super(EnvelopeMixIn, self).__init__()
+        super().__init__()
 
 
 class _EnvelopeBase(Indicator):
     lines = ("src",)
 
     # plot the envelope lines along the passed source
-    plotinfo = dict(subplot=False)
+    plotinfo = {"subplot": False}
 
     # Do not replot the data line
-    plotlines = dict(src=dict(_plotskip=True))
+    plotlines = {"src": {"_plotskip": True}}
 
     def __init__(self):
         self.lines.src = self.data
-        super(_EnvelopeBase, self).__init__()
+        super().__init__()
 
 
 class Envelope(_EnvelopeBase, EnvelopeMixIn):

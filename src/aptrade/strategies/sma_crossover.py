@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
 ###############################################################################
 #
 # Copyright (C) 2015-2023 Daniel Rodriguez
@@ -18,13 +17,12 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
-from __future__ import absolute_import, division, print_function, unicode_literals
 
-import aptrade as bt
 import aptrade.indicators as btind
+from aptrade.strategy import Strategy
 
 
-class MA_CrossOver(bt.Strategy):
+class MA_CrossOver(Strategy):
     """This is a long-only strategy which operates on a moving average cross
 
     Note:

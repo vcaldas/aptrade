@@ -61,7 +61,7 @@
 # position of each line avoiding the distorsion
 
 
-class Widget(object):
+class Widget:
     """
     Abstract base class for GUI neutral widgets
     """
@@ -232,12 +232,12 @@ class MultiCursor(Widget):
             if self.background is not None:
                 self.canvas.restore_region(self.background)
             if self.vertOn:
-                for ax, line in zip(self.axes, self.vlines):
+                for ax, line in zip(self.axes, self.vlines, strict=False):
                     if self.vertMulti or event.inaxes == line.axes:
                         ax.draw_artist(line)
 
             if self.horizOn:
-                for ax, line in zip(self.axes, self.hlines):
+                for ax, line in zip(self.axes, self.hlines, strict=False):
                     if self.horizMulti or event.inaxes == line.axes:
                         ax.draw_artist(line)
             self.canvas.blit(self.canvas.figure.bbox)
@@ -350,10 +350,10 @@ class MultiCursor2(Widget):
             if self.background is not None:
                 self.canvas.restore_region(self.background)
             if self.vertOn:
-                for ax, line in zip(self.axes, self.vlines):
+                for ax, line in zip(self.axes, self.vlines, strict=False):
                     ax.draw_artist(line)
             if self.horizOn:
-                for ax, line in zip(self.axes, self.hlines):
+                for ax, line in zip(self.axes, self.hlines, strict=False):
                     ax.draw_artist(line)
             self.canvas.blit(self.canvas.figure.bbox)
         else:

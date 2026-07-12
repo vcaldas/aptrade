@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
 ###############################################################################
 #
 # Copyright (C) 2015-2023 Daniel Rodriguez
@@ -18,10 +17,8 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
-from __future__ import absolute_import, division, print_function, unicode_literals
 
 import argparse
-import bisect
 import calendar
 import datetime
 
@@ -46,19 +43,19 @@ class TheStrategy(bt.Strategy):
         print(", ".join(header))
 
     def next(self):
-        txt = list()
+        txt = []
         txt.append("%04d" % len(self.data0))
-        txt.append("{}".format(self.data0._dataname))
+        txt.append(f"{self.data0._dataname}")
         # Internal knowledge ... current expiration in use is in _d
-        txt.append("{}".format(self.data0._d._dataname))
-        txt.append("{}".format(self.data.datetime.date()))
+        txt.append(f"{self.data0._d._dataname}")
+        txt.append(f"{self.data.datetime.date()}")
         txt.append("{}".format(self.data.datetime.date().strftime("%a")))
-        txt.append("{}".format(self.data.open[0]))
-        txt.append("{}".format(self.data.high[0]))
-        txt.append("{}".format(self.data.low[0]))
-        txt.append("{}".format(self.data.close[0]))
-        txt.append("{}".format(self.data.volume[0]))
-        txt.append("{}".format(self.data.openinterest[0]))
+        txt.append(f"{self.data.open[0]}")
+        txt.append(f"{self.data.high[0]}")
+        txt.append(f"{self.data.low[0]}")
+        txt.append(f"{self.data.close[0]}")
+        txt.append(f"{self.data.volume[0]}")
+        txt.append(f"{self.data.openinterest[0]}")
         print(", ".join(txt))
 
 
@@ -68,7 +65,7 @@ def checkdate(dt, d):
     # EuroStoxx50 expiry codes: MY
     # M -> H, M, U, Z (Mar, Jun, Sep, Dec)
     # Y -> 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 -> year code. 5 -> 2015
-    MONTHS = dict(H=3, M=6, U=9, Z=12)
+    MONTHS = {"H": 3, "M": 6, "U": 9, "Z": 12}
 
     M = MONTHS[d._dataname[-2]]
 
@@ -107,7 +104,7 @@ def runstrat(args=None):
     store = bt.stores.VChartFile()
     ffeeds = [store.getdata(dataname=x) for x in fcodes]
 
-    rollkwargs = dict()
+    rollkwargs = {}
     if args.checkdate:
         rollkwargs["checkdate"] = checkdate
 
@@ -127,7 +124,7 @@ def runstrat(args=None):
     cerebro.run(stdstats=False)
 
     if args.plot:
-        pkwargs = dict(style="bar")
+        pkwargs = {"style": "bar"}
         if args.plot is not True:  # evals to True but is not True
             npkwargs = eval("dict(" + args.plot + ")")  # args were passed
             pkwargs.update(npkwargs)

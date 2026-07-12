@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
 ###############################################################################
 #
 # Copyright (C) 2015-2023 Daniel Rodriguez
@@ -18,15 +17,11 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
-from __future__ import absolute_import, division, print_function, unicode_literals
 
-import calendar
-import datetime
 
 import aptrade as bt
-from aptrade.utils.py3 import MAXINT
-
-from .. import Observer, TimeFrame
+from aptrade.dataseries import TimeFrame
+from aptrade.observer import Observer
 
 
 class TimeReturn(Observer):
@@ -63,8 +58,8 @@ class TimeReturn(Observer):
     _stclock = True
 
     lines = ("timereturn",)
-    plotinfo = dict(plot=True, subplot=True)
-    plotlines = dict(timereturn=dict(_name="Return"))
+    plotinfo = {"plot": True, "subplot": True}
+    plotlines = {"timereturn": {"_name": "Return"}}
 
     params = (
         ("timeframe", None),

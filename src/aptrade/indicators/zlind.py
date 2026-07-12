@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
 ###############################################################################
 #
 # Copyright (C) 2015-2023 Daniel Rodriguez
@@ -18,9 +17,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
-from __future__ import absolute_import, division, print_function, unicode_literals
 
-import aptrade as bt
 from aptrade.utils.py3 import MAXINT
 
 from . import MovAv, MovingAverageBase
@@ -61,7 +58,7 @@ class ZeroLagIndicator(MovingAverageBase):
     lines = ("ec",)
     params = (
         ("gainlimit", 50),
-        ("_movav", MovAv.EMA),
+        ("_movav", lambda: MovAv.EMA),
     )
 
     def _plotlabel(self):
@@ -74,7 +71,7 @@ class ZeroLagIndicator(MovingAverageBase):
         self.limits = [-self.p.gainlimit, self.p.gainlimit + 1]
 
         # To make mixins work - super at the end for cooperative inheritance
-        super(ZeroLagIndicator, self).__init__()
+        super().__init__()
 
     def next(self):
         leasterror = MAXINT  # 1000000 in original code

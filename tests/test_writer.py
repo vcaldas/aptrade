@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
 ###############################################################################
 #
 # Copyright (C) 2015-2023 Daniel Rodriguez
@@ -18,20 +17,17 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
-from __future__ import absolute_import, division, print_function, unicode_literals
 
-import time
-
-import testcommon
 
 import aptrade as bt
 import aptrade.indicators as btind
+import testcommon
 
 chkdatas = 1
 
 
 class CurrentTestStrategy(bt.Strategy):
-    params = dict(main=False)
+    params = {"main": False}
 
     def __init__(self):
         btind.SMA()
@@ -44,7 +40,7 @@ def test_run(main=False):
         CurrentTestStrategy,
         main=main,
         plot=main,
-        writer=(bt.WriterStringIO, dict(csv=True)),
+        writer=(bt.WriterStringIO, {"csv": True}),
     )
 
     for cerebro in cerebros:

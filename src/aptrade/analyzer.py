@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
 ###############################################################################
 #
 # Copyright (C) 2015-2023 Daniel Rodriguez
@@ -18,7 +17,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
-from __future__ import absolute_import, division, print_function, unicode_literals
 
 import calendar
 import datetime
@@ -26,19 +24,20 @@ import pprint as pp
 from collections import OrderedDict
 
 import aptrade as bt
-from aptrade import TimeFrame
+from aptrade.dataseries import TimeFrame
+from aptrade.metabase import MetaParams
 from aptrade.utils.py3 import MAXINT
 
 
-class MetaAnalyzer(bt.MetaParams):
-    def donew(cls, *args, **kwargs):
+class MetaAnalyzer(MetaParams):
+    def donew(self, *args, **kwargs):
         """
         Intercept the strategy parameter
         """
         # Create the object and set the params in place
-        _obj, args, kwargs = super(MetaAnalyzer, cls).donew(*args, **kwargs)
+        _obj, args, kwargs = super().donew(*args, **kwargs)
 
-        _obj._children = list()
+        _obj._children = []
 
         _obj.strategy = strategy = bt.metabase.findowner(_obj, bt.Strategy)
         _obj._parent = bt.metabase.findowner(_obj, Analyzer)
@@ -57,7 +56,7 @@ class MetaAnalyzer(bt.MetaParams):
             for index, line in enumerate(data.lines):
                 linealias = data._getlinealias(index)
                 if linealias:
-                    setattr(_obj, "data_%s" % linealias, line)
+                    setattr(_obj, f"data_{linealias}", line)
                 setattr(_obj, "data_%d" % index, line)
             for d, data in enumerate(_obj.datas):
                 setattr(_obj, "data%d" % d, data)
@@ -73,8 +72,8 @@ class MetaAnalyzer(bt.MetaParams):
         # Return to the normal chain
         return _obj, args, kwargs
 
-    def dopostinit(cls, _obj, *args, **kwargs):
-        _obj, args, kwargs = super(MetaAnalyzer, cls).dopostinit(_obj, *args, **kwargs)
+    def dopostinit(self, _obj, *args, **kwargs):
+        _obj, args, kwargs = super().dopostinit(_obj, *args, **kwargs)
 
         if _obj._parent is not None:
             _obj._parent._register(_obj)
@@ -272,7 +271,7 @@ class Analyzer(metaclass=MetaAnalyzer):
         """
         writer = bt.WriterFile(*args, **kwargs)
         writer.start()
-        pdct = dict()
+        pdct = {}
         pdct[self.__class__.__name__] = self.get_analysis()
         writer.writedict(pdct)
         writer.stop()
@@ -290,7 +289,7 @@ class MetaTimeFrameAnalyzerBase(Analyzer.__class__):
         if "_on_dt_over" in dct:
             dct["on_dt_over"] = dct.pop("_on_dt_over")  # rename method
 
-        return super(MetaTimeFrameAnalyzerBase, meta).__new__(meta, name, bases, dct)
+        return super().__new__(meta, name, bases, dct)
 
 
 class TimeFrameAnalyzerBase(Analyzer, metaclass=MetaTimeFrameAnalyzerBase):
@@ -306,7 +305,7 @@ class TimeFrameAnalyzerBase(Analyzer, metaclass=MetaTimeFrameAnalyzerBase):
         self.compression = self.p.compression or self.data._compression
 
         self.dtcmp, self.dtkey = self._get_dt_cmpkey(datetime.datetime.min)
-        super(TimeFrameAnalyzerBase, self)._start()
+        super()._start()
 
     def _prenext(self):
         for child in self._children:

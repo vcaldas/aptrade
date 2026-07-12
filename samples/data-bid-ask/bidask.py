@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
 ###############################################################################
 #
 # Copyright (C) 2015-2023 Daniel Rodriguez
@@ -18,7 +17,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
-from __future__ import absolute_import, division, print_function, unicode_literals
 
 import argparse
 
@@ -53,7 +51,7 @@ class St(bt.Strategy):
         )
 
         if self.p.sma:
-            txt += " - SMA: %.4f" % self.sma[0]
+            txt += f" - SMA: {self.sma[0]:.4f}"
         print(txt)
 
 

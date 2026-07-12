@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
 ###############################################################################
 #
 # Copyright (C) 2015-2023 Daniel Rodriguez
@@ -18,12 +17,12 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
-from __future__ import absolute_import, division, print_function, unicode_literals
 
 import math
 
-from aptrade import Analyzer, TimeFrame
+from aptrade.analyzer import Analyzer
 from aptrade.analyzers import AnnualReturn, TimeReturn
+from aptrade.dataseries import TimeFrame
 from aptrade.mathsupport import average, standarddev
 from aptrade.utils.py3 import itervalues
 
@@ -140,7 +139,7 @@ class SharpeRatio(Analyzer):
             )
 
     def stop(self):
-        super(SharpeRatio, self).stop()
+        super().stop()
         if self.p.legacyannual:
             rate = self.p.riskfreerate
             retavg = average([r - rate for r in self.anret.rets])

@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
 ###############################################################################
 #
 # Copyright (C) 2015-2023 Daniel Rodriguez
@@ -18,7 +17,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
-from __future__ import absolute_import, division, print_function, unicode_literals
 
 import argparse
 import datetime
@@ -27,10 +25,10 @@ import aptrade as bt
 
 
 class St(bt.Strategy):
-    params = dict(
-        periods=[10, 30],
-        matype=bt.ind.SMA,
-    )
+    params = {
+        "periods": [10, 30],
+        "matype": bt.ind.SMA,
+    }
 
     def __init__(self):
         self.cheating = self.cerebro.p.cheat_on_open
@@ -59,17 +57,13 @@ class St(bt.Strategy):
                 self.order = self.close()
         elif self.signal > 0:
             print(
-                "{} Send Buy, fromopen {}, close {}".format(
-                    self.data.datetime.date(), fromopen, self.data.close[0]
-                )
+                f"{self.data.datetime.date()} Send Buy, fromopen {fromopen}, close {self.data.close[0]}"
             )
             self.order = self.buy()
 
     def next(self):
         print(
-            "{} next, open {} close {}".format(
-                self.data.datetime.date(), self.data.open[0], self.data.close[0]
-            )
+            f"{self.data.datetime.date()} next, open {self.data.open[0]} close {self.data.close[0]}"
         )
 
         if self.cheating:
@@ -88,7 +82,7 @@ def runstrat(args=None):
     cerebro = bt.Cerebro()
 
     # Data feed kwargs
-    kwargs = dict()
+    kwargs = {}
 
     # Parse from/to-date
     dtfmt, tmfmt = "%Y-%m-%d", "T%H:%M:%S"

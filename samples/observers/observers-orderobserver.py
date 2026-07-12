@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
 ###############################################################################
 #
 # Copyright (C) 2015-2023 Daniel Rodriguez
@@ -18,7 +17,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
-from __future__ import absolute_import, division, print_function, unicode_literals
 
 import datetime
 import os
@@ -30,7 +28,6 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from orderobserver import OrderObserver
 
 import aptrade as bt
-import aptrade.feeds as btfeeds
 import aptrade.indicators as btind
 
 
@@ -46,7 +43,7 @@ class MyStrategy(bt.Strategy):
         dt = dt or self.data.datetime[0]
         if isinstance(dt, float):
             dt = bt.num2date(dt)
-        print("%s, %s" % (dt.isoformat(), txt))
+        print(f"{dt.isoformat()}, {txt}")
 
     def notify_order(self, order):
         if order.status in [order.Submitted, order.Accepted]:
@@ -61,14 +58,12 @@ class MyStrategy(bt.Strategy):
         elif order.status in [order.Completed]:
             if order.isbuy():
                 self.log(
-                    "BUY EXECUTED, Price: %.2f, Cost: %.2f, Comm %.2f"
-                    % (order.executed.price, order.executed.value, order.executed.comm)
+                    f"BUY EXECUTED, Price: {order.executed.price:.2f}, Cost: {order.executed.value:.2f}, Comm {order.executed.comm:.2f}"
                 )
 
             else:  # Sell
                 self.log(
-                    "SELL EXECUTED, Price: %.2f, Cost: %.2f, Comm %.2f"
-                    % (order.executed.price, order.executed.value, order.executed.comm)
+                    f"SELL EXECUTED, Price: {order.executed.price:.2f}, Cost: {order.executed.value:.2f}, Comm {order.executed.comm:.2f}"
                 )
 
         # Sentinel to None: new orders allowed
@@ -93,13 +88,13 @@ class MyStrategy(bt.Strategy):
         # Check if we are in the market
         if self.position:
             if self.buysell < 0:
-                self.log("SELL CREATE, %.2f" % self.data.close[0])
+                self.log(f"SELL CREATE, {self.data.close[0]:.2f}")
                 self.sell()
 
         elif self.buysell > 0:
             plimit = self.data.close[0] * (1.0 - self.p.limitperc / 100.0)
             valid = self.data.datetime.date(0) + datetime.timedelta(days=self.p.valid)
-            self.log("BUY CREATE, %.2f" % plimit)
+            self.log(f"BUY CREATE, {plimit:.2f}")
             self.buy(exectype=bt.Order.Limit, price=plimit, valid=valid)
 
 

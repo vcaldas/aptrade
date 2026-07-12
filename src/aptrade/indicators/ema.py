@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
 ###############################################################################
 #
 # Copyright (C) 2015-2023 Daniel Rodriguez
@@ -18,9 +17,9 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
-from __future__ import absolute_import, division, print_function, unicode_literals
 
-from . import ExponentialSmoothing, MovingAverageBase
+from aptrade.indicators.basicops import ExponentialSmoothing
+from aptrade.indicators.mabase import MovingAverageBase
 
 
 class ExponentialMovingAverage(MovingAverageBase):
@@ -54,4 +53,4 @@ class ExponentialMovingAverage(MovingAverageBase):
 
         self.alpha, self.alpha1 = es.alpha, es.alpha1
 
-        super(ExponentialMovingAverage, self).__init__()
+        super().__init__()

@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
 ###############################################################################
 #
 # Copyright (C) 2015-2023 Daniel Rodriguez
@@ -18,7 +17,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
-from __future__ import absolute_import, division, print_function, unicode_literals
 
 import argparse
 import datetime
@@ -30,7 +28,7 @@ class TestSizer(bt.sizers.AbstractSizer):
     params = (("stake", 1),)
 
     def _getsizing(self, comminfo, cash, data, isbuy):
-        dt, i = self.strategy.datetime.date(), data._id
+        dt, _i = self.strategy.datetime.date(), data._id
         s = self.p.stake * (1 + (not isbuy))
         print(
             "{} Data {} OType {} Sizing to {}".format(
@@ -42,50 +40,48 @@ class TestSizer(bt.sizers.AbstractSizer):
 
 
 class St(bt.Strategy):
-    params = dict(
-        enter=[1, 3, 4],  # data ids are 1 based
-        hold=[7, 10, 15],  # data ids are 1 based
-        usebracket=True,
-        rawbracket=True,
-        pentry=0.015,
-        plimits=0.03,
-        valid=10,
-    )
+    params = {
+        "enter": [1, 3, 4],  # data ids are 1 based
+        "hold": [7, 10, 15],  # data ids are 1 based
+        "usebracket": True,
+        "rawbracket": True,
+        "pentry": 0.015,
+        "plimits": 0.03,
+        "valid": 10,
+    }
 
     def notify_order(self, order):
         if order.status == order.Submitted:
             return
 
         dt, dn = self.datetime.date(), order.data._name
-        print(
-            "{} {} Order {} Status {}".format(dt, dn, order.ref, order.getstatusname())
-        )
+        print(f"{dt} {dn} Order {order.ref} Status {order.getstatusname()}")
 
         whichord = ["main", "stop", "limit", "close"]
         if not order.alive():  # not alive - nullify
             dorders = self.o[order.data]
             idx = dorders.index(order)
             dorders[idx] = None
-            print("-- No longer alive {} Ref".format(whichord[idx]))
+            print(f"-- No longer alive {whichord[idx]} Ref")
 
             if all(x is None for x in dorders):
                 dorders[:] = []  # empty list - New orders allowed
 
     def __init__(self):
-        self.o = dict()  # orders per data (main, stop, limit, manual-close)
-        self.holding = dict()  # holding periods per data
+        self.o = {}  # orders per data (main, stop, limit, manual-close)
+        self.holding = {}  # holding periods per data
 
     def next(self):
         for i, d in enumerate(self.datas):
             dt, dn = self.datetime.date(), d._name
             pos = self.getposition(d).size
-            print("{} {} Position {}".format(dt, dn, pos))
+            print(f"{dt} {dn} Position {pos}")
 
             if not pos and not self.o.get(d, None):  # no market / no orders
                 if dt.weekday() == self.p.enter[i]:
                     if not self.p.usebracket:
                         self.o[d] = [self.buy(data=d)]
-                        print("{} {} Buy {}".format(dt, dn, self.o[d][0].ref))
+                        print(f"{dt} {dn} Buy {self.o[d][0].ref}")
 
                     else:
                         p = d.close[0] * (1.0 - self.p.pentry)
@@ -128,7 +124,7 @@ class St(bt.Strategy):
                                 price=p,
                                 stopprice=pstp,
                                 limitprice=plmt,
-                                oargs=dict(valid=valid),
+                                oargs={"valid": valid},
                             )
 
                         print(
@@ -144,10 +140,10 @@ class St(bt.Strategy):
                 if self.holding[d] >= self.p.hold[i]:
                     o = self.close(data=d)
                     self.o[d].append(o)  # manual order to list of orders
-                    print("{} {} Manual Close {}".format(dt, dn, o.ref))
+                    print(f"{dt} {dn} Manual Close {o.ref}")
                     if self.p.usebracket:
                         self.cancel(self.o[d][1])  # cancel stop side
-                        print("{} {} Cancel {}".format(dt, dn, self.o[d][1]))
+                        print(f"{dt} {dn} Cancel {self.o[d][1]}")
 
 
 def runstrat(args=None):
@@ -156,7 +152,7 @@ def runstrat(args=None):
     cerebro = bt.Cerebro()
 
     # Data feed kwargs
-    kwargs = dict()
+    kwargs = {}
 
     # Parse from/to-date
     dtfmt, tmfmt = "%Y-%m-%d", "T%H:%M:%S"

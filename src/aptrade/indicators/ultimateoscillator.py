@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
 ###############################################################################
 #
 # Copyright (C) 2015-2023 Daniel Rodriguez
@@ -18,13 +17,13 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
-from __future__ import absolute_import, division, print_function, unicode_literals
 
-import aptrade as bt
-from aptrade.indicators import SumN, TrueLow, TrueRange
+from aptrade.indicator import Indicator
+from aptrade.indicators.atr import TrueLow, TrueRange
+from aptrade.indicators.basicops import SumN
 
 
-class UltimateOscillator(bt.Indicator):
+class UltimateOscillator(Indicator):
     """
     Formula:
       # Buying Pressure = Close - TrueLow
@@ -77,4 +76,4 @@ class UltimateOscillator(bt.Indicator):
         uo = (4.0 * factor) * av7 + (2.0 * factor) * av14 + factor * av28
         self.lines.uo = uo
 
-        super(UltimateOscillator, self).__init__()
+        super().__init__()

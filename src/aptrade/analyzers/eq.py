@@ -5,23 +5,20 @@
 
 import math
 from numbers import Number
-from typing import Union
 
-# from math import copysign
-import aptrade as bt
-from pandas import DataFrame
-
-import aptrade as bt
-from aptrade.utils.py3 import items, iteritems
-from aptrade.order import Order
 import numpy as np
 import pandas as pd
+from pandas import DataFrame
 from pandas import DataFrame as df
 
+# from math import copysign
+from aptrade.analyzer import Analyzer
+from aptrade.order import Order
+from aptrade.utils.py3 import iteritems
 
 
-class Eq(bt.Analyzer):
-    '''This analyzer calculates comprehensive trading system performance statistics
+class Eq(Analyzer):
+    """This analyzer calculates comprehensive trading system performance statistics
     including equity curves, drawdown analysis, returns, risk metrics, and trade statistics.
 
     Params:
@@ -71,30 +68,49 @@ class Eq(bt.Analyzer):
       - ``gen_orders(data_name=None)``
 
         Returns order history as a pandas DataFrame.
-    '''
+    """
 
     params = (
-        ('fund', None),
-        ('data', None),
-        ('cash', True),
+        ("fund", None),
+        ("data", None),
+        ("cash", True),
     )
 
-
     def start(self):
-        #super(Eq, self).start()
+        # super(Eq, self).start()
         if self.p.fund is None:
             self._fundmode = self.strategy.broker.fundmode
         else:
             self._fundmode = self.p.fund
 
-        self.rets_header = ['Datetime', 'value'] + ['cash'] * self.p.cash
-        self.trades_header = ['ref', 'data_name', 'tradeid', 'commission', 'pnl', 'pnlcomm', 'return_pct',
-                            'dateopen', 'dateclose','size','barlen','priceopen','priceclose']
-        self.orders_header = ['o_ref','data_name', 'o_datetime', 'o_ordtype', 'o_price', 'o_size']
+        self.rets_header = ["Datetime", "value"] + ["cash"] * self.p.cash
+        self.trades_header = [
+            "ref",
+            "data_name",
+            "tradeid",
+            "commission",
+            "pnl",
+            "pnlcomm",
+            "return_pct",
+            "dateopen",
+            "dateclose",
+            "size",
+            "barlen",
+            "priceopen",
+            "priceclose",
+        ]
+        self.orders_header = [
+            "o_ref",
+            "data_name",
+            "o_datetime",
+            "o_ordtype",
+            "o_price",
+            "o_size",
+        ]
 
         self.returns = None
-        self.trades = list()
-        self.orders = list()
+        self.trades = []
+        self.orders = []
         self.eq_df = None
         self.trades_df = None
         self.orders_df = None
@@ -115,11 +131,24 @@ class Eq(bt.Analyzer):
             else:
                 return_pct = 0.0
                 price_close = 0.0
-            size = (1 if trade.long else -1)
-            self.trades.append([trade.ref, trade.data._name, trade.tradeid, trade.commission,
-                                trade.pnl, trade.pnlcomm, return_pct, trade.open_datetime(),
-                                trade.close_datetime(), size, trade.barlen, trade.price, price_close])
-
+            size = 1 if trade.long else -1
+            self.trades.append(
+                [
+                    trade.ref,
+                    trade.data._name,
+                    trade.tradeid,
+                    trade.commission,
+                    trade.pnl,
+                    trade.pnlcomm,
+                    return_pct,
+                    trade.open_datetime(),
+                    trade.close_datetime(),
+                    size,
+                    trade.barlen,
+                    trade.price,
+                    price_close,
+                ]
+            )
 
     def notify_fund(self, cash, value, fundvalue, shares):
         self._cash = cash
@@ -140,7 +169,7 @@ class Eq(bt.Analyzer):
 
         # Use raw float datetime key (avoid num2date per bar).
         # _dt0 is set by AuroraStrategy._oncepost; fall back for non-Aurora.
-        dt_key = getattr(self.strategy, '_dt0', None)
+        dt_key = getattr(self.strategy, "_dt0", None)
         if dt_key is None:
             dt_key = self.strategy.datetime.datetime()
         self.rets[dt_key] = pvals
@@ -149,115 +178,135 @@ class Eq(bt.Analyzer):
         if order.status not in [Order.Partial, Order.Completed]:
             return  # It's not an execution
         self._last_exec_price[order.data._name] = order.executed.price
-        self.orders.append([order.ref, order.data._name, order.data.datetime.datetime(),
-                            order.ordtype, order.executed.price, order.executed.size])
+        self.orders.append(
+            [
+                order.ref,
+                order.data._name,
+                order.data.datetime.datetime(),
+                order.ordtype,
+                order.executed.price,
+                order.executed.size,
+            ]
+        )
 
-    def gen_eq(self) -> 'DataFrame':
+    def gen_eq(self) -> "DataFrame":
         if self.eq_df is not None:
             return self.eq_df
         from aptrade.utils.dateintern import num2date as _n2d
+
         # Keys in self.rets may be float (Aurora fast-path) or datetime (fallback)
         def _to_dt(k):
             return _n2d(k) if isinstance(k, (int, float)) else k
+
         data = [[_to_dt(k)] + v[-2:] for k, v in iteritems(self.rets)]
-        eq_df = df.from_records(data, index=self.rets_header[0], columns=self.rets_header)
+        eq_df = df.from_records(
+            data, index=self.rets_header[0], columns=self.rets_header
+        )
         eq_df.index = pd.to_datetime(eq_df.index)
-        #TODO eq_df.index = eq_df.index.tz_localize('UTC')
+        # TODO eq_df.index = eq_df.index.tz_localize('UTC')
         self.eq_df = eq_df
         return eq_df
 
-    def gen_eq_dd(self) -> 'DataFrame':
+    def gen_eq_dd(self) -> "DataFrame":
         eq_df = self.gen_eq()
 
-        equity = eq_df['value']
+        equity = eq_df["value"]
         max_equity = equity.cummax()
-        dd = (1- equity / max_equity) * 100
+        dd = (1 - equity / max_equity) * 100
 
-        equity_df = pd.DataFrame({
-            'Equity': equity,
-            'DrawdownPct': dd
-        }, index=eq_df.index)
+        equity_df = pd.DataFrame(
+            {"Equity": equity, "DrawdownPct": dd}, index=eq_df.index
+        )
 
         return equity_df
 
-    def gen_trades(self, data_name=None, pct=False) -> 'DataFrame':
+    def gen_trades(self, data_name=None, pct=False) -> "DataFrame":
         if self.trades_df is None:
             self.trades_df = df.from_records(self.trades, columns=self.trades_header)
         if data_name is None:
             rdf = self.trades_df.copy()
         else:
-            rdf = self.trades_df[self.trades_df['data_name'] == data_name].copy()
+            rdf = self.trades_df[self.trades_df["data_name"] == data_name].copy()
         if pct:
-            rdf['return_pct'] = rdf['return_pct'] * 100
+            rdf["return_pct"] = rdf["return_pct"] * 100
         return rdf
 
-    def gen_orders(self, data_name=None) -> 'DataFrame':
+    def gen_orders(self, data_name=None) -> "DataFrame":
         if self.orders_df is None:
             self.orders_df = df.from_records(self.orders, columns=self.orders_header)
         if data_name is None:
             return self.orders_df
         else:
-            return self.orders_df[self.orders_df['data_name'] == data_name]
+            return self.orders_df[self.orders_df["data_name"] == data_name]
 
-    def compute_stats(self,
-            risk_free_rate: float = 0.0,
-        ) -> pd.Series:
+    def compute_stats(
+        self,
+        risk_free_rate: float = 0.0,
+    ) -> pd.Series:
         assert -1 < risk_free_rate < 1
 
         eq_df = self.gen_eq()
         trades_df = self.gen_trades()
         index = eq_df.index
-        equity = eq_df['value'].to_numpy()
+        equity = eq_df["value"].to_numpy()
 
         gmean_day_return: float = 0
         day_returns = np.array(np.nan)
         annual_trading_days = np.nan
 
-        day_eq = eq_df['value'].resample('D').last().dropna()
+        day_eq = eq_df["value"].resample("D").last().dropna()
         day_returns = day_eq.pct_change().dropna()
         gmean_day_return = geometric_mean(day_returns)
-        annual_trading_days = float(365 if index.dayofweek.to_series().between(5, 6).mean() > 2 / 7 * .6
-                                        else 252)
-        num_years = (eq_df.index[-1] - eq_df.index[0]).total_seconds() / 86400 / annual_trading_days
+        annual_trading_days = float(
+            365
+            if index.dayofweek.to_series().between(5, 6).mean() > 2 / 7 * 0.6
+            else 252
+        )
+        num_years = (
+            (eq_df.index[-1] - eq_df.index[0]).total_seconds()
+            / 86400
+            / annual_trading_days
+        )
 
         day_dd = (1 - day_eq / day_eq.cummax()) * 100
         dd_dur, dd_peaks = compute_drawdown_duration_peaks(day_dd)
 
-        trades_df['Duration'] = trades_df['dateclose'] - trades_df['dateopen']
-        commissions = sum(trades_df['commission'].to_numpy())
+        trades_df["Duration"] = trades_df["dateclose"] - trades_df["dateopen"]
+        commissions = sum(trades_df["commission"].to_numpy())
 
-        pl = trades_df['pnlcomm']
-        returns_pct = trades_df['return_pct']
-        durations = trades_df['Duration']
+        pl = trades_df["pnlcomm"]
+        returns_pct = trades_df["return_pct"]
+        durations = trades_df["Duration"]
 
         def _round_timedelta(value, _period=_data_period(index)):
             if not isinstance(value, pd.Timedelta):
                 return value
-            resolution = getattr(_period, 'resolution_string', None) or _period.resolution
+            resolution = (
+                getattr(_period, "resolution_string", None) or _period.resolution
+            )
             return value.ceil(resolution)
 
         s = pd.Series(dtype=object)
-        s.loc['Start'] = index[0]
-        s.loc['End'] = index[-1]
-        s.loc['Duration'] = s.End - s.Start
+        s.loc["Start"] = index[0]
+        s.loc["End"] = index[-1]
+        s.loc["Duration"] = s.End - s.Start
 
-        s.loc['Equity Start [$]'] = equity[0]
-        s.loc['Equity Final [$]'] = round(equity[-1], 4)
-        s.loc['Equity Peak [$]'] = round(equity.max(), 4)
-        s.loc['Commissions [$]'] = round(commissions, 4)
-        s.loc['Cum Return [%]'] = round((equity[-1] - equity[0]) / equity[0] * 100, 4)
+        s.loc["Equity Start [$]"] = equity[0]
+        s.loc["Equity Final [$]"] = round(equity[-1], 4)
+        s.loc["Equity Peak [$]"] = round(equity.max(), 4)
+        s.loc["Commissions [$]"] = round(commissions, 4)
+        s.loc["Cum Return [%]"] = round((equity[-1] - equity[0]) / equity[0] * 100, 4)
         # c = ohlc_data.Close.values
         # s.loc['Buy & Hold Return [%]'] = (c[-1] - c[0]) / c[0] * 100  # long-only return
-
 
         # Annualized return and risk metrics are computed based on the (mostly correct)
         # assumption that the returns are compounded. See: https://dx.doi.org/10.2139/ssrn.3054517
         # Our annualized return matches `empyrical.annual_return(day_returns)` whereas
         # our risk doesn't; they use the simpler approach below.
         annualized_return = (1 + gmean_day_return) ** annual_trading_days - 1
-        s.loc['Return (Ann.) [%]'] = round(annualized_return * 100, 4)
+        s.loc["Return (Ann.) [%]"] = round(annualized_return * 100, 4)
         volatility = _safe_sample_std(day_returns) * np.sqrt(annual_trading_days) * 100
-        s.loc['Volatility (Ann.) [%]'] = round(volatility, 4)
+        s.loc["Volatility (Ann.) [%]"] = round(volatility, 4)
 
         # CAGR
         equity_ratio = equity[-1] / equity[0] if equity[0] != 0 else np.nan
@@ -270,90 +319,122 @@ class Eq(bt.Analyzer):
                 cagr_value = equity_ratio ** (1 / num_years) - 1
         else:
             cagr_value = 0
-        s.loc['CAGR [%]'] = round(cagr_value * 100, 4)
+        s.loc["CAGR [%]"] = round(cagr_value * 100, 4)
 
         # Sharpe Ratio using arithmetic mean of returns to align with standard definition.
         # See: https://en.wikipedia.org/wiki/Sharpe_ratio
         mean_daily_return = day_returns.mean()
         annualized_mean_return = mean_daily_return * annual_trading_days
         sharpe = (annualized_mean_return * 100 - risk_free_rate * 100) / (
-                volatility if volatility != 0 else np.nan)
-        s.loc['Sharpe Ratio'] = round(sharpe, 4)
+            volatility if volatility != 0 else np.nan
+        )
+        s.loc["Sharpe Ratio"] = round(sharpe, 4)
 
         # Smart Sharpe Ratio
         skew = day_returns.skew()
         kurt = day_returns.kurt()  # Excess kurtosis
-        s.loc['Skew'] = round(skew, 4)
-        s.loc['Kurtosis'] = round(kurt, 4)
+        s.loc["Skew"] = round(skew, 4)
+        s.loc["Kurtosis"] = round(kurt, 4)
         # Smart Sharpe Ratio is a modification of the Sharpe Ratio that accounts for skewness
         # and kurtosis of the returns distribution. It is defined as:
         # Smart Sharpe Ratio = Sharpe Ratio * (1 + (Skewness / 6) * Sharpe Ratio - (Kurtosis / 24) * (Sharpe Ratio ** 2))
         # See: https://www.quantconnect.com/docs/v2/writing-algorithms/indicators/smart-sharpe-ratio
-        smart_sharpe = sharpe * (1 + (skew / 6) * sharpe - (kurt / 24) * (sharpe ** 2))
-        s.loc['Smart Sharpe Ratio'] = round(smart_sharpe, 4)
+        smart_sharpe = sharpe * (1 + (skew / 6) * sharpe - (kurt / 24) * (sharpe**2))
+        s.loc["Smart Sharpe Ratio"] = round(smart_sharpe, 4)
 
         # Our Sortino mismatches `empyrical.sortino_ratio()` because they use arithmetic mean return
         risk_free_rate_daily = (1 + risk_free_rate) ** (1 / annual_trading_days) - 1
         _downside_returns = (day_returns - risk_free_rate_daily).clip(-np.inf, 0)
         _downside_std = _safe_rms(_downside_returns)
-        sortino_ratio = ((mean_daily_return - risk_free_rate_daily) / _downside_std) * np.sqrt(
-                annual_trading_days) if _downside_std != 0 else np.nan
-        s.loc['Sortino Ratio'] = round(sortino_ratio, 4) if not np.isnan(sortino_ratio) else np.nan
+        sortino_ratio = (
+            ((mean_daily_return - risk_free_rate_daily) / _downside_std)
+            * np.sqrt(annual_trading_days)
+            if _downside_std != 0
+            else np.nan
+        )
+        s.loc["Sortino Ratio"] = (
+            round(sortino_ratio, 4) if not np.isnan(sortino_ratio) else np.nan
+        )
 
         # s.loc['VWR Ratio'] = calc_vwr(eq_days=equity_df['Equity'].resample('D').last().dropna().to_numpy())
-        s.loc['VWR Ratio'] = round(calc_vwr(eq_days=day_eq.to_numpy(), annual_trading_days=annual_trading_days), 4)
+        s.loc["VWR Ratio"] = round(
+            calc_vwr(
+                eq_days=day_eq.to_numpy(), annual_trading_days=annual_trading_days
+            ),
+            4,
+        )
         max_dd = -np.nan_to_num(day_dd.max())
-        s.loc['Calmar Ratio'] = round((annualized_return * 100) / abs(max_dd), 4) if max_dd != 0 else np.nan
+        s.loc["Calmar Ratio"] = (
+            round((annualized_return * 100) / abs(max_dd), 4) if max_dd != 0 else np.nan
+        )
 
         ulcer_index = _safe_rms(day_dd)
-        s.loc['Ulcer Index'] = round(ulcer_index, 4)
-        s.loc['UPI'] = round((annualized_return * 100) / ulcer_index, 4) if ulcer_index != 0 else np.nan
+        s.loc["Ulcer Index"] = round(ulcer_index, 4)
+        s.loc["UPI"] = (
+            round((annualized_return * 100) / ulcer_index, 4)
+            if ulcer_index != 0
+            else np.nan
+        )
 
         total_return = day_returns.add(1).prod() - 1
-        s.loc['Recovery factor [%]'] = round(total_return / abs(max_dd) * 100, 4) if abs(max_dd) != 0 else np.nan
+        s.loc["Recovery factor [%]"] = (
+            round(total_return / abs(max_dd) * 100, 4) if abs(max_dd) != 0 else np.nan
+        )
 
-        s.loc['Max. Drawdown [%]'] = round(max_dd, 4)
-        s.loc['Avg. Drawdown [%]'] = round(-dd_peaks.mean(), 4)
+        s.loc["Max. Drawdown [%]"] = round(max_dd, 4)
+        s.loc["Avg. Drawdown [%]"] = round(-dd_peaks.mean(), 4)
         dd_dur_max = dd_dur.max()
-        s.loc['Max. Drawdown Duration'] = _round_timedelta(dd_dur_max)
-        s.loc['Max. Drawdown Duration [D]'] = round(_timedelta_days(dd_dur_max), 4)
+        s.loc["Max. Drawdown Duration"] = _round_timedelta(dd_dur_max)
+        s.loc["Max. Drawdown Duration [D]"] = round(_timedelta_days(dd_dur_max), 4)
         dd_dur_mean = dd_dur.mean()
-        s.loc['Avg. Drawdown Duration'] = _round_timedelta(dd_dur_mean)
-        s.loc['Avg. Drawdown Duration [D]'] = round(_timedelta_days(dd_dur_mean), 4)
-        s.loc['Drawdown Peak'] = day_dd.idxmax()
-        s.loc['# Trades'] = n_trades = len(trades_df)
+        s.loc["Avg. Drawdown Duration"] = _round_timedelta(dd_dur_mean)
+        s.loc["Avg. Drawdown Duration [D]"] = round(_timedelta_days(dd_dur_mean), 4)
+        s.loc["Drawdown Peak"] = day_dd.idxmax()
+        s.loc["# Trades"] = n_trades = len(trades_df)
         win_rate = np.nan if not n_trades else (pl > 0).mean()
-        s.loc['Win Rate [%]'] = round(win_rate * 100, 4)
-        s.loc['Best Trade [%]'] = round(returns_pct.max() * 100, 4)
-        s.loc['Worst Trade [%]'] = round(returns_pct.min() * 100, 4)
+        s.loc["Win Rate [%]"] = round(win_rate * 100, 4)
+        s.loc["Best Trade [%]"] = round(returns_pct.max() * 100, 4)
+        s.loc["Worst Trade [%]"] = round(returns_pct.min() * 100, 4)
         avg_trade_return = returns_pct.mean()
-        s.loc['Avg. Trade [%]'] = round(avg_trade_return * 100, 4)
+        s.loc["Avg. Trade [%]"] = round(avg_trade_return * 100, 4)
         mean_return = geometric_mean(returns_pct)
-        s.loc['Avg. Geometric Trade [%]'] = round(mean_return * 100, 4)
-        s.loc['Max. Trade Duration'] = _round_timedelta(durations.max())
-        s.loc['Avg. Trade Duration'] = _round_timedelta(durations.mean())
+        s.loc["Avg. Geometric Trade [%]"] = round(mean_return * 100, 4)
+        s.loc["Max. Trade Duration"] = _round_timedelta(durations.max())
+        s.loc["Avg. Trade Duration"] = _round_timedelta(durations.mean())
 
         gross_profit_eq = day_returns[day_returns > 0].sum()
         gross_loss_eq = abs(day_returns[day_returns < 0].sum())
-        s.loc['Profit Factor [eq]'] = round(gross_profit_eq / gross_loss_eq, 4) if gross_loss_eq != 0 else np.nan
+        s.loc["Profit Factor [eq]"] = (
+            round(gross_profit_eq / gross_loss_eq, 4) if gross_loss_eq != 0 else np.nan
+        )
 
         gross_profit_trades = pl[pl > 0].sum()
         gross_loss_trades = abs(pl[pl < 0].sum())
-        s.loc['Profit Factor'] = round(gross_profit_trades / gross_loss_trades, 4) if gross_loss_trades != 0 else np.nan
-        s.loc['Expectancy [%]'] = round(returns_pct.mean() * 100, 4)
+        s.loc["Profit Factor"] = (
+            round(gross_profit_trades / gross_loss_trades, 4)
+            if gross_loss_trades != 0
+            else np.nan
+        )
+        s.loc["Expectancy [%]"] = round(returns_pct.mean() * 100, 4)
         pl_std = _safe_sample_std(pl)
         if n_trades <= 1:
-            s.loc['SQN'] = 0
+            s.loc["SQN"] = 0
         else:
-            s.loc['SQN'] = round(np.sqrt(n_trades) * pl.mean() / pl_std, 4) if pl_std != 0 else np.nan
+            s.loc["SQN"] = (
+                round(np.sqrt(n_trades) * pl.mean() / pl_std, 4)
+                if pl_std != 0
+                else np.nan
+            )
 
         avg_win = pl[pl > 0].mean()
         avg_loss = -pl[pl < 0].mean()
         if pd.notna(avg_win) and pd.notna(avg_loss) and avg_loss > 0:
             b = avg_win / abs(avg_loss)
-            s.loc['Kelly Criterion [%]'] = round((win_rate - (1 - win_rate) / b) * 100, 4)
+            s.loc["Kelly Criterion [%]"] = round(
+                (win_rate - (1 - win_rate) / b) * 100, 4
+            )
         else:
-            s.loc['Kelly Criterion [%]'] = np.nan
+            s.loc["Kelly Criterion [%]"] = np.nan
 
         return s
 
@@ -361,18 +442,22 @@ class Eq(bt.Analyzer):
 def compute_drawdown_duration_peaks(dd: pd.Series):
     iloc = np.unique(np.r_[(dd == 0).values.nonzero()[0], len(dd) - 1])
     iloc = pd.Series(iloc, index=dd.index[iloc])
-    df = iloc.to_frame('iloc').assign(prev=iloc.shift())
-    df = df[df['iloc'] > df['prev'] + 1].astype(int)
+    df = iloc.to_frame("iloc").assign(prev=iloc.shift())
+    df = df[df["iloc"] > df["prev"] + 1].astype(int)
 
     # If no drawdown since no trade, avoid below for pandas sake and return nan series
     if not len(df):
         return (dd.replace(0, np.nan),) * 2
 
-    df['duration'] = df['iloc'].map(dd.index.__getitem__) - df['prev'].map(dd.index.__getitem__)
-    df['peak_dd'] = df.apply(lambda row: dd.iloc[row['prev']:row['iloc'] + 1].max(), axis=1)
+    df["duration"] = df["iloc"].map(dd.index.__getitem__) - df["prev"].map(
+        dd.index.__getitem__
+    )
+    df["peak_dd"] = df.apply(
+        lambda row: dd.iloc[row["prev"] : row["iloc"] + 1].max(), axis=1
+    )
 
     df = df.reindex(dd.index)
-    return df['duration'], df['peak_dd']
+    return df["duration"], df["peak_dd"]
 
 
 def remove_outliers(returns, quantile=0.95):
@@ -392,14 +477,16 @@ def geometric_mean(returns: pd.Series) -> float:
 #    calc VariabilityWeightedReturn
 #    See:
 #      - https://www.crystalbull.com/sharpe-ratio-better-with-log-returns/
-def calc_vwr(eq_days: np.array, sdev_max=2.0, tau=0.20, annual_trading_days=252.0) -> float:
-    eq = eq_days #.to_numpy()
+def calc_vwr(
+    eq_days: np.array, sdev_max=2.0, tau=0.20, annual_trading_days=252.0
+) -> float:
+    eq = eq_days  # .to_numpy()
     eq_0 = np.roll(eq, 1)  # shift()
 
     # Calculate nlrtot and rtot
-    nlrtot = eq[-1] / eq[0] if eq[0] != 0 else float('-inf')
+    nlrtot = eq[-1] / eq[0] if eq[0] != 0 else float("-inf")
     if nlrtot <= 0.0:
-        return float('-inf')
+        return float("-inf")
     rtot = math.log(nlrtot)
 
     # Calculate ravg
@@ -417,7 +504,8 @@ def calc_vwr(eq_days: np.array, sdev_max=2.0, tau=0.20, annual_trading_days=252.
     vwr = rnorm100 * (1.0 - (sdev_p / sdev_max) ** tau)
     return vwr
 
-def _data_period(index) -> Union[pd.Timedelta, Number]:
+
+def _data_period(index) -> pd.Timedelta | Number:
     """Return data index period as pd.Timedelta"""
     values = pd.Series(index[-100:])
     return values.diff().dropna().median()
@@ -450,4 +538,4 @@ def _safe_rms(values) -> float:
     values = np.asarray(values, dtype=float)
     if values.size == 0:
         return np.nan
-    return float(np.sqrt(np.mean(values ** 2)))
+    return float(np.sqrt(np.mean(values**2)))

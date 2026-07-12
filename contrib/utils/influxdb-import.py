@@ -1,8 +1,6 @@
 #!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
 
 import argparse
-import io
 import logging
 import os
 import sys
@@ -12,7 +10,7 @@ from influxdb import DataFrameClient as dfclient
 from influxdb.exceptions import InfluxDBClientError
 
 
-class InfluxDBTool(object):
+class InfluxDBTool:
     def __init__(self):
         self._host = args.host if args.host else "localhost"
         self._port = args.port if args.port else 8086
@@ -29,10 +27,10 @@ class InfluxDBTool(object):
     def write_dataframe_to_idb(self, ticker):
         """Write Pandas Dataframe to InfluxDB database"""
         cachepath = self._cache
-        cachefile = "%s/%s-1M.csv.gz" % (cachepath, ticker)
+        cachefile = f"{cachepath}/{ticker}-1M.csv.gz"
 
         if not os.path.exists(cachefile):
-            log.warn("Import file does not exist: %s" % (cachefile))
+            log.warn(f"Import file does not exist: {cachefile}")
             return
 
         df = pd.read_csv(
@@ -46,7 +44,7 @@ class InfluxDBTool(object):
         try:
             self.dfdb.write_points(df, ticker)
         except InfluxDBClientError as err:
-            log.error("Write to database failed: %s" % err)
+            log.error(f"Write to database failed: {err}")
 
     def get_tickers_from_file(self, filename):
         """Load ticker list from txt file"""
@@ -54,7 +52,7 @@ class InfluxDBTool(object):
             log.error("Ticker List file does not exist: %s", filename)
 
         tickers = []
-        with io.open(filename, "r") as fd:
+        with open(filename) as fd:
             for ticker in fd:
                 tickers.append(ticker.rstrip())
         return tickers

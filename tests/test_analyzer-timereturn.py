@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
 ###############################################################################
 #
 # Copyright (C) 2015-2023 Daniel Rodriguez
@@ -18,7 +17,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
-from __future__ import absolute_import, division, print_function, unicode_literals
 
 import time
 
@@ -27,10 +25,9 @@ try:
 except:
     time_clock = time.clock
 
-import testcommon
-
 import aptrade as bt
 import aptrade.indicators as btind
+import testcommon
 
 
 class CurrentTestStrategy(bt.Strategy):
@@ -45,9 +42,9 @@ class CurrentTestStrategy(bt.Strategy):
         if not nodate:
             dt = dt or self.data.datetime[0]
             dt = bt.num2date(dt)
-            print("%s, %s" % (dt.isoformat(), txt))
+            print(f"{dt.isoformat()}, {txt}")
         else:
-            print("---------- %s" % (txt))
+            print(f"---------- {txt}")
 
     def notify_order(self, order):
         if order.status in [bt.Order.Submitted, bt.Order.Accepted]:
@@ -56,21 +53,21 @@ class CurrentTestStrategy(bt.Strategy):
         if order.status == order.Completed:
             if isinstance(order, bt.BuyOrder):
                 if self.p.printops:
-                    txt = "BUY, %.2f" % order.executed.price
+                    txt = f"BUY, {order.executed.price:.2f}"
                     self.log(txt, order.executed.dt)
-                chkprice = "%.2f" % order.executed.price
+                chkprice = f"{order.executed.price:.2f}"
                 self.buyexec.append(chkprice)
             else:  # elif isinstance(order, SellOrder):
                 if self.p.printops:
-                    txt = "SELL, %.2f" % order.executed.price
+                    txt = f"SELL, {order.executed.price:.2f}"
                     self.log(txt, order.executed.dt)
 
-                chkprice = "%.2f" % order.executed.price
+                chkprice = f"{order.executed.price:.2f}"
                 self.sellexec.append(chkprice)
 
         elif order.status in [order.Expired, order.Canceled, order.Margin]:
             if self.p.printops:
-                self.log("%s ," % order.Status[order.status])
+                self.log(f"{order.Status[order.status]} ,")
 
         # Allow new orders
         self.orderid = None
@@ -89,22 +86,22 @@ class CurrentTestStrategy(bt.Strategy):
         if self.p.printdata:
             self.log("-------------------------", nodate=True)
             self.log(
-                "Starting portfolio value: %.2f" % self.broker.getvalue(), nodate=True
+                f"Starting portfolio value: {self.broker.getvalue():.2f}", nodate=True
             )
 
         self.tstart = time_clock()
 
-        self.buycreate = list()
-        self.sellcreate = list()
-        self.buyexec = list()
-        self.sellexec = list()
+        self.buycreate = []
+        self.sellcreate = []
+        self.buyexec = []
+        self.sellexec = []
 
     def stop(self):
         tused = time_clock() - self.tstart
         if self.p.printdata:
-            self.log("Time used: %s" % str(tused))
-            self.log("Final portfolio value: %.2f" % self.broker.getvalue())
-            self.log("Final cash value: %.2f" % self.broker.getcash())
+            self.log(f"Time used: {str(tused)}")
+            self.log(f"Final portfolio value: {self.broker.getvalue():.2f}")
+            self.log(f"Final cash value: {self.broker.getcash():.2f}")
             self.log("-------------------------")
         else:
             pass
@@ -112,16 +109,9 @@ class CurrentTestStrategy(bt.Strategy):
     def next(self):
         if self.p.printdata:
             self.log(
-                "Open, High, Low, Close, %.2f, %.2f, %.2f, %.2f, Sma, %f"
-                % (
-                    self.data.open[0],
-                    self.data.high[0],
-                    self.data.low[0],
-                    self.data.close[0],
-                    self.sma[0],
-                )
+                f"Open, High, Low, Close, {self.data.open[0]:.2f}, {self.data.high[0]:.2f}, {self.data.low[0]:.2f}, {self.data.close[0]:.2f}, Sma, {self.sma[0]:f}"
             )
-            self.log("Close %.2f - Sma %.2f" % (self.data.close[0], self.sma[0]))
+            self.log(f"Close {self.data.close[0]:.2f} - Sma {self.sma[0]:.2f}")
 
         if self.orderid:
             # if an order is active, no new orders are allowed
@@ -130,18 +120,18 @@ class CurrentTestStrategy(bt.Strategy):
         if not self.position.size:
             if self.cross > 0.0:
                 if self.p.printops:
-                    self.log("BUY CREATE , %.2f" % self.data.close[0])
+                    self.log(f"BUY CREATE , {self.data.close[0]:.2f}")
 
                 self.orderid = self.buy()
-                chkprice = "%.2f" % self.data.close[0]
+                chkprice = f"{self.data.close[0]:.2f}"
                 self.buycreate.append(chkprice)
 
         elif self.cross < 0.0:
             if self.p.printops:
-                self.log("SELL CREATE , %.2f" % self.data.close[0])
+                self.log(f"SELL CREATE , {self.data.close[0]:.2f}")
 
             self.orderid = self.close()
-            chkprice = "%.2f" % self.data.close[0]
+            chkprice = f"{self.data.close[0]:.2f}"
             self.sellcreate.append(chkprice)
 
 
@@ -157,7 +147,7 @@ def test_run(main=False):
         stocklike=False,
         printops=main,
         plot=main,
-        analyzer=(bt.analyzers.TimeReturn, dict(timeframe=bt.TimeFrame.Years)),
+        analyzer=(bt.analyzers.TimeReturn, {"timeframe": bt.TimeFrame.Years}),
     )
 
     for cerebro in cerebros:

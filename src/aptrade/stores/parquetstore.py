@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
 ###############################################################################
 #
 # Copyright (C) 2026 Victor Caldas
@@ -18,15 +17,14 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
-from __future__ import absolute_import, division, print_function, unicode_literals
 
 import datetime as _dt
 from pathlib import Path
 
-import aptrade as bt
+from aptrade.store import Store
 
 
-class ParquetStore(bt.Store):
+class ParquetStore(Store):
     """Store for local parquet time series files.
 
     Expected directory layout:
@@ -69,14 +67,18 @@ class ParquetStore(bt.Store):
           - interval (str): one of ``day``, ``trades``, ``1-minute`` (or ``1m``).
         """
         if self._path is None:
-            raise ValueError("ParquetStore path is not configured. Pass params path=... or call set_path(...)")
+            raise ValueError(
+                "ParquetStore path is not configured. Pass params path=... or call set_path(...)"
+            )
 
         interval_key = str(interval).strip().lower()
         try:
             interval_file = self._INTERVAL_FILES[interval_key]
         except KeyError:
             supported = ", ".join(sorted(self._INTERVAL_FILES.keys()))
-            raise ValueError("Unsupported interval {!r}. Supported: {}".format(interval, supported))
+            raise ValueError(
+                f"Unsupported interval {interval!r}. Supported: {supported}"
+            )
 
         start = self._as_date(start_date)
         end = self._as_date(end_date)
@@ -95,7 +97,9 @@ class ParquetStore(bt.Store):
         one_day = _dt.timedelta(days=1)
 
         while day <= end:
-            parquet_path = self._find_daily_file(stock_name=stock_name, day=day, filename=interval_file)
+            parquet_path = self._find_daily_file(
+                stock_name=stock_name, day=day, filename=interval_file
+            )
             if parquet_path is not None:
                 frames.append(pd.read_parquet(parquet_path))
 
@@ -121,7 +125,9 @@ class ParquetStore(bt.Store):
             return _dt.datetime.fromisoformat(text).date()
 
     def _find_daily_file(self, stock_name, day, filename):
-        candidates = self._candidate_paths(stock_name=stock_name, day=day, filename=filename)
+        candidates = self._candidate_paths(
+            stock_name=stock_name, day=day, filename=filename
+        )
         for candidate in candidates:
             if candidate.exists():
                 return candidate
@@ -130,8 +136,8 @@ class ParquetStore(bt.Store):
     def _candidate_paths(self, stock_name, day, filename):
         # Support both zero-padded and non-zero-padded month/day directories.
         year = str(day.year)
-        month_padded = "{:02d}".format(day.month)
-        day_padded = "{:02d}".format(day.day)
+        month_padded = f"{day.month:02d}"
+        day_padded = f"{day.day:02d}"
         month_plain = str(day.month)
         day_plain = str(day.day)
 
@@ -161,7 +167,9 @@ class ParquetStore(bt.Store):
             return df
 
         sdt = pd.Timestamp(start_date)
-        edt = pd.Timestamp(end_date) + pd.Timedelta(days=1) - pd.Timedelta(microseconds=1)
+        edt = (
+            pd.Timestamp(end_date) + pd.Timedelta(days=1) - pd.Timedelta(microseconds=1)
+        )
         dt_series = pd.to_datetime(df[datetime_col], errors="coerce")
         mask = (dt_series >= sdt) & (dt_series <= edt)
         return df.loc[mask].reset_index(drop=True)

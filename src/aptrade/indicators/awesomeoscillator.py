@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
 ###############################################################################
 #
 # Copyright (C) 2015-2023 Daniel Rodriguez
@@ -18,16 +17,14 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
-from __future__ import absolute_import, division, print_function, unicode_literals
 
-import aptrade as bt
-
-from . import MovAv
+from aptrade.indicator import Indicator
+from aptrade.indicators.sma import MovingAverageSimple as SMA
 
 __all__ = ["AwesomeOscillator", "AwesomeOsc", "AO"]
 
 
-class AwesomeOscillator(bt.Indicator):
+class AwesomeOscillator(Indicator):
     """
     Awesome Oscillator (AO) is a momentum indicator reflecting the precise
     changes in the market driving force which helps to identify the trend’s
@@ -50,10 +47,10 @@ class AwesomeOscillator(bt.Indicator):
     params = (
         ("fast", 5),
         ("slow", 34),
-        ("movav", MovAv.SMA),
+        ("movav", SMA),
     )
 
-    plotlines = dict(ao=dict(_method="bar", alpha=0.50, width=1.0))
+    plotlines = {"ao": {"_method": "bar", "alpha": 0.50, "width": 1.0}}
 
     def __init__(self):
         median_price = (self.data.high + self.data.low) / 2.0
@@ -61,4 +58,4 @@ class AwesomeOscillator(bt.Indicator):
         sma2 = self.p.movav(median_price, period=self.p.slow)
         self.l.ao = sma1 - sma2
 
-        super(AwesomeOscillator, self).__init__()
+        super().__init__()

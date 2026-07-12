@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
 ###############################################################################
 #
 # Copyright (C) 2015-2023 Daniel Rodriguez
@@ -18,11 +17,9 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
-from __future__ import absolute_import, division, print_function, unicode_literals
 
 import argparse
 import datetime
-import random
 
 import aptrade as bt
 
@@ -72,7 +69,7 @@ def runstrat(args=None):
     cerebro = bt.Cerebro()
     cerebro.broker.set_cash(args.cash)
 
-    dkwargs = dict()
+    dkwargs = {}
     if args.fromdate:
         fromdate = datetime.datetime.strptime(args.fromdate, "%Y-%m-%d")
         dkwargs["fromdate"] = fromdate
@@ -93,7 +90,7 @@ def runstrat(args=None):
 
     cerebro.run()
     if args.plot:
-        pkwargs = dict()
+        pkwargs = {}
         if args.plot is not True:  # evals to True but is not True
             pkwargs = eval("dict(" + args.plot + ")")  # args were passed
 

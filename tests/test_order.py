@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
 ###############################################################################
 #
 # Copyright (C) 2015-2023 Daniel Rodriguez
@@ -18,13 +17,12 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
-from __future__ import absolute_import, division, print_function, unicode_literals
 
 import aptrade as bt
-from aptrade import Order, Position
+from aptrade import Position
 
 
-class FakeCommInfo(object):
+class FakeCommInfo:
     def getvaluesize(self, size, price):
         return 0
 
@@ -38,7 +36,7 @@ class FakeCommInfo(object):
         return 0.0
 
 
-class FakeData(object):
+class FakeData:
     """
     Minimal interface to avoid errors when trade tries to get information from
     the data during the test

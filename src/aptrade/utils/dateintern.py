@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
 ###############################################################################
 #
 # Copyright (C) 2015-2023 Daniel Rodriguez
@@ -18,7 +17,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
-from __future__ import absolute_import, division, print_function, unicode_literals
 
 import datetime
 import math
@@ -53,7 +51,7 @@ def tzparse(tz):
     # may not be available.
     tzstr = isinstance(tz, str)
     if tz is None or not tzstr:
-        return Localizer(tz)
+        return localizer(tz)
 
     if ZoneInfo is not None:
         tzs = "CST6CDT" if tz == "CST" else tz
@@ -79,7 +77,7 @@ def tzparse(tz):
     return tz
 
 
-def Localizer(tz):
+def localizer(tz):
     import types
 
     def localize(self, dt):

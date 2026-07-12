@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
 ###############################################################################
 #
 # Copyright (C) 2015-2023 Daniel Rodriguez
@@ -18,7 +17,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
-from __future__ import absolute_import, division, print_function, unicode_literals
 
 import argparse
 import datetime
@@ -36,18 +34,18 @@ class St(bt.Strategy):
 
     def next(self):
         txt = []
-        txt.append("{:04d}".format(len(self)))
-        txt.append("{:04d}".format(len(self.data0)))
+        txt.append(f"{len(self):04d}")
+        txt.append(f"{len(self.data0):04d}")
         txt.append(self.data0.datetime.datetime())
-        txt.append("{:.2f}".format(self.data0.close[0]))
+        txt.append(f"{self.data0.close[0]:.2f}")
         txt.append("PSAR")
-        txt.append("{:04.2f}".format(self.psar0[0]))
+        txt.append(f"{self.psar0[0]:04.2f}")
         if len(self.data1):
-            txt.append("{:04d}".format(len(self.data1)))
+            txt.append(f"{len(self.data1):04d}")
             txt.append(self.data1.datetime.datetime())
-            txt.append("{:.2f}".format(self.data1.close[0]))
+            txt.append(f"{self.data1.close[0]:.2f}")
             txt.append("PSAR")
-            txt.append("{:04.2f}".format(self.psar1[0]))
+            txt.append(f"{self.psar1[0]:04.2f}")
 
         print(",".join(str(x) for x in txt))
 
@@ -58,10 +56,10 @@ def runstrat(args=None):
     cerebro = bt.Cerebro()
 
     # Data feed kwargs
-    kwargs = dict(
-        timeframe=bt.TimeFrame.Minutes,
-        compression=5,
-    )
+    kwargs = {
+        "timeframe": bt.TimeFrame.Minutes,
+        "compression": 5,
+    }
 
     # Parse from/to-date
     dtfmt, tmfmt = "%Y-%m-%d", "T%H:%M:%S"

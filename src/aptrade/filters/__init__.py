@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
 ###############################################################################
 #
 # Copyright (C) 2015-2023 Daniel Rodriguez
@@ -18,17 +17,13 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
-from __future__ import (absolute_import, division, print_function,
-                        unicode_literals)
 
 
-from .. import Filter
-
-from .datafilter import *
-from .datafiller import *
-from .session import *
-from .calendardays import *
-from .daysteps import *
 from .bsplitter import *
+from .calendardays import *
+from .datafiller import *
+from .datafilter import *
+from .daysteps import *
 from .heikinashi import *
 from .renko import *
+from .session import *

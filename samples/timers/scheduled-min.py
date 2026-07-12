@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
 ###############################################################################
 #
 # Copyright (C) 2015-2023 Daniel Rodriguez
@@ -18,7 +17,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
-from __future__ import absolute_import, division, print_function, unicode_literals
 
 import argparse
 import datetime
@@ -27,17 +25,17 @@ import aptrade as bt
 
 
 class St(bt.Strategy):
-    params = dict(
-        when=bt.timer.SESSION_START,
-        timer=True,
-        cheat=False,
-        offset=datetime.timedelta(),
-        repeat=datetime.timedelta(),
-        weekdays=[],
-        weekcarry=False,
-        monthdays=[],
-        monthcarry=True,
-    )
+    params = {
+        "when": bt.timer.SESSION_START,
+        "timer": True,
+        "cheat": False,
+        "offset": datetime.timedelta(),
+        "repeat": datetime.timedelta(),
+        "weekdays": [],
+        "weekcarry": False,
+        "monthdays": [],
+        "monthcarry": True,
+    }
 
     def __init__(self):
         bt.ind.SMA()
@@ -72,36 +70,23 @@ class St(bt.Strategy):
 
     def next(self):
         _, isowk, isowkday = self.datetime.date().isocalendar()
-        txt = "{}, {}, Week {}, Day {}, O {}, H {}, L {}, C {}".format(
-            len(self),
-            self.datetime.datetime(),
-            isowk,
-            isowkday,
-            self.data.open[0],
-            self.data.high[0],
-            self.data.low[0],
-            self.data.close[0],
-        )
+        txt = f"{len(self)}, {self.datetime.datetime()}, Week {isowk}, Day {isowkday}, O {self.data.open[0]}, H {self.data.high[0]}, L {self.data.low[0]}, C {self.data.close[0]}"
 
         print(txt)
 
     def notify_timer(self, timer, when, *args, **kwargs):
         print(
-            "strategy notify_timer with tid {}, when {} cheat {}".format(
-                timer.p.tid, when, timer.p.cheat
-            )
+            f"strategy notify_timer with tid {timer.p.tid}, when {when} cheat {timer.p.cheat}"
         )
 
         if self.order is None and timer.params.cheat:
-            print("-- {} Create buy order".format(self.data.datetime.datetime()))
+            print(f"-- {self.data.datetime.datetime()} Create buy order")
             self.order = self.buy()
 
     def notify_order(self, order):
         if order.status == order.Completed:
             print(
-                "-- {} Buy Exec @ {}".format(
-                    self.data.datetime.datetime(), order.executed.price
-                )
+                f"-- {self.data.datetime.datetime()} Buy Exec @ {order.executed.price}"
             )
 
 
@@ -110,12 +95,12 @@ def runstrat(args=None):
     cerebro = bt.Cerebro()
 
     # Data feed kwargs
-    kwargs = dict(
-        timeframe=bt.TimeFrame.Minutes,
-        compression=5,
-        sessionstart=datetime.time(9, 0),
-        sessionend=datetime.time(17, 30),
-    )
+    kwargs = {
+        "timeframe": bt.TimeFrame.Minutes,
+        "compression": 5,
+        "sessionstart": datetime.time(9, 0),
+        "sessionend": datetime.time(17, 30),
+    }
 
     # Parse from/to-date
     dtfmt, tmfmt = "%Y-%m-%d", "T%H:%M:%S"

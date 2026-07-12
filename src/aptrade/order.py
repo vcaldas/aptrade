@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
 ###############################################################################
 #
 # Copyright (C) 2015-2023 Daniel Rodriguez
@@ -18,7 +17,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
-from __future__ import absolute_import, division, print_function, unicode_literals
 
 import collections
 import datetime
@@ -48,7 +46,7 @@ class Counter:
         return self.current
 
 
-class OrderExecutionBit(object):
+class OrderExecutionBit:
     """
     Intended to hold information about order execution. A "bit" does not
     determine if the order has been fully/partially executed, it just holds
@@ -109,7 +107,7 @@ class OrderExecutionBit(object):
         self.pprice = pprice
 
 
-class OrderData(object):
+class OrderData:
     """
     Holds actual order data for Creation and Execution.
 
@@ -372,24 +370,24 @@ class OrderBase(metaclass=MetaParams):
             super(Order, self).__setattribute__(name, value)
 
     def __str__(self):
-        tojoin = list()
-        tojoin.append("Ref: {}".format(self.ref))
-        tojoin.append("OrdType: {}".format(self.ordtype))
-        tojoin.append("OrdType: {}".format(self.ordtypename()))
-        tojoin.append("Status: {}".format(self.status))
-        tojoin.append("Status: {}".format(self.getstatusname()))
-        tojoin.append("Size: {}".format(self.size))
-        tojoin.append("Price: {}".format(self.price))
-        tojoin.append("Price Limit: {}".format(self.pricelimit))
-        tojoin.append("TrailAmount: {}".format(self.trailamount))
-        tojoin.append("TrailPercent: {}".format(self.trailpercent))
-        tojoin.append("ExecType: {}".format(self.exectype))
-        tojoin.append("ExecType: {}".format(self.getordername()))
-        tojoin.append("CommInfo: {}".format(self.comminfo))
-        tojoin.append("End of Session: {}".format(self.dteos))
-        tojoin.append("Info: {}".format(self.info))
-        tojoin.append("Broker: {}".format(self.broker))
-        tojoin.append("Alive: {}".format(self.alive()))
+        tojoin = []
+        tojoin.append(f"Ref: {self.ref}")
+        tojoin.append(f"OrdType: {self.ordtype}")
+        tojoin.append(f"OrdType: {self.ordtypename()}")
+        tojoin.append(f"Status: {self.status}")
+        tojoin.append(f"Status: {self.getstatusname()}")
+        tojoin.append(f"Size: {self.size}")
+        tojoin.append(f"Price: {self.price}")
+        tojoin.append(f"Price Limit: {self.pricelimit}")
+        tojoin.append(f"TrailAmount: {self.trailamount}")
+        tojoin.append(f"TrailPercent: {self.trailpercent}")
+        tojoin.append(f"ExecType: {self.exectype}")
+        tojoin.append(f"ExecType: {self.getordername()}")
+        tojoin.append(f"CommInfo: {self.comminfo}")
+        tojoin.append(f"End of Session: {self.dteos}")
+        tojoin.append(f"Info: {self.info}")
+        tojoin.append(f"Broker: {self.broker}")
+        tojoin.append(f"Alive: {self.alive()}")
 
         return "\n".join(tojoin)
 
@@ -715,7 +713,7 @@ class Order(OrderBase):
         psize,
         pprice,
     ):
-        super(Order, self).execute(
+        super().execute(
             dt,
             size,
             price,
@@ -775,7 +773,7 @@ class Order(OrderBase):
 
     def to_dict(self):
         """Returns a dictionary representation of the order"""
-        odict = dict()
+        odict = {}
         for k, v in self.__dict__.items():
             if isinstance(v, AutoOrderedDict):
                 odict[k] = dict(v)
@@ -830,7 +828,6 @@ class Order(OrderBase):
             elif key == "comminfo":
                 ord.comminfo = val  # ?? string representation only
             elif key == "parent":
-                ref = val
                 ord.parent = None  # ??TODO
             elif hasattr(ord, key):
                 setattr(ord, key, val)

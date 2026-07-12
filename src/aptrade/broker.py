@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
 ###############################################################################
 #
 # Copyright (C) 2015-2023 Daniel Rodriguez
@@ -18,7 +17,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
-from __future__ import absolute_import, division, print_function, unicode_literals
 
 from aptrade.commissions import CommInfoBase
 from aptrade.metabase import MetaParams
@@ -27,33 +25,33 @@ from . import fillers as fillers
 
 
 class MetaBroker(MetaParams):
-    def __init__(cls, name, bases, dct):
+    def __init__(self, name, bases, dct):
         """
         Class has already been created ... fill missing methods if needed be
         """
         # Initialize the class
-        super(MetaBroker, cls).__init__(name, bases, dct)
+        super().__init__(name, bases, dct)
         translations = {
             "get_cash": "getcash",
             "get_value": "getvalue",
         }
 
         for attr, trans in translations.items():
-            if not hasattr(cls, attr):
-                setattr(cls, name, getattr(cls, trans))
+            if not hasattr(self, attr):
+                setattr(self, name, getattr(self, trans))
 
 
 class BrokerBase(metaclass=MetaBroker):
     params = (("commission", CommInfoBase(percabs=True)),)
 
     def __init__(self):
-        self.comminfo = dict()
+        self.comminfo = {}
         self.init()
 
     def init(self):
         # called from init and from start
         if None not in self.comminfo:
-            self.comminfo = dict({None: self.p.commission})
+            self.comminfo = {None: self.p.commission}
 
     def start(self):
         self.init()

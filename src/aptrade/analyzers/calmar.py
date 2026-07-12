@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
 ###############################################################################
 #
 # Copyright (C) 2015-2023 Daniel Rodriguez
@@ -18,16 +17,15 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
-from __future__ import absolute_import, division, print_function, unicode_literals
 
-import aptrade as bt
-
-from . import TimeDrawDown
+from aptrade.analyzer import TimeFrameAnalyzerBase
+from aptrade.analyzers.drawdown import TimeDrawDown
+from aptrade.dataseries import TimeFrame
 
 __all__ = ["Calmar"]
 
 
-class Calmar(bt.TimeFrameAnalyzerBase):
+class Calmar(TimeFrameAnalyzerBase):
     """This analyzer calculates the CalmarRatio
     timeframe which can be different from the one used in the underlying data
     Params:
@@ -77,7 +75,7 @@ class Calmar(bt.TimeFrameAnalyzerBase):
     )
 
     params = (
-        ("timeframe", bt.TimeFrame.Months),  # default in calmar
+        ("timeframe", TimeFrame.Months),  # default in calmar
         ("period", 36),
         ("fund", None),
     )

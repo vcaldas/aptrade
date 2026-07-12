@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
 ###############################################################################
 #
 # Copyright (C) 2015-2023 Daniel Rodriguez
@@ -18,7 +17,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
-from __future__ import absolute_import, division, print_function, unicode_literals
 
 __all__ = ["BacktraderError", "StrategySkipError"]
 
@@ -41,7 +39,7 @@ class ModuleImportError(BacktraderError):
     be imported"""
 
     def __init__(self, message, *args):
-        super(ModuleImportError, self).__init__(message)
+        super().__init__(message)
         self.args = args
 
 
@@ -50,4 +48,4 @@ class FromModuleImportError(ModuleImportError):
     be imported"""
 
     def __init__(self, message, *args):
-        super(FromModuleImportError, self).__init__(message, *args)
+        super().__init__(message, *args)

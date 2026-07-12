@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
 ###############################################################################
 #
 # Copyright (C) 2025-2026 Victor Caldas
@@ -18,14 +17,12 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
-from __future__ import absolute_import, division, print_function, unicode_literals
 
 import argparse
 import datetime
 
 import aptrade as bt
 import aptrade.feeds as btfeeds
-import aptrade.filters as btfilters
 import aptrade.indicators as btind
 
 

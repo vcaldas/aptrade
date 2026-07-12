@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
 ###############################################################################
 #
 # Copyright (C) 2015-2023 Daniel Rodriguez
@@ -18,7 +17,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
-from __future__ import absolute_import, division, print_function, unicode_literals
 
 import math
 
@@ -47,11 +45,23 @@ class BuySell(Observer):
         "sell",
     )
 
-    plotinfo = dict(plot=True, subplot=False, plotlinelabels=True)
-    plotlines = dict(
-        buy=dict(marker="^", markersize=8.0, color="lime", fillstyle="full", ls=""),
-        sell=dict(marker="v", markersize=8.0, color="red", fillstyle="full", ls=""),
-    )
+    plotinfo = {"plot": True, "subplot": False, "plotlinelabels": True}
+    plotlines = {
+        "buy": {
+            "marker": "^",
+            "markersize": 8.0,
+            "color": "lime",
+            "fillstyle": "full",
+            "ls": "",
+        },
+        "sell": {
+            "marker": "v",
+            "markersize": 8.0,
+            "color": "red",
+            "fillstyle": "full",
+            "ls": "",
+        },
+    }
 
     params = (
         ("barplot", False),  # plot above/below max/min for clarity in bar plot
@@ -59,8 +69,8 @@ class BuySell(Observer):
     )
 
     def next(self):
-        buy = list()
-        sell = list()
+        buy = []
+        sell = []
 
         for order in self._owner._orderspending:
             if order.data is not self.data or not order.executed.size:

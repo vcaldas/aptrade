@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
 ###############################################################################
 #
 # Copyright (C) 2015-2023 Daniel Rodriguez
@@ -18,7 +17,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
-from __future__ import absolute_import, division, print_function, unicode_literals
 
 import argparse
 import datetime
@@ -175,7 +173,7 @@ class St(bt.Strategy):
 
     def start(self):
         self.callcounter = 0
-        txtfields = list()
+        txtfields = []
         txtfields.append("Calls")
         txtfields.append("Len Strat")
         txtfields.append("Len Data")
@@ -207,25 +205,24 @@ class St(bt.Strategy):
     def next(self):
         self.callcounter += 1
 
-        txtfields = list()
+        txtfields = []
         txtfields.append("%04d" % self.callcounter)
         txtfields.append("%04d" % len(self))
         txtfields.append("%04d" % len(self.data0))
         txtfields.append(self.data.datetime.datetime(0).isoformat())
-        txtfields.append("%.2f" % self.data0.open[0])
-        txtfields.append("%.2f" % self.data0.high[0])
-        txtfields.append("%.2f" % self.data0.low[0])
-        txtfields.append("%.2f" % self.data0.close[0])
-        txtfields.append("%.2f" % self.data0.volume[0])
-        txtfields.append("%.2f" % self.data0.openinterest[0])
+        txtfields.append(f"{self.data0.open[0]:.2f}")
+        txtfields.append(f"{self.data0.high[0]:.2f}")
+        txtfields.append(f"{self.data0.low[0]:.2f}")
+        txtfields.append(f"{self.data0.close[0]:.2f}")
+        txtfields.append(f"{self.data0.volume[0]:.2f}")
+        txtfields.append(f"{self.data0.openinterest[0]:.2f}")
         print(",".join(txtfields))
 
         if not self.position:
             if len(self.data) > self.lcontrol:
                 if self.data.high == self.highest:  # today is highest!!!
                     print(
-                        "High %.2f > Highest %.2f"
-                        % (self.data.high[0], self.highest[0])
+                        f"High {self.data.high[0]:.2f} > Highest {self.highest[0]:.2f}"
                     )
                     print("LAST 19 highs:", self.data.high.get(size=19, ago=-1))
                     print(
@@ -250,7 +247,7 @@ def runstrat():
     cerebro.broker.set_cash(args.cash)
     cerebro.broker.set_eosbar(True)
 
-    dkwargs = dict()
+    dkwargs = {}
     if args.fromdate:
         fromdate = datetime.datetime.strptime(args.fromdate, "%Y-%m-%d")
         dkwargs["fromdate"] = fromdate
@@ -278,7 +275,7 @@ def runstrat():
 
     cerebro.run(runonce=False, preload=False, oldbuysell=args.oldbuysell)
     if args.plot:
-        pkwargs = dict(style="bar")
+        pkwargs = {"style": "bar"}
         if args.plot is not True:  # evals to True but is not True
             npkwargs = eval("dict(" + args.plot + ")")  # args were passed
             pkwargs.update(npkwargs)

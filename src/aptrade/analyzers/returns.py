@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
 ###############################################################################
 #
 # Copyright (C) 2015-2023 Daniel Rodriguez
@@ -18,12 +17,11 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
-from __future__ import absolute_import, division, print_function, unicode_literals
 
 import math
 
-import aptrade as bt
-from aptrade import TimeFrameAnalyzerBase
+from aptrade.analyzer import TimeFrameAnalyzerBase
+from aptrade.dataseries import TimeFrame
 
 
 class Returns(TimeFrameAnalyzerBase):
@@ -94,14 +92,14 @@ class Returns(TimeFrameAnalyzerBase):
     )
 
     _TANN = {
-        bt.TimeFrame.Days: 252.0,
-        bt.TimeFrame.Weeks: 52.0,
-        bt.TimeFrame.Months: 12.0,
-        bt.TimeFrame.Years: 1.0,
+        TimeFrame.Days: 252.0,
+        TimeFrame.Weeks: 52.0,
+        TimeFrame.Months: 12.0,
+        TimeFrame.Years: 1.0,
     }
 
     def start(self):
-        super(Returns, self).start()
+        super().start()
         if self.p.fund is None:
             self._fundmode = self.strategy.broker.fundmode
         else:
@@ -115,7 +113,7 @@ class Returns(TimeFrameAnalyzerBase):
         self._tcount = 0
 
     def stop(self):
-        super(Returns, self).stop()
+        super().stop()
 
         if not self._fundmode:
             self._value_end = self.strategy.broker.getvalue()

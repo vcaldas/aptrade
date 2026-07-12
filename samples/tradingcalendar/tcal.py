@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
 ###############################################################################
 #
 # Copyright (C) 2015-2023 Daniel Rodriguez
@@ -18,18 +17,18 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
-from __future__ import absolute_import, division, print_function, unicode_literals
 
 import argparse
 import datetime
 import os
 
 import aptrade as bt
+from aptrade.tradingcal import TradingCalendar
 
 
-class NYSE_2016(bt.TradingCalendar):
-    params = dict(
-        holidays=[
+class NYSE_2016(TradingCalendar):
+    params = {
+        "holidays": [
             datetime.date(2016, 1, 1),
             datetime.date(2016, 1, 18),
             datetime.date(2016, 2, 15),
@@ -40,17 +39,21 @@ class NYSE_2016(bt.TradingCalendar):
             datetime.date(2016, 11, 24),
             datetime.date(2016, 12, 26),
         ]
-    )
+    }
 
 
 class St(bt.Strategy):
-    params = dict()
+    params = {}
 
     def __init__(self):
         pass
 
     def start(self):
-        self.t0 = None if os.getenv("APTRADE_SAMPLE_SKIP_DURATION") else datetime.datetime.utcnow()
+        self.t0 = (
+            None
+            if os.getenv("APTRADE_SAMPLE_SKIP_DURATION")
+            else datetime.datetime.utcnow()
+        )
 
     def stop(self):
         if self.t0 is None:
@@ -64,23 +67,17 @@ class St(bt.Strategy):
 
     def next(self):
         print(
-            "Strategy len {} datetime {}".format(len(self), self.datetime.date()),
+            f"Strategy len {len(self)} datetime {self.datetime.date()}",
             end=" ",
         )
 
         print(
-            "Data0 len {} datetime {}".format(
-                len(self.data0), self.data0.datetime.date()
-            ),
+            f"Data0 len {len(self.data0)} datetime {self.data0.datetime.date()}",
             end=" ",
         )
 
         if len(self.data1):
-            print(
-                "Data1 len {} datetime {}".format(
-                    len(self.data1), self.data1.datetime.date()
-                )
-            )
+            print(f"Data1 len {len(self.data1)} datetime {self.data1.datetime.date()}")
         else:
             print()
 
@@ -91,7 +88,7 @@ def runstrat(args=None):
     cerebro = bt.Cerebro()
 
     # Data feed kwargs
-    kwargs = dict()
+    kwargs = {}
 
     # Parse from/to-date
     dtfmt, tmfmt = "%Y-%m-%d", "T%H:%M:%S"

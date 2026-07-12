@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
 ###############################################################################
 #
 # Copyright (C) 2015-2023 Daniel Rodriguez
@@ -18,7 +17,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
-from __future__ import absolute_import, division, print_function, unicode_literals
 
 import itertools
 
@@ -57,7 +55,7 @@ class TradeHistory(AutoOrderedDict):
         self, status, dt, barlen, size, price, value, pnl, pnlcomm, tz, event=None
     ):
         """Initializes the object to the current status of the Trade"""
-        super(TradeHistory, self).__init__()
+        super().__init__()
         self.status.status = status
         self.status.dt = dt
         self.status.barlen = barlen
@@ -102,7 +100,7 @@ class TradeHistory(AutoOrderedDict):
         return num2date(self.status.dt, tz or self.status.tz, naive)
 
 
-class Trade(object):
+class Trade:
     """Keeps track of the life of an trade: size, price,
     commission (and value?)
 
@@ -185,7 +183,7 @@ class Trade(object):
             "status",
         )
 
-        return "\n".join((":".join((x, str(getattr(self, x)))) for x in toprint))
+        return "\n".join(":".join((x, str(getattr(self, x)))) for x in toprint)
 
     def __init__(
         self,
@@ -219,7 +217,7 @@ class Trade(object):
         self.barlen = 0
 
         self.historyon = historyon
-        self.history = list()
+        self.history = []
 
         self.status = self.Created
 

@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
 ###############################################################################
 #
 # Copyright (C) 2015-2023 Daniel Rodriguez
@@ -18,14 +17,13 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
-from __future__ import absolute_import, division, print_function, unicode_literals
 
 import os.path
 
-import aptrade as bt
+from aptrade.store import Store
 
 
-class VChartFile(bt.Store):
+class VChartFile(Store):
     """Store provider for Visual Chart binary files
 
     Params:
@@ -66,13 +64,13 @@ class VChartFile(bt.Store):
         ):
             try:
                 vckey = winreg.OpenKey(rkey, VC_KEYNAME)
-            except WindowsError as e:
+            except OSError:
                 continue
 
             # Try to get the key value
             try:
                 vcdir, _ = winreg.QueryValueEx(vckey, VC_KEYVAL)
-            except WindowsError as e:
+            except OSError:
                 continue
             else:
                 break  # found vcdir

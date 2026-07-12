@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
 ###############################################################################
 #
 # Copyright (C) 2015-2023 Daniel Rodriguez
@@ -18,11 +17,9 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
-from __future__ import absolute_import, division, print_function, unicode_literals
 
 import aptrade as bt
-
-from .. import Observer
+from aptrade.observer import Observer
 
 
 class DrawDown(Observer):
@@ -51,13 +48,13 @@ class DrawDown(Observer):
         "maxdrawdown",
     )
 
-    plotinfo = dict(plot=True, subplot=True)
+    plotinfo = {"plot": True, "subplot": True}
 
-    plotlines = dict(
-        maxdrawdown=dict(
-            _plotskip=True,
-        )
-    )
+    plotlines = {
+        "maxdrawdown": {
+            "_plotskip": True,
+        }
+    }
 
     def __init__(self):
         kwargs = self.p._getkwargs()
@@ -82,13 +79,13 @@ class DrawDownLength(Observer):
         "maxlen",
     )
 
-    plotinfo = dict(plot=True, subplot=True)
+    plotinfo = {"plot": True, "subplot": True}
 
-    plotlines = dict(
-        maxlength=dict(
-            _plotskip=True,
-        )
-    )
+    plotlines = {
+        "maxlength": {
+            "_plotskip": True,
+        }
+    }
 
     def __init__(self):
         self._dd = self._owner._addanalyzer_slave(bt.analyzers.DrawDown)
@@ -112,16 +109,16 @@ class DrawDown_Old(Observer):
         "maxdrawdown",
     )
 
-    plotinfo = dict(plot=True, subplot=True)
+    plotinfo = {"plot": True, "subplot": True}
 
-    plotlines = dict(
-        maxdrawdown=dict(
-            _plotskip="True",
-        )
-    )
+    plotlines = {
+        "maxdrawdown": {
+            "_plotskip": "True",
+        }
+    }
 
     def __init__(self):
-        super(DrawDown_Old, self).__init__()
+        super().__init__()
 
         self.maxdd = 0.0
         self.peak = float("-inf")

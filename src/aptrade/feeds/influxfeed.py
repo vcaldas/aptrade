@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
 ###############################################################################
 #
 # Copyright (C) 2015-2023 Daniel Rodriguez
@@ -18,25 +17,21 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
-from __future__ import absolute_import, division, print_function, unicode_literals
 
 import datetime as dt
 
-import aptrade as bt
 import aptrade.feed as feed
+from aptrade.dataseries import TimeFrame
+from aptrade.utils import date2num
 
-from ..utils import date2num
-
-TIMEFRAMES = dict(
-    (
-        (bt.TimeFrame.Seconds, "s"),
-        (bt.TimeFrame.Minutes, "m"),
-        (bt.TimeFrame.Days, "d"),
-        (bt.TimeFrame.Weeks, "w"),
-        (bt.TimeFrame.Months, "m"),
-        (bt.TimeFrame.Years, "y"),
-    )
-)
+TIMEFRAMES = {
+    TimeFrame.Seconds: "s",
+    TimeFrame.Minutes: "m",
+    TimeFrame.Days: "d",
+    TimeFrame.Weeks: "w",
+    TimeFrame.Months: "m",
+    TimeFrame.Years: "y",
+}
 
 
 class InfluxDB(feed.DataBase):
@@ -51,7 +46,7 @@ class InfluxDB(feed.DataBase):
         ("username", None),
         ("password", None),
         ("database", None),
-        ("timeframe", bt.TimeFrame.Days),
+        ("timeframe", TimeFrame.Days),
         ("startdate", None),
         ("high", "high_p"),
         ("low", "low_p"),
@@ -62,7 +57,7 @@ class InfluxDB(feed.DataBase):
     )
 
     def start(self):
-        super(InfluxDB, self).start()
+        super().start()
         try:
             self.ndb = idbclient(
                 self.p.host,
@@ -72,7 +67,7 @@ class InfluxDB(feed.DataBase):
                 self.p.database,
             )
         except InfluxDBClientError as err:
-            print("Failed to establish connection to InfluxDB: %s" % err)
+            print(f"Failed to establish connection to InfluxDB: {err}")
 
         tf = "{multiple}{timeframe}".format(
             multiple=(self.p.compression if self.p.compression else 1),
@@ -82,33 +77,23 @@ class InfluxDB(feed.DataBase):
         if not self.p.startdate:
             st = "<= now()"
         else:
-            st = ">= '%s'" % self.p.startdate
+            st = f">= '{self.p.startdate}'"
 
         # The query could already consider parameters like fromdate and todate
         # to have the database skip them and not the internal code
         qstr = (
-            'SELECT mean("{open_f}") AS "open", mean("{high_f}") AS "high", '
-            'mean("{low_f}") AS "low", mean("{close_f}") AS "close", '
-            'mean("{vol_f}") AS "volume", mean("{oi_f}") AS "openinterest" '
-            'FROM "{dataname}" '
-            "WHERE time {begin} "
-            "GROUP BY time({timeframe}) fill(none)"
-        ).format(
-            open_f=self.p.open,
-            high_f=self.p.high,
-            low_f=self.p.low,
-            close_f=self.p.close,
-            vol_f=self.p.volume,
-            oi_f=self.p.ointerest,
-            timeframe=tf,
-            begin=st,
-            dataname=self.p.dataname,
+            f'SELECT mean("{self.p.open}") AS "open", mean("{self.p.high}") AS "high", '
+            f'mean("{self.p.low}") AS "low", mean("{self.p.close}") AS "close", '
+            f'mean("{self.p.volume}") AS "volume", mean("{self.p.ointerest}") AS "openinterest" '
+            f'FROM "{self.p.dataname}" '
+            f"WHERE time {st} "
+            f"GROUP BY time({tf}) fill(none)"
         )
 
         try:
             dbars = list(self.ndb.query(qstr).get_points())
         except InfluxDBClientError as err:
-            print("InfluxDB query failed: %s" % err)
+            print(f"InfluxDB query failed: {err}")
 
         self.biter = iter(dbars)
 

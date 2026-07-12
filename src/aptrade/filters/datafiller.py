@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
 ###############################################################################
 #
 # Copyright (C) 2015-2023 Daniel Rodriguez
@@ -18,12 +17,12 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
-from __future__ import absolute_import, division, print_function, unicode_literals
 
 import collections
 from datetime import datetime, timedelta
 
-from aptrade import AbstractDataBase, TimeFrame
+from aptrade.dataseries import TimeFrame
+from aptrade.feed import AbstractDataBase
 
 
 class DataFiller(AbstractDataBase):
@@ -58,7 +57,7 @@ class DataFiller(AbstractDataBase):
     )
 
     def start(self):
-        super(DataFiller, self).start()
+        super().start()
         self._fillbars = collections.deque()
         self._dbar = False
 
@@ -73,7 +72,7 @@ class DataFiller(AbstractDataBase):
         self.p.timeframe = self._timeframe = self.p.dataname._timeframe
         self.p.compression = self._compression = self.p.dataname._compression
 
-        super(DataFiller, self).preload()
+        super().preload()
 
     def _copyfromdata(self):
         # Data is allowed - Copy size which is "number of lines"

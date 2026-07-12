@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
 ###############################################################################
 #
 # Copyright (C) 2015-2023 Daniel Rodriguez
@@ -18,7 +17,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
-from __future__ import absolute_import, division, print_function, unicode_literals
 
 from datetime import datetime, timedelta
 
@@ -27,7 +25,7 @@ from .dataseries import TimeFrame, _Bar
 from .utils.date import date2num, num2date
 
 
-class DTFaker(object):
+class DTFaker:
     # This will only be used for data sources which at some point in time
     # return None from _load to indicate that a check of the resampler and/or
     # notification queue is needed

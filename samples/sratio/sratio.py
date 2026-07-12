@@ -1,16 +1,10 @@
 #!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
 ###############################################################################
-from __future__ import absolute_import, division, print_function, unicode_literals
 
 import argparse
 import itertools
 import math
 import operator
-import sys
-
-if sys.version_info.major == 2:
-    map = itertools.imap
 
 
 def average(x):
@@ -19,7 +13,7 @@ def average(x):
 
 def variance(x):
     avgx = average(x)
-    return list(map(lambda y: (y - avgx) ** 2, x))
+    return [(y - avgx) ** 2 for y in x]
 
 
 def standarddev(x):

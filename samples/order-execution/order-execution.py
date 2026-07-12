@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
 ###############################################################################
 #
 # Copyright (C) 2015-2023 Daniel Rodriguez
@@ -18,13 +17,9 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
-from __future__ import absolute_import, division, print_function, unicode_literals
 
 import argparse
 import datetime
-import os.path
-import sys
-import time
 
 import aptrade as bt
 import aptrade.feeds as btfeeds
@@ -45,7 +40,7 @@ class OrderExecutionStrategy(bt.Strategy):
         dt = dt or self.data.datetime[0]
         if isinstance(dt, float):
             dt = bt.num2date(dt)
-        print("%s, %s" % (dt.isoformat(), txt))
+        print(f"{dt.isoformat()}, {txt}")
 
     def notify_order(self, order):
         if order.status in [order.Submitted, order.Accepted]:
@@ -60,14 +55,12 @@ class OrderExecutionStrategy(bt.Strategy):
         elif order.status in [order.Completed]:
             if order.isbuy():
                 self.log(
-                    "BUY EXECUTED, Price: %.2f, Cost: %.2f, Comm %.2f"
-                    % (order.executed.price, order.executed.value, order.executed.comm)
+                    f"BUY EXECUTED, Price: {order.executed.price:.2f}, Cost: {order.executed.value:.2f}, Comm {order.executed.comm:.2f}"
                 )
 
             else:  # Sell
                 self.log(
-                    "SELL EXECUTED, Price: %.2f, Cost: %.2f, Comm %.2f"
-                    % (order.executed.price, order.executed.value, order.executed.comm)
+                    f"SELL EXECUTED, Price: {order.executed.price:.2f}, Cost: {order.executed.value:.2f}, Comm {order.executed.comm:.2f}"
                 )
 
         # Sentinel to None: new orders allowed
@@ -93,7 +86,7 @@ class OrderExecutionStrategy(bt.Strategy):
         if self.position:
             # In the maerket - check if it's the time to sell
             if self.buysell < 0:
-                self.log("SELL CREATE, %.2f" % self.data.close[0])
+                self.log(f"SELL CREATE, {self.data.close[0]:.2f}")
                 self.sell()
 
         elif self.buysell > 0:
@@ -108,12 +101,12 @@ class OrderExecutionStrategy(bt.Strategy):
             if self.p.exectype == "Market":
                 self.buy(exectype=bt.Order.Market)  # default if not given
 
-                self.log("BUY CREATE, exectype Market, price %.2f" % self.data.close[0])
+                self.log(f"BUY CREATE, exectype Market, price {self.data.close[0]:.2f}")
 
             elif self.p.exectype == "Close":
                 self.buy(exectype=bt.Order.Close)
 
-                self.log("BUY CREATE, exectype Close, price %.2f" % self.data.close[0])
+                self.log(f"BUY CREATE, exectype Close, price {self.data.close[0]:.2f}")
 
             elif self.p.exectype == "Limit":
                 price = self.data.close * (1.0 - self.p.perc1 / 100.0)
@@ -182,15 +175,13 @@ def runstrat():
 
 
 def getdata(args):
-    dataformat = dict(
-        bt=btfeeds.BacktraderCSVData,
-        visualchart=btfeeds.VChartCSVData,
-        sierrachart=btfeeds.SierraChartCSVData,
-        yahoo=btfeeds.YahooFinanceCSVData,
-        yahoo_unreversed=btfeeds.YahooFinanceCSVData,
-    )
+    dataformat = {
+        "bt": btfeeds.BacktraderCSVData,
+        "yahoo": btfeeds.YahooFinanceCSVData,
+        "yahoo_unreversed": btfeeds.YahooFinanceCSVData,
+    }
 
-    dfkwargs = dict()
+    dfkwargs = {}
     if args.csvformat == "yahoo_unreversed":
         dfkwargs["reverse"] = True
 

@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
 ###############################################################################
 #
 # Copyright (C) 2015-2023 Daniel Rodriguez
@@ -18,7 +17,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
-from __future__ import absolute_import, division, print_function, unicode_literals
 
 import argparse
 import datetime
@@ -45,7 +43,7 @@ def runstrat(args=None):
 
     cerebro = bt.Cerebro()
 
-    dkwargs = dict()
+    dkwargs = {}
     if args.fromdate:
         fromdate = datetime.datetime.strptime(args.fromdate, "%Y-%m-%d")
         dkwargs["fromdate"] = fromdate
@@ -60,7 +58,7 @@ def runstrat(args=None):
     cerebro.addstrategy(TALibStrategy)
     cerebro.run(runonce=not args.use_next, stdstats=False)
     if args.plot:
-        pkwargs = dict(style="candle")
+        pkwargs = {"style": "candle"}
         if args.plot is not True:  # evals to True but is not True
             npkwargs = eval("dict(" + args.plot + ")")  # args were passed
             pkwargs.update(npkwargs)

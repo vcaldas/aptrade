@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
 ###############################################################################
 #
 # Copyright (C) 2015-2023 Daniel Rodriguez
@@ -18,20 +17,15 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
-from __future__ import absolute_import, division, print_function, unicode_literals
 
-from collections import OrderedDict, defaultdict
+from collections import OrderedDict
 
 from .py3 import values as py3lvalues
 
 
-def Tree():
-    return defaultdict(Tree)
-
-
 class AutoDictList(dict):
     def __missing__(self, key):
-        value = self[key] = list()
+        value = self[key] = []
         return value
 
 
@@ -39,7 +33,7 @@ class DotDict(dict):
     # If the attribut is not found in the usual places try the dict itself
     def __getattr__(self, key):
         if key.startswith("__"):
-            return super(DotDict, self).__getattr__(key)
+            return super().__getattr__(key)
         return self[key]
 
 
@@ -48,7 +42,7 @@ class AutoDict(dict):
 
     def _close(self):
         self._closed = True
-        for key, val in self.items():
+        for _, val in self.items():
             if isinstance(val, (AutoDict, AutoOrderedDict)):
                 val._close()
 
@@ -81,7 +75,7 @@ class AutoOrderedDict(OrderedDict):
 
     def _close(self):
         self._closed = True
-        for key, val in self.items():
+        for _, val in self.items():
             if isinstance(val, (AutoDict, AutoOrderedDict)):
                 val._close()
 
@@ -111,31 +105,31 @@ class AutoOrderedDict(OrderedDict):
 
     # Define math operations
     def __iadd__(self, other):
-        if type(self) != type(other):
+        if type(self) is not type(other):
             return type(other)() + other
 
         return self + other
 
     def __isub__(self, other):
-        if type(self) != type(other):
+        if type(self) is not type(other):
             return type(other)() - other
 
         return self - other
 
     def __imul__(self, other):
-        if type(self) != type(other):
+        if type(self) is not type(other):
             return type(other)() * other
 
         return self + other
 
     def __idiv__(self, other):
-        if type(self) != type(other):
+        if type(self) is not type(other):
             return type(other)() // other
 
         return self + other
 
     def __itruediv__(self, other):
-        if type(self) != type(other):
+        if type(self) is not type(other):
             return type(other)() / other
 
         return self + other

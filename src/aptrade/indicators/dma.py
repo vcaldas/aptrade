@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
 ###############################################################################
 #
 # Copyright (C) 2015-2023 Daniel Rodriguez
@@ -18,9 +17,11 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
-from __future__ import absolute_import, division, print_function, unicode_literals
 
-from . import MovAv, MovingAverageBase, ZeroLagIndicator
+from aptrade.indicators.ema import ExponentialMovingAverage as EMA  # noqa: F401
+from aptrade.indicators.hma import HullMovingAverage as HMA  # noqa: F401
+from aptrade.indicators.mabase import MovAv, MovingAverageBase
+from aptrade.indicators.zlind import ZeroLagIndicator
 
 
 class DicksonMovingAverage(MovingAverageBase):
@@ -78,4 +79,4 @@ class DicksonMovingAverage(MovingAverageBase):
         self.lines.dma = (ec + hull) / 2.0
 
         # To make mixins work - super at the end for cooperative inheritance
-        super(DicksonMovingAverage, self).__init__()
+        super().__init__()

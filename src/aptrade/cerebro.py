@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
 ###############################################################################
 #
 # Copyright (C) 2015-2023 Daniel Rodriguez
@@ -18,11 +17,11 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
-from __future__ import absolute_import, division, print_function, unicode_literals
 
 import collections
 import datetime
 import itertools
+import logging
 import multiprocessing
 import sys
 
@@ -38,14 +37,16 @@ from .brokers import BackBroker
 from .metabase import MetaParams
 from .strategy import SignalStrategy, Strategy
 from .timer import Timer
-from .tradingcal import PandasMarketCalendar, TradingCalendar, TradingCalendarBase
+from .tradingcal import PandasMarketCalendar, TradingCalendarBase
 from .utils import OrderedDict, date2num, num2date, tzparse
 from .writer import WriterFile
+
+logger = logging.getLogger(__name__)
 
 # Defined here to make it pickable. Ideally it could be defined inside Cerebro
 
 
-class OptReturn(object):
+class OptReturn:
     def __init__(self, params, **kwargs):
         self.p = self.params = params
         for k, v in kwargs.items():
@@ -292,20 +293,20 @@ class Cerebro(metaclass=MetaParams):
         self._dolive = False
         self._doreplay = False
         self._dooptimize = False
-        self.stores = list()
-        self.feeds = list()
-        self.datas = list()
+        self.stores = []
+        self.feeds = []
+        self.datas = []
         self.datasbyname = collections.OrderedDict()
-        self.strats = list()
-        self.optcbs = list()  # holds a list of callbacks for opt strategies
-        self.observers = list()
-        self.analyzers = list()
-        self.indicators = list()
-        self.sizers = dict()
-        self.writers = list()
-        self.storecbs = list()
-        self.datacbs = list()
-        self.signals = list()
+        self.strats = []
+        self.optcbs = []  # holds a list of callbacks for opt strategies
+        self.observers = []
+        self.analyzers = []
+        self.indicators = []
+        self.sizers = {}
+        self.writers = []
+        self.storecbs = []
+        self.datacbs = []
+        self.signals = []
         self._signal_strat = (None, None, None)
         self._signal_concurrent = False
         self._signal_accumulate = False
@@ -317,8 +318,8 @@ class Cerebro(metaclass=MetaParams):
 
         self._tradingcal = None  # TradingCalendar()
 
-        self._pretimers = list()
-        self._ohistory = list()
+        self._pretimers = []
+        self._ohistory = []
         self._fhistory = None
 
     @staticmethod
@@ -326,7 +327,7 @@ class Cerebro(metaclass=MetaParams):
         """Handy function which turns things into things that can be iterated upon
         including iterables
         """
-        niterable = list()
+        niterable = []
         for elem in iterable:
             if isinstance(elem, str):
                 elem = (elem,)
@@ -421,9 +422,9 @@ class Cerebro(metaclass=MetaParams):
         when,
         offset=datetime.timedelta(),
         repeat=datetime.timedelta(),
-        weekdays=[],
+        weekdays=None,
         weekcarry=False,
-        monthdays=[],
+        monthdays=None,
         monthcarry=True,
         allow=None,
         tzdata=None,
@@ -436,6 +437,10 @@ class Cerebro(metaclass=MetaParams):
         can be called by cerebro instances or other objects which can access
         cerebro"""
 
+        if monthdays is None:
+            monthdays = []
+        if weekdays is None:
+            weekdays = []
         timer = Timer(
             tid=len(self._pretimers),
             owner=owner,
@@ -462,9 +467,9 @@ class Cerebro(metaclass=MetaParams):
         when,
         offset=datetime.timedelta(),
         repeat=datetime.timedelta(),
-        weekdays=[],
+        weekdays=None,
         weekcarry=False,
-        monthdays=[],
+        monthdays=None,
         monthcarry=True,
         allow=None,
         tzdata=None,
@@ -557,6 +562,10 @@ class Cerebro(metaclass=MetaParams):
           - The created timer
 
         """
+        if monthdays is None:
+            monthdays = []
+        if weekdays is None:
+            weekdays = []
         return self._add_timer(
             owner=self,
             when=when,
@@ -1165,7 +1174,7 @@ class Cerebro(metaclass=MetaParams):
             self._dorunonce = False
             self._dopreload = False
 
-        self.runwriters = list()
+        self.runwriters = []
 
         # Add the system default writer if requested
         if self.p.writer is True:
@@ -1178,9 +1187,9 @@ class Cerebro(metaclass=MetaParams):
             self.runwriters.append(wr)
 
         # Write down if any writer wants the full csv output
-        self.writers_csv = any(map(lambda x: x.p.csv, self.runwriters))
+        self.writers_csv = any(x.p.csv for x in self.runwriters)
 
-        self.runstrats = list()
+        self.runstrats = []
 
         if self.signals:  # allow processing of signals
             signalst, sargs, skwargs = self._signal_strat
@@ -1198,7 +1207,7 @@ class Cerebro(metaclass=MetaParams):
 
             if signalst is None:  # recheck
                 # Still None, create a default one
-                signalst, sargs, skwargs = SignalStrategy, tuple(), dict()
+                signalst, sargs, skwargs = SignalStrategy, (), {}
 
             # Add the signal strategy
             self.addstrategy(
@@ -1261,11 +1270,22 @@ class Cerebro(metaclass=MetaParams):
         """
         Internal method invoked by ``run``` to run a set of strategies
         """
+        logger.info("[cerebro-checkpoint] runstrategies:start")
         self._init_stcount()
 
-        self.runningstrats = runstrats = list()
-        for store in self.stores:
+        self.runningstrats = runstrats = []
+        for idx, store in enumerate(self.stores):
+            logger.info(
+                "[cerebro-checkpoint] runstrategies:before_store_start idx=%s cls=%s",
+                idx,
+                type(store).__name__,
+            )
             store.start()
+            logger.info(
+                "[cerebro-checkpoint] runstrategies:after_store_start idx=%s cls=%s",
+                idx,
+                type(store).__name__,
+            )
 
         if self.p.cheat_on_open and self.p.broker_coo:
             # try to activate in broker
@@ -1278,13 +1298,63 @@ class Cerebro(metaclass=MetaParams):
         for orders, onotify in self._ohistory:
             self._broker.add_order_history(orders, onotify)
 
-        self._broker.start()
+        # Build strategy instances early so strategy init/logging does not get
+        # blocked behind broker/account startup calls.
+        for strat_idx, (stratcls, sargs, skwargs) in enumerate(iterstrat):
+            logger.info(
+                "[cerebro-checkpoint] runstrategies:before_strategy_init idx=%s cls=%s",
+                strat_idx,
+                getattr(stratcls, "__name__", str(stratcls)),
+            )
+            sargs = self.datas + list(sargs)
+            try:
+                strat = stratcls(*sargs, **skwargs)
+            except bt.errors.StrategySkipError:
+                continue  # do not add strategy to the mix
+            except Exception:
+                logger.exception(
+                    "[cerebro-checkpoint] runstrategies:strategy_init_failed idx=%s cls=%s",
+                    strat_idx,
+                    getattr(stratcls, "__name__", str(stratcls)),
+                )
+                raise
+            logger.info(
+                "[cerebro-checkpoint] runstrategies:after_strategy_init idx=%s cls=%s",
+                strat_idx,
+                getattr(stratcls, "__name__", str(stratcls)),
+            )
 
-        for feed in self.feeds:
+            if self.p.oldsync:
+                strat._oldsync = True  # tell strategy to use old clock update
+            if self.p.tradehistory:
+                strat.set_tradehistory()
+            runstrats.append(strat)
+
+        logger.info(
+            "[cerebro-checkpoint] runstrategies:before_broker_start cls=%s",
+            type(self._broker).__name__,
+        )
+        self._broker.start()
+        logger.info(
+            "[cerebro-checkpoint] runstrategies:after_broker_start cls=%s",
+            type(self._broker).__name__,
+        )
+
+        for idx, feed in enumerate(self.feeds):
+            logger.info(
+                "[cerebro-checkpoint] runstrategies:before_feed_start idx=%s cls=%s",
+                idx,
+                type(feed).__name__,
+            )
             feed.start()
+            logger.info(
+                "[cerebro-checkpoint] runstrategies:after_feed_start idx=%s cls=%s",
+                idx,
+                type(feed).__name__,
+            )
 
         if self.writers_csv:
-            wheaders = list()
+            wheaders = []
             for data in self.datas:
                 if data.csv:
                     wheaders.extend(data.getwriterheaders())
@@ -1297,26 +1367,23 @@ class Cerebro(metaclass=MetaParams):
         # self._plotfillers2 = [list() for d in self.datas]
 
         if not predata:
-            for data in self.datas:
+            for idx, data in enumerate(self.datas):
+                logger.info(
+                    "[cerebro-checkpoint] runstrategies:before_data_start idx=%s name=%s",
+                    idx,
+                    getattr(data, "_name", "<unnamed>"),
+                )
                 data.reset()
                 if self._exactbars < 1:  # datas can be full length
                     data.extend(size=self.params.lookahead)
                 data._start()
                 if self._dopreload:
                     data.preload()
-
-        for stratcls, sargs, skwargs in iterstrat:
-            sargs = self.datas + list(sargs)
-            try:
-                strat = stratcls(*sargs, **skwargs)
-            except bt.errors.StrategySkipError:
-                continue  # do not add strategy to the mix
-
-            if self.p.oldsync:
-                strat._oldsync = True  # tell strategy to use old clock update
-            if self.p.tradehistory:
-                strat.set_tradehistory()
-            runstrats.append(strat)
+                logger.info(
+                    "[cerebro-checkpoint] runstrategies:after_data_start idx=%s name=%s",
+                    idx,
+                    getattr(data, "_name", "<unnamed>"),
+                )
 
         tz = self.p.tz
         if isinstance(tz, int):
@@ -1354,7 +1421,17 @@ class Cerebro(metaclass=MetaParams):
                     strat._addsizer(sizer, *sargs, **skwargs)
 
                 strat._settz(tz)
+                logger.info(
+                    "[cerebro-checkpoint] runstrategies:before_strategy_start idx=%s cls=%s",
+                    idx,
+                    type(strat).__name__,
+                )
                 strat._start()
+                logger.info(
+                    "[cerebro-checkpoint] runstrategies:after_strategy_start idx=%s cls=%s",
+                    idx,
+                    type(strat).__name__,
+                )
 
                 for writer in self.runwriters:
                     if writer.p.csv:
@@ -1393,7 +1470,9 @@ class Cerebro(metaclass=MetaParams):
             for strat in runstrats:
                 strat._stop()
 
+        logger.info("[cerebro-checkpoint] runstrategies:before_broker_stop")
         self._broker.stop()
+        logger.info("[cerebro-checkpoint] runstrategies:after_broker_stop")
 
         if not predata:
             for data in self.datas:
@@ -1409,7 +1488,7 @@ class Cerebro(metaclass=MetaParams):
 
         if self._dooptimize and self.p.optreturn:
             # Results can be optimized
-            results = list()
+            results = []
             for strat in runstrats:
                 for a in strat.analyzers:
                     a.strategy = None
@@ -1425,6 +1504,7 @@ class Cerebro(metaclass=MetaParams):
 
             return results
 
+        logger.info("[cerebro-checkpoint] runstrategies:complete")
         return runstrats
 
     def stop_writers(self, runstrats):
@@ -1436,7 +1516,7 @@ class Cerebro(metaclass=MetaParams):
 
         cerebroinfo["Datas"] = datainfos
 
-        stratinfos = dict()
+        stratinfos = {}
         for strat in runstrats:
             stname = strat.__class__.__name__
             stratinfos[stname] = strat.getwriterinfo()
@@ -1444,7 +1524,7 @@ class Cerebro(metaclass=MetaParams):
         cerebroinfo["Strategies"] = stratinfos
 
         for writer in self.runwriters:
-            writer.writedict(dict(Cerebro=cerebroinfo))
+            writer.writedict({"Cerebro": cerebroinfo})
             writer.stop()
 
     def _brokernotify(self):
@@ -1545,7 +1625,7 @@ class Cerebro(metaclass=MetaParams):
         # here again, because pointers are at 0
         data0 = self.datas[0]
         datas = self.datas[1:]
-        for i in range(data0.buflen()):
+        for _i in range(data0.buflen()):
             data0.advance()
             for data in datas:
                 data.advance(datamaster=data0)
@@ -1567,7 +1647,7 @@ class Cerebro(metaclass=MetaParams):
             return
 
         if self.writers_csv:
-            wvalues = list()
+            wvalues = []
             for data in self.datas:
                 if data.csv:
                     wvalues.extend(data.getwritervalues())
@@ -1595,8 +1675,8 @@ class Cerebro(metaclass=MetaParams):
         data0 = datas[0]
         d0ret = True
 
-        rs = [i for i, x in enumerate(datas) if x.resampling]
-        rp = [i for i, x in enumerate(datas) if x.replaying]
+        [i for i, x in enumerate(datas) if x.resampling]
+        [i for i, x in enumerate(datas) if x.replaying]
         rsonly = [i for i, x in enumerate(datas) if x.resampling and not x.replaying]
         onlyresample = len(datas) == len(rsonly)
         noresample = not rsonly
@@ -1604,7 +1684,6 @@ class Cerebro(metaclass=MetaParams):
         clonecount = sum(d._clone for d in datas)
         ldatas = len(datas)
         ldatas_noclones = ldatas - clonecount
-        lastqcheck = False
         dt0 = date2num(datetime.datetime.max) - 2  # default at max
         while d0ret or d0ret is None:
             # if any has live data in the buffer, no data will wait anything
@@ -1634,8 +1713,8 @@ class Cerebro(metaclass=MetaParams):
                 d.do_qcheck(newqcheck, qlapse.total_seconds())
                 drets.append(d.next(ticks=False))
 
-            d0ret = any((dret for dret in drets))
-            if not d0ret and any((dret is None for dret in drets)):
+            d0ret = any(dret for dret in drets)
+            if not d0ret and any(dret is None for dret in drets):
                 d0ret = None
 
             if d0ret:
@@ -1645,9 +1724,13 @@ class Cerebro(metaclass=MetaParams):
 
                 # Get index to minimum datetime
                 if onlyresample or noresample:
-                    dt0 = min((d for d in dts if d is not None))
+                    dt0 = min(d for d in dts if d is not None)
                 else:
-                    master_dts = [d for i, d in enumerate(dts) if d is not None and i not in rsonly]
+                    master_dts = [
+                        d
+                        for i, d in enumerate(dts)
+                        if d is not None and i not in rsonly
+                    ]
                     if not master_dts:
                         master_dts = [d for d in dts if d is not None]
                     dt0 = min(master_dts)
@@ -1762,7 +1845,7 @@ class Cerebro(metaclass=MetaParams):
 
             # Timemaster if needed be
             # dmaster = datas[dts.index(dt0)]  # and timemaster
-            slen = len(runstrats[0])
+            len(runstrats[0])
             for i, dti in enumerate(dts):
                 if dti <= dt0:
                     datas[i].advance()

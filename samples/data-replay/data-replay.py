@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
 ###############################################################################
 #
 # Copyright (C) 2015-2023 Daniel Rodriguez
@@ -18,7 +17,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
-from __future__ import absolute_import, division, print_function, unicode_literals
 
 import argparse
 
@@ -64,9 +62,11 @@ def runstrat():
     datapath = args.dataname or "../../datas//2006-day-001.txt"
     data = btfeeds.BacktraderCSVData(dataname=datapath)
 
-    tframes = dict(
-        daily=bt.TimeFrame.Days, weekly=bt.TimeFrame.Weeks, monthly=bt.TimeFrame.Months
-    )
+    tframes = {
+        "daily": bt.TimeFrame.Days,
+        "weekly": bt.TimeFrame.Weeks,
+        "monthly": bt.TimeFrame.Months,
+    }
 
     # Handy dictionary for the argument timeframe conversion
     # Resample the data

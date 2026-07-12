@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
 ###############################################################################
 #
 # Copyright (C) 2015-2023 Daniel Rodriguez
@@ -18,7 +17,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
-from __future__ import absolute_import, division, print_function, unicode_literals
 
 import sys
 
@@ -40,7 +38,7 @@ class OscillatorMixIn(Indicator):
       - osc = self.data - XXX.lines[0]
     """
 
-    plotlines = dict(_0=dict(_name="osc"))
+    plotlines = {"_0": {"_name": "osc"}}
 
     def _plotinit(self):
         try:
@@ -51,7 +49,7 @@ class OscillatorMixIn(Indicator):
 
     def __init__(self):
         self.lines[0] = self.data - self.lines[0]
-        super(OscillatorMixIn, self).__init__()
+        super().__init__()
 
 
 class Oscillator(Indicator):
@@ -78,7 +76,7 @@ class Oscillator(Indicator):
     lines = ("osc",)
 
     # Have a default value which can be later modified if needed
-    plotlines = dict(_0=dict(_name="osc"))
+    plotlines = {"_0": {"_name": "osc"}}
 
     def _plotinit(self):
         try:
@@ -88,7 +86,7 @@ class Oscillator(Indicator):
             pass
 
     def __init__(self):
-        super(Oscillator, self).__init__()
+        super().__init__()
 
         if len(self.datas) > 1:
             datasrc = self.data

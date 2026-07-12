@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
 ###############################################################################
 #
 # Copyright (C) 2015-2023 Daniel Rodriguez
@@ -21,12 +20,11 @@
 import collections
 import datetime
 import inspect
-import io
 import os.path
 
 from aptrade.dataseries import TimeFrame
 from aptrade.utils import tzparse
-from aptrade.utils.date import Localizer
+from aptrade.utils.date import localizer
 from aptrade.utils.dateintern import date2num, num2date, time2num
 
 from . import dataseries, metabase
@@ -36,22 +34,20 @@ from .tradingcal import PandasMarketCalendar
 
 
 class MetaAbstractDataBase(dataseries.OHLCDateTime.__class__):
-    _indcol = dict()
+    _indcol = {}
 
-    def __init__(cls, name, bases, dct):
+    def __init__(self, name, bases, dct):
         """
         Class has already been created ... register subclasses
         """
         # Initialize the class
-        super(MetaAbstractDataBase, cls).__init__(name, bases, dct)
+        super().__init__(name, bases, dct)
 
-        if not cls.aliased and name != "DataBase" and not name.startswith("_"):
-            cls._indcol[name] = cls
+        if not self.aliased and name != "DataBase" and not name.startswith("_"):
+            self._indcol[name] = self
 
-    def dopreinit(cls, _obj, *args, **kwargs):
-        _obj, args, kwargs = super(MetaAbstractDataBase, cls).dopreinit(
-            _obj, *args, **kwargs
-        )
+    def dopreinit(self, _obj, *args, **kwargs):
+        _obj, args, kwargs = super().dopreinit(_obj, *args, **kwargs)
 
         # Find the owner and store it
         _obj._feed = metabase.findowner(_obj, FeedBase)
@@ -62,10 +58,8 @@ class MetaAbstractDataBase(dataseries.OHLCDateTime.__class__):
         _obj._name = ""
         return _obj, args, kwargs
 
-    def dopostinit(cls, _obj, *args, **kwargs):
-        _obj, args, kwargs = super(MetaAbstractDataBase, cls).dopostinit(
-            _obj, *args, **kwargs
-        )
+    def dopostinit(self, _obj, *args, **kwargs):
+        _obj, args, kwargs = super().dopostinit(_obj, *args, **kwargs)
 
         # Either set by subclass or the parameter or use the dataname (ticker)
         _obj._name = _obj._name or _obj.p.name
@@ -106,8 +100,8 @@ class MetaAbstractDataBase(dataseries.OHLCDateTime.__class__):
         _obj._barstack = collections.deque()  # for filter operations
         _obj._barstash = collections.deque()  # for filter operations
 
-        _obj._filters = list()
-        _obj._ffilters = list()
+        _obj._filters = []
+        _obj._ffilters = []
         for fp in _obj.p.filters:
             if inspect.isclass(fp):
                 fp = fp(_obj)
@@ -187,7 +181,7 @@ class AbstractDataBase(dataseries.OHLCDateTime, metaclass=MetaAbstractDataBase):
         self.lines.datetime._settz(self._tz)
 
         # This should probably be also called from an override-able method
-        self._tzinput = Localizer(self._gettzinput())
+        self._tzinput = localizer(self._gettzinput())
 
         # Convert user input times to the output timezone (or min/max)
         if self.p.fromdate is None:
@@ -297,7 +291,7 @@ class AbstractDataBase(dataseries.OHLCDateTime, metaclass=MetaAbstractDataBase):
         # The background thread could keep on adding notifications. The None
         # mark allows to identify which is the last notification to deliver
         self.notifs.append(None)  # put a mark
-        notifs = list()
+        notifs = []
         while True:
             notif = self.notifs.popleft()
             if notif is None:  # mark is reached
@@ -583,7 +577,7 @@ class AbstractDataBase(dataseries.OHLCDateTime, metaclass=MetaAbstractDataBase):
         if forward:
             self.forward()
 
-        for line, val in zip(self.itersize(), bar):
+        for line, val in zip(self.itersize(), bar, strict=False):
             line[0 + ago] = val
 
     def _fromstack(self, forward=False, stash=False):
@@ -598,7 +592,7 @@ class AbstractDataBase(dataseries.OHLCDateTime, metaclass=MetaAbstractDataBase):
             if forward:
                 self.forward()
 
-            for line, val in zip(self.itersize(), coll.popleft()):
+            for line, val in zip(self.itersize(), coll.popleft(), strict=False):
                 line[0] = val
 
             return True
@@ -620,7 +614,7 @@ class FeedBase(metaclass=metabase.MetaParams):
     params = () + DataBase.params._gettuple()
 
     def __init__(self):
-        self.datas = list()
+        self.datas = []
 
     def start(self):
         for data in self.datas:
@@ -631,7 +625,7 @@ class FeedBase(metaclass=metabase.MetaParams):
             data.stop()
 
     def getdata(self, dataname, name=None, **kwargs):
-        for pname, pvalue in self.p._getitems():
+        for pname, _pvalue in self.p._getitems():
             kwargs.setdefault(pname, getattr(self.p, pname))
 
         kwargs["dataname"] = dataname
@@ -643,7 +637,7 @@ class FeedBase(metaclass=metabase.MetaParams):
         return data
 
     def _getdata(self, dataname, **kwargs):
-        for pname, pvalue in self.p._getitems():
+        for pname, _pvalue in self.p._getitems():
             kwargs.setdefault(pname, getattr(self.p, pname))
 
         kwargs["dataname"] = dataname
@@ -651,14 +645,12 @@ class FeedBase(metaclass=metabase.MetaParams):
 
 
 class MetaCSVDataBase(DataBase.__class__):
-    def dopostinit(cls, _obj, *args, **kwargs):
+    def dopostinit(self, _obj, *args, **kwargs):
         # Before going to the base class to make sure it overrides the default
         if not _obj.p.name and not _obj._name:
             _obj._name, _ = os.path.splitext(os.path.basename(_obj.p.dataname))
 
-        _obj, args, kwargs = super(MetaCSVDataBase, cls).dopostinit(
-            _obj, *args, **kwargs
-        )
+        _obj, args, kwargs = super().dopostinit(_obj, *args, **kwargs)
 
         return _obj, args, kwargs
 
@@ -685,14 +677,14 @@ class CSVDataBase(DataBase, metaclass=MetaCSVDataBase):
     )
 
     def start(self):
-        super(CSVDataBase, self).start()
+        super().start()
 
         if self.f is None:
             if hasattr(self.p.dataname, "readline"):
                 self.f = self.p.dataname
             else:
                 # Let an exception propagate to let the caller know
-                self.f = io.open(self.p.dataname, "r")
+                self.f = open(self.p.dataname)
 
         if self.p.headers:
             self.f.readline()  # skip the headers
@@ -700,7 +692,7 @@ class CSVDataBase(DataBase, metaclass=MetaCSVDataBase):
         self.separator = self.p.separator
 
     def stop(self):
-        super(CSVDataBase, self).stop()
+        super().stop()
         if self.f is not None:
             self.f.close()
             self.f = None
@@ -790,13 +782,13 @@ class DataClone(AbstractDataBase):
         self.sessionend = self.data.sessionend
 
     def start(self):
-        super(DataClone, self).start()
+        super().start()
         self._dlen = 0
         self._preloading = False
 
     def preload(self):
         self._preloading = True
-        super(DataClone, self).preload()
+        super().preload()
         self.data.home()  # preloading data was pushed forward
         self._preloading = False
 
@@ -810,7 +802,7 @@ class DataClone(AbstractDataBase):
             if len(self.data) > self.data.buflen():
                 return False
 
-            for line, dline in zip(self.lines, self.data.lines):
+            for line, dline in zip(self.lines, self.data.lines, strict=False):
                 line[0] = dline[0]
 
             return True
@@ -822,11 +814,11 @@ class DataClone(AbstractDataBase):
 
         self._dlen += 1
 
-        for line, dline in zip(self.lines, self.data.lines):
+        for line, dline in zip(self.lines, self.data.lines, strict=False):
             line[0] = dline[0]
 
         return True
 
     def advance(self, size=1, datamaster=None, ticks=True):
         self._dlen += size
-        super(DataClone, self).advance(size, datamaster, ticks=ticks)
+        super().advance(size, datamaster, ticks=ticks)

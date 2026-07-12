@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
 ###############################################################################
 #
 # Copyright (C) 2015-2023 Daniel Rodriguez
@@ -18,7 +17,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
-from __future__ import absolute_import, division, print_function, unicode_literals
 
 from . import PeriodN
 
@@ -45,7 +43,7 @@ class LaguerreRSI(PeriodN):
         ("period", 6),
     )
 
-    plotinfo = dict(plotymargin=0.15, plotyticks=[0.0, 0.2, 0.5, 0.8, 1.0])
+    plotinfo = {"plotymargin": 0.15, "plotyticks": [0.0, 0.2, 0.5, 0.8, 1.0]}
 
     l0, l1, l2, l3 = 0.0, 0.0, 0.0, 0.0
 
@@ -93,7 +91,7 @@ class LaguerreFilter(PeriodN):
     alias = ("LAGF",)
     lines = ("lfilter",)
     params = (("gamma", 0.5),)
-    plotinfo = dict(subplot=False)
+    plotinfo = {"subplot": False}
 
     l0, l1, l2, l3 = 0.0, 0.0, 0.0, 0.0
 

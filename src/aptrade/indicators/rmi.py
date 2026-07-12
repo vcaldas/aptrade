@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
 ###############################################################################
 #
 # Copyright (C) 2015-2023 Daniel Rodriguez
@@ -18,9 +17,8 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
-from __future__ import absolute_import, division, print_function, unicode_literals
 
-from . import RSI
+from aptrade.indicators.rsi import RSI
 
 
 class RelativeMomentumIndex(RSI):
@@ -53,7 +51,7 @@ class RelativeMomentumIndex(RSI):
             "rmi",
         ),
     )  # add an alias for this class rmi -> rsi
-    plotlines = dict(rsi=dict(_name="rmi"))  # change line plotting name
+    plotlines = {"rsi": {"_name": "rmi"}}  # change line plotting name
 
     params = (
         ("period", 20),

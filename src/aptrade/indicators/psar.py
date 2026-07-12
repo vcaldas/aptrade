@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
 ###############################################################################
 #
 # Copyright (C) 2015-2023 Daniel Rodriguez
@@ -18,14 +17,13 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
-from __future__ import absolute_import, division, print_function, unicode_literals
 
 from . import PeriodN
 
 __all__ = ["ParabolicSAR", "PSAR"]
 
 
-class _SarStatus(object):
+class _SarStatus:
     sar = None
     tr = None
     af = 0.0
@@ -33,10 +31,10 @@ class _SarStatus(object):
 
     def __str__(self):
         txt = []
-        txt.append("sar: {}".format(self.sar))
-        txt.append("tr: {}".format(self.tr))
-        txt.append("af: {}".format(self.af))
-        txt.append("ep: {}".format(self.ep))
+        txt.append(f"sar: {self.sar}")
+        txt.append(f"tr: {self.tr}")
+        txt.append(f"af: {self.af}")
+        txt.append(f"ep: {self.ep}")
         return "\n".join(txt)
 
 
@@ -64,10 +62,16 @@ class ParabolicSAR(PeriodN):
         ("afmax", 0.20),
     )
 
-    plotinfo = dict(subplot=False)
-    plotlines = dict(
-        psar=dict(marker=".", markersize=4.0, color="black", fillstyle="full", ls=""),
-    )
+    plotinfo = {"subplot": False}
+    plotlines = {
+        "psar": {
+            "marker": ".",
+            "markersize": 4.0,
+            "color": "black",
+            "fillstyle": "full",
+            "ls": "",
+        },
+    }
 
     def prenext(self):
         if len(self) == 1:

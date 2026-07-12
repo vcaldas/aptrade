@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
 ###############################################################################
 #
 # Copyright (C) 2015-2023 Daniel Rodriguez
@@ -18,12 +17,11 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
-from __future__ import absolute_import, division, print_function, unicode_literals
 
-import aptrade as bt
+from aptrade.analyzer import Analyzer
 
 
-class PositionsValue(bt.Analyzer):
+class PositionsValue(Analyzer):
     """This analyzer reports the value of the positions of the current set of
     datas
 

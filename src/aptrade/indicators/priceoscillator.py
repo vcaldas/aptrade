@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
 ###############################################################################
 #
 # Copyright (C) 2015-2023 Daniel Rodriguez
@@ -18,9 +17,8 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
-from __future__ import absolute_import, division, print_function, unicode_literals
 
-from . import Indicator, Max, MovAv
+from . import Indicator, MovAv
 
 
 class _PriceOscBase(Indicator):
@@ -30,14 +28,14 @@ class _PriceOscBase(Indicator):
         ("_movav", MovAv.Exponential),
     )
 
-    plotinfo = dict(plothlines=[0.0])
+    plotinfo = {"plothlines": [0.0]}
 
     def __init__(self):
         self.ma1 = self.p._movav(self.data, period=self.p.period1)
         self.ma2 = self.p._movav(self.data, period=self.p.period2)
         self.lines[0] = self.ma1 - self.ma2
 
-        super(_PriceOscBase, self).__init__()
+        super().__init__()
 
 
 class PriceOscillator(_PriceOscBase):
@@ -88,10 +86,10 @@ class PercentagePriceOscillator(_PriceOscBase):
     lines = ("ppo", "signal", "histo")
     params = (("period_signal", 9),)
 
-    plotlines = dict(histo=dict(_method="bar", alpha=0.50, width=1.0))
+    plotlines = {"histo": {"_method": "bar", "alpha": 0.50, "width": 1.0}}
 
     def __init__(self):
-        super(PercentagePriceOscillator, self).__init__()
+        super().__init__()
 
         den = self.ma2 if self._long else self.ma1
 

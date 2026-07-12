@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
 ###############################################################################
 #
 # Copyright (C) 2015-2023 Daniel Rodriguez
@@ -18,15 +17,14 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
-from __future__ import absolute_import, division, print_function, unicode_literals
 
 from .dateintern import (
     TIME_MAX,
     TIME_MIN,
     UTC,
-    Localizer,
     TZLocal,
     date2num,
+    localizer,
     num2date,
     num2dt,
     num2time,
@@ -42,7 +40,7 @@ __all__ = (
     "num2time",
     "UTC",
     "TZLocal",
-    "Localizer",
+    "localizer",
     "tzparse",
     "TIME_MAX",
     "TIME_MIN",

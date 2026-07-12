@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
 ###############################################################################
 #
 # Copyright (C) 2015-2023 Daniel Rodriguez
@@ -18,7 +17,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
-from __future__ import absolute_import, division, print_function, unicode_literals
 
 import matplotlib.collections as mcol
 import matplotlib.colors as mcolors
@@ -28,7 +26,7 @@ import matplotlib.lines as mlines
 from .utils import shade_color
 
 
-class CandlestickPlotHandler(object):
+class CandlestickPlotHandler:
     legend_opens = [0.50, 0.50, 0.50]
     legend_highs = [1.00, 1.00, 1.00]
     legend_lows = [0.00, 0.00, 0.00]
@@ -161,9 +159,9 @@ class CandlestickPlotHandler(object):
         **kwargs,
     ):
         # Prepack different zips of the series values
-        oc = lambda: zip(opens, closes)  # NOQA: E731
-        xoc = lambda: zip(xs, opens, closes)  # NOQA: E731
-        iohlc = lambda: zip(xs, opens, highs, lows, closes)  # NOQA: E731
+        oc = lambda: zip(opens, closes, strict=False)  # NOQA: E731
+        xoc = lambda: zip(xs, opens, closes, strict=False)  # NOQA: E731
+        iohlc = lambda: zip(xs, opens, highs, lows, closes, strict=False)  # NOQA: E731
 
         colorup = self.colorup if fillup else "None"
         colordown = self.colordown if filldown else "None"
@@ -291,7 +289,7 @@ def plot_candlestick(
     return chandler.barcol, chandler.tickcol
 
 
-class VolumePlotHandler(object):
+class VolumePlotHandler:
     legend_vols = [0.5, 1.0, 0.75]
     legend_opens = [0, 1, 0]
     legend_closes = [1, 0, 1]
@@ -383,7 +381,7 @@ class VolumePlotHandler(object):
         **kwargs,
     ):
         # Prepare the data
-        openclose = lambda: zip(opens, closes)  # NOQA: E731
+        openclose = lambda: zip(opens, closes, strict=False)  # NOQA: E731
 
         # Calculate bars colors
         colord = {True: self.colorup, False: self.colordown}
@@ -400,7 +398,7 @@ class VolumePlotHandler(object):
             v = vbot + v * vscaling
             return (left, vbot), (left, v), (right, v), (right, vbot)
 
-        barareas = [volbar(i, v) for i, v in zip(x, vols)]
+        barareas = [volbar(i, v) for i, v in zip(x, vols, strict=False)]
         barcol = mcol.PolyCollection(
             barareas,
             facecolors=colors,
@@ -449,7 +447,7 @@ def plot_volume(
     return (vhandler.barcol,)
 
 
-class OHLCPlotHandler(object):
+class OHLCPlotHandler:
     legend_opens = [0.50, 0.50, 0.50]
     legend_highs = [1.00, 1.00, 1.00]
     legend_lows = [0.00, 0.00, 0.00]
@@ -550,10 +548,10 @@ class OHLCPlotHandler(object):
         **kwargs,
     ):
         # Prepack different zips of the series values
-        ihighlow = lambda: zip(xs, highs, lows)  # NOQA: E731
-        iopen = lambda: zip(xs, opens)  # NOQA: E731
-        iclose = lambda: zip(xs, closes)  # NOQA: E731
-        openclose = lambda: zip(opens, closes)  # NOQA: E731
+        ihighlow = lambda: zip(xs, highs, lows, strict=False)  # NOQA: E731
+        iopen = lambda: zip(xs, opens, strict=False)  # NOQA: E731
+        iclose = lambda: zip(xs, closes, strict=False)  # NOQA: E731
+        openclose = lambda: zip(opens, closes, strict=False)  # NOQA: E731
 
         colord = {True: self.colorup, False: self.colordown}
         colors = [colord[open < close] for open, close in openclose()]
@@ -644,7 +642,7 @@ def plot_ohlc(
     return handler.barcol, handler.opencol, handler.closecol
 
 
-class LineOnClosePlotHandler(object):
+class LineOnClosePlotHandler:
     legend_closes = [0.00, 0.66, 0.33, 1.00]
 
     def __init__(

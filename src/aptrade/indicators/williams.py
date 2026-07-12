@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
 ###############################################################################
 #
 # Copyright (C) 2015-2023 Daniel Rodriguez
@@ -18,7 +17,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
-from __future__ import absolute_import, division, print_function, unicode_literals
 
 from . import Accum, DownDay, Highest, If, Indicator, Lowest, TrueHigh, TrueLow, UpDay
 
@@ -46,8 +44,8 @@ class WilliamsR(Indicator):
         ("lowerband", -80.0),
     )
 
-    plotinfo = dict(plotname="Williams R%")
-    plotlines = dict(percR=dict(_name="R%"))
+    plotinfo = {"plotname": "Williams R%"}
+    plotlines = {"percR": {"_name": "R%"}}
 
     def _plotinif(self):
         self.plotinfo.plotyhlines = [self.p.upperband, self.p.lowerband]
@@ -59,7 +57,7 @@ class WilliamsR(Indicator):
 
         self.lines.percR = -100.0 * (h - c) / (h - l)
 
-        super(WilliamsR, self).__init__()
+        super().__init__()
 
 
 class WilliamsAD(Indicator):
@@ -88,4 +86,4 @@ class WilliamsAD(Indicator):
 
         self.lines.ad = Accum(adup + addown)
 
-        super(WilliamsAD, self).__init__()
+        super().__init__()

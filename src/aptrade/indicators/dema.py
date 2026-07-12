@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
 ###############################################################################
 #
 # Copyright (C) 2015-2023 Daniel Rodriguez
@@ -18,9 +17,9 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
-from __future__ import absolute_import, division, print_function, unicode_literals
 
-from . import Indicator, MovAv, MovingAverageBase
+from aptrade.indicators.ema import ExponentialMovingAverage as EMA  # noqa: F401
+from aptrade.indicators.mabase import MovAv, MovingAverageBase
 
 
 class DoubleExponentialMovingAverage(MovingAverageBase):
@@ -51,7 +50,7 @@ class DoubleExponentialMovingAverage(MovingAverageBase):
         ema2 = self.p._movav(ema, period=self.p.period)
         self.lines.dema = 2.0 * ema - ema2
 
-        super(DoubleExponentialMovingAverage, self).__init__()
+        super().__init__()
 
 
 class TripleExponentialMovingAverage(MovingAverageBase):
@@ -86,4 +85,4 @@ class TripleExponentialMovingAverage(MovingAverageBase):
         ema3 = self.p._movav(ema2, period=self.p.period)
 
         self.lines.tema = 3.0 * ema1 - 3.0 * ema2 + ema3
-        super(TripleExponentialMovingAverage, self).__init__()
+        super().__init__()

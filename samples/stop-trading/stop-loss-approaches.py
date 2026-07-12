@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
 ###############################################################################
 #
 # Copyright (C) 2015-2023 Daniel Rodriguez
@@ -18,7 +17,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
-from __future__ import absolute_import, division, print_function, unicode_literals
 
 import argparse
 import datetime
@@ -27,10 +25,10 @@ import aptrade as bt
 
 
 class BaseStrategy(bt.Strategy):
-    params = dict(
-        fast_ma=10,
-        slow_ma=20,
-    )
+    params = {
+        "fast_ma": 10,
+        "slow_ma": 20,
+    }
 
     def __init__(self):
         # omitting a data implies self.datas[0] (aka self.data and self.data0)
@@ -41,21 +39,21 @@ class BaseStrategy(bt.Strategy):
 
 
 class ManualStopOrStopTrail(BaseStrategy):
-    params = dict(
-        stop_loss=0.02,  # price is 2% less than the entry point
-        trail=False,
-    )
+    params = {
+        "stop_loss": 0.02,  # price is 2% less than the entry point
+        "trail": False,
+    }
 
     def notify_order(self, order):
         if not order.status == order.Completed:
             return  # discard any other notification
 
         if not self.position:  # we left the market
-            print("SELL@price: {:.2f}".format(order.executed.price))
+            print(f"SELL@price: {order.executed.price:.2f}")
             return
 
         # We have entered the market
-        print("BUY @price: {:.2f}".format(order.executed.price))
+        print(f"BUY @price: {order.executed.price:.2f}")
 
         if not self.p.trail:
             stop_price = order.executed.price * (1.0 - self.p.stop_loss)
@@ -70,10 +68,10 @@ class ManualStopOrStopTrail(BaseStrategy):
 
 
 class ManualStopOrStopTrailCheat(BaseStrategy):
-    params = dict(
-        stop_loss=0.02,  # price is 2% less than the entry point
-        trail=False,
-    )
+    params = {
+        "stop_loss": 0.02,  # price is 2% less than the entry point
+        "trail": False,
+    }
 
     def __init__(self):
         super().__init__()
@@ -84,11 +82,11 @@ class ManualStopOrStopTrailCheat(BaseStrategy):
             return  # discard any other notification
 
         if not self.position:  # we left the market
-            print("SELL@price: {:.2f}".format(order.executed.price))
+            print(f"SELL@price: {order.executed.price:.2f}")
             return
 
         # We have entered the market
-        print("BUY @price: {:.2f}".format(order.executed.price))
+        print(f"BUY @price: {order.executed.price:.2f}")
 
     def next(self):
         if not self.position and self.crossup > 0:
@@ -103,11 +101,11 @@ class ManualStopOrStopTrailCheat(BaseStrategy):
 
 
 class AutoStopOrStopTrail(BaseStrategy):
-    params = dict(
-        stop_loss=0.02,  # price is 2% less than the entry point
-        trail=False,
-        buy_limit=False,
-    )
+    params = {
+        "stop_loss": 0.02,  # price is 2% less than the entry point
+        "trail": False,
+        "buy_limit": False,
+    }
 
     buy_order = None  # default value for a potential buy_order
 
@@ -124,11 +122,11 @@ class AutoStopOrStopTrail(BaseStrategy):
             return  # discard any other notification
 
         if not self.position:  # we left the market
-            print("SELL@price: {:.2f}".format(order.executed.price))
+            print(f"SELL@price: {order.executed.price:.2f}")
             return
 
         # We have entered the market
-        print("BUY @price: {:.2f}".format(order.executed.price))
+        print(f"BUY @price: {order.executed.price:.2f}")
 
     def next(self):
         if not self.position and self.crossup > 0:
@@ -160,11 +158,11 @@ class AutoStopOrStopTrail(BaseStrategy):
                 )
 
 
-APPROACHES = dict(
-    manual=ManualStopOrStopTrail,
-    manualcheat=ManualStopOrStopTrailCheat,
-    auto=AutoStopOrStopTrail,
-)
+APPROACHES = {
+    "manual": ManualStopOrStopTrail,
+    "manualcheat": ManualStopOrStopTrailCheat,
+    "auto": AutoStopOrStopTrail,
+}
 
 
 def runstrat(args=None):
@@ -173,7 +171,7 @@ def runstrat(args=None):
     cerebro = bt.Cerebro()
 
     # Data feed kwargs
-    kwargs = dict()
+    kwargs = {}
 
     # Parse from/to-date
     dtfmt, tmfmt = "%Y-%m-%d", "T%H:%M:%S"

@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
 ###############################################################################
 #
 # Copyright (C) 2026 Victor Caldas
@@ -18,7 +17,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
-from __future__ import absolute_import, division, print_function, unicode_literals
 
 import argparse
 import datetime as dt
@@ -48,11 +46,11 @@ def runstrat():
     cerebro.adddata(data)
 
     cerebro.broker.setcash(100000.0)
-    print("Starting Portfolio Value: %.2f" % cerebro.broker.getvalue())
+    print(f"Starting Portfolio Value: {cerebro.broker.getvalue():.2f}")
 
     results = cerebro.run()
 
-    print("Final Portfolio Value: %.2f" % cerebro.broker.getvalue())
+    print(f"Final Portfolio Value: {cerebro.broker.getvalue():.2f}")
     print("Bars loaded: %d" % len(results[0].datas[0]))
 
 

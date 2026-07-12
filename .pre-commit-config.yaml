@@ -1,41 +1,48 @@
+default_install_hook_types:
+  - pre-commit
+  - commit-msg
+
 repos:
-  repos:
-  - repo: https://github.com/astral-sh/uv-pre-commit
-    # uv version.
-    rev: 0.11.6
-    hooks:
-      - id: uv-lock
-  - repo: https://github.com/psf/black
-    rev: 25.1.0
-    hooks:
-      - id: black
-        args: ["--diff", "--color"]
-        stages: [pre-push]
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v5.0.0
     hooks:
-      - id: trailing-whitespace
-        stages: [pre-push]
-      - id: end-of-file-fixer
-        stages: [pre-push]
+      - id: check-added-large-files
+        exclude: ^uv.lock
       - id: check-yaml
-        stages: [pre-push]
-  - repo: https://github.com/PyCQA/isort
-    rev: 6.0.1
-    hooks:
-      - id: isort
-        args: ["--profile", "black"]
-        skip: ["*/__init__.py"]
-        stages: [pre-push]
-  - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.12.3
+      - id: check-merge-conflict
+      - id: end-of-file-fixer
+
+  - repo: local
     hooks:
       - id: ruff
-        stages: [pre-push]
+        name: lint with ruff
+        language: system
+        entry: ruff check --force-exclude --fix --unsafe-fixes
+        types: [python]
+        require_serial: true
+
       - id: ruff-format
-        stages: [pre-push]
-  # - repo: https://github.com/pre-commit/mirrors-mypy
-  #   rev: v1.17.0
-  #   hooks:
-  #     - id: mypy
-  #       additional_dependencies: ["types-PyYAML"]
+        name: format with ruff
+        language: system
+        entry: ruff format --force-exclude
+        types: [python]
+        require_serial: true
+
+      - id: uv-sync
+        name: update uv.lock and venv
+        pass_filenames: false
+        language: system
+        entry: uv sync
+        files: ^(uv\.lock|pyproject\.toml)$
+
+  - repo: https://github.com/gitleaks/gitleaks
+    rev: v8.28.0
+    hooks:
+      - id: gitleaks
+
+  - repo: https://github.com/compilerla/conventional-pre-commit
+    rev: v4.4.0
+    hooks:
+      - id: conventional-pre-commit
+        stages: [commit-msg]
+        args: []

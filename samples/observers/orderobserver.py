@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
 ###############################################################################
 #
 # Copyright (C) 2015-2023 Daniel Rodriguez
@@ -18,9 +17,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
-from __future__ import absolute_import, division, print_function, unicode_literals
 
-import math
 
 import aptrade as bt
 
@@ -31,12 +28,22 @@ class OrderObserver(bt.observer.Observer):
         "expired",
     )
 
-    plotinfo = dict(plot=True, subplot=True, plotlinelabels=True)
+    plotinfo = {"plot": True, "subplot": True, "plotlinelabels": True}
 
-    plotlines = dict(
-        created=dict(marker="*", markersize=8.0, color="lime", fillstyle="full"),
-        expired=dict(marker="s", markersize=8.0, color="red", fillstyle="full"),
-    )
+    plotlines = {
+        "created": {
+            "marker": "*",
+            "markersize": 8.0,
+            "color": "lime",
+            "fillstyle": "full",
+        },
+        "expired": {
+            "marker": "s",
+            "markersize": 8.0,
+            "color": "red",
+            "fillstyle": "full",
+        },
+    }
 
     def next(self):
         for order in self._owner._orderspending:

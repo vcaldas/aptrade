@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
 ###############################################################################
 #
 # Copyright (C) 2015-2023 Daniel Rodriguez
@@ -18,9 +17,9 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
-from __future__ import absolute_import, division, print_function, unicode_literals
-
-from . import ATR, Indicator, MovAv
+from aptrade.indicator import Indicator
+from aptrade.indicators.atr import AverageTrueRange as ATR
+from aptrade.indicators.mabase import MovAv
 
 
 class PrettyGoodOscillator(Indicator):
@@ -62,4 +61,4 @@ class PrettyGoodOscillator(Indicator):
         atr = ATR(self.data, period=self.p.period)
 
         self.lines.pgo = (self.data - movav) / atr
-        super(PrettyGoodOscillator, self).__init__()
+        super().__init__()

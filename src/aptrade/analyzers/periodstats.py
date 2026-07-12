@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
 ###############################################################################
 #
 # Copyright (C) 2015-2023 Daniel Rodriguez
@@ -18,18 +17,17 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
-from __future__ import absolute_import, division, print_function, unicode_literals
 
-import aptrade as bt
+from aptrade.analyzer import Analyzer
+from aptrade.analyzers.timereturn import TimeReturn
+from aptrade.dataseries import TimeFrame
 from aptrade.mathsupport import average, standarddev
 from aptrade.utils.py3 import itervalues
-
-from . import TimeReturn
 
 __all__ = ["PeriodStats"]
 
 
-class PeriodStats(bt.Analyzer):
+class PeriodStats(Analyzer):
     """Calculates basic statistics for given timeframe
 
     Params:
@@ -74,7 +72,7 @@ class PeriodStats(bt.Analyzer):
     """
 
     params = (
-        ("timeframe", bt.TimeFrame.Years),
+        ("timeframe", TimeFrame.Years),
         ("compression", 1),
         ("zeroispos", False),
         ("fund", None),

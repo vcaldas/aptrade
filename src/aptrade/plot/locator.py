@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
 ###############################################################################
 #
 # Copyright (C) 2015-2023 Daniel Rodriguez
@@ -18,7 +17,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
-from __future__ import absolute_import, division, print_function, unicode_literals
 
 """
 Redefine/Override matplotlib locators to make them work with index base x axis
@@ -31,25 +29,16 @@ import warnings
 import numpy as np
 from dateutil.relativedelta import relativedelta
 from matplotlib.dates import (
-    DAYS_PER_WEEK,
     HOURS_PER_DAY,
     MIN_PER_HOUR,
     MONTHS_PER_YEAR,
-    SEC_PER_DAY,
-    SEC_PER_HOUR,
-    SEC_PER_MIN,
-)
-from matplotlib.dates import AutoDateFormatter as ADFormatter
-from matplotlib.dates import AutoDateLocator as ADLocator
-from matplotlib.dates import (
     MicrosecondLocator,
-)
-from matplotlib.dates import RRuleLocator as RRLocator
-from matplotlib.dates import (
-    YearLocator,
     num2date,
     rrulewrapper,
 )
+from matplotlib.dates import AutoDateFormatter as ADFormatter
+from matplotlib.dates import AutoDateLocator as ADLocator
+from matplotlib.dates import RRuleLocator as RRLocator
 
 
 def _idx2dt(idx, dates, tz):
@@ -70,7 +59,7 @@ def _idx2dt(idx, dates, tz):
 class RRuleLocator(RRLocator):
     def __init__(self, dates, o, tz=None):
         self._dates = dates
-        super(RRuleLocator, self).__init__(o, tz)
+        super().__init__(o, tz)
 
     def datalim_to_dt(self):
         """
@@ -101,14 +90,14 @@ class RRuleLocator(RRLocator):
     def tick_values(self, vmin, vmax):
         import bisect
 
-        dtnums = super(RRuleLocator, self).tick_values(vmin, vmax)
+        dtnums = super().tick_values(vmin, vmax)
         return [bisect.bisect_left(self._dates, x) for x in dtnums]
 
 
 class AutoDateLocator(ADLocator):
     def __init__(self, dates, *args, **kwargs):
         self._dates = dates
-        super(AutoDateLocator, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
     def datalim_to_dt(self):
         """
@@ -139,7 +128,7 @@ class AutoDateLocator(ADLocator):
     def tick_values(self, vmin, vmax):
         import bisect
 
-        dtnums = super(AutoDateLocator, self).tick_values(vmin, vmax)
+        dtnums = super().tick_values(vmin, vmax)
         return [bisect.bisect_left(self._dates, x) for x in dtnums]
 
     def get_locator(self, dmin, dmax):
@@ -188,7 +177,7 @@ class AutoDateLocator(ADLocator):
         # an interval from an list specific to that frequency that gives no
         # more than maxticks tick positions. Also, set up some ranges
         # (bymonth, etc.) as appropriate to be passed to rrulewrapper.
-        for i, (freq, num) in enumerate(zip(self._freqs, nums)):
+        for i, (freq, num) in enumerate(zip(self._freqs, nums, strict=False)):
             # If this particular frequency doesn't give enough ticks, continue
             if num < self.minticks:
                 # Since we're not using this particular frequency, set
@@ -210,7 +199,8 @@ class AutoDateLocator(ADLocator):
                     "appropriate interval for this date range. "
                     "It may be necessary to add an interval value "
                     "to the AutoDateLocator's intervald dictionary."
-                    " Defaulting to {0}.".format(interval)
+                    f" Defaulting to {interval}.",
+                    stacklevel=2,
                 )
 
             # Set some parameters as appropriate
@@ -259,7 +249,7 @@ class AutoDateLocator(ADLocator):
             # try for matplotlib < 3.6.0
             locator.set_view_interval(*self.axis.get_view_interval())
             locator.set_data_interval(*self.axis.get_data_interval())
-        except Exception as e:
+        except Exception:
             try:
                 # try for matplotlib >= 3.6.0
                 self.axis.set_view_interval(*self.axis.get_view_interval())
@@ -274,7 +264,7 @@ class AutoDateLocator(ADLocator):
 class AutoDateFormatter(ADFormatter):
     def __init__(self, dates, locator, tz=None, defaultfmt="%Y-%m-%d"):
         self._dates = dates
-        super(AutoDateFormatter, self).__init__(locator, tz, defaultfmt)
+        super().__init__(locator, tz, defaultfmt)
 
     def __call__(self, x, pos=None):
         """Return the label for time x at position pos"""
@@ -288,4 +278,4 @@ class AutoDateFormatter(ADFormatter):
 
         ix = self._dates[x]
 
-        return super(AutoDateFormatter, self).__call__(ix, pos)
+        return super().__call__(ix, pos)

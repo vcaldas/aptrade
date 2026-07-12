@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
 ###############################################################################
 #
 # Copyright (C) 2015-2023 Daniel Rodriguez
@@ -18,7 +17,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
-from __future__ import absolute_import, division, print_function, unicode_literals
 
 import argparse
 import collections
@@ -48,7 +46,7 @@ class St(bt.SignalStrategy):
     def start(self):
         super(self.__class__, self).start()
         if self.p.printdata:
-            txtfields = list()
+            txtfields = []
             txtfields.append("Len")
             txtfields.append("Datetime")
             txtfields.append("Open")
@@ -63,15 +61,15 @@ class St(bt.SignalStrategy):
         super(self.__class__, self).next()
         if self.p.printdata:
             # Print only 1st data ... is just a check that things are running
-            txtfields = list()
+            txtfields = []
             txtfields.append("%04d" % len(self))
             txtfields.append(self.data.datetime.datetime(0).isoformat())
-            txtfields.append("%.2f" % self.data0.open[0])
-            txtfields.append("%.2f" % self.data0.high[0])
-            txtfields.append("%.2f" % self.data0.low[0])
-            txtfields.append("%.2f" % self.data0.close[0])
-            txtfields.append("%.2f" % self.data0.volume[0])
-            txtfields.append("%.2f" % self.data0.openinterest[0])
+            txtfields.append(f"{self.data0.open[0]:.2f}")
+            txtfields.append(f"{self.data0.high[0]:.2f}")
+            txtfields.append(f"{self.data0.low[0]:.2f}")
+            txtfields.append(f"{self.data0.close[0]:.2f}")
+            txtfields.append(f"{self.data0.volume[0]:.2f}")
+            txtfields.append(f"{self.data0.openinterest[0]:.2f}")
             print(",".join(txtfields))
 
 
@@ -94,7 +92,7 @@ def runstrat(args=None):
     cerebro = bt.Cerebro()
     cerebro.broker.set_cash(args.cash)
 
-    dkwargs = dict()
+    dkwargs = {}
     if args.fromdate:
         fromdate = datetime.datetime.strptime(args.fromdate, "%Y-%m-%d")
         dkwargs["fromdate"] = fromdate
@@ -139,17 +137,17 @@ def runstrat(args=None):
     al = strat.analyzers.timereturn
     print("-- Time Return:")
     for k, v in al.get_analysis().items():
-        print("{}: {}".format(k, v))
+        print(f"{k}: {v}")
 
     al = strat.analyzers.sharperatio
     print("-- Sharpe Ratio:")
     for k, v in al.get_analysis().items():
-        print("{}: {}".format(k, v))
+        print(f"{k}: {v}")
 
     al = strat.analyzers.sqn
     print("-- SQN:")
     for k, v in al.get_analysis().items():
-        print("{}: {}".format(k, v))
+        print(f"{k}: {v}")
 
     if args.pyfolio:
         pyfoliozer = strat.analyzers.getbyname(
@@ -179,7 +177,7 @@ def runstrat(args=None):
             )
 
     if args.plot:
-        pkwargs = dict(style="bar")
+        pkwargs = {"style": "bar"}
         if args.plot is not True:  # evals to True but is not True
             pkwargs = eval("dict(" + args.plot + ")")  # args were passed
 

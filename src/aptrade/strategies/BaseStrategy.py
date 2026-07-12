@@ -1,4 +1,4 @@
-import aptsystem as bt
+import aptrade as bt
 
 
 class Strategy(bt.Strategy):
@@ -19,7 +19,7 @@ class Strategy(bt.Strategy):
     def log(self, txt, date=None):
         if self.verbose:
             date = date or self.data.datetime.date(0)
-            print("{}, {}".format(date.isoformat(), txt))
+            print(f"{date.isoformat()}, {txt}")
 
     def notify_order(self, order):
         if order.status in [order.Submitted, order.Accepted]:
@@ -31,23 +31,13 @@ class Strategy(bt.Strategy):
         if order.status in [order.Completed]:
             if order.isbuy():
                 self.log(
-                    "BUY {}\t{:.2f}\t  Cost: {:.2f}\tComm: {:.2f}".format(
-                        order.data._name,
-                        order.executed.price,
-                        order.executed.value,
-                        order.executed.comm,
-                    )
+                    f"BUY {order.data._name}\t{order.executed.price:.2f}\t  Cost: {order.executed.value:.2f}\tComm: {order.executed.comm:.2f}"
                 )
                 self.buyprice = order.executed.price
                 self.buycomm = order.executed.comm
             if order.issell():
                 self.log(
-                    "SELL {}\t{:.2f}\t  Cost: {:.2f}\tComm: {:.2f}".format(
-                        order.data._name,
-                        order.executed.price,
-                        order.executed.value,
-                        order.executed.comm,
-                    )
+                    f"SELL {order.data._name}\t{order.executed.price:.2f}\t  Cost: {order.executed.value:.2f}\tComm: {order.executed.comm:.2f}"
                 )
 
         elif order.status in [order.Canceled, order.Margin, order.Rejected]:
@@ -64,9 +54,7 @@ class Strategy(bt.Strategy):
                 )
             )
             self.log(
-                "Cash: {:.2f}, Order: {:.2f}".format(
-                    self.broker.get_cash(), (order.price or 0) * (order.size or 0)
-                )
+                f"Cash: {self.broker.get_cash():.2f}, Order: {(order.price or 0) * (order.size or 0):.2f}"
             )
             self.order_rejected = True
 

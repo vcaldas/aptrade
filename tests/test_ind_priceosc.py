@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
 ###############################################################################
 #
 # Copyright (C) 2015-2023 Daniel Rodriguez
@@ -18,12 +17,9 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
-from __future__ import absolute_import, division, print_function, unicode_literals
 
-import testcommon
-
-import aptrade as bt
 import aptrade.indicators as btind
+import testcommon
 
 chkdatas = 1
 chkvals = [["25.821368", "23.202675", "-9.927422"]]

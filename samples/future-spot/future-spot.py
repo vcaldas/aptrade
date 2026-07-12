@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
 ###############################################################################
 #
 # Copyright (C) 2015-2023 Daniel Rodriguez
@@ -18,7 +17,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
-from __future__ import absolute_import, division, print_function, unicode_literals
 
 import argparse
 import random
@@ -35,10 +33,10 @@ def close_changer(data, *args, **kwargs):
 
 # override the standard markers
 class BuySellArrows(bt.observers.BuySell):
-    plotlines = dict(
-        buy=dict(marker="$\u21e7$", markersize=12.0),
-        sell=dict(marker="$\u21e9$", markersize=12.0),
-    )
+    plotlines = {
+        "buy": {"marker": "$\u21e7$", "markersize": 12.0},
+        "sell": {"marker": "$\u21e9$", "markersize": 12.0},
+    }
 
 
 class St(bt.Strategy):

@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
 ###############################################################################
 #
 # Copyright (C) 2015-2023 Daniel Rodriguez
@@ -18,7 +17,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
-from __future__ import absolute_import, division, print_function, unicode_literals
 
 import argparse
 import datetime
@@ -27,17 +25,17 @@ import aptrade as bt
 
 
 class St(bt.Strategy):
-    params = dict(
-        ma=bt.ind.SMA,
-        p1=5,
-        p2=15,
-        limit=0.005,
-        limdays=3,
-        limdays2=1000,
-        hold=10,
-        usebracket=False,  # use order_target_size
-        switchp1p2=False,  # switch prices of order1 and order2
-    )
+    params = {
+        "ma": bt.ind.SMA,
+        "p1": 5,
+        "p2": 15,
+        "limit": 0.005,
+        "limdays": 3,
+        "limdays2": 1000,
+        "hold": 10,
+        "usebracket": False,  # use order_target_size
+        "switchp1p2": False,  # switch prices of order1 and order2
+    }
 
     def notify_order(self, order):
         print(
@@ -59,7 +57,7 @@ class St(bt.Strategy):
         ma1, ma2 = self.p.ma(period=self.p.p1), self.p.ma(period=self.p.p2)
         self.cross = bt.ind.CrossOver(ma1, ma2)
 
-        self.orefs = list()
+        self.orefs = []
 
         if self.p.usebracket:
             print("-" * 5, "Using buy_bracket")
@@ -87,11 +85,7 @@ class St(bt.Strategy):
                         exectype=bt.Order.Limit, price=p1, valid=valid1, transmit=False
                     )
 
-                    print(
-                        "{}: Oref {} / Buy at {}".format(
-                            self.datetime.date(), o1.ref, p1
-                        )
-                    )
+                    print(f"{self.datetime.date()}: Oref {o1.ref} / Buy at {p1}")
 
                     o2 = self.sell(
                         exectype=bt.Order.Stop,
@@ -101,11 +95,7 @@ class St(bt.Strategy):
                         transmit=False,
                     )
 
-                    print(
-                        "{}: Oref {} / Sell Stop at {}".format(
-                            self.datetime.date(), o2.ref, p2
-                        )
-                    )
+                    print(f"{self.datetime.date()}: Oref {o2.ref} / Sell Stop at {p2}")
 
                     o3 = self.sell(
                         exectype=bt.Order.Limit,
@@ -115,11 +105,7 @@ class St(bt.Strategy):
                         transmit=True,
                     )
 
-                    print(
-                        "{}: Oref {} / Sell Limit at {}".format(
-                            self.datetime.date(), o3.ref, p3
-                        )
-                    )
+                    print(f"{self.datetime.date()}: Oref {o3.ref} / Sell Limit at {p3}")
 
                     self.orefs = [o1.ref, o2.ref, o3.ref]
 
@@ -128,9 +114,9 @@ class St(bt.Strategy):
                         price=p1,
                         valid=valid1,
                         stopprice=p2,
-                        stopargs=dict(valid=valid2),
+                        stopargs={"valid": valid2},
                         limitprice=p3,
-                        limitargs=dict(valid=valid3),
+                        limitargs={"valid": valid3},
                     )
 
                     self.orefs = [o.ref for o in os]
@@ -146,7 +132,7 @@ def runstrat(args=None):
     cerebro = bt.Cerebro()
 
     # Data feed kwargs
-    kwargs = dict()
+    kwargs = {}
 
     # Parse from/to-date
     dtfmt, tmfmt = "%Y-%m-%d", "T%H:%M:%S"

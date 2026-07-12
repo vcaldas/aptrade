@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
 ###############################################################################
 #
 # Copyright (C) 2015-2023 Daniel Rodriguez
@@ -18,14 +17,13 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
-from __future__ import absolute_import, division, print_function, unicode_literals
 
-import aptrade as bt
+from aptrade.indicator import Indicator
 
 from . import Highest, Lowest
 
 
-class Ichimoku(bt.Indicator):
+class Ichimoku(Indicator):
     """
     Developed and published in his book in 1969 by journalist Goichi Hosoda
 
@@ -64,12 +62,13 @@ class Ichimoku(bt.Indicator):
         ("chikou", 26),  # backwards push
     )
 
-    plotinfo = dict(subplot=False)
-    plotlines = dict(
-        senkou_span_a=dict(
-            _fill_gt=("senkou_span_b", "g"), _fill_lt=("senkou_span_b", "r")
-        ),
-    )
+    plotinfo = {"subplot": False}
+    plotlines = {
+        "senkou_span_a": {
+            "_fill_gt": ("senkou_span_b", "g"),
+            "_fill_lt": ("senkou_span_b", "r"),
+        },
+    }
 
     def __init__(self):
         hi_tenkan = Highest(self.data.high, period=self.p.tenkan)
@@ -90,4 +89,4 @@ class Ichimoku(bt.Indicator):
 
         self.l.chikou_span = self.data.close(self.p.chikou)
 
-        super(Ichimoku, self).__init__()
+        super().__init__()

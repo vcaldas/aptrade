@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
 ###############################################################################
 #
 # Copyright (C) 2015-2023 Daniel Rodriguez
@@ -28,8 +27,6 @@ with appends, forwarding, rewinding, resetting and other
 .. moduleauthor:: Daniel Rodriguez
 
 """
-
-from __future__ import absolute_import, division, print_function, unicode_literals
 
 import array
 import collections
@@ -71,7 +68,7 @@ class LineBuffer(LineSingle):
     def __init__(self):
         self.lines = [self]
         self.mode = self.UnBounded
-        self.bindings = list()
+        self.bindings = []
         self.reset()
         self._tz = None
 
@@ -106,7 +103,7 @@ class LineBuffer(LineSingle):
             self.array = collections.deque(maxlen=self.maxlen + self.extrasize)
             self.useislice = True
         else:
-            self.array = array.array(str("d"))
+            self.array = array.array("d")
             self.useislice = False
 
         self.lencount = 0
@@ -249,7 +246,7 @@ class LineBuffer(LineSingle):
         self.idx += size
         self.lencount += size
 
-        for i in range(size):
+        for _i in range(size):
             self.array.append(value)
 
     def backwards(self, size=1, force=False):
@@ -262,7 +259,7 @@ class LineBuffer(LineSingle):
         # Go directly to property setter to support force
         self.set_idx(self._idx - size, force=force)
         self.lencount -= size
-        for i in range(size):
+        for _i in range(size):
             self.array.pop()
 
     def rewind(self, size=1):
@@ -289,7 +286,7 @@ class LineBuffer(LineSingle):
         set values in the buffer "future"
         """
         self.extension += size
-        for i in range(size):
+        for _i in range(size):
             self.array.append(value)
 
     def addbinding(self, binding):
@@ -503,37 +500,35 @@ class MetaLineActions(LineBuffer.__class__):
     been found in the base Metaclass for LineRoot)
     """
 
-    _acache = dict()
+    _acache = {}
     _acacheuse = False
 
     @classmethod
     def cleancache(cls):
-        cls._acache = dict()
+        cls._acache = {}
 
     @classmethod
     def usecache(cls, onoff):
         cls._acacheuse = onoff
 
-    def __call__(cls, *args, **kwargs):
-        if not cls._acacheuse:
-            return super(MetaLineActions, cls).__call__(*args, **kwargs)
+    def __call__(self, *args, **kwargs):
+        if not self._acacheuse:
+            return super().__call__(*args, **kwargs)
 
         # implement a cache to avoid duplicating lines actions
-        ckey = (cls, tuple(args), tuple(kwargs.items()))  # tuples hashable
+        ckey = (self, tuple(args), tuple(kwargs.items()))  # tuples hashable
         try:
-            return cls._acache[ckey]
+            return self._acache[ckey]
         except TypeError:  # something not hashable
-            return super(MetaLineActions, cls).__call__(*args, **kwargs)
+            return super().__call__(*args, **kwargs)
         except KeyError:
             pass  # hashable but not in the cache
 
-        _obj = super(MetaLineActions, cls).__call__(*args, **kwargs)
-        return cls._acache.setdefault(ckey, _obj)
+        _obj = super().__call__(*args, **kwargs)
+        return self._acache.setdefault(ckey, _obj)
 
-    def dopreinit(cls, _obj, *args, **kwargs):
-        _obj, args, kwargs = super(MetaLineActions, cls).dopreinit(
-            _obj, *args, **kwargs
-        )
+    def dopreinit(self, _obj, *args, **kwargs):
+        _obj, args, kwargs = super().dopreinit(_obj, *args, **kwargs)
 
         _obj._clock = _obj._owner  # default setting
 
@@ -556,10 +551,8 @@ class MetaLineActions(LineBuffer.__class__):
 
         return _obj, args, kwargs
 
-    def dopostinit(cls, _obj, *args, **kwargs):
-        _obj, args, kwargs = super(MetaLineActions, cls).dopostinit(
-            _obj, *args, **kwargs
-        )
+    def dopostinit(self, _obj, *args, **kwargs):
+        _obj, args, kwargs = super().dopostinit(_obj, *args, **kwargs)
 
         # register with _owner to be kicked later
         _obj._owner.addindicator(_obj)
@@ -567,7 +560,7 @@ class MetaLineActions(LineBuffer.__class__):
         return _obj, args, kwargs
 
 
-class PseudoArray(object):
+class PseudoArray:
     def __init__(self, wrapped):
         self.wrapped = wrapped
 
@@ -594,7 +587,7 @@ class LineActions(LineBuffer, metaclass=MetaLineActions):
         return []
 
     def qbuffer(self, savemem=0):
-        super(LineActions, self).qbuffer(savemem=savemem)
+        super().qbuffer(savemem=savemem)
         for data in self._datas:
             data.minbuffer(size=self._minperiod)
 
@@ -650,7 +643,7 @@ class _LineDelay(LineActions):
     """
 
     def __init__(self, a, ago):
-        super(_LineDelay, self).__init__()
+        super().__init__()
         self.a = a
         self.ago = ago
 
@@ -679,7 +672,7 @@ class _LineForward(LineActions):
     """
 
     def __init__(self, a, ago):
-        super(_LineForward, self).__init__()
+        super().__init__()
         self.a = a
         self.ago = ago
 
@@ -725,7 +718,7 @@ class LinesOperation(LineActions):
     """
 
     def __init__(self, a, b, operation, r=False):
-        super(LinesOperation, self).__init__()
+        super().__init__()
 
         self.operation = operation
         self.a = a  # always a linebuffer
@@ -812,7 +805,7 @@ class LineOwnOperation(LineActions):
     """
 
     def __init__(self, a, operation):
-        super(LineOwnOperation, self).__init__()
+        super().__init__()
 
         self.operation = operation
         self.a = a

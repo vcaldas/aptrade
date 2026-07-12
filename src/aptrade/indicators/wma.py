@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
 ###############################################################################
 #
 # Copyright (C) 2015-2023 Daniel Rodriguez
@@ -18,9 +17,10 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
-from __future__ import absolute_import, division, print_function, unicode_literals
 
-from . import AverageWeighted, MovingAverageBase
+
+from aptrade.indicators.basicops import WeightedAverage
+from aptrade.indicators.mabase import MovingAverageBase
 
 
 class WeightedMovingAverage(MovingAverageBase):
@@ -49,8 +49,8 @@ class WeightedMovingAverage(MovingAverageBase):
 
         # Before super to ensure mixins (right-hand side in subclassing)
         # can see the assignment operation and operate on the line
-        self.lines[0] = AverageWeighted(
+        self.lines[0] = WeightedAverage(
             self.data, period=self.p.period, coef=coef, weights=weights
         )
 
-        super(WeightedMovingAverage, self).__init__()
+        super().__init__()

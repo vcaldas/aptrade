@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
 ###############################################################################
 #
 # Copyright (C) 2015-2023 Daniel Rodriguez
@@ -18,12 +17,12 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
-from __future__ import absolute_import, division, print_function, unicode_literals
-
-import aptrade as bt
 
 
-class DataFilter(bt.AbstractDataBase):
+from aptrade.feed import AbstractDataBase
+
+
+class DataFilter(AbstractDataBase):
     """
     This class filters out bars from a given data source. In addition to the
     standard parameters of a DataBase it takes a ``funcfilter`` parameter which
@@ -52,7 +51,7 @@ class DataFilter(bt.AbstractDataBase):
         self.p.timeframe = self._timeframe = self.p.dataname._timeframe
         self.p.compression = self._compression = self.p.dataname._compression
 
-        super(DataFilter, self).preload()
+        super().preload()
 
     def _load(self):
         if not len(self.p.dataname):

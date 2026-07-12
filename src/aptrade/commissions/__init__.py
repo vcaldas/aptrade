@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
 ###############################################################################
 #
 # Copyright (C) 2015-2023 Daniel Rodriguez
@@ -18,8 +17,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
-from __future__ import (absolute_import, division, print_function,
-                        unicode_literals)
 
 from ..comminfo import CommInfoBase
 
@@ -29,36 +26,24 @@ class CommInfo(CommInfoBase):
 
 
 class CommInfo_Futures(CommInfoBase):
-    params = (
-        ('stocklike', False),
-    )
+    params = (("stocklike", False),)
 
 
 class CommInfo_Futures_Perc(CommInfo_Futures):
-    params = (
-        ('commtype', CommInfoBase.COMM_PERC),
-    )
+    params = (("commtype", CommInfoBase.COMM_PERC),)
 
 
 class CommInfo_Futures_Fixed(CommInfo_Futures):
-    params = (
-        ('commtype', CommInfoBase.COMM_FIXED),
-    )
+    params = (("commtype", CommInfoBase.COMM_FIXED),)
 
 
 class CommInfo_Stocks(CommInfoBase):
-    params = (
-        ('stocklike', True),
-    )
+    params = (("stocklike", True),)
 
 
 class CommInfo_Stocks_Perc(CommInfo_Stocks):
-    params = (
-        ('commtype', CommInfoBase.COMM_PERC),
-    )
+    params = (("commtype", CommInfoBase.COMM_PERC),)
 
 
 class CommInfo_Stocks_Fixed(CommInfo_Stocks):
-    params = (
-        ('commtype', CommInfoBase.COMM_FIXED),
-    )
+    params = (("commtype", CommInfoBase.COMM_FIXED),)

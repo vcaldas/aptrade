@@ -1,7 +1,7 @@
 import csv
 import os
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 from aptrade import Analyzer
 
@@ -12,7 +12,7 @@ class TradeHistoryAnalyzer(Analyzer):
     params = (("export_dir", None),)
 
     def __init__(self):
-        self._records: List[Dict[str, Any]] = []
+        self._records: list[dict[str, Any]] = []
         self._counter = 1
 
     def notify_trade(self, trade):
@@ -28,7 +28,7 @@ class TradeHistoryAnalyzer(Analyzer):
         exit_event = getattr(history[-1], "event", None) if history else None
         strategy_label = getattr(self.strategy.params, "data_name", "")
 
-        def _to_iso(dt_value: Optional[Any]) -> Optional[str]:
+        def _to_iso(dt_value: Any | None) -> str | None:
             if dt_value is None:
                 return None
             try:

@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
 ###############################################################################
 #
 # Copyright (C) 2015-2023 Daniel Rodriguez
@@ -18,7 +17,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
-from __future__ import absolute_import, division, print_function, unicode_literals
 
 import argparse
 import datetime
@@ -34,14 +32,14 @@ class PlotStrategy(bt.Strategy):
     The strategy does nothing but create indicators for plotting purposes
     """
 
-    params = dict(
-        smasubplot=False,  # default for Moving averages
-        nomacdplot=False,
-        rsioverstoc=False,
-        rsioversma=False,
-        stocrsi=False,
-        stocrsilabels=False,
-    )
+    params = {
+        "smasubplot": False,  # default for Moving averages
+        "nomacdplot": False,
+        "rsioverstoc": False,
+        "rsioversma": False,
+        "stocrsi": False,
+        "stocrsilabels": False,
+    }
 
     def __init__(self):
         sma = btind.SMA(subplot=self.params.smasubplot)

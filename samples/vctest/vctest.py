@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
 ###############################################################################
 #
 # Copyright (C) 2015-2023 Daniel Rodriguez
@@ -18,34 +17,31 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
-from __future__ import absolute_import, division, print_function, unicode_literals
 
 import argparse
 import datetime
 
 # The above could be sent to an independent module
 import aptrade as bt
-from aptrade.utils import flushfile  # win32 quick stdout flushing
-from aptrade.utils.py3 import string_types
 
 
 class TestStrategy(bt.Strategy):
-    params = dict(
-        smaperiod=5,
-        trade=False,
-        stake=10,
-        exectype=bt.Order.Market,
-        stopafter=0,
-        valid=None,
-        cancel=0,
-        donotsell=False,
-        price=None,
-        pstoplimit=None,
-    )
+    params = {
+        "smaperiod": 5,
+        "trade": False,
+        "stake": 10,
+        "exectype": bt.Order.Market,
+        "stopafter": 0,
+        "valid": None,
+        "cancel": 0,
+        "donotsell": False,
+        "price": None,
+        "pstoplimit": None,
+    }
 
     def __init__(self):
         # To control operation entries
-        self.orderid = list()
+        self.orderid = []
         self.order = None
 
         self.counttostop = 0
@@ -84,30 +80,30 @@ class TestStrategy(bt.Strategy):
         self.next(frompre=True)
 
     def next(self, frompre=False):
-        txt = list()
+        txt = []
         txt.append("%04d" % len(self))
         dtfmt = "%Y-%m-%dT%H:%M:%S.%f"
-        txt.append("%s" % self.data.datetime.datetime(0).strftime(dtfmt))
-        txt.append("{}".format(self.data.open[0]))
-        txt.append("{}".format(self.data.high[0]))
-        txt.append("{}".format(self.data.low[0]))
-        txt.append("{}".format(self.data.close[0]))
-        txt.append("{}".format(self.data.volume[0]))
-        txt.append("{}".format(self.data.openinterest[0]))
-        txt.append("{}".format(self.sma[0]))
+        txt.append(f"{self.data.datetime.datetime(0).strftime(dtfmt)}")
+        txt.append(f"{self.data.open[0]}")
+        txt.append(f"{self.data.high[0]}")
+        txt.append(f"{self.data.low[0]}")
+        txt.append(f"{self.data.close[0]}")
+        txt.append(f"{self.data.volume[0]}")
+        txt.append(f"{self.data.openinterest[0]}")
+        txt.append(f"{self.sma[0]}")
         print(", ".join(txt))
 
         if len(self.datas) > 1:
-            txt = list()
+            txt = []
             txt.append("%04d" % len(self))
             dtfmt = "%Y-%m-%dT%H:%M:%S.%f"
-            txt.append("%s" % self.data1.datetime.datetime(0).strftime(dtfmt))
-            txt.append("{}".format(self.data1.open[0]))
-            txt.append("{}".format(self.data1.high[0]))
-            txt.append("{}".format(self.data1.low[0]))
-            txt.append("{}".format(self.data1.close[0]))
-            txt.append("{}".format(self.data1.volume[0]))
-            txt.append("{}".format(self.data1.openinterest[0]))
+            txt.append(f"{self.data1.datetime.datetime(0).strftime(dtfmt)}")
+            txt.append(f"{self.data1.open[0]}")
+            txt.append(f"{self.data1.high[0]}")
+            txt.append(f"{self.data1.low[0]}")
+            txt.append(f"{self.data1.close[0]}")
+            txt.append(f"{self.data1.volume[0]}")
+            txt.append(f"{self.data1.openinterest[0]}")
             txt.append("{}".format(float("NaN")))
             print(", ".join(txt))
 
@@ -167,7 +163,7 @@ def runstrategy():
     # Create a cerebro
     cerebro = bt.Cerebro()
 
-    storekwargs = dict()
+    storekwargs = {}
 
     if not args.nostore:
         vcstore = bt.stores.VCStore(**storekwargs)
@@ -201,15 +197,15 @@ def runstrategy():
 
     VCDataFactory = vcstore.getdata if not args.nostore else bt.feeds.VCData
 
-    datakwargs = dict(
-        timeframe=datatf,
-        compression=datacomp,
-        fromdate=fromdate,
-        todate=todate,
-        historical=args.historical,
-        qcheck=args.qcheck,
-        tz=args.timezone,
-    )
+    datakwargs = {
+        "timeframe": datatf,
+        "compression": datacomp,
+        "fromdate": fromdate,
+        "todate": todate,
+        "historical": args.historical,
+        "qcheck": args.qcheck,
+        "tz": args.timezone,
+    }
 
     if args.nostore and not args.broker:  # neither store nor broker
         datakwargs.update(storekwargs)  # pass the store args over the data
@@ -220,13 +216,13 @@ def runstrategy():
     if args.data1 is not None:
         data1 = VCDataFactory(dataname=args.data1, **datakwargs)
 
-    rekwargs = dict(
-        timeframe=timeframe,
-        compression=args.compression,
-        bar2edge=not args.no_bar2edge,
-        adjbartime=not args.no_adjbartime,
-        rightedge=not args.no_rightedge,
-    )
+    rekwargs = {
+        "timeframe": timeframe,
+        "compression": args.compression,
+        "bar2edge": not args.no_bar2edge,
+        "adjbartime": not args.no_adjbartime,
+        "rightedge": not args.no_rightedge,
+    }
 
     if args.replay:
         cerebro.replaydata(data0, **rekwargs)

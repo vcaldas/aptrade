@@ -2,7 +2,6 @@ import importlib
 import logging
 import sys
 import types
-from pathlib import Path
 from types import SimpleNamespace
 
 import numpy as np
@@ -182,9 +181,13 @@ def test_prepare_trades_list_formats_placeholder_rows(plot_module, monkeypatch):
         gen_orders=lambda data_name: orders,
     )
 
-    monkeypatch.setattr(plot_module.Path, "mkdir", lambda self, parents=False, exist_ok=False: None)
+    monkeypatch.setattr(
+        plot_module.Path, "mkdir", lambda self, parents=False, exist_ok=False: None
+    )
     monkeypatch.setattr(plot_module.Path, "exists", lambda self: False)
-    monkeypatch.setattr(plot_module.pd.DataFrame, "to_csv", lambda self, *args, **kwargs: None)
+    monkeypatch.setattr(
+        plot_module.pd.DataFrame, "to_csv", lambda self, *args, **kwargs: None
+    )
     monkeypatch.setattr(
         plot_module,
         "format_datetime",
@@ -297,7 +300,9 @@ def test_show_report_uses_plot_statistics(monkeypatch):
     monkeypatch.setitem(sys.modules, "aptrade.plot.stats", fake_stats_module)
 
     analyzer_holder = SimpleNamespace(getbyname=lambda name: "eq-analyzer")
-    strategy = SimpleNamespace(analyzers=analyzer_holder, __class__=SimpleNamespace(__name__="FakeStrategy"))
+    strategy = SimpleNamespace(
+        analyzers=analyzer_holder, __class__=SimpleNamespace(__name__="FakeStrategy")
+    )
 
     cerebro = Cerebro()
     cerebro.runstrats = [[strategy]]

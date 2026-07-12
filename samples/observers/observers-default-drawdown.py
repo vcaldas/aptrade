@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
 ###############################################################################
 #
 # Copyright (C) 2015-2023 Daniel Rodriguez
@@ -18,18 +17,12 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
-from __future__ import absolute_import, division, print_function, unicode_literals
 
-import argparse
-import datetime
-import os.path
 import os
-import sys
-import time
+import os.path
 from pathlib import Path
 
 import aptrade as bt
-import aptrade.feeds as btfeeds
 import aptrade.indicators as btind
 
 
@@ -41,7 +34,7 @@ class MyStrategy(bt.Strategy):
         dt = dt or self.data.datetime[0]
         if isinstance(dt, float):
             dt = bt.num2date(dt)
-        print("%s, %s" % (dt.isoformat(), txt))
+        print(f"{dt.isoformat()}, {txt}")
 
     def __init__(self):
         # SimpleMovingAverage on main data
@@ -56,17 +49,17 @@ class MyStrategy(bt.Strategy):
 
     def next(self):
         # Access -1, because drawdown[0] will be calculated after "next"
-        self.log("DrawDown: %.2f" % self.stats.drawdown.drawdown[-1])
-        self.log("MaxDrawDown: %.2f" % self.stats.drawdown.maxdrawdown[-1])
+        self.log(f"DrawDown: {self.stats.drawdown.drawdown[-1]:.2f}")
+        self.log(f"MaxDrawDown: {self.stats.drawdown.maxdrawdown[-1]:.2f}")
 
         # Check if we are in the market
         if self.position:
             if self.buysell < 0:
-                self.log("SELL CREATE, %.2f" % self.data.close[0])
+                self.log(f"SELL CREATE, {self.data.close[0]:.2f}")
                 self.sell()
 
         elif self.buysell > 0:
-            self.log("BUY CREATE, %.2f" % self.data.close[0])
+            self.log(f"BUY CREATE, {self.data.close[0]:.2f}")
             self.buy()
 
 

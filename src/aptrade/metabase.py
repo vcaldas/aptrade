@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
 ###############################################################################
 #
 # Copyright (C) 2015-2023 Daniel Rodriguez
@@ -18,16 +17,15 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
-from __future__ import absolute_import, division, print_function, unicode_literals
 
 import itertools
 import sys
 from collections import OrderedDict
-from typing import Any, List, overload
+from typing import Any, overload
 
 
 def findbases(kls, topclass):
-    retval = list()
+    retval = []
     for base in kls.__bases__:
         if issubclass(base, topclass):
             retval.extend(findbases(base, topclass))
@@ -87,7 +85,7 @@ class MetaBase(type):
         return _obj
 
 
-class AutoInfoClass(object):
+class AutoInfoClass:
     _getpairsbase = classmethod(lambda cls: OrderedDict())
     _getpairs = classmethod(lambda cls: OrderedDict())
     _getrecurse = classmethod(lambda cls: False)
@@ -132,9 +130,9 @@ class AutoInfoClass(object):
         newcls = type(newclsname, (cls,), {})
         setattr(clsmodule, newclsname, newcls)
 
-        setattr(newcls, "_getpairsbase", classmethod(lambda cls: baseinfo.copy()))
-        setattr(newcls, "_getpairs", classmethod(lambda cls: clsinfo.copy()))
-        setattr(newcls, "_getrecurse", classmethod(lambda cls: recurse))
+        newcls._getpairsbase = classmethod(lambda cls: baseinfo.copy())
+        newcls._getpairs = classmethod(lambda cls: clsinfo.copy())
+        newcls._getrecurse = classmethod(lambda cls: recurse)
 
         for infoname, infoval in info2add.items():
             if recurse:
@@ -186,7 +184,7 @@ class AutoInfoClass(object):
         return [getattr(self, x) for x in self._getkeys()]
 
     def __new__(cls, *args, **kwargs):
-        obj = super(AutoInfoClass, cls).__new__(cls, *args, **kwargs)
+        obj = super().__new__(cls, *args, **kwargs)
 
         if cls._getrecurse():
             for infoname in obj._getkeys():
@@ -209,7 +207,7 @@ class MetaParams(MetaBase):
         fnewpackages = tuple(dct.pop(fpacks, ()))  # remove before creation
 
         # Create the new class - this pulls predefined "params"
-        cls = super(MetaParams, meta).__new__(meta, name, bases, dct)
+        cls = super().__new__(meta, name, bases, dct)
 
         # Pulls the param class out of it - default is the empty class
         params = getattr(cls, "params", AutoInfoClass)
@@ -281,7 +279,7 @@ class MetaParams(MetaBase):
             setattr(params, pname, kwargs.pop(pname, pdef))
 
         # Create the object and set the params in place
-        _obj, args, kwargs = super(MetaParams, cls).donew(*args, **kwargs)
+        _obj, args, kwargs = super().donew(*args, **kwargs)
         _obj.params = params
         _obj.p = params  # shorter alias
 
@@ -293,7 +291,7 @@ class ParamsBase(metaclass=MetaParams):
     pass  # stub to allow easy subclassing without metaclasses
 
 
-class ItemCollection(object):
+class ItemCollection:
     """
     Holds a collection of items that can be reached by
 
@@ -302,8 +300,8 @@ class ItemCollection(object):
     """
 
     def __init__(self):
-        self._items: List[object] = []
-        self._names: List[str] = []
+        self._items: list[object] = []
+        self._names: list[str] = []
 
     def __len__(self):
         return len(self._items)
@@ -315,16 +313,13 @@ class ItemCollection(object):
             self._names.append(name)
 
     @overload
-    def __getitem__(self, key: int) -> object:
-        ...
+    def __getitem__(self, key: int) -> object: ...
 
     @overload
-    def __getitem__(self, key: str) -> object:
-        ...
+    def __getitem__(self, key: str) -> object: ...
 
     @overload
-    def __getitem__(self, key: slice) -> List[object]:
-        ...
+    def __getitem__(self, key: slice) -> list[object]: ...
 
     def __getitem__(self, key: Any):
         if isinstance(key, str):
@@ -335,7 +330,7 @@ class ItemCollection(object):
         return self._names
 
     def getitems(self):
-        return zip(self._names, self._items)
+        return zip(self._names, self._items, strict=False)
 
     def getbyname(self, name: str) -> object:
         idx = self._names.index(name)

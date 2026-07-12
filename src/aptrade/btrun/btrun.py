@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
 ###############################################################################
 #
 # Copyright (C) 2015-2023 Daniel Rodriguez
@@ -18,61 +17,45 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
-from __future__ import absolute_import, division, print_function, unicode_literals
 
 import argparse
 import datetime
 import inspect
-import itertools
 import random
 import string
 import sys
 
 import aptrade as bt
 
-DATAFORMATS = dict(
-    btcsv=bt.feeds.BacktraderCSVData,
-    vchartcsv=bt.feeds.VChartCSVData,
-    vcfile=bt.feeds.VChartFile,
-    sierracsv=bt.feeds.SierraChartCSVData,
-    mt4csv=bt.feeds.MT4CSVData,
-    yahoocsv=bt.feeds.YahooFinanceCSVData,
-    yahoocsv_unreversed=bt.feeds.YahooFinanceCSVData,
-    yahoo=bt.feeds.YahooFinanceData,
-)
-
-try:
-    DATAFORMATS["vcdata"] = bt.feeds.VCData
-except AttributeError:
-    pass  # no comtypes available
+DATAFORMATS = {
+    "btcsv": bt.feeds.BacktraderCSVData,
+    "yahoocsv": bt.feeds.YahooFinanceCSVData,
+    "yahoocsv_unreversed": bt.feeds.YahooFinanceCSVData,
+    "yahoo": bt.feeds.YahooFinanceData,
+}
 
 try:
     DATAFORMATS["ibdata"] = (bt.feeds.IBData,)
 except AttributeError:
     pass  # no ibpy available
 
-try:
-    DATAFORMATS["oandadata"] = (bt.feeds.OandaData,)
-except AttributeError:
-    pass  # no oandapy available
 
-
-TIMEFRAMES = dict(
-    microseconds=bt.TimeFrame.MicroSeconds,
-    seconds=bt.TimeFrame.Seconds,
-    minutes=bt.TimeFrame.Minutes,
-    days=bt.TimeFrame.Days,
-    weeks=bt.TimeFrame.Weeks,
-    months=bt.TimeFrame.Months,
-    years=bt.TimeFrame.Years,
-)
+TIMEFRAMES = {
+    "microseconds": bt.TimeFrame.MicroSeconds,
+    "seconds": bt.TimeFrame.Seconds,
+    "minutes": bt.TimeFrame.Minutes,
+    "days": bt.TimeFrame.Days,
+    "weeks": bt.TimeFrame.Weeks,
+    "months": bt.TimeFrame.Months,
+    "years": bt.TimeFrame.Years,
+}
 
 
 def btrun(pargs=""):
     args = parse_args(pargs)
 
     if args.flush:
-        import aptrade.utils.flushfile
+        pass
 
     stdstats = not args.nostdstats
 
@@ -156,7 +139,7 @@ def btrun(pargs=""):
                     analyzer.pprint()
 
     if args.plot:
-        pkwargs = dict(style="bar")
+        pkwargs = {"style": "bar"}
         if args.plot is not True:
             # evaluates to True but is not "True" - args were passed
             ekwargs = eval("dict(" + args.plot + ")")
@@ -172,7 +155,7 @@ def setbroker(args, cerebro):
     if args.cash is not None:
         broker.setcash(args.cash)
 
-    commkwargs = dict()
+    commkwargs = {}
     if args.commission is not None:
         commkwargs["commission"] = args.commission
     if args.margin is not None:
@@ -208,7 +191,7 @@ def getdatas(args):
     dfcls = DATAFORMATS[args.format]
 
     # Prepare some args
-    dfkwargs = dict()
+    dfkwargs = {}
     if args.format == "yahoo_unreversed":
         dfkwargs["reverse"] = True
 
@@ -235,7 +218,7 @@ def getdatas(args):
     if args.compression is not None:
         dfkwargs["compression"] = args.compression
 
-    datas = list()
+    datas = []
     for dname in args.data:
         dfkwargs["dataname"] = dname
         data = dfcls(**dfkwargs)
@@ -247,7 +230,7 @@ def getdatas(args):
 def getmodclasses(mod, clstype, clsname=None):
     clsmembers = inspect.getmembers(mod, inspect.isclass)
 
-    clslist = list()
+    clslist = []
     for name, cls in clsmembers:
         if not issubclass(cls, clstype):
             continue
@@ -267,7 +250,7 @@ def getmodfunctions(mod, funcname=None):
         mod, inspect.ismethod
     )
 
-    funclist = list()
+    funclist = []
     for name, member in members:
         if funcname:
             if name == funcname:
@@ -323,7 +306,7 @@ def loadmodule3(modpath, modname):
 
 
 def getobjects(iterable, clsbase, modbase, issignal=False):
-    retobjects = list()
+    retobjects = []
 
     for item in iterable or []:
         if issignal:
@@ -338,13 +321,13 @@ def getobjects(iterable, clsbase, modbase, issignal=False):
         if len(tokens) == 1:
             modpath = tokens[0]
             name = ""
-            kwargs = dict()
+            kwargs = {}
         else:
             modpath, name = tokens
             kwtokens = name.split(":", 1)
             if len(kwtokens) == 1:
                 # no '(' found
-                kwargs = dict()
+                kwargs = {}
             else:
                 name = kwtokens[0]
                 kwtext = "dict(" + kwtokens[1] + ")"
@@ -355,7 +338,7 @@ def getobjects(iterable, clsbase, modbase, issignal=False):
 
             if not mod:
                 print("")
-                print("Failed to load module %s:" % modpath, e)
+                print(f"Failed to load module {modpath}:", e)
                 sys.exit(1)
         else:
             mod = modbase
@@ -363,7 +346,7 @@ def getobjects(iterable, clsbase, modbase, issignal=False):
         loaded = getmodclasses(mod=mod, clstype=clsbase, clsname=name)
 
         if not loaded:
-            print("No class %s / module %s" % (str(name), modpath))
+            print(f"No class {str(name)} / module {modpath}")
             sys.exit(1)
 
         if issignal:
@@ -375,7 +358,7 @@ def getobjects(iterable, clsbase, modbase, issignal=False):
 
 
 def getfunctions(iterable, modbase):
-    retfunctions = list()
+    retfunctions = []
 
     for item in iterable or []:
         tokens = item.split(":", 1)
@@ -383,13 +366,13 @@ def getfunctions(iterable, modbase):
         if len(tokens) == 1:
             modpath = tokens[0]
             name = ""
-            kwargs = dict()
+            kwargs = {}
         else:
             modpath, name = tokens
             kwtokens = name.split(":", 1)
             if len(kwtokens) == 1:
                 # no '(' found
-                kwargs = dict()
+                kwargs = {}
             else:
                 name = kwtokens[0]
                 kwtext = "dict(" + kwtokens[1] + ")"
@@ -400,7 +383,7 @@ def getfunctions(iterable, modbase):
 
             if not mod:
                 print("")
-                print("Failed to load module %s:" % modpath, e)
+                print(f"Failed to load module {modpath}:", e)
                 sys.exit(1)
         else:
             mod = modbase
@@ -408,7 +391,7 @@ def getfunctions(iterable, modbase):
         loaded = getmodfunctions(mod=mod, funcname=name)
 
         if not loaded:
-            print("No function %s / module %s" % (str(name), modpath))
+            print(f"No function {str(name)} / module {modpath}")
             sys.exit(1)
 
         retfunctions.append((loaded[0], kwargs))

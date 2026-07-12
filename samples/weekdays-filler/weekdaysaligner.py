@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
 ###############################################################################
 #
 # Copyright (C) 2015-2023 Daniel Rodriguez
@@ -18,7 +17,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
-from __future__ import absolute_import, division, print_function, unicode_literals
 
 import argparse
 import datetime
@@ -45,8 +43,8 @@ class St(bt.Strategy):
 
         txt = ""
         txt += "%04d, %5s" % (len(self), str(dtequal))
-        txt += ", data0, %s" % self.data0.datetime.datetime().isoformat()
-        txt += ", %s, data1" % self.data1.datetime.datetime().isoformat()
+        txt += f", data0, {self.data0.datetime.datetime().isoformat()}"
+        txt += f", {self.data1.datetime.datetime().isoformat()}, data1"
         print(txt)
 
 

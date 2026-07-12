@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
 ###############################################################################
 #
 # Copyright (C) 2015-2023 Daniel Rodriguez
@@ -18,7 +17,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
-from __future__ import absolute_import, division, print_function
 
 import argparse
 import datetime
@@ -40,10 +38,10 @@ class St(bt.Strategy):
         if order.status in [order.Completed]:
             dtstr = bt.num2date(order.executed.dt).strftime("%a %Y-%m-%d %H:%M:%S")
             if order.isbuy():
-                print("%s: BUY  EXECUTED, on:" % curdtstr, dtstr)
+                print(f"{curdtstr}: BUY  EXECUTED, on:", dtstr)
                 self.order = None
             else:  # Sell
-                print("%s: SELL EXECUTED, on:" % curdtstr, dtstr)
+                print(f"{curdtstr}: SELL EXECUTED, on:", dtstr)
 
     def next(self):
         curdate = self.data.datetime.date()
@@ -53,11 +51,11 @@ class St(bt.Strategy):
 
         dtstr = self.data.datetime.datetime().strftime("%a %Y-%m-%d %H:%M:%S")
         if self.position and self.elapsed == 2:
-            print("%s: SELL CREATED" % dtstr)
+            print(f"{dtstr}: SELL CREATED")
             self.close(exectype=bt.Order.Close)
             self.elapsed = 0
         elif self.order is None and self.elapsed == 2:  # no pending order
-            print("%s: BUY  CREATED" % dtstr)
+            print(f"{dtstr}: BUY  CREATED")
             self.order = self.buy(exectype=bt.Order.Close)
             self.elapsed = 0
 
@@ -75,15 +73,13 @@ def runstrat():
 
 
 def getdata(args):
-    dataformat = dict(
-        bt=btfeeds.BacktraderCSVData,
-        visualchart=btfeeds.VChartCSVData,
-        sierrachart=btfeeds.SierraChartCSVData,
-        yahoo=btfeeds.YahooFinanceCSVData,
-        yahoo_unreversed=btfeeds.YahooFinanceCSVData,
-    )
+    dataformat = {
+        "bt": btfeeds.BacktraderCSVData,
+        "yahoo": btfeeds.YahooFinanceCSVData,
+        "yahoo_unreversed": btfeeds.YahooFinanceCSVData,
+    }
 
-    dfkwargs = dict()
+    dfkwargs = {}
     if args.csvformat == "yahoo_unreversed":
         dfkwargs["reverse"] = True
 

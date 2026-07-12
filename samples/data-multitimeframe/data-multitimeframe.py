@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
 ###############################################################################
 #
 # Copyright (C) 2015-2023 Daniel Rodriguez
@@ -18,7 +17,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
-from __future__ import absolute_import, division, print_function, unicode_literals
 
 import argparse
 
@@ -33,7 +31,6 @@ from aptrade import (
     ResamplerMonthly,
     ResamplerWeekly,
 )
-from aptrade.utils import flushfile
 
 
 class SMAStrategy(bt.Strategy):
@@ -58,37 +55,37 @@ class SMAStrategy(bt.Strategy):
         print("nextstart called with len", len(self))
         print("--------------------------------------------------")
 
-        super(SMAStrategy, self).nextstart()
+        super().nextstart()
 
     def next(self):
         print("Strategy:", len(self))
 
-        txt = list()
+        txt = []
         txt.append("Data0")
         txt.append("%04d" % len(self.data0))
         dtfmt = "%Y-%m-%dT%H:%M:%S.%f"
-        txt.append("{:f}".format(self.data.datetime[0]))
-        txt.append("%s" % self.data.datetime.datetime(0).strftime(dtfmt))
+        txt.append(f"{self.data.datetime[0]:f}")
+        txt.append(f"{self.data.datetime.datetime(0).strftime(dtfmt)}")
         # txt.append('{:f}'.format(self.data.open[0]))
         # txt.append('{:f}'.format(self.data.high[0]))
         # txt.append('{:f}'.format(self.data.low[0]))
-        txt.append("{:f}".format(self.data.close[0]))
+        txt.append(f"{self.data.close[0]:f}")
         # txt.append('{:6d}'.format(int(self.data.volume[0])))
         # txt.append('{:d}'.format(int(self.data.openinterest[0])))
         # txt.append('{:f}'.format(self.sma_small[0]))
         print(", ".join(txt))
 
         if len(self.datas) > 1 and len(self.data1):
-            txt = list()
+            txt = []
             txt.append("Data1")
             txt.append("%04d" % len(self.data1))
             dtfmt = "%Y-%m-%dT%H:%M:%S.%f"
-            txt.append("{:f}".format(self.data1.datetime[0]))
-            txt.append("%s" % self.data1.datetime.datetime(0).strftime(dtfmt))
+            txt.append(f"{self.data1.datetime[0]:f}")
+            txt.append(f"{self.data1.datetime.datetime(0).strftime(dtfmt)}")
             # txt.append('{}'.format(self.data1.open[0]))
             # txt.append('{}'.format(self.data1.high[0]))
             # txt.append('{}'.format(self.data1.low[0]))
-            txt.append("{}".format(self.data1.close[0]))
+            txt.append(f"{self.data1.close[0]}")
             # txt.append('{}'.format(self.data1.volume[0]))
             # txt.append('{}'.format(self.data1.openinterest[0]))
             # txt.append('{}'.format(float('NaN')))
@@ -116,9 +113,11 @@ def runstrat():
     datapath = args.dataname or "./datas/2006-day-001.txt"
     data = btfeeds.BacktraderCSVData(dataname=datapath)
 
-    tframes = dict(
-        daily=bt.TimeFrame.Days, weekly=bt.TimeFrame.Weeks, monthly=bt.TimeFrame.Months
-    )
+    tframes = {
+        "daily": bt.TimeFrame.Days,
+        "weekly": bt.TimeFrame.Weeks,
+        "monthly": bt.TimeFrame.Months,
+    }
 
     # Handy dictionary for the argument timeframe conversion
     # Resample the data

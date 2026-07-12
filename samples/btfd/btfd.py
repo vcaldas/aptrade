@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
 ###############################################################################
 #
 # Copyright (C) 2015-2023 Daniel Rodriguez
@@ -18,7 +17,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
-from __future__ import absolute_import, division, print_function, unicode_literals
 
 import argparse
 import datetime
@@ -30,6 +28,7 @@ import aptrade as bt
 #  - http://dark-bid.com/BTFD-only-strategy-that-matters.html
 # https://www.backtrader.com/blog/posts/2016-12-26-btfd/btfd/#sample-code
 
+
 class ValueUnlever(bt.observers.Value):
     """Extension of regular Value observer to add leveraged view"""
 
@@ -40,7 +39,7 @@ class ValueUnlever(bt.observers.Value):
     )
 
     def next(self):
-        super(ValueUnlever, self).next()
+        super().next()
         if self.p.lever:
             self.lines.value_lever[0] = self._owner.broker._valuelever
 
@@ -183,7 +182,7 @@ def runstrat(args=None):
     cerebro = bt.Cerebro()
 
     # Data feed kwargs
-    kwargs = dict()
+    kwargs = {}
 
     # Parse from/to-date
     dtfmt, tmfmt = "%Y-%m-%d", "T%H:%M:%S"

@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
 ###############################################################################
 #
 # Copyright (C) 2015-2023 Daniel Rodriguez
@@ -18,15 +17,11 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
-from __future__ import absolute_import, division, print_function, unicode_literals
 
 import argparse
 import datetime
-import random
 
 import aptrade as bt
-
-BTVERSION = tuple(int(x) for x in bt.__version__.split("."))
 
 
 class FixedPerc(bt.sizers.AbstractSizer):
@@ -40,10 +35,7 @@ class FixedPerc(bt.sizers.AbstractSizer):
 
     def _getsizing(self, comminfo, cash, data, isbuy):
         cashtouse = self.p.perc * cash
-        if BTVERSION > (1, 7, 1, 93):
-            size = comminfo.getsize(data.close[0], cashtouse)
-        else:
-            size = cashtouse // data.close[0]
+        size = cashtouse // data.close[0]
         return size
 
 
@@ -146,7 +138,7 @@ def runstrat(args=None):
 
     cerebro.broker.addcommissioninfo(comminfo)
 
-    dkwargs = dict()
+    dkwargs = {}
     if args.fromdate is not None:
         fromdate = datetime.datetime.strptime(args.fromdate, "%Y-%m-%d")
         dkwargs["fromdate"] = fromdate
@@ -205,7 +197,7 @@ def runstrat(args=None):
         alyzer.print()
 
     if args.plot:
-        pkwargs = dict(style="bar")
+        pkwargs = {"style": "bar"}
         if args.plot is not True:  # evals to True but is not True
             npkwargs = eval("dict(" + args.plot + ")")  # args were passed
             pkwargs.update(npkwargs)
