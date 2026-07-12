@@ -31,7 +31,7 @@ class St(bt.Strategy):
 
     def __init__(self):
         autoplot = self.p.plot_on_daily
-        self.pp = pp = bt.ind.PivotPoint(self.data1, _autoplot=autoplot)
+        self.pp = bt.ind.PivotPoint(self.data1, _autoplot=autoplot)
 
     def next(self):
         if len(self.pp) == 0:
@@ -44,7 +44,7 @@ class St(bt.Strategy):
                 "%04d" % len(self.data1),
                 self.data.datetime.date(0).isoformat(),
                 "%04d" % len(self.pp),
-                "%.2f" % self.pp[0],
+                f"{self.pp[0]:.2f}",
             ]
         )
 

@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
 ###############################################################################
 #
 # Copyright (C) 2015-2023 Daniel Rodriguez
@@ -18,10 +17,9 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
-# Python 2/3 compatibility imports
-from __future__ import absolute_import, division, print_function, unicode_literals
 
-from . import Indicator, MovAv
+from aptrade.indicator import Indicator
+from aptrade.indicators.mabase import MovAv
 
 
 class DetrendedPriceOscillator(Indicator):
@@ -50,7 +48,7 @@ class DetrendedPriceOscillator(Indicator):
     params = (("period", 20), ("movav", MovAv.Simple))
 
     # Emphasize central 0.0 line in plot
-    plotinfo = dict(plothlines=[0.0])
+    plotinfo = {"plothlines": [0.0]}
 
     # Indicator information after the name (in brackets)
     def _plotlabel(self):
@@ -65,4 +63,4 @@ class DetrendedPriceOscillator(Indicator):
         # Calculate value (look back period/2 + 1 in MA) and bind to 'dpo' line
         self.lines.dpo = self.data - ma(-self.p.period // 2 + 1)
 
-        super(DetrendedPriceOscillator, self).__init__()
+        super().__init__()

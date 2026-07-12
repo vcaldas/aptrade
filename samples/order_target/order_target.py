@@ -90,7 +90,6 @@ class TheStrategy(bt.Strategy):
             size = 31 - size
 
         if self.p.use_target_size:
-            target = size
             print(
                 "%04d - %s - Order Target Size: %02d"
                 % (len(self), dt.isoformat(), size)
@@ -125,7 +124,7 @@ def runstrat(args=None):
     cerebro = bt.Cerebro()
     cerebro.broker.setcash(args.cash)
 
-    dkwargs = dict()
+    dkwargs = {}
     if args.fromdate is not None:
         dkwargs["fromdate"] = datetime.strptime(args.fromdate, "%Y-%m-%d")
     if args.todate is not None:
@@ -146,7 +145,7 @@ def runstrat(args=None):
     cerebro.run()
 
     if args.plot:
-        pkwargs = dict(style="bar")
+        pkwargs = {"style": "bar"}
         if args.plot is not True:  # evals to True but is not True
             npkwargs = eval("dict(" + args.plot + ")")  # args were passed
             pkwargs.update(npkwargs)

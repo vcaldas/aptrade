@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
 ###############################################################################
 #
 # Copyright (C) 2015-2023 Daniel Rodriguez
@@ -18,17 +17,16 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
-from __future__ import absolute_import, division, print_function, unicode_literals
 
 import collections
 import math
 
-import aptrade as bt
+from aptrade.analyzer import TimeFrameAnalyzerBase
 
 __all__ = ["LogReturnsRolling"]
 
 
-class LogReturnsRolling(bt.TimeFrameAnalyzerBase):
+class LogReturnsRolling(TimeFrameAnalyzerBase):
     """This analyzer calculates rolling returns for a given timeframe and
     compression
 
@@ -98,7 +96,7 @@ class LogReturnsRolling(bt.TimeFrameAnalyzerBase):
     )
 
     def start(self):
-        super(LogReturnsRolling, self).start()
+        super().start()
         if self.p.fund is None:
             self._fundmode = self.strategy.broker.fundmode
         else:
@@ -134,6 +132,6 @@ class LogReturnsRolling(bt.TimeFrameAnalyzerBase):
 
     def next(self):
         # Calculate the return
-        super(LogReturnsRolling, self).next()
+        super().next()
         self.rets[self.dtkey] = math.log(self._value / self._values[0])
         self._lastvalue = self._value  # keep last value

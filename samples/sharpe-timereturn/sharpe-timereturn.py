@@ -47,17 +47,17 @@ def runstrat(pargs=None):
     # Add the strategy
     cerebro.addstrategy(bt.strategies.SMA_CrossOver)
 
-    tframes = dict(
-        days=bt.TimeFrame.Days,
-        weeks=bt.TimeFrame.Weeks,
-        months=bt.TimeFrame.Months,
-        years=bt.TimeFrame.Years,
-    )
+    tframes = {
+        "days": bt.TimeFrame.Days,
+        "weeks": bt.TimeFrame.Weeks,
+        "months": bt.TimeFrame.Months,
+        "years": bt.TimeFrame.Years,
+    }
 
     # Add the Analyzers
     cerebro.addanalyzer(bt.analyzers.TimeReturn, timeframe=tframes[args.tframe])
 
-    shkwargs = dict()
+    shkwargs = {}
     if args.annualize:
         shkwargs["annualize"] = True
 
@@ -84,7 +84,7 @@ def runstrat(pargs=None):
 
     # Plot if requested
     if args.plot:
-        pkwargs = dict(style="bar")
+        pkwargs = {"style": "bar"}
         if args.plot is not True:  # evals to True but is not True
             npkwargs = eval("dict(" + args.plot + ")")  # args were passed
             pkwargs.update(npkwargs)

@@ -20,12 +20,12 @@
 #
 ###############################################################################
 
-import aptrade as bt
+from aptrade.indicators.basicops import PeriodN
 
 __all__ = ["Fractal"]
 
 
-class Fractal(bt.ind.PeriodN):
+class Fractal(PeriodN):
     """
     References:
         [Ref 1] http://www.investopedia.com/articles/trading/06/fractals.asp
@@ -34,16 +34,24 @@ class Fractal(bt.ind.PeriodN):
 
     lines = ("fractal_bearish", "fractal_bullish")
 
-    plotinfo = dict(subplot=False, plotlinelabels=False, plot=True)
+    plotinfo = {"subplot": False, "plotlinelabels": False, "plot": True}
 
-    plotlines = dict(
-        fractal_bearish=dict(
-            marker="^", markersize=4.0, color="lightblue", fillstyle="full", ls=""
-        ),
-        fractal_bullish=dict(
-            marker="v", markersize=4.0, color="lightblue", fillstyle="full", ls=""
-        ),
-    )
+    plotlines = {
+        "fractal_bearish": {
+            "marker": "^",
+            "markersize": 4.0,
+            "color": "lightblue",
+            "fillstyle": "full",
+            "ls": "",
+        },
+        "fractal_bullish": {
+            "marker": "v",
+            "markersize": 4.0,
+            "color": "lightblue",
+            "fillstyle": "full",
+            "ls": "",
+        },
+    }
     params = (
         ("period", 5),
         ("bardist", 0.015),  # distance to max/min in absolute perc

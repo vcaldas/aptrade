@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
 ###############################################################################
 #
 # Copyright (C) 2015-2023 Daniel Rodriguez
@@ -18,9 +17,10 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
-from __future__ import absolute_import, division, print_function, unicode_literals
 
-from . import Indicator, MovAv, StdDev
+from aptrade.indicator import Indicator
+from aptrade.indicators.deviation import StandardDeviation as StdDev
+from aptrade.indicators.mabase import MovAv
 
 
 class BollingerBands(Indicator):
@@ -50,12 +50,12 @@ class BollingerBands(Indicator):
         ("movav", MovAv.Simple),
     )
 
-    plotinfo = dict(subplot=False)
-    plotlines = dict(
-        mid=dict(ls="--"),
-        top=dict(_samecolor=True),
-        bot=dict(_samecolor=True),
-    )
+    plotinfo = {"subplot": False}
+    plotlines = {
+        "mid": {"ls": "--"},
+        "top": {"_samecolor": True},
+        "bot": {"_samecolor": True},
+    }
 
     def _plotlabel(self):
         plabels = [self.p.period, self.p.devfactor]
@@ -70,7 +70,7 @@ class BollingerBands(Indicator):
         self.lines.top = ma + stddev
         self.lines.bot = ma - stddev
 
-        super(BollingerBands, self).__init__()
+        super().__init__()
 
 
 class BollingerBandsPct(BollingerBands):
@@ -79,8 +79,8 @@ class BollingerBandsPct(BollingerBands):
     """
 
     lines = ("pctb",)
-    plotlines = dict(pctb=dict(_name="%B"))  # display the line as %B on chart
+    plotlines = {"pctb": {"_name": "%B"}}  # display the line as %B on chart
 
     def __init__(self):
-        super(BollingerBandsPct, self).__init__()
+        super().__init__()
         self.l.pctb = (self.data - self.l.bot) / (self.l.top - self.l.bot)

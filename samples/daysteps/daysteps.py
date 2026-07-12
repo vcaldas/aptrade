@@ -31,7 +31,7 @@ class St(bt.Strategy):
 
     def start(self):
         self.callcounter = 0
-        txtfields = list()
+        txtfields = []
         txtfields.append("Calls")
         txtfields.append("Len Strat")
         txtfields.append("Len Data")
@@ -49,17 +49,17 @@ class St(bt.Strategy):
     def next(self):
         self.callcounter += 1
 
-        txtfields = list()
+        txtfields = []
         txtfields.append("%04d" % self.callcounter)
         txtfields.append("%04d" % len(self))
         txtfields.append("%04d" % len(self.data0))
         txtfields.append(self.data.datetime.datetime(0).isoformat())
-        txtfields.append("%.2f" % self.data0.open[0])
-        txtfields.append("%.2f" % self.data0.high[0])
-        txtfields.append("%.2f" % self.data0.low[0])
-        txtfields.append("%.2f" % self.data0.close[0])
-        txtfields.append("%.2f" % self.data0.volume[0])
-        txtfields.append("%.2f" % self.data0.openinterest[0])
+        txtfields.append(f"{self.data0.open[0]:.2f}")
+        txtfields.append(f"{self.data0.high[0]:.2f}")
+        txtfields.append(f"{self.data0.low[0]:.2f}")
+        txtfields.append(f"{self.data0.close[0]:.2f}")
+        txtfields.append(f"{self.data0.volume[0]:.2f}")
+        txtfields.append(f"{self.data0.openinterest[0]:.2f}")
         print(",".join(txtfields))
 
         if len(self.data) > self.lcontrol:

@@ -25,10 +25,10 @@ import aptrade as bt
 
 
 class BaseStrategy(bt.Strategy):
-    params = dict(
-        fast_ma=10,
-        slow_ma=20,
-    )
+    params = {
+        "fast_ma": 10,
+        "slow_ma": 20,
+    }
 
     def __init__(self):
         # omitting a data implies self.datas[0] (aka self.data and self.data0)
@@ -39,10 +39,10 @@ class BaseStrategy(bt.Strategy):
 
 
 class ManualStopOrStopTrail(BaseStrategy):
-    params = dict(
-        stop_loss=0.02,  # price is 2% less than the entry point
-        trail=False,
-    )
+    params = {
+        "stop_loss": 0.02,  # price is 2% less than the entry point
+        "trail": False,
+    }
 
     def notify_order(self, order):
         if not order.status == order.Completed:
@@ -68,10 +68,10 @@ class ManualStopOrStopTrail(BaseStrategy):
 
 
 class ManualStopOrStopTrailCheat(BaseStrategy):
-    params = dict(
-        stop_loss=0.02,  # price is 2% less than the entry point
-        trail=False,
-    )
+    params = {
+        "stop_loss": 0.02,  # price is 2% less than the entry point
+        "trail": False,
+    }
 
     def __init__(self):
         super().__init__()
@@ -101,11 +101,11 @@ class ManualStopOrStopTrailCheat(BaseStrategy):
 
 
 class AutoStopOrStopTrail(BaseStrategy):
-    params = dict(
-        stop_loss=0.02,  # price is 2% less than the entry point
-        trail=False,
-        buy_limit=False,
-    )
+    params = {
+        "stop_loss": 0.02,  # price is 2% less than the entry point
+        "trail": False,
+        "buy_limit": False,
+    }
 
     buy_order = None  # default value for a potential buy_order
 
@@ -158,11 +158,11 @@ class AutoStopOrStopTrail(BaseStrategy):
                 )
 
 
-APPROACHES = dict(
-    manual=ManualStopOrStopTrail,
-    manualcheat=ManualStopOrStopTrailCheat,
-    auto=AutoStopOrStopTrail,
-)
+APPROACHES = {
+    "manual": ManualStopOrStopTrail,
+    "manualcheat": ManualStopOrStopTrailCheat,
+    "auto": AutoStopOrStopTrail,
+}
 
 
 def runstrat(args=None):
@@ -171,7 +171,7 @@ def runstrat(args=None):
     cerebro = bt.Cerebro()
 
     # Data feed kwargs
-    kwargs = dict()
+    kwargs = {}
 
     # Parse from/to-date
     dtfmt, tmfmt = "%Y-%m-%d", "T%H:%M:%S"

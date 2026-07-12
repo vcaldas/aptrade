@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
 ###############################################################################
 #
 # Copyright (C) 2015-2023 Daniel Rodriguez
@@ -18,7 +17,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
-from __future__ import absolute_import, division, print_function, unicode_literals
 
 import sys
 
@@ -40,7 +38,11 @@ else:
 
     # Reverse TA_FUNC_FLAGS dict
     R_TA_FUNC_FLAGS = dict(
-        zip(talib.abstract.TA_FUNC_FLAGS.values(), talib.abstract.TA_FUNC_FLAGS.keys())
+        zip(
+            talib.abstract.TA_FUNC_FLAGS.values(),
+            talib.abstract.TA_FUNC_FLAGS.keys(),
+            strict=False,
+        )
     )
 
     FUNC_FLAGS_SAMESCALE = 16777216
@@ -51,6 +53,7 @@ else:
         zip(
             talib.abstract.TA_OUTPUT_FLAGS.values(),
             talib.abstract.TA_OUTPUT_FLAGS.keys(),
+            strict=False,
         )
     )
 
@@ -65,13 +68,13 @@ else:
 
     class _MetaTALibIndicator(bt.Indicator.__class__):
         _refname = "_taindcol"
-        _taindcol = dict()
+        _taindcol = {}
 
         _KNOWN_UNSTABLE = ["SAR"]
 
-        def dopostinit(cls, _obj, *args, **kwargs):
+        def dopostinit(self, _obj, *args, **kwargs):
             # Go to parent
-            res = super(_MetaTALibIndicator, cls).dopostinit(_obj, *args, **kwargs)
+            res = super().dopostinit(_obj, *args, **kwargs)
             _obj, args, kwargs = res
 
             # Get the minimum period by using the abstract interface and params
@@ -81,10 +84,10 @@ else:
             if _obj._unstable:
                 _obj._lookback = 0
 
-            elif cls.__name__ in cls._KNOWN_UNSTABLE:
+            elif self.__name__ in self._KNOWN_UNSTABLE:
                 _obj._lookback = 0
 
-            cerebro = bt.metabase.findowner(_obj, bt.Cerebro)
+            bt.metabase.findowner(_obj, bt.Cerebro)
             tafuncinfo = _obj._tabstract.info
             _obj._tafunc = getattr(talib, tafuncinfo["name"], None)
             return _obj, args, kwargs  # return the object and args
@@ -106,7 +109,7 @@ else:
             unstable = False
 
             # Prepare plotinfo
-            plotinfo = dict()
+            plotinfo = {}
             fflags = _tabstract.function_flags or []
             for fflag in fflags:
                 rfflag = R_TA_FUNC_FLAGS[fflag]
@@ -122,11 +125,11 @@ else:
             # Prepare plotlines
             lines = _tabstract.output_names
             output_flags = _tabstract.output_flags
-            plotlines = dict()
+            plotlines = {}
             samecolor = False
             for lname in lines:
                 oflags = output_flags.get(lname, None)
-                pline = dict()
+                pline = {}
                 for oflag in oflags or []:
                     orflag = R_TA_OUTPUT_FLAGS[oflag]
                     if orflag & OUT_FLAGS_LINE:
@@ -159,7 +162,7 @@ else:
                 # indicator is a candle. The values of a candle (100) will be
                 # used to plot a sign above the maximum of the bar which
                 # produces the candle
-                pline = dict()
+                pline = {}
                 pline["_name"] = name  # plotted name
                 lname = "_candleplot"  # change name
                 lines.append(lname)
@@ -198,16 +201,16 @@ else:
             fsize = self.size()
             lsize = fsize - self._iscandle
             if lsize == 1:  # only 1 output, no tuple returned
-                self.lines[0].array = array.array(str("d"), output)
+                self.lines[0].array = array.array("d", output)
 
                 if fsize > lsize:  # candle is present
                     candleref = narrays[self.CANDLEREF] * self.CANDLEOVER
                     output2 = candleref * (output / 100.0)
-                    self.lines[1].array = array.array(str("d"), output2)
+                    self.lines[1].array = array.array("d", output2)
 
             else:
                 for i, o in enumerate(output):
-                    self.lines[i].array = array.array(str("d"), o)
+                    self.lines[i].array = array.array("d", o)
 
         def next(self):
             # prepare the data arrays - single shot

@@ -25,7 +25,7 @@ import aptrade as bt
 
 
 class SmaCross(bt.SignalStrategy):
-    params = dict(sma1=10, sma2=20)
+    params = {"sma1": 10, "sma2": 20}
 
     def notify_order(self, order):
         if not order.alive():

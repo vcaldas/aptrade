@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
 ###############################################################################
 #
 # Copyright (C) 2015-2023 Daniel Rodriguez
@@ -18,12 +17,11 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
-from __future__ import absolute_import, division, print_function, unicode_literals
 
 import math
 
-import aptrade as bt
-from aptrade import TimeFrameAnalyzerBase
+from aptrade.analyzer import TimeFrameAnalyzerBase
+from aptrade.dataseries import TimeFrame
 
 from ..mathsupport import standarddev
 from . import Returns
@@ -105,10 +103,10 @@ class VWR(TimeFrameAnalyzerBase):
     )
 
     _TANN = {
-        bt.TimeFrame.Days: 252.0,
-        bt.TimeFrame.Weeks: 52.0,
-        bt.TimeFrame.Months: 12.0,
-        bt.TimeFrame.Years: 1.0,
+        TimeFrame.Days: 252.0,
+        TimeFrame.Weeks: 52.0,
+        TimeFrame.Months: 12.0,
+        TimeFrame.Years: 1.0,
     }
 
     def __init__(self):
@@ -118,7 +116,7 @@ class VWR(TimeFrameAnalyzerBase):
         )
 
     def start(self):
-        super(VWR, self).start()
+        super().start()
         # Add an initial placeholder for [-1] operation
         if self.p.fund is None:
             self._fundmode = self.strategy.broker.fundmode
@@ -133,7 +131,7 @@ class VWR(TimeFrameAnalyzerBase):
         self._pns = [None]  # keep final prices (value)
 
     def stop(self):
-        super(VWR, self).stop()
+        super().stop()
         # Check if no value has been seen after the last 'dt_over'
         # If so, there is one 'pi' out of place and a None 'pn'. Purge
         if self._pns[-1] is None:
@@ -148,7 +146,7 @@ class VWR(TimeFrameAnalyzerBase):
         # make n 1 based in enumerate (number of periods and not index)
         # skip initial placeholders for synchronization
         dts = []
-        for n, pipn in enumerate(zip(self._pis, self._pns), 1):
+        for n, pipn in enumerate(zip(self._pis, self._pns, strict=False), 1):
             pi, pn = pipn
 
             dt = pn / (pi * math.exp(ravg * n)) - 1.0

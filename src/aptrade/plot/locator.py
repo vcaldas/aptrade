@@ -177,7 +177,7 @@ class AutoDateLocator(ADLocator):
         # an interval from an list specific to that frequency that gives no
         # more than maxticks tick positions. Also, set up some ranges
         # (bymonth, etc.) as appropriate to be passed to rrulewrapper.
-        for i, (freq, num) in enumerate(zip(self._freqs, nums)):
+        for i, (freq, num) in enumerate(zip(self._freqs, nums, strict=False)):
             # If this particular frequency doesn't give enough ticks, continue
             if num < self.minticks:
                 # Since we're not using this particular frequency, set
@@ -199,7 +199,8 @@ class AutoDateLocator(ADLocator):
                     "appropriate interval for this date range. "
                     "It may be necessary to add an interval value "
                     "to the AutoDateLocator's intervald dictionary."
-                    f" Defaulting to {interval}."
+                    f" Defaulting to {interval}.",
+                    stacklevel=2,
                 )
 
             # Set some parameters as appropriate

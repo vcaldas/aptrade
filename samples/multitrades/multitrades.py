@@ -37,19 +37,19 @@ class MultiTradeStrategy(bt.Strategy):
     It can be a long-only strategy by setting the param "onlylong" to True
     """
 
-    params = dict(
-        period=15,
-        stake=1,
-        printout=False,
-        onlylong=False,
-        mtrade=False,
-    )
+    params = {
+        "period": 15,
+        "stake": 1,
+        "printout": False,
+        "onlylong": False,
+        "mtrade": False,
+    }
 
     def log(self, txt, dt=None):
         if self.p.printout:
             dt = dt or self.data.datetime[0]
             dt = bt.num2date(dt)
-            print("%s, %s" % (dt.isoformat(), txt))
+            print(f"{dt.isoformat()}, {txt}")
 
     def __init__(self):
         # To control operation entries
@@ -72,20 +72,20 @@ class MultiTradeStrategy(bt.Strategy):
 
         if self.signal > 0.0:  # cross upwards
             if self.position:
-                self.log("CLOSE SHORT , %.2f" % self.data.close[0])
+                self.log(f"CLOSE SHORT , {self.data.close[0]:.2f}")
                 self.close(tradeid=self.curtradeid)
 
-            self.log("BUY CREATE , %.2f" % self.data.close[0])
+            self.log(f"BUY CREATE , {self.data.close[0]:.2f}")
             self.curtradeid = next(self.tradeid)
             self.buy(size=self.p.stake, tradeid=self.curtradeid)
 
         elif self.signal < 0.0:
             if self.position:
-                self.log("CLOSE LONG , %.2f" % self.data.close[0])
+                self.log(f"CLOSE LONG , {self.data.close[0]:.2f}")
                 self.close(tradeid=self.curtradeid)
 
             if not self.p.onlylong:
-                self.log("SELL CREATE , %.2f" % self.data.close[0])
+                self.log(f"SELL CREATE , {self.data.close[0]:.2f}")
                 self.curtradeid = next(self.tradeid)
                 self.sell(size=self.p.stake, tradeid=self.curtradeid)
 
@@ -95,14 +95,14 @@ class MultiTradeStrategy(bt.Strategy):
 
         if order.status == order.Completed:
             if order.isbuy():
-                buytxt = "BUY COMPLETE, %.2f" % order.executed.price
+                buytxt = f"BUY COMPLETE, {order.executed.price:.2f}"
                 self.log(buytxt, order.executed.dt)
             else:
-                selltxt = "SELL COMPLETE, %.2f" % order.executed.price
+                selltxt = f"SELL COMPLETE, {order.executed.price:.2f}"
                 self.log(selltxt, order.executed.dt)
 
         elif order.status in [order.Expired, order.Canceled, order.Margin]:
-            self.log("%s ," % order.Status[order.status])
+            self.log(f"{order.Status[order.status]} ,")
             pass  # Simply log
 
         # Allow new orders
@@ -110,7 +110,7 @@ class MultiTradeStrategy(bt.Strategy):
 
     def notify_trade(self, trade):
         if trade.isclosed:
-            self.log("TRADE PROFIT, GROSS %.2f, NET %.2f" % (trade.pnl, trade.pnlcomm))
+            self.log(f"TRADE PROFIT, GROSS {trade.pnl:.2f}, NET {trade.pnlcomm:.2f}")
 
         elif trade.justopened:
             self.log("TRADE OPENED, SIZE %2d" % trade.size)

@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
 ###############################################################################
 #
 # Copyright (C) 2015-2023 Daniel Rodriguez
@@ -18,9 +17,8 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
-from __future__ import absolute_import, division, print_function, unicode_literals
 
-from .. import Observer
+from aptrade.observer import Observer
 
 
 class Cash(Observer):
@@ -33,7 +31,7 @@ class Cash(Observer):
 
     lines = ("cash",)
 
-    plotinfo = dict(plot=True, subplot=True)
+    plotinfo = {"plot": True, "subplot": True}
 
     def next(self):
         self.lines[0][0] = self._owner.broker.getcash()
@@ -62,7 +60,7 @@ class Value(Observer):
 
     lines = ("value",)
 
-    plotinfo = dict(plot=True, subplot=True)
+    plotinfo = {"plot": True, "subplot": True}
 
     def start(self):
         if self.p.fund is None:
@@ -91,7 +89,7 @@ class Broker(Observer):
     alias = ("CashValue",)
     lines = ("cash", "value")
 
-    plotinfo = dict(plot=True, subplot=True)
+    plotinfo = {"plot": True, "subplot": True}
 
     def start(self):
         if self.p.fund is None:
@@ -105,7 +103,7 @@ class Broker(Observer):
 
     def next(self):
         if not self._fundmode:
-            self.lines.value[0] = value = self._owner.broker.getvalue()
+            self.lines.value[0] = self._owner.broker.getvalue()
             self.lines.cash[0] = self._owner.broker.getcash()
         else:
             self.lines.value[0] = self._owner.broker.fundvalue
@@ -122,7 +120,7 @@ class FundValue(Observer):
     alias = ("FundShareValue", "FundVal")
     lines = ("fundval",)
 
-    plotinfo = dict(plot=True, subplot=True)
+    plotinfo = {"plot": True, "subplot": True}
 
     def next(self):
         self.lines.fundval[0] = self._owner.broker.fundvalue
@@ -138,7 +136,7 @@ class FundShares(Observer):
 
     lines = ("fundshares",)
 
-    plotinfo = dict(plot=True, subplot=True)
+    plotinfo = {"plot": True, "subplot": True}
 
     def next(self):
         self.lines.fundshares[0] = self._owner.broker.fundshares

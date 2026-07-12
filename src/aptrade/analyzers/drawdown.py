@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
 ###############################################################################
 #
 # Copyright (C) 2015-2023 Daniel Rodriguez
@@ -18,15 +17,14 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
-from __future__ import absolute_import, division, print_function, unicode_literals
 
-import aptrade as bt
+from aptrade.analyzer import Analyzer, TimeFrameAnalyzerBase
 from aptrade.utils import AutoOrderedDict
 
 __all__ = ["DrawDown", "TimeDrawDown"]
 
 
-class DrawDown(bt.Analyzer):
+class DrawDown(Analyzer):
     """This analyzer calculates trading system drawdowns stats such as drawdown
     values in %s and in dollars, max drawdown in %s and in dollars, drawdown
     length and drawdown max length
@@ -61,7 +59,7 @@ class DrawDown(bt.Analyzer):
     params = (("fund", None),)
 
     def start(self):
-        super(DrawDown, self).start()
+        super().start()
         if self.p.fund is None:
             self._fundmode = self.strategy.broker.fundmode
         else:
@@ -100,13 +98,13 @@ class DrawDown(bt.Analyzer):
 
         # maxximum drawdown values
         r.max.moneydown = max(r.max.moneydown, moneydown)
-        r.max.drawdown = maxdrawdown = max(r.max.drawdown, drawdown)
+        r.max.drawdown = max(r.max.drawdown, drawdown)
 
         r.len = r.len + 1 if drawdown else 0
         r.max.len = max(r.max.len, r.len)
 
 
-class TimeDrawDown(bt.TimeFrameAnalyzerBase):
+class TimeDrawDown(TimeFrameAnalyzerBase):
     """This analyzer calculates trading system drawdowns on the chosen
     timeframe which can be different from the one used in the underlying data
     Params:
@@ -156,7 +154,7 @@ class TimeDrawDown(bt.TimeFrameAnalyzerBase):
     params = (("fund", None),)
 
     def start(self):
-        super(TimeDrawDown, self).start()
+        super().start()
         if self.p.fund is None:
             self._fundmode = self.strategy.broker.fundmode
         else:

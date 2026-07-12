@@ -20,7 +20,7 @@
 
 from datetime import datetime, timedelta
 
-from aptrade import TimeFrame
+from aptrade.dataseries import TimeFrame
 
 from .. import metabase
 

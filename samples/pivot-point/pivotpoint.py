@@ -56,7 +56,7 @@ class PivotPoint(bt.Indicator):
         "r1",
         "r2",
     )
-    plotinfo = dict(subplot=False)
+    plotinfo = {"subplot": False}
 
     def __init__(self):
         h = self.data.high  # current high

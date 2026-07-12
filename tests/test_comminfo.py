@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
 ###############################################################################
 #
 # Copyright (C) 2015-2023 Daniel Rodriguez
@@ -18,12 +17,10 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
-from __future__ import absolute_import, division, print_function, unicode_literals
 
-import testcommon
 
 import aptrade as bt
-from aptrade import CommissionInfo, Position
+from aptrade import Position
 
 
 def check_stocks():
@@ -31,7 +28,6 @@ def check_stocks():
     comm = bt.CommissionInfo(commission=commission)
 
     price = 10.0
-    cash = 10000.0
     size = 100.0
 
     opcost = comm.getoperationcost(size=size, price=price)
@@ -59,7 +55,6 @@ def check_futures():
     comm = bt.CommissionInfo(commission=commission, mult=mult, margin=margin)
 
     price = 10.0
-    cash = 10000.0
     size = 100.0
 
     opcost = comm.getoperationcost(size=size, price=price)

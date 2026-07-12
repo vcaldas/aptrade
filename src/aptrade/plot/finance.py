@@ -159,9 +159,9 @@ class CandlestickPlotHandler:
         **kwargs,
     ):
         # Prepack different zips of the series values
-        oc = lambda: zip(opens, closes)  # NOQA: E731
-        xoc = lambda: zip(xs, opens, closes)  # NOQA: E731
-        iohlc = lambda: zip(xs, opens, highs, lows, closes)  # NOQA: E731
+        oc = lambda: zip(opens, closes, strict=False)  # NOQA: E731
+        xoc = lambda: zip(xs, opens, closes, strict=False)  # NOQA: E731
+        iohlc = lambda: zip(xs, opens, highs, lows, closes, strict=False)  # NOQA: E731
 
         colorup = self.colorup if fillup else "None"
         colordown = self.colordown if filldown else "None"
@@ -381,7 +381,7 @@ class VolumePlotHandler:
         **kwargs,
     ):
         # Prepare the data
-        openclose = lambda: zip(opens, closes)  # NOQA: E731
+        openclose = lambda: zip(opens, closes, strict=False)  # NOQA: E731
 
         # Calculate bars colors
         colord = {True: self.colorup, False: self.colordown}
@@ -398,7 +398,7 @@ class VolumePlotHandler:
             v = vbot + v * vscaling
             return (left, vbot), (left, v), (right, v), (right, vbot)
 
-        barareas = [volbar(i, v) for i, v in zip(x, vols)]
+        barareas = [volbar(i, v) for i, v in zip(x, vols, strict=False)]
         barcol = mcol.PolyCollection(
             barareas,
             facecolors=colors,
@@ -548,10 +548,10 @@ class OHLCPlotHandler:
         **kwargs,
     ):
         # Prepack different zips of the series values
-        ihighlow = lambda: zip(xs, highs, lows)  # NOQA: E731
-        iopen = lambda: zip(xs, opens)  # NOQA: E731
-        iclose = lambda: zip(xs, closes)  # NOQA: E731
-        openclose = lambda: zip(opens, closes)  # NOQA: E731
+        ihighlow = lambda: zip(xs, highs, lows, strict=False)  # NOQA: E731
+        iopen = lambda: zip(xs, opens, strict=False)  # NOQA: E731
+        iclose = lambda: zip(xs, closes, strict=False)  # NOQA: E731
+        openclose = lambda: zip(opens, closes, strict=False)  # NOQA: E731
 
         colord = {True: self.colorup, False: self.colordown}
         colors = [colord[open < close] for open, close in openclose()]

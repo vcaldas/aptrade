@@ -18,7 +18,7 @@
 #
 ###############################################################################
 
-from . import Filter
+from aptrade.flt import Filter
 
 __all__ = ["Renko"]
 

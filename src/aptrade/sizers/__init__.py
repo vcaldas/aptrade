@@ -83,7 +83,7 @@ class AbstractSizer(ABC):
             setattr(params_obj, name, default)
 
         # Apply positional args in order
-        for name, val in zip(param_names, args):
+        for name, val in zip(param_names, args, strict=False):
             setattr(params_obj, name, val)
 
         # Apply keyword overrides

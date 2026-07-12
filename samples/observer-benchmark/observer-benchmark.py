@@ -37,7 +37,7 @@ class St(bt.Strategy):
 
     def start(self):
         if self.p.printout:
-            txtfields = list()
+            txtfields = []
             txtfields.append("Len")
             txtfields.append("Datetime")
             txtfields.append("Open")
@@ -51,15 +51,15 @@ class St(bt.Strategy):
     def next(self):
         if self.p.printout:
             # Print only 1st data ... is just a check that things are running
-            txtfields = list()
+            txtfields = []
             txtfields.append("%04d" % len(self))
             txtfields.append(self.data.datetime.datetime(0).isoformat())
-            txtfields.append("%.2f" % self.data0.open[0])
-            txtfields.append("%.2f" % self.data0.high[0])
-            txtfields.append("%.2f" % self.data0.low[0])
-            txtfields.append("%.2f" % self.data0.close[0])
-            txtfields.append("%.2f" % self.data0.volume[0])
-            txtfields.append("%.2f" % self.data0.openinterest[0])
+            txtfields.append(f"{self.data0.open[0]:.2f}")
+            txtfields.append(f"{self.data0.high[0]:.2f}")
+            txtfields.append(f"{self.data0.low[0]:.2f}")
+            txtfields.append(f"{self.data0.close[0]:.2f}")
+            txtfields.append(f"{self.data0.volume[0]:.2f}")
+            txtfields.append(f"{self.data0.openinterest[0]:.2f}")
             print(",".join(txtfields))
 
         if self.position:
@@ -91,7 +91,7 @@ def runstrat(args=None):
     cerebro = bt.Cerebro()
     cerebro.broker.set_cash(args.cash)
 
-    dkwargs = dict()
+    dkwargs = {}
     if args.fromdate:
         fromdate = datetime.datetime.strptime(args.fromdate, "%Y-%m-%d")
         dkwargs["fromdate"] = fromdate
@@ -125,7 +125,7 @@ def runstrat(args=None):
     cerebro.run()
 
     if args.plot:
-        pkwargs = dict()
+        pkwargs = {}
         if args.plot is not True:  # evals to True but is not True
             pkwargs = eval("dict(" + args.plot + ")")  # args were passed
 

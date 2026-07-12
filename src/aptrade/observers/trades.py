@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
 ###############################################################################
 #
 # Copyright (C) 2015-2023 Daniel Rodriguez
@@ -18,12 +17,10 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
-from __future__ import absolute_import, division, print_function, unicode_literals
 
 import uuid
 
-from .. import Observer
-from ..trade import Trade
+from aptrade.observer import Observer
 
 
 class Trades(Observer):
@@ -45,34 +42,34 @@ class Trades(Observer):
 
     lines = ("pnlplus", "pnlminus")
 
-    params = dict(pnlcomm=True)
+    params = {"pnlcomm": True}
 
-    plotinfo = dict(
-        plot=True,
-        subplot=True,
-        plotname="Trades - Net Profit/Loss",
-        plotymargin=0.10,
-        plothlines=[0.0],
-    )
+    plotinfo = {
+        "plot": True,
+        "subplot": True,
+        "plotname": "Trades - Net Profit/Loss",
+        "plotymargin": 0.10,
+        "plothlines": [0.0],
+    }
 
-    plotlines = dict(
-        pnlplus=dict(
-            _name="Positive",
-            ls="",
-            marker="o",
-            color="blue",
-            markersize=8.0,
-            fillstyle="full",
-        ),
-        pnlminus=dict(
-            _name="Negative",
-            ls="",
-            marker="o",
-            color="red",
-            markersize=8.0,
-            fillstyle="full",
-        ),
-    )
+    plotlines = {
+        "pnlplus": {
+            "_name": "Positive",
+            "ls": "",
+            "marker": "o",
+            "color": "blue",
+            "markersize": 8.0,
+            "fillstyle": "full",
+        },
+        "pnlminus": {
+            "_name": "Negative",
+            "ls": "",
+            "marker": "o",
+            "color": "red",
+            "markersize": 8.0,
+            "fillstyle": "full",
+        },
+    }
 
     def __init__(self):
         self.trades = 0
@@ -115,17 +112,17 @@ class Trades(Observer):
 
 
 class MetaDataTrades(Observer.__class__):
-    def donew(cls, *args, **kwargs):
-        _obj, args, kwargs = super(MetaDataTrades, cls).donew(*args, **kwargs)
+    def donew(self, *args, **kwargs):
+        _obj, args, kwargs = super().donew(*args, **kwargs)
 
         # Recreate the lines dynamically
         if _obj.params.usenames:
             lnames = tuple(x._name for x in _obj.datas)
         else:
-            lnames = tuple("data{}".format(x) for x in range(len(_obj.datas)))
+            lnames = tuple(f"data{x}" for x in range(len(_obj.datas)))
 
         # Generate a new lines class
-        linescls = cls.lines._derive(uuid.uuid4().hex, lnames, 0, ())
+        linescls = self.lines._derive(uuid.uuid4().hex, lnames, 0, ())
 
         # Instantiate lines
         _obj.lines = linescls()
@@ -175,14 +172,14 @@ class MetaDataTrades(Observer.__class__):
             "m",
         ]
 
-        basedict = dict(ls="", markersize=8.0, fillstyle="full")
+        basedict = {"ls": "", "markersize": 8.0, "fillstyle": "full"}
 
-        plines = dict()
-        for lname, marker, color in zip(lnames, markers, colors):
+        plines = {}
+        for lname, marker, color in zip(lnames, markers, colors, strict=False):
             plines[lname] = d = basedict.copy()
             d.update(marker=marker, color=color)
 
-        plotlines = cls.plotlines._derive(uuid.uuid4().hex, plines, [], recurse=True)
+        plotlines = self.plotlines._derive(uuid.uuid4().hex, plines, [], recurse=True)
         _obj.plotlines = plotlines()
 
         return _obj, args, kwargs  # return the instantiated object and args
@@ -193,9 +190,9 @@ class DataTrades(Observer, metaclass=MetaDataTrades):
 
     params = (("usenames", True),)
 
-    plotinfo = dict(plot=True, subplot=True, plothlines=[0.0], plotymargin=0.10)
+    plotinfo = {"plot": True, "subplot": True, "plothlines": [0.0], "plotymargin": 0.10}
 
-    plotlines = dict()
+    plotlines = {}
 
     def next(self):
         for trade in self._owner._tradespending:

@@ -32,14 +32,14 @@ class PlotStrategy(bt.Strategy):
     The strategy does nothing but create indicators for plotting purposes
     """
 
-    params = dict(
-        smasubplot=False,  # default for Moving averages
-        nomacdplot=False,
-        rsioverstoc=False,
-        rsioversma=False,
-        stocrsi=False,
-        stocrsilabels=False,
-    )
+    params = {
+        "smasubplot": False,  # default for Moving averages
+        "nomacdplot": False,
+        "rsioverstoc": False,
+        "rsioversma": False,
+        "stocrsi": False,
+        "stocrsilabels": False,
+    }
 
     def __init__(self):
         sma = btind.SMA(subplot=self.params.smasubplot)

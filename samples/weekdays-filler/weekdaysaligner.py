@@ -43,8 +43,8 @@ class St(bt.Strategy):
 
         txt = ""
         txt += "%04d, %5s" % (len(self), str(dtequal))
-        txt += ", data0, %s" % self.data0.datetime.datetime().isoformat()
-        txt += ", %s, data1" % self.data1.datetime.datetime().isoformat()
+        txt += f", data0, {self.data0.datetime.datetime().isoformat()}"
+        txt += f", {self.data1.datetime.datetime().isoformat()}, data1"
         print(txt)
 
 

@@ -74,10 +74,10 @@ class MetaIBData(DataBase.__class__):
     ``IBStore.getdata()`` instantiate the data feed without a circular import.
     """
 
-    def __init__(cls, name, bases, dct):
+    def __init__(self, name, bases, dct):
         """Register the newly created data class with the store."""
         super().__init__(name, bases, dct)
-        IBStore.DataCls = cls
+        IBStore.DataCls = self
 
 
 class IBData(DataBase, metaclass=MetaIBData):
@@ -269,20 +269,20 @@ class IBData(DataBase, metaclass=MetaIBData):
 
         Priority:
         1. If ``self.p.tz`` is a non-string object (e.g. a pytz timezone),
-           wrap it in a Backtrader ``Localizer`` and return it.
+           wrap it in a Backtrader ``localizer`` and return it.
         2. If ``self.p.tz`` is a string, treat it as a pytz timezone name.
         3. Otherwise fall back to the ``timeZoneId`` reported in the IB
            contract details.
 
         Returns:
-            A pytz timezone object, a Backtrader Localizer, or ``None`` if
+            A pytz timezone object, a Backtrader localizer, or ``None`` if
             the timezone cannot be determined (pytz not installed, unknown
             zone, no contract details yet).
         """
         tzstr = isinstance(self.p.tz, str)
         if self.p.tz is not None and not tzstr:
             # Caller passed a tzinfo object directly — wrap it.
-            return bt.utils.date.Localizer(self.p.tz)
+            return bt.utils.date.localizer(self.p.tz)
 
         if self.contractdetails is None:
             return None  # contract details not yet available

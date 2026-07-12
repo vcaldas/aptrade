@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
 ###############################################################################
 #
 # Copyright (C) 2015-2023 Daniel Rodriguez
@@ -18,14 +17,13 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
-from __future__ import absolute_import, division, print_function, unicode_literals
 
-import aptrade as bt
+from aptrade.indicator import Indicator
+from aptrade.indicators.mabase import MovAv
+from aptrade.indicators.momentum import RateOfChange100 as ROC100
 
-from . import ROC100, SMA
 
-
-class KnowSureThing(bt.Indicator):
+class KnowSureThing(Indicator):
     """
     It is a "summed" momentum indicator. Developed by Martin Pring and
     published in 1992 in Stocks & Commodities.
@@ -69,11 +67,11 @@ class KnowSureThing(bt.Indicator):
         ("rma4", 10),
         ("rsignal", 9),
         ("rfactors", [1.0, 2.0, 3.0, 4.0]),
-        ("_rmovav", SMA),
-        ("_smovav", SMA),
+        ("_rmovav", MovAv.SMA),
+        ("_smovav", MovAv.SMA),
     )
 
-    plotinfo = dict(plothlines=[0.0])
+    plotinfo = {"plothlines": [0.0]}
 
     def __init__(self):
         rcma1 = self.p._rmovav(ROC100(period=self.p.rp1), period=self.p.rma1)
@@ -83,9 +81,11 @@ class KnowSureThing(bt.Indicator):
         self.l.kst = sum(
             [
                 rfi * rci
-                for rfi, rci in zip(self.p.rfactors, [rcma1, rcma2, rcma3, rcma4])
+                for rfi, rci in zip(
+                    self.p.rfactors, [rcma1, rcma2, rcma3, rcma4], strict=False
+                )
             ]
         )
 
         self.l.signal = self.p._smovav(self.l.kst, period=self.p.rsignal)
-        super(KnowSureThing, self).__init__()
+        super().__init__()

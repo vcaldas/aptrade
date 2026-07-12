@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
 ###############################################################################
 #
 # Copyright (C) 2015-2023 Daniel Rodriguez
@@ -18,9 +17,12 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
-from __future__ import absolute_import, division, print_function, unicode_literals
 
-from . import ATR, And, If, Indicator, MovAv
+
+from aptrade.functions import And, If
+from aptrade.indicator import Indicator
+from aptrade.indicators.atr import AverageTrueRange as ATR
+from aptrade.indicators.mabase import MovAv
 
 
 class UpMove(Indicator):
@@ -42,7 +44,7 @@ class UpMove(Indicator):
 
     def __init__(self):
         self.lines.upmove = self.data - self.data(-1)
-        super(UpMove, self).__init__()
+        super().__init__()
 
 
 class DownMove(Indicator):
@@ -64,7 +66,7 @@ class DownMove(Indicator):
 
     def __init__(self):
         self.lines.downmove = self.data(-1) - self.data
-        super(DownMove, self).__init__()
+        super().__init__()
 
 
 class _DirectionalIndicator(Indicator):
@@ -80,7 +82,7 @@ class _DirectionalIndicator(Indicator):
 
     params = (("period", 14), ("movav", MovAv.Smoothed))
 
-    plotlines = dict(plusDI=dict(_name="+DI"), minusDI=dict(_name="-DI"))
+    plotlines = {"plusDI": {"_name": "+DI"}, "minusDI": {"_name": "-DI"}}
 
     def _plotlabel(self):
         plabels = [self.p.period]
@@ -107,7 +109,7 @@ class _DirectionalIndicator(Indicator):
 
             self.DIminus = 100.0 * minusDMav / atr
 
-        super(_DirectionalIndicator, self).__init__()
+        super().__init__()
 
 
 class DirectionalIndicator(_DirectionalIndicator):
@@ -147,7 +149,7 @@ class DirectionalIndicator(_DirectionalIndicator):
     )
 
     def __init__(self):
-        super(DirectionalIndicator, self).__init__()
+        super().__init__()
 
         self.lines.plusDI = self.DIplus
         self.lines.minusDI = self.DIminus
@@ -184,10 +186,10 @@ class PlusDirectionalIndicator(_DirectionalIndicator):
     alias = (("PlusDI", "+DI"),)
     lines = ("plusDI",)
 
-    plotinfo = dict(plotname="+DirectionalIndicator")
+    plotinfo = {"plotname": "+DirectionalIndicator"}
 
     def __init__(self):
-        super(PlusDirectionalIndicator, self).__init__(_minus=False)
+        super().__init__(_minus=False)
 
         self.lines.plusDI = self.DIplus
 
@@ -223,10 +225,10 @@ class MinusDirectionalIndicator(_DirectionalIndicator):
     alias = (("MinusDI", "-DI"),)
     lines = ("minusDI",)
 
-    plotinfo = dict(plotname="-DirectionalIndicator")
+    plotinfo = {"plotname": "-DirectionalIndicator"}
 
     def __init__(self):
-        super(MinusDirectionalIndicator, self).__init__(_plus=False)
+        super().__init__(_plus=False)
 
         self.lines.minusDI = self.DIminus
 
@@ -267,10 +269,10 @@ class AverageDirectionalMovementIndex(_DirectionalIndicator):
 
     lines = ("adx",)
 
-    plotlines = dict(adx=dict(_name="ADX"))
+    plotlines = {"adx": {"_name": "ADX"}}
 
     def __init__(self):
-        super(AverageDirectionalMovementIndex, self).__init__()
+        super().__init__()
 
         dx = abs(self.DIplus - self.DIminus) / (self.DIplus + self.DIminus)
         self.lines.adx = 100.0 * self.p.movav(dx, period=self.p.period)
@@ -314,10 +316,10 @@ class AverageDirectionalMovementIndexRating(AverageDirectionalMovementIndex):
     alias = ("ADXR",)
 
     lines = ("adxr",)
-    plotlines = dict(adxr=dict(_name="ADXR"))
+    plotlines = {"adxr": {"_name": "ADXR"}}
 
     def __init__(self):
-        super(AverageDirectionalMovementIndexRating, self).__init__()
+        super().__init__()
 
         self.lines.adxr = (self.l.adx + self.l.adx(-self.p.period)) / 2.0
 

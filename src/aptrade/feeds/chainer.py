@@ -21,15 +21,16 @@
 from datetime import datetime
 
 import aptrade as bt
+from aptrade.feed import DataBase
 
 
-class MetaChainer(bt.DataBase.__class__):
-    def __init__(cls, name, bases, dct):
+class MetaChainer(DataBase.__class__):
+    def __init__(self, name, bases, dct):
         """Class has already been created ... register"""
         # Initialize the class
         super().__init__(name, bases, dct)
 
-    def donew(cls, *args, **kwargs):
+    def donew(self, *args, **kwargs):
         """Intercept const. to copy timeframe/compression from 1st data"""
         # Create the object and set the params in place
         _obj, args, kwargs = super().donew(*args, **kwargs)
@@ -41,7 +42,7 @@ class MetaChainer(bt.DataBase.__class__):
         return _obj, args, kwargs
 
 
-class Chainer(bt.DataBase, metaclass=MetaChainer):
+class Chainer(DataBase, metaclass=MetaChainer):
     """Class that chains datas"""
 
     def islive(self):
@@ -76,7 +77,7 @@ class Chainer(bt.DataBase, metaclass=MetaChainer):
         timezone"""
         if self._args:
             return self._args[0]._gettz()
-        return bt.utils.date.Localizer(self.p.tz)
+        return bt.utils.date.localizer(self.p.tz)
 
     def _load(self):
         while self._d is not None:

@@ -25,19 +25,19 @@ import aptrade as bt
 
 
 class St(bt.Strategy):
-    params = dict(
-        ma=bt.ind.SMA,
-        p1=5,
-        p2=15,
-        limit=0.005,
-        limdays=3,
-        limdays2=1000,
-        hold=10,
-        usetarget=False,  # use order_target_size
-        switchp1p2=False,  # switch prices of order1 and order2
-        oco1oco2=False,  # False - use order1 as oco for order3, else order2
-        do_oco=True,  # use oco or not
-    )
+    params = {
+        "ma": bt.ind.SMA,
+        "p1": 5,
+        "p2": 15,
+        "limit": 0.005,
+        "limdays": 3,
+        "limdays2": 1000,
+        "hold": 10,
+        "usetarget": False,  # use order_target_size
+        "switchp1p2": False,  # switch prices of order1 and order2
+        "oco1oco2": False,  # False - use order1 as oco for order3, else order2
+        "do_oco": True,  # use oco or not
+    }
 
     def notify_order(self, order):
         print(
@@ -59,7 +59,7 @@ class St(bt.Strategy):
         ma1, ma2 = self.p.ma(period=self.p.p1), self.p.ma(period=self.p.p2)
         self.cross = bt.ind.CrossOver(ma1, ma2)
 
-        self.orefs = list()
+        self.orefs = []
 
         if self.p.usetarget:
             print("-" * 5, "Using order_target_size")
@@ -88,7 +88,7 @@ class St(bt.Strategy):
 
                 print("valid1 is:", valid1)
 
-                kargs = dict(exectype=bt.Order.Limit)
+                kargs = {"exectype": bt.Order.Limit}
                 kargs[("target" * self.p.usetarget) or "size"] = 1
 
                 o1 = self._dobuy(price=p1, valid=valid1, **kargs)
@@ -121,7 +121,7 @@ def runstrat(args=None):
     cerebro = bt.Cerebro()
 
     # Data feed kwargs
-    kwargs = dict()
+    kwargs = {}
 
     # Parse from/to-date
     dtfmt, tmfmt = "%Y-%m-%d", "T%H:%M:%S"

@@ -25,17 +25,17 @@ import aptrade as bt
 
 
 class St(bt.Strategy):
-    params = dict(
-        ma=bt.ind.SMA,
-        p1=5,
-        p2=15,
-        limit=0.005,
-        limdays=3,
-        limdays2=1000,
-        hold=10,
-        usebracket=False,  # use order_target_size
-        switchp1p2=False,  # switch prices of order1 and order2
-    )
+    params = {
+        "ma": bt.ind.SMA,
+        "p1": 5,
+        "p2": 15,
+        "limit": 0.005,
+        "limdays": 3,
+        "limdays2": 1000,
+        "hold": 10,
+        "usebracket": False,  # use order_target_size
+        "switchp1p2": False,  # switch prices of order1 and order2
+    }
 
     def notify_order(self, order):
         print(
@@ -57,7 +57,7 @@ class St(bt.Strategy):
         ma1, ma2 = self.p.ma(period=self.p.p1), self.p.ma(period=self.p.p2)
         self.cross = bt.ind.CrossOver(ma1, ma2)
 
-        self.orefs = list()
+        self.orefs = []
 
         if self.p.usebracket:
             print("-" * 5, "Using buy_bracket")
@@ -114,9 +114,9 @@ class St(bt.Strategy):
                         price=p1,
                         valid=valid1,
                         stopprice=p2,
-                        stopargs=dict(valid=valid2),
+                        stopargs={"valid": valid2},
                         limitprice=p3,
-                        limitargs=dict(valid=valid3),
+                        limitargs={"valid": valid3},
                     )
 
                     self.orefs = [o.ref for o in os]
@@ -132,7 +132,7 @@ def runstrat(args=None):
     cerebro = bt.Cerebro()
 
     # Data feed kwargs
-    kwargs = dict()
+    kwargs = {}
 
     # Parse from/to-date
     dtfmt, tmfmt = "%Y-%m-%d", "T%H:%M:%S"

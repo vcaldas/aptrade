@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
 ###############################################################################
 #
 # Copyright (C) 2015-2023 Daniel Rodriguez
@@ -29,7 +28,7 @@ class CurrentTestStrategy(testcommon.SampleParamsHolder):
     """
 
     def setup_method(self):
-        super(CurrentTestStrategy, self).__init__()
+        super().__init__()
         # Prepare the lags array
 
 
@@ -39,7 +38,7 @@ def test_run(main=False):
     Bug Discussion:
     https://community.backtrader.com/topic/2661/frompackages-directive-functionality-seems-to-be-broken-when-using-inheritance
     """
-    test = CurrentTestStrategy()
+    CurrentTestStrategy()
 
 
 if __name__ == "__main__":

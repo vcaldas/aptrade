@@ -18,17 +18,16 @@
 #
 ###############################################################################
 
-import aptrade as bt
-from aptrade.feed import DataBase
+from aptrade.feed import DataBase, FeedBase
 from aptrade.stores import parquetstore
 from aptrade.utils.dateintern import date2num
 
 
 class MetaParquetData(DataBase.__class__):
-    def __init__(cls, name, bases, dct):
+    def __init__(self, name, bases, dct):
         """Class has already been created ... register"""
         super().__init__(name, bases, dct)
-        parquetstore.ParquetStore.DataCls = cls
+        parquetstore.ParquetStore.DataCls = self
 
 
 class ParquetData(DataBase, metaclass=MetaParquetData):
@@ -71,7 +70,7 @@ class ParquetData(DataBase, metaclass=MetaParquetData):
         self.parquet = self._store(path=self.p.path)
         self._df = None
         self._idx = -1
-        self._colmapping = dict()
+        self._colmapping = {}
 
     def setenvironment(self, env):
         super().setenvironment(env)
@@ -102,7 +101,7 @@ class ParquetData(DataBase, metaclass=MetaParquetData):
         self._build_colmapping()
 
     def _build_colmapping(self):
-        self._colmapping = dict()
+        self._colmapping = {}
 
         if self._df is None:
             return
@@ -136,7 +135,7 @@ class ParquetData(DataBase, metaclass=MetaParquetData):
                 x.lower() if isinstance(x, str) else x for x in self._df.columns.values
             ]
         else:
-            normalized = [x for x in self._df.columns.values]
+            normalized = list(self._df.columns.values)
 
         for key, value in self._colmapping.items():
             if value is None:
@@ -199,7 +198,7 @@ class ParquetData(DataBase, metaclass=MetaParquetData):
         return True
 
 
-class ParquetGeneric(bt.FeedBase):
+class ParquetGeneric(FeedBase):
     """Feed factory for ``ParquetData``."""
 
     DataCls = ParquetData

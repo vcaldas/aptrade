@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
 ###############################################################################
 #
 # Copyright (C) 2015-2023 Daniel Rodriguez
@@ -29,8 +28,6 @@ to define interfaces and hierarchy for the real operational classes
 
 """
 
-from __future__ import absolute_import, division, print_function, unicode_literals
-
 import operator
 
 from . import metabase
@@ -42,8 +39,8 @@ class MetaLineRoot(metabase.MetaParams):
     class is sought
     """
 
-    def donew(cls, *args, **kwargs):
-        _obj, args, kwargs = super(MetaLineRoot, cls).donew(*args, **kwargs)
+    def donew(self, *args, **kwargs):
+        _obj, args, kwargs = super().donew(*args, **kwargs)
 
         # Find the owner and store it
         # startlevel = 4 ... to skip intermediate call stacks
@@ -301,12 +298,12 @@ class LineMultiple(LineRoot):
         self.lines.reset()
 
     def _stage1(self):
-        super(LineMultiple, self)._stage1()
+        super()._stage1()
         for line in self.lines:
             line._stage1()
 
     def _stage2(self):
-        super(LineMultiple, self)._stage2()
+        super()._stage2()
         for line in self.lines:
             line._stage2()
 

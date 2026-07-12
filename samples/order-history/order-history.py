@@ -55,7 +55,7 @@ ORDER_HISTORY = (
 
 
 class SmaCross(bt.SignalStrategy):
-    params = dict(sma1=10, sma2=20)
+    params = {"sma1": 10, "sma2": 20}
 
     def notify_order(self, order):
         if not order.alive():
@@ -83,7 +83,7 @@ class SmaCross(bt.SignalStrategy):
 
 
 class St(bt.Strategy):
-    params = dict()
+    params = {}
 
     def notify_order(self, order):
         if not order.alive():
@@ -116,7 +116,7 @@ def runstrat(args=None):
     cerebro = bt.Cerebro()
 
     # Data feed kwargs
-    kwargs = dict()
+    kwargs = {}
 
     # Parse from/to-date
     dtfmt, tmfmt = "%Y-%m-%d", "T%H:%M:%S"

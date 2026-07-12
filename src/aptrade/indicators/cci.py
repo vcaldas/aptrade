@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
 ###############################################################################
 #
 # Copyright (C) 2015-2023 Daniel Rodriguez
@@ -18,9 +17,10 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
-from __future__ import absolute_import, division, print_function, unicode_literals
 
-from . import Indicator, Max, MeanDev, MovAv
+from aptrade.indicator import Indicator
+from aptrade.indicators.deviation import MeanDeviation
+from aptrade.indicators.mabase import MovAv
 
 
 class CommodityChannelIndex(Indicator):
@@ -65,8 +65,8 @@ class CommodityChannelIndex(Indicator):
         tpmean = self.p.movav(tp, period=self.p.period)
 
         dev = tp - tpmean
-        meandev = MeanDev(tp, tpmean, period=self.p.period)
+        meandev = MeanDeviation(tp, tpmean, period=self.p.period)
 
         self.lines.cci = dev / (self.p.factor * meandev)
 
-        super(CommodityChannelIndex, self).__init__()
+        super().__init__()

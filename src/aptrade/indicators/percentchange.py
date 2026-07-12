@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
 ###############################################################################
 #
 # Copyright (C) 2015-2023 Daniel Rodriguez
@@ -18,7 +17,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
-from __future__ import absolute_import, division, print_function, unicode_literals
 
 from . import Indicator
 
@@ -35,11 +33,11 @@ class PercentChange(Indicator):
     lines = ("pctchange",)
 
     # Fancy plotting name
-    plotlines = dict(pctchange=dict(_name="%change"))
+    plotlines = {"pctchange": {"_name": "%change"}}
 
     # update value to standard for Moving Averages
     params = (("period", 30),)
 
     def __init__(self):
         self.lines.pctchange = self.data / self.data(-self.p.period) - 1.0
-        super(PercentChange, self).__init__()
+        super().__init__()

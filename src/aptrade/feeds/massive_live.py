@@ -6,13 +6,14 @@ API every minute to get real-time snapshots of all stocks.
 
 import random
 import time
-from datetime import datetime, timezone
+from collections.abc import Callable
+from datetime import UTC, datetime
 from queue import Queue
 from threading import Event, Lock, Thread
-from typing import Any, Dict, List, Optional
-from ib_async import Contract
-from aptrade.core.logger import get_logger
+from typing import Any
+
 import pytz
+from ib_async import Contract
 from massive import RESTClient
 from massive.rest.models import (
     Agg,
@@ -20,6 +21,7 @@ from massive.rest.models import (
 )
 
 import aptrade as bt
+from aptrade.core.logger import get_logger
 
 logger = get_logger()
 
@@ -87,7 +89,7 @@ class MockMassiveAPI:
                 self.updated = updated
 
         snapshots = []
-        now_ms = int(datetime.now(timezone.utc).timestamp() * 1000)
+        now_ms = int(datetime.now(UTC).timestamp() * 1000)
 
         for ticker in self._tickers:
             # Update price with random walk
@@ -149,9 +151,9 @@ class MassiveAPIClient:
         if use_mock:
             self._client = MockMassiveAPI(num_tickers=mock_tickers)
         else:
-            self._client: Optional[RESTClient] = None
+            self._client: RESTClient | None = None
 
-        self._last_fetch_time: Optional[datetime] = None
+        self._last_fetch_time: datetime | None = None
         self._last_snapshot_count: int = 0
 
     def _get_client(self) -> RESTClient:
@@ -160,17 +162,17 @@ class MassiveAPIClient:
             return self._client
         if self._client is None:
             logger.info(
-                f"[MassiveAPIClient] No client found. Lazy-initializing RESTClient with API key"
+                "[MassiveAPIClient] No client found. Lazy-initializing RESTClient with API key"
             )
             try:
                 self._client = RESTClient(self.api_key)
-                logger.info(f"[MassiveAPIClient] RESTClient initialized successfully")
+                logger.info("[MassiveAPIClient] RESTClient initialized successfully")
             except Exception as e:
                 logger.error(f"[MassiveAPIClient] Failed to initialize RESTClient: {e}")
                 raise
         return self._client
 
-    def fetch_snapshots(self) -> List[TickerSnapshot]:
+    def fetch_snapshots(self) -> list[TickerSnapshot]:
         """Fetch all stock snapshots from Massive API.
 
         Returns:
@@ -186,7 +188,7 @@ class MassiveAPIClient:
                 start_time = time.time()
                 snapshots = client.get_snapshot_all("stocks")
                 elapsed = time.time() - start_time
-                for i, item in enumerate(snapshots):
+                for _i, item in enumerate(snapshots):
                     # verify this is an TickerSnapshot
                     if isinstance(item, TickerSnapshot):
                         # verify this is an Agg
@@ -195,19 +197,18 @@ class MassiveAPIClient:
                             if isinstance(
                                 item.prev_day.open, float | int
                             ) and isinstance(item.prev_day.close, float | int):
-                                percent_change = item.todays_change_percent
+                                pass
 
                 # Filter for valid snapshots (use duck typing - must have ticker attribute)
                 valid_snapshots = [
                     snap for snap in snapshots if hasattr(snap, "ticker")
                 ]
 
-                self._last_fetch_time = datetime.now(timezone.utc)
+                self._last_fetch_time = datetime.now(UTC)
                 self._last_snapshot_count = len(valid_snapshots)
 
                 logger.info(
-                    f"Fetched {len(valid_snapshots)} stock snapshots "
-                    f"in {elapsed:.2f}s"
+                    f"Fetched {len(valid_snapshots)} stock snapshots in {elapsed:.2f}s"
                 )
                 return valid_snapshots
 
@@ -217,7 +218,7 @@ class MassiveAPIClient:
                 )
                 # Log more details about the error for debugging auth issues
                 if "authorization" in str(e).lower() or "malformed" in str(e).lower():
-                    logger.error(f"[MassiveAPIClient] AUTHORIZATION ERROR detected!")
+                    logger.error("[MassiveAPIClient] AUTHORIZATION ERROR detected!")
                     logger.error(f"[MassiveAPIClient] Error message: {str(e)}")
 
                 if attempt < self.max_retries - 1:
@@ -230,7 +231,7 @@ class MassiveAPIClient:
 
         return []
 
-    def fetch_gappers(self) -> List[TickerSnapshot]:
+    def fetch_gappers(self) -> list[TickerSnapshot]:
         """Fetch all stock snapshots from Massive API.
 
         Returns:
@@ -248,7 +249,7 @@ class MassiveAPIClient:
                     "stocks", direction="gainers", include_otc=False
                 )
                 elapsed = time.time() - start_time
-                for i, item in enumerate(snapshots):
+                for _i, item in enumerate(snapshots):
                     # verify this is an TickerSnapshot
                     if isinstance(item, TickerSnapshot):
                         # verify this is an Agg
@@ -257,7 +258,6 @@ class MassiveAPIClient:
                             if isinstance(
                                 item.prev_day.open, float | int
                             ) and isinstance(item.prev_day.close, float | int):
-                                percent_change = item.todays_change_percent
                                 pass
                                 # print(f"{item.ticker}: {percent_change:.2f}%")
                 # Filter for valid snapshots (use duck typing - must have ticker attribute)
@@ -265,12 +265,11 @@ class MassiveAPIClient:
                     snap for snap in snapshots if hasattr(snap, "ticker")
                 ]
 
-                self._last_fetch_time = datetime.now(timezone.utc)
+                self._last_fetch_time = datetime.now(UTC)
                 self._last_snapshot_count = len(valid_snapshots)
 
                 logger.info(
-                    f"Fetched {len(valid_snapshots)} stock snapshots "
-                    f"in {elapsed:.2f}s"
+                    f"Fetched {len(valid_snapshots)} stock snapshots in {elapsed:.2f}s"
                 )
                 return valid_snapshots
 
@@ -280,7 +279,7 @@ class MassiveAPIClient:
                 )
                 # Log more details about the error for debugging auth issues
                 if "authorization" in str(e).lower() or "malformed" in str(e).lower():
-                    logger.error(f"[MassiveAPIClient] AUTHORIZATION ERROR detected!")
+                    logger.error("[MassiveAPIClient] AUTHORIZATION ERROR detected!")
                     logger.error(
                         f"[MassiveAPIClient] API key length: {len(self.api_key) if self.api_key else 0}"
                     )
@@ -299,7 +298,7 @@ class MassiveAPIClient:
 
         return []
 
-    def get_stats(self) -> Dict[str, Any]:
+    def get_stats(self) -> dict[str, Any]:
         """Get client statistics.
 
         Returns:
@@ -320,7 +319,7 @@ class MassiveAPIClient:
         adjusted: str = "true",
         sort: str = "asc",
         limit: int = 1200,
-    ) -> List[Agg]:
+    ) -> list[Agg]:
         # Get date range (e.g., last 25 days)
         end_date = datetime.now()
         client = self._get_client()
@@ -341,12 +340,12 @@ class MassiveAPIClient:
 
 
 def convert_timestamp_to_et(timestamp_ms):
-    dt = datetime.fromtimestamp(timestamp_ms / 1000, tz=timezone.utc)
+    dt = datetime.fromtimestamp(timestamp_ms / 1000, tz=UTC)
     dt_et = dt.astimezone(pytz.timezone("America/New_York"))
     return dt_et
 
 
-def extract_ohlcv(snapshot: TickerSnapshot) -> Optional[Agg]:
+def extract_ohlcv(snapshot: TickerSnapshot) -> Agg | None:
     """Extract OHLCV data from a TickerSnapshot as an Agg.
 
     Args:
@@ -378,12 +377,12 @@ def extract_ohlcv(snapshot: TickerSnapshot) -> Optional[Agg]:
 
     # ALWAYS use current time instead of API timestamp
     # The API's 'updated' field often contains stale timestamps
-    dt = datetime.now(timezone.utc)
+    dt = datetime.now(UTC)
 
     # Log if API timestamp is very old for debugging
     if hasattr(snapshot, "updated") and isinstance(snapshot.updated, (int, float)):
         try:
-            api_dt = datetime.fromtimestamp(snapshot.updated / 1000, tz=timezone.utc)
+            api_dt = datetime.fromtimestamp(snapshot.updated / 1000, tz=UTC)
             age = (dt - api_dt).total_seconds()
             if age > 300:  # More than 5 minutes old
                 logger.debug(
@@ -480,7 +479,7 @@ class MassiveLiveData(bt.DataBase):
 
     def __init__(self):
         """Initialize the data feed for a single symbol."""
-        super(MassiveLiveData, self).__init__()
+        super().__init__()
 
         # IBBroker expects each data feed to expose a ``tradecontract``.
         # Use a default SMART/USD stock contract keyed by ticker.
@@ -543,7 +542,7 @@ class MassiveLiveData(bt.DataBase):
         # We have a bar - load it into backtrader's lines
         # Convert timestamp from UTC to ET (US market timezone)
         ts = bar.timestamp
-        dt_utc = datetime.fromtimestamp(ts / 1000, tz=timezone.utc)
+        dt_utc = datetime.fromtimestamp(ts / 1000, tz=UTC)
         dt_et = dt_utc.astimezone(pytz.timezone("America/New_York"))
 
         # Convert to timezone-naive datetime for backtrader storage
@@ -561,7 +560,6 @@ class MassiveLiveData(bt.DataBase):
         # logger.info(f"[FEED-LOAD] {self.p.ticker}: Loaded bar at {dt_et.strftime('%H:%M:%S')} (${bar.close:.2f})")
 
         return True
-
 
     def islive(self):
         """Indicate this is a live data feed."""
@@ -581,8 +579,8 @@ class MassiveFeedManager:
         self,
         api_key: str,
         update_interval: int = 60,
-        max_symbols: Optional[int] = None,
-        symbol_filter: Optional[callable] = None,
+        max_symbols: int | None = None,
+        symbol_filter: Callable[[TickerSnapshot], bool] | None = None,
         use_mock: bool = False,
         mock_tickers: int = 100,
         gappers: bool = True,
@@ -610,20 +608,20 @@ class MassiveFeedManager:
         self.symbol_filter = symbol_filter
 
         # Symbol -> DataFeed mapping
-        self._feeds: Dict[str, MassiveLiveData] = {}
+        self._feeds: dict[str, MassiveLiveData] = {}
         self._feeds_lock = Lock()
 
         # Polling thread
-        self._polling_thread: Optional[Thread] = None
+        self._polling_thread: Thread | None = None
         self._stop_event = Event()
         self._running = False
 
         # Cerebro reference (set when initial feeds are created)
-        self._cerebro: Optional[bt.Cerebro] = None
+        self._cerebro: bt.Cerebro | None = None
 
         # Stats
         self._update_count = 0
-        self._last_update_time: Optional[datetime] = None
+        self._last_update_time: datetime | None = None
         self._symbols_updated = 0
         self._symbols_skipped = 0
         self.gappers = gappers
@@ -713,7 +711,7 @@ class MassiveFeedManager:
         )
         return feeds_created
 
-    def _add_feed_from_snapshot(self, snapshot, bar: Optional[Agg] = None) -> bool:
+    def _add_feed_from_snapshot(self, snapshot, bar: Agg | None = None) -> bool:
         """Create and register a feed for a new snapshot symbol.
 
         Returns True if a feed was created, False otherwise.
@@ -773,7 +771,9 @@ class MassiveFeedManager:
         self._polling_thread = Thread(target=self._polling_loop, daemon=False)
         self._polling_thread.start()
 
-        logger.info(f"Started polling thread (interval: {self.update_interval}s, daemon=False)")
+        logger.info(
+            f"Started polling thread (interval: {self.update_interval}s, daemon=False)"
+        )
 
     def stop_feeds(self):
         """Signal all feeds to stop loading data."""
@@ -802,7 +802,9 @@ class MassiveFeedManager:
 
     def _polling_loop(self):
         """Background thread that polls API every update_interval seconds."""
-        logger.info(f"[POLLING-START] Polling loop started, interval={self.update_interval}s")
+        logger.info(
+            f"[POLLING-START] Polling loop started, interval={self.update_interval}s"
+        )
         cycle = 0
         while not self._stop_event.is_set():
             try:
@@ -876,14 +878,14 @@ class MassiveFeedManager:
             # Update existing feed
             feed.push_bar(bar)
             updated += 1
-            
+
             # Log first few feed updates per cycle for diagnostics
             # if updated <= 5:
             #     logger.info(f"[FEED-PUSH] Pushed bar to {ticker} (queue size after push: {feed._bar_queue.qsize()})")
 
         elapsed = time.time() - update_start
 
-        self._last_update_time = datetime.now(timezone.utc)
+        self._last_update_time = datetime.now(UTC)
         self._symbols_updated = updated
         self._symbols_skipped = skipped
 
@@ -891,7 +893,7 @@ class MassiveFeedManager:
             f"[heartbeat] #{cycle} (snapshots: {len(snapshots)}, updated: {updated}, skipped: {skipped}, elapsed: {elapsed:.2f}s)"
         )
 
-    def get_stats(self) -> Dict[str, Any]:
+    def get_stats(self) -> dict[str, Any]:
         """Get manager statistics.
 
         Returns:
@@ -907,7 +909,7 @@ class MassiveFeedManager:
             "api_stats": self.api_client.get_stats(),
         }
 
-    def get_feed(self, ticker: str) -> Optional[MassiveLiveData]:
+    def get_feed(self, ticker: str) -> MassiveLiveData | None:
         """Get a specific data feed by ticker.
 
         Args:
@@ -924,10 +926,10 @@ def setup_massive_live_feeds(
     cerebro: bt.Cerebro,
     api_key: str,
     update_interval: int = 60,
-    max_symbols: Optional[int] = None,
-    min_volume: Optional[float] = None,
-    min_price: Optional[float] = None,
-    max_price: Optional[float] = None,
+    max_symbols: int | None = None,
+    min_volume: float | None = None,
+    min_price: float | None = None,
+    max_price: float | None = None,
     auto_start: bool = True,
     use_mock: bool = False,
     mock_tickers: int = 100,

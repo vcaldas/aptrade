@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
 ###############################################################################
 #
 #  Copyright (C) 2015, 2016, 2017 Daniel Rodriguez
@@ -18,12 +17,11 @@
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
-from __future__ import absolute_import, division, print_function, unicode_literals
 
 import sys
 
 
-class flushfile(object):
+class flushfile:  # noqa: N801
     def __init__(self, f):
         self.f = f
 
@@ -35,12 +33,7 @@ class flushfile(object):
         self.f.flush()
 
 
-if sys.platform == "win32":
-    sys.stdout = flushfile(sys.stdout)
-    sys.stderr = flushfile(sys.stderr)
-
-
-class StdOutDevNull(object):
+class StdOutDevNull:
     def __init__(self):
         self.stdout = sys.stdout
         sys.stdout = self

@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
 ###############################################################################
 #
 # Copyright (C) 2015-2023 Daniel Rodriguez
@@ -18,16 +17,15 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
-from __future__ import absolute_import, division, print_function, unicode_literals
 
-import aptrade as bt
-
-from . import AwesomeOscillator, MovAv
+from aptrade.indicator import Indicator
+from aptrade.indicators.awesomeoscillator import AwesomeOscillator
+from aptrade.indicators.mabase import MovAv
 
 __all__ = ["AccelerationDecelerationOscillator", "AccDeOsc"]
 
 
-class AccelerationDecelerationOscillator(bt.Indicator):
+class AccelerationDecelerationOscillator(Indicator):
     """
     Acceleration/Deceleration Technical Indicator (AC) measures acceleration
     and deceleration of the current driving force. This indicator will change
@@ -51,9 +49,9 @@ class AccelerationDecelerationOscillator(bt.Indicator):
         ("movav", MovAv.SMA),
     )
 
-    plotlines = dict(accde=dict(_method="bar", alpha=0.50, width=1.0))
+    plotlines = {"accde": {"_method": "bar", "alpha": 0.50, "width": 1.0}}
 
     def __init__(self):
         ao = AwesomeOscillator()
         self.l.accde = ao - self.p.movav(ao, period=self.p.period)
-        super(AccelerationDecelerationOscillator, self).__init__()
+        super().__init__()

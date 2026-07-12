@@ -19,4 +19,4 @@
 ###############################################################################
 
 
-from aptrade import Indicator
+from aptrade.indicator import Indicator

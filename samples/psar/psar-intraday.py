@@ -56,10 +56,10 @@ def runstrat(args=None):
     cerebro = bt.Cerebro()
 
     # Data feed kwargs
-    kwargs = dict(
-        timeframe=bt.TimeFrame.Minutes,
-        compression=5,
-    )
+    kwargs = {
+        "timeframe": bt.TimeFrame.Minutes,
+        "compression": 5,
+    }
 
     # Parse from/to-date
     dtfmt, tmfmt = "%Y-%m-%d", "T%H:%M:%S"

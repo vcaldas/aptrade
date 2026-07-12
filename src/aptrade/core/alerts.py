@@ -1,10 +1,12 @@
 import logging
+from collections.abc import Callable, Iterable
 from dataclasses import dataclass
-from typing import Any, Callable, Iterable
+from typing import Any
+
+from aptrade.telegram_bot import get_telegram_bot, telegram_notifications_enabled
 
 from .config import settings
 from .logger import get_logger
-from aptrade.telegram_bot import get_telegram_bot, telegram_notifications_enabled
 
 
 def _parse_event_list(raw: str) -> set[str]:

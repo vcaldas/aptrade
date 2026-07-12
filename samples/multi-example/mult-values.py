@@ -28,7 +28,7 @@ class TestSizer(bt.sizers.AbstractSizer):
     params = (("stake", 1),)
 
     def _getsizing(self, comminfo, cash, data, isbuy):
-        dt, i = self.strategy.datetime.date(), data._id
+        dt, _i = self.strategy.datetime.date(), data._id
         s = self.p.stake * (1 + (not isbuy))
         print(
             "{} Data {} OType {} Sizing to {}".format(
@@ -40,15 +40,15 @@ class TestSizer(bt.sizers.AbstractSizer):
 
 
 class St(bt.Strategy):
-    params = dict(
-        enter=[1, 3, 4],  # data ids are 1 based
-        hold=[7, 10, 15],  # data ids are 1 based
-        usebracket=True,
-        rawbracket=True,
-        pentry=0.015,
-        plimits=0.03,
-        valid=10,
-    )
+    params = {
+        "enter": [1, 3, 4],  # data ids are 1 based
+        "hold": [7, 10, 15],  # data ids are 1 based
+        "usebracket": True,
+        "rawbracket": True,
+        "pentry": 0.015,
+        "plimits": 0.03,
+        "valid": 10,
+    }
 
     def notify_order(self, order):
         if order.status == order.Submitted:
@@ -68,8 +68,8 @@ class St(bt.Strategy):
                 dorders[:] = []  # empty list - New orders allowed
 
     def __init__(self):
-        self.o = dict()  # orders per data (main, stop, limit, manual-close)
-        self.holding = dict()  # holding periods per data
+        self.o = {}  # orders per data (main, stop, limit, manual-close)
+        self.holding = {}  # holding periods per data
 
     def next(self):
         for i, d in enumerate(self.datas):
@@ -124,7 +124,7 @@ class St(bt.Strategy):
                                 price=p,
                                 stopprice=pstp,
                                 limitprice=plmt,
-                                oargs=dict(valid=valid),
+                                oargs={"valid": valid},
                             )
 
                         print(
@@ -152,7 +152,7 @@ def runstrat(args=None):
     cerebro = bt.Cerebro()
 
     # Data feed kwargs
-    kwargs = dict()
+    kwargs = {}
 
     # Parse from/to-date
     dtfmt, tmfmt = "%Y-%m-%d", "T%H:%M:%S"

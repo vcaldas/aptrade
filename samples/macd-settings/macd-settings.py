@@ -23,6 +23,7 @@ import datetime
 
 import aptrade as bt
 
+
 class FixedPerc(bt.sizers.AbstractSizer):
     """This sizer simply returns a fixed size for any operation
 
@@ -137,7 +138,7 @@ def runstrat(args=None):
 
     cerebro.broker.addcommissioninfo(comminfo)
 
-    dkwargs = dict()
+    dkwargs = {}
     if args.fromdate is not None:
         fromdate = datetime.datetime.strptime(args.fromdate, "%Y-%m-%d")
         dkwargs["fromdate"] = fromdate
@@ -196,7 +197,7 @@ def runstrat(args=None):
         alyzer.print()
 
     if args.plot:
-        pkwargs = dict(style="bar")
+        pkwargs = {"style": "bar"}
         if args.plot is not True:  # evals to True but is not True
             npkwargs = eval("dict(" + args.plot + ")")  # args were passed
             pkwargs.update(npkwargs)

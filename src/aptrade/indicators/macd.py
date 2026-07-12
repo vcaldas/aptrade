@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
 ###############################################################################
 #
 # Copyright (C) 2015-2023 Daniel Rodriguez
@@ -18,9 +17,9 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
-from __future__ import absolute_import, division, print_function, unicode_literals
 
-from . import Indicator, MovAv
+from aptrade.indicator import Indicator
+from aptrade.indicators.mabase import MovAv
 
 
 class MACD(Indicator):
@@ -52,17 +51,17 @@ class MACD(Indicator):
         ("movav", MovAv.Exponential),
     )
 
-    plotinfo = dict(plothlines=[0.0])
-    plotlines = dict(signal=dict(ls="--"))
+    plotinfo = {"plothlines": [0.0]}
+    plotlines = {"signal": {"ls": "--"}}
 
     def _plotlabel(self):
-        plabels = super(MACD, self)._plotlabel()
+        plabels = super()._plotlabel()
         if self.p.isdefault("movav"):
             plabels.remove(self.p.movav)
         return plabels
 
     def __init__(self):
-        super(MACD, self).__init__()
+        super().__init__()
         me1 = self.p.movav(self.data, period=self.p.period_me1)
         me2 = self.p.movav(self.data, period=self.p.period_me2)
         self.lines.macd = me1 - me2
@@ -84,8 +83,8 @@ class MACDHisto(MACD):
     alias = ("MACDHistogram",)
 
     lines = ("histo",)
-    plotlines = dict(histo=dict(_method="bar", alpha=0.50, width=1.0))
+    plotlines = {"histo": {"_method": "bar", "alpha": 0.50, "width": 1.0}}
 
     def __init__(self):
-        super(MACDHisto, self).__init__()
+        super().__init__()
         self.lines.histo = self.lines.macd - self.lines.signal

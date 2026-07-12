@@ -167,7 +167,7 @@ class PandasData(feed.DataBase):
         # colsnumeric = not len(list(cstrings))
 
         # Where each datafield find its value
-        self._colmapping = dict()
+        self._colmapping = {}
 
         # Build the column mappings to internal fields in advance
         for datafield in self.getlinealiases():
@@ -204,7 +204,7 @@ class PandasData(feed.DataBase):
         if self.p.nocase:
             colnames = [x.lower() for x in self.p.dataname.columns.values]
         else:
-            colnames = [x for x in self.p.dataname.columns.values]
+            colnames = list(self.p.dataname.columns.values)
 
         for k, v in self._colmapping.items():
             if v is None:
@@ -337,7 +337,7 @@ class PandasDataNew(feed.DataBase):
         # colsnumeric = not len(list(cstrings))
 
         # Where each datafield find its value
-        self._colmapping = dict()
+        self._colmapping = {}
 
         # Build the column mappings to internal fields in advance
         for datafield in self.getlinealiases():
@@ -401,7 +401,7 @@ class PandasDataNew(feed.DataBase):
         if self.p.nocase:
             colnames = [x.lower() for x in self.p.dataframe.columns.values]
         else:
-            colnames = [x for x in self.p.dataframe.columns.values]
+            colnames = list(self.p.dataframe.columns.values)
 
         for k, v in self._colmapping.items():
             if v is None:

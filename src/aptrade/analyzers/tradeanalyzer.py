@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
 ###############################################################################
 #
 # Copyright (C) 2015-2023 Daniel Rodriguez
@@ -18,11 +17,9 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
-from __future__ import absolute_import, division, print_function, unicode_literals
 
-import sys
 
-from aptrade import Analyzer
+from aptrade.analyzer import Analyzer
 from aptrade.utils import AutoDict, AutoOrderedDict
 from aptrade.utils.py3 import MAXINT
 
@@ -70,7 +67,7 @@ class TradeAnalyzer(Analyzer):
         self.rets.total.total = 0
 
     def stop(self):
-        super(TradeAnalyzer, self).stop()
+        super().stop()
         self.rets._close()
 
     def notify_trade(self, trade):
@@ -86,9 +83,9 @@ class TradeAnalyzer(Analyzer):
             # Trade just closed
 
             won = res.won = int(trade.pnlcomm >= 0.0)
-            lost = res.lost = int(not won)
-            tlong = res.tlong = trade.long
-            tshort = res.tshort = not trade.long
+            res.lost = int(not won)
+            res.tlong = trade.long
+            res.tshort = not trade.long
 
             trades.total.open -= 1
             trades.total.closed += 1

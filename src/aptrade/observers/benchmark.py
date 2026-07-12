@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
 ###############################################################################
 #
 # Copyright (C) 2015-2023 Daniel Rodriguez
@@ -18,11 +17,9 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
-from __future__ import absolute_import, division, print_function, unicode_literals
 
 import aptrade as bt
-
-from . import TimeReturn
+from aptrade.observers.timereturn import TimeReturn
 
 
 class Benchmark(TimeReturn):
@@ -82,7 +79,7 @@ class Benchmark(TimeReturn):
     _stclock = True
 
     lines = ("benchmark",)
-    plotlines = dict(benchmark=dict(_name="Benchmark"))
+    plotlines = {"benchmark": {"_name": "Benchmark"}}
 
     params = (
         ("data", None),
@@ -93,7 +90,7 @@ class Benchmark(TimeReturn):
     )
 
     def _plotlabel(self):
-        labels = super(Benchmark, self)._plotlabel()
+        labels = super()._plotlabel()
         labels.append(self.p.data._name)
         return labels
 
@@ -101,7 +98,7 @@ class Benchmark(TimeReturn):
         if self.p.data is None:  # use the 1st data in the system if none given
             self.p.data = self.data0
 
-        super(Benchmark, self).__init__()  # treturn including data parameter
+        super().__init__()  # treturn including data parameter
         # Create a time return object without the data
         kwargs = self.p._getkwargs()
         kwargs.update(data=None)  # to create a return for the stratey
@@ -111,7 +108,7 @@ class Benchmark(TimeReturn):
         self.treturn, self.tbench = t, self.treturn
 
     def next(self):
-        super(Benchmark, self).next()
+        super().next()
         self.lines.benchmark[0] = self.tbench.rets.get(self.treturn.dtkey, float("NaN"))
 
     def prenext(self):

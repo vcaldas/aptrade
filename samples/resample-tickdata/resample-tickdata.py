@@ -43,15 +43,15 @@ def runstrat():
     )
 
     # Handy dictionary for the argument timeframe conversion
-    tframes = dict(
-        ticks=bt.TimeFrame.Ticks,
-        microseconds=bt.TimeFrame.MicroSeconds,
-        seconds=bt.TimeFrame.Seconds,
-        minutes=bt.TimeFrame.Minutes,
-        daily=bt.TimeFrame.Days,
-        weekly=bt.TimeFrame.Weeks,
-        monthly=bt.TimeFrame.Months,
-    )
+    tframes = {
+        "ticks": bt.TimeFrame.Ticks,
+        "microseconds": bt.TimeFrame.MicroSeconds,
+        "seconds": bt.TimeFrame.Seconds,
+        "minutes": bt.TimeFrame.Minutes,
+        "daily": bt.TimeFrame.Days,
+        "weekly": bt.TimeFrame.Weeks,
+        "monthly": bt.TimeFrame.Months,
+    }
 
     # Resample the data
     cerebro.resampledata(

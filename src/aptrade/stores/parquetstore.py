@@ -21,10 +21,10 @@
 import datetime as _dt
 from pathlib import Path
 
-import aptrade as bt
+from aptrade.store import Store
 
 
-class ParquetStore(bt.Store):
+class ParquetStore(Store):
     """Store for local parquet time series files.
 
     Expected directory layout:

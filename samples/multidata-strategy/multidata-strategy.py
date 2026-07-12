@@ -39,17 +39,17 @@ class MultiDataStrategy(bt.Strategy):
     The strategy is a long-only strategy
     """
 
-    params = dict(
-        period=15,
-        stake=10,
-        printout=True,
-    )
+    params = {
+        "period": 15,
+        "stake": 10,
+        "printout": True,
+    }
 
     def log(self, txt, dt=None):
         if self.p.printout:
             dt = dt or self.data.datetime[0]
             dt = bt.num2date(dt)
-            print("%s, %s" % (dt.isoformat(), txt))
+            print(f"{dt.isoformat()}, {txt}")
 
     def notify_order(self, order):
         if order.status in [bt.Order.Submitted, bt.Order.Accepted]:
@@ -57,14 +57,14 @@ class MultiDataStrategy(bt.Strategy):
 
         if order.status == order.Completed:
             if order.isbuy():
-                buytxt = "BUY COMPLETE, %.2f" % order.executed.price
+                buytxt = f"BUY COMPLETE, {order.executed.price:.2f}"
                 self.log(buytxt, order.executed.dt)
             else:
-                selltxt = "SELL COMPLETE, %.2f" % order.executed.price
+                selltxt = f"SELL COMPLETE, {order.executed.price:.2f}"
                 self.log(selltxt, order.executed.dt)
 
         elif order.status in [order.Expired, order.Canceled, order.Margin]:
-            self.log("%s ," % order.Status[order.status])
+            self.log(f"{order.Status[order.status]} ,")
             pass  # Simply log
 
         # Allow new orders
@@ -94,20 +94,20 @@ class MultiDataStrategy(bt.Strategy):
 
         if not self.position:  # not yet in market
             if self.signal > 0.0:  # cross upwards
-                self.log("BUY CREATE , %.2f" % self.data1.close[0])
+                self.log(f"BUY CREATE , {self.data1.close[0]:.2f}")
                 self.buy(size=self.p.stake)
                 self.buy(data=self.data1, size=self.p.stake)
 
         else:  # in the market
             if self.signal < 0.0:  # crosss downwards
-                self.log("SELL CREATE , %.2f" % self.data1.close[0])
+                self.log(f"SELL CREATE , {self.data1.close[0]:.2f}")
                 self.sell(size=self.p.stake)
                 self.sell(data=self.data1, size=self.p.stake)
 
     def stop(self):
         print("==================================================")
-        print("Starting Value - %.2f" % self.broker.startingcash)
-        print("Ending   Value - %.2f" % self.broker.getvalue())
+        print(f"Starting Value - {self.broker.startingcash:.2f}")
+        print(f"Ending   Value - {self.broker.getvalue():.2f}")
         print("==================================================")
 
 

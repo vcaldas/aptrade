@@ -20,7 +20,9 @@
 
 from datetime import datetime
 
-from .. import TimeFrame, feed
+from aptrade import feed
+from aptrade.dataseries import TimeFrame
+
 from ..utils import date2num
 
 

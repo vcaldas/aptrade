@@ -21,15 +21,16 @@
 from datetime import datetime
 
 import aptrade as bt
+from aptrade.feed import DataBase
 
 
-class MetaRollOver(bt.DataBase.__class__):
-    def __init__(cls, name, bases, dct):
+class MetaRollOver(DataBase.__class__):
+    def __init__(self, name, bases, dct):
         """Class has already been created ... register"""
         # Initialize the class
         super().__init__(name, bases, dct)
 
-    def donew(cls, *args, **kwargs):
+    def donew(self, *args, **kwargs):
         """Intercept const. to copy timeframe/compression from 1st data"""
         # Create the object and set the params in place
         _obj, args, kwargs = super().donew(*args, **kwargs)
@@ -41,7 +42,7 @@ class MetaRollOver(bt.DataBase.__class__):
         return _obj, args, kwargs
 
 
-class RollOver(bt.DataBase, metaclass=MetaRollOver):
+class RollOver(DataBase, metaclass=MetaRollOver):
     """Class that rolls over to the next future when a condition is met
 
     Params:
@@ -132,7 +133,7 @@ class RollOver(bt.DataBase, metaclass=MetaRollOver):
         timezone"""
         if self._rolls:
             return self._rolls[0]._gettz()
-        return bt.utils.date.Localizer(self.p.tz)
+        return bt.utils.date.localizer(self.p.tz)
 
     def _checkdate(self, dt, d):
         if self.p.checkdate is not None:
@@ -162,7 +163,7 @@ class RollOver(bt.DataBase, metaclass=MetaRollOver):
             dt0 = self._d.datetime.datetime()  # current dt for active data
 
             # Synchronize other datas using dt0
-            for i, d_dt in enumerate(zip(self._ds, self._dts)):
+            for i, d_dt in enumerate(zip(self._ds, self._dts, strict=False)):
                 d, dt = d_dt
                 while dt < dt0:
                     if d.next() is None:

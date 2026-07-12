@@ -25,10 +25,10 @@ import aptrade as bt
 
 
 class St(bt.Strategy):
-    params = dict(
-        periods=[10, 30],
-        matype=bt.ind.SMA,
-    )
+    params = {
+        "periods": [10, 30],
+        "matype": bt.ind.SMA,
+    }
 
     def __init__(self):
         self.cheating = self.cerebro.p.cheat_on_open
@@ -82,7 +82,7 @@ def runstrat(args=None):
     cerebro = bt.Cerebro()
 
     # Data feed kwargs
-    kwargs = dict()
+    kwargs = {}
 
     # Parse from/to-date
     dtfmt, tmfmt = "%Y-%m-%d", "T%H:%M:%S"

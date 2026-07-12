@@ -565,7 +565,7 @@ class Plot(metaclass=MetaParams):
             trades = self.performance.gen_trades(data_name)
             # orders = self.performance.gen_orders(data_name).groupby('o_datetime')['o_size'].sum().reset_index()
             orders = self.performance.gen_orders(data_name)
-            markers = list()
+            markers = []
             for _, row in orders.iterrows():
                 size = row["o_size"]
                 price = row["o_price"]
@@ -574,24 +574,24 @@ class Plot(metaclass=MetaParams):
                 # text = f'Buy @ {size}' if size>0 else f'Short @ {abs(size)}'
                 text = f"Buy @ {price}" if size > 0 else f"Short @ {price}"
                 markers.append(
-                    dict(
-                        time=row["o_datetime"],
-                        position="below",
-                        shape=shape,
-                        color=color,
-                        text=text,
-                    )
+                    {
+                        "time": row["o_datetime"],
+                        "position": "below",
+                        "shape": shape,
+                        "color": color,
+                        "text": text,
+                    }
                 )
                 markers.append(
-                    dict(
-                        time=row["o_datetime"],
-                        position="atPriceMiddle",
-                        shape="circle",
-                        color=color,
-                        text="",
-                        price=price,
-                        size=0.6,
-                    )
+                    {
+                        "time": row["o_datetime"],
+                        "position": "atPriceMiddle",
+                        "shape": "circle",
+                        "color": color,
+                        "text": "",
+                        "price": price,
+                        "size": 0.6,
+                    }
                 )
             for _, row in trades.iterrows():
                 pnlcomm = row["pnlcomm"]
@@ -599,13 +599,13 @@ class Plot(metaclass=MetaParams):
                 color = "yellow" if pnlcomm > 0 else "fuchsia"
                 text = "+Profit+" if pnlcomm > 0 else "-Loss-"
                 markers.append(
-                    dict(
-                        time=row["dateclose"],
-                        position="above",
-                        shape=shape,
-                        color=color,
-                        text=text,
-                    )
+                    {
+                        "time": row["dateclose"],
+                        "position": "above",
+                        "shape": shape,
+                        "color": color,
+                        "text": text,
+                    }
                 )
             markers.sort(key=lambda m: m["time"])
             subchart.marker_list(markers)
@@ -865,7 +865,7 @@ class Plot(metaclass=MetaParams):
     # +-
     def sortdataindicators(self, strategy: Strategy):
         # These lists/dictionaries hold the subplots that go above each data
-        self.dplots_top = list()
+        self.dplots_top = []
         self.dplots_up = collections.defaultdict(list)
         self.dplots_down = collections.defaultdict(list)
         self.dplots_over = collections.defaultdict(list)

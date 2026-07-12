@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
 ###############################################################################
 #
 # Copyright (C) 2015-2023 Daniel Rodriguez
@@ -18,7 +17,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
-from __future__ import absolute_import, division, print_function, unicode_literals
 
 import datetime as _datetime
 import inspect
@@ -27,7 +25,7 @@ from .lineseries import LineSeries
 from .utils import AutoOrderedDict, OrderedDict, date2num
 
 
-class TimeFrame(object):
+class TimeFrame:
     (
         Ticks,
         MicroSeconds,
@@ -74,7 +72,7 @@ class TimeFrame(object):
 
 
 class DataSeries(LineSeries):
-    plotinfo = dict(plot=True, plotind=True, plotylimited=True)
+    plotinfo = {"plot": True, "plotind": True, "plotylimited": True}
 
     _name = ""
     _compression = 1
@@ -151,7 +149,7 @@ class OHLCDateTime(OHLC):
     lines = (("datetime"),)
 
 
-class SimpleFilterWrapper(object):
+class SimpleFilterWrapper:
     """Wrapper for filters added via .addfilter to turn them
     into processors.
 
@@ -202,7 +200,7 @@ class _Bar(AutoOrderedDict):
     MAXDATE = date2num(_datetime.datetime.max) - 2
 
     def __init__(self, maxdate=False):
-        super(_Bar, self).__init__()
+        super().__init__()
         self.bstart(maxdate=maxdate)
 
     def bstart(self, maxdate=False):

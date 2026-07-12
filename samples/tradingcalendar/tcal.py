@@ -25,9 +25,10 @@ import os
 import aptrade as bt
 from aptrade.tradingcal import TradingCalendar
 
+
 class NYSE_2016(TradingCalendar):
-    params = dict(
-        holidays=[
+    params = {
+        "holidays": [
             datetime.date(2016, 1, 1),
             datetime.date(2016, 1, 18),
             datetime.date(2016, 2, 15),
@@ -38,11 +39,11 @@ class NYSE_2016(TradingCalendar):
             datetime.date(2016, 11, 24),
             datetime.date(2016, 12, 26),
         ]
-    )
+    }
 
 
 class St(bt.Strategy):
-    params = dict()
+    params = {}
 
     def __init__(self):
         pass
@@ -87,7 +88,7 @@ def runstrat(args=None):
     cerebro = bt.Cerebro()
 
     # Data feed kwargs
-    kwargs = dict()
+    kwargs = {}
 
     # Parse from/to-date
     dtfmt, tmfmt = "%Y-%m-%d", "T%H:%M:%S"

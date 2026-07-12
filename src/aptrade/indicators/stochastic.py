@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
 ###############################################################################
 #
 # Copyright (C) 2015-2023 Daniel Rodriguez
@@ -18,9 +17,11 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
-from __future__ import absolute_import, division, print_function, unicode_literals
 
-from . import DivByZero, Highest, Indicator, Lowest, Max, MovAv
+from aptrade.functions import DivByZero
+from aptrade.indicator import Indicator
+from aptrade.indicators.basicops import Highest, Lowest
+from aptrade.indicators.mabase import MovAv
 
 
 class _StochasticBase(Indicator):
@@ -38,7 +39,7 @@ class _StochasticBase(Indicator):
         ("safezero", 0.0),
     )
 
-    plotlines = dict(percD=dict(_name="%D", ls="--"), percK=dict(_name="%K"))
+    plotlines = {"percD": {"_name": "%D", "ls": "--"}, "percK": {"_name": "%K"}}
 
     def _plotlabel(self):
         plabels = [self.p.period, self.p.period_dfast]
@@ -59,7 +60,7 @@ class _StochasticBase(Indicator):
             self.k = 100.0 * (knum / kden)
         self.d = self.p.movav(self.k, period=self.p.period_dfast)
 
-        super(_StochasticBase, self).__init__()
+        super().__init__()
 
 
 class StochasticFast(_StochasticBase):
@@ -87,7 +88,7 @@ class StochasticFast(_StochasticBase):
     """
 
     def __init__(self):
-        super(StochasticFast, self).__init__()
+        super().__init__()
         self.lines.percK = self.k
         self.lines.percD = self.d
 
@@ -118,7 +119,7 @@ class Stochastic(_StochasticBase):
         return plabels
 
     def __init__(self):
-        super(Stochastic, self).__init__()
+        super().__init__()
         self.lines.percK = self.d
         self.l.percD = self.p.movav(self.l.percK, period=self.p.period_dslow)
 
@@ -143,7 +144,7 @@ class StochasticFull(_StochasticBase):
     lines = ("percDSlow",)
     params = (("period_dslow", 3),)
 
-    plotlines = dict(percDSlow=dict(_name="%DSlow"))
+    plotlines = {"percDSlow": {"_name": "%DSlow"}}
 
     def _plotlabel(self):
         plabels = [self.p.period, self.p.period_dfast, self.p.period_dslow]
@@ -151,7 +152,7 @@ class StochasticFull(_StochasticBase):
         return plabels
 
     def __init__(self):
-        super(StochasticFull, self).__init__()
+        super().__init__()
         self.lines.percK = self.k
         self.lines.percD = self.d
         self.l.percDSlow = self.p.movav(self.l.percD, period=self.p.period_dslow)

@@ -67,7 +67,7 @@ class St(bt.Strategy):
 
     def start(self):
         self.callcounter = 0
-        txtfields = list()
+        txtfields = []
         txtfields.append("Len")
         txtfields.append("Datetime")
         txtfields.append("Open")
@@ -81,15 +81,15 @@ class St(bt.Strategy):
         self.doop = 0
 
     def next(self):
-        txtfields = list()
+        txtfields = []
         txtfields.append("%04d" % len(self))
         txtfields.append(self.data0.datetime.date(0).isoformat())
-        txtfields.append("%.2f" % self.data0.open[0])
-        txtfields.append("%.2f" % self.data0.high[0])
-        txtfields.append("%.2f" % self.data0.low[0])
-        txtfields.append("%.2f" % self.data0.close[0])
-        txtfields.append("%.2f" % self.data0.volume[0])
-        txtfields.append("%.2f" % self.data0.openinterest[0])
+        txtfields.append(f"{self.data0.open[0]:.2f}")
+        txtfields.append(f"{self.data0.high[0]:.2f}")
+        txtfields.append(f"{self.data0.low[0]:.2f}")
+        txtfields.append(f"{self.data0.close[0]:.2f}")
+        txtfields.append(f"{self.data0.volume[0]:.2f}")
+        txtfields.append(f"{self.data0.openinterest[0]:.2f}")
         print(",".join(txtfields))
 
         # Single order
@@ -115,7 +115,7 @@ FILLERS = {
 def runstrat():
     args = parse_args()
 
-    datakwargs = dict()
+    datakwargs = {}
     if args.fromdate:
         fromdate = datetime.datetime.strptime(args.fromdate, "%Y-%m-%d")
         datakwargs["fromdate"] = fromdate
@@ -131,7 +131,7 @@ def runstrat():
 
     cerebro.broker.set_cash(args.cash)
     if args.filler is not None:
-        fillerkwargs = dict()
+        fillerkwargs = {}
         if args.filler_args is not None:
             fillerkwargs = eval("dict(" + args.filler_args + ")")
 

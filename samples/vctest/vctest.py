@@ -26,22 +26,22 @@ import aptrade as bt
 
 
 class TestStrategy(bt.Strategy):
-    params = dict(
-        smaperiod=5,
-        trade=False,
-        stake=10,
-        exectype=bt.Order.Market,
-        stopafter=0,
-        valid=None,
-        cancel=0,
-        donotsell=False,
-        price=None,
-        pstoplimit=None,
-    )
+    params = {
+        "smaperiod": 5,
+        "trade": False,
+        "stake": 10,
+        "exectype": bt.Order.Market,
+        "stopafter": 0,
+        "valid": None,
+        "cancel": 0,
+        "donotsell": False,
+        "price": None,
+        "pstoplimit": None,
+    }
 
     def __init__(self):
         # To control operation entries
-        self.orderid = list()
+        self.orderid = []
         self.order = None
 
         self.counttostop = 0
@@ -80,10 +80,10 @@ class TestStrategy(bt.Strategy):
         self.next(frompre=True)
 
     def next(self, frompre=False):
-        txt = list()
+        txt = []
         txt.append("%04d" % len(self))
         dtfmt = "%Y-%m-%dT%H:%M:%S.%f"
-        txt.append("%s" % self.data.datetime.datetime(0).strftime(dtfmt))
+        txt.append(f"{self.data.datetime.datetime(0).strftime(dtfmt)}")
         txt.append(f"{self.data.open[0]}")
         txt.append(f"{self.data.high[0]}")
         txt.append(f"{self.data.low[0]}")
@@ -94,10 +94,10 @@ class TestStrategy(bt.Strategy):
         print(", ".join(txt))
 
         if len(self.datas) > 1:
-            txt = list()
+            txt = []
             txt.append("%04d" % len(self))
             dtfmt = "%Y-%m-%dT%H:%M:%S.%f"
-            txt.append("%s" % self.data1.datetime.datetime(0).strftime(dtfmt))
+            txt.append(f"{self.data1.datetime.datetime(0).strftime(dtfmt)}")
             txt.append(f"{self.data1.open[0]}")
             txt.append(f"{self.data1.high[0]}")
             txt.append(f"{self.data1.low[0]}")
@@ -163,7 +163,7 @@ def runstrategy():
     # Create a cerebro
     cerebro = bt.Cerebro()
 
-    storekwargs = dict()
+    storekwargs = {}
 
     if not args.nostore:
         vcstore = bt.stores.VCStore(**storekwargs)
@@ -197,15 +197,15 @@ def runstrategy():
 
     VCDataFactory = vcstore.getdata if not args.nostore else bt.feeds.VCData
 
-    datakwargs = dict(
-        timeframe=datatf,
-        compression=datacomp,
-        fromdate=fromdate,
-        todate=todate,
-        historical=args.historical,
-        qcheck=args.qcheck,
-        tz=args.timezone,
-    )
+    datakwargs = {
+        "timeframe": datatf,
+        "compression": datacomp,
+        "fromdate": fromdate,
+        "todate": todate,
+        "historical": args.historical,
+        "qcheck": args.qcheck,
+        "tz": args.timezone,
+    }
 
     if args.nostore and not args.broker:  # neither store nor broker
         datakwargs.update(storekwargs)  # pass the store args over the data
@@ -216,13 +216,13 @@ def runstrategy():
     if args.data1 is not None:
         data1 = VCDataFactory(dataname=args.data1, **datakwargs)
 
-    rekwargs = dict(
-        timeframe=timeframe,
-        compression=args.compression,
-        bar2edge=not args.no_bar2edge,
-        adjbartime=not args.no_adjbartime,
-        rightedge=not args.no_rightedge,
-    )
+    rekwargs = {
+        "timeframe": timeframe,
+        "compression": args.compression,
+        "bar2edge": not args.no_bar2edge,
+        "adjbartime": not args.no_adjbartime,
+        "rightedge": not args.no_rightedge,
+    }
 
     if args.replay:
         cerebro.replaydata(data0, **rekwargs)

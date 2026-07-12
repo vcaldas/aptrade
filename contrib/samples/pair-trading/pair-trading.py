@@ -15,25 +15,25 @@ import aptrade.indicators as btind
 
 
 class PairTradingStrategy(bt.Strategy):
-    params = dict(
-        period=10,
-        stake=10,
-        qty1=0,
-        qty2=0,
-        printout=True,
-        upper=2.1,
-        lower=-2.1,
-        up_medium=0.5,
-        low_medium=-0.5,
-        status=0,
-        portfolio_value=10000,
-    )
+    params = {
+        "period": 10,
+        "stake": 10,
+        "qty1": 0,
+        "qty2": 0,
+        "printout": True,
+        "upper": 2.1,
+        "lower": -2.1,
+        "up_medium": 0.5,
+        "low_medium": -0.5,
+        "status": 0,
+        "portfolio_value": 10000,
+    }
 
     def log(self, txt, dt=None):
         if self.p.printout:
             dt = dt or self.data.datetime[0]
             dt = bt.num2date(dt)
-            print("%s, %s" % (dt.isoformat(), txt))
+            print(f"{dt.isoformat()}, {txt}")
 
     def notify_order(self, order):
         if order.status in [bt.Order.Submitted, bt.Order.Accepted]:
@@ -41,14 +41,14 @@ class PairTradingStrategy(bt.Strategy):
 
         if order.status == order.Completed:
             if order.isbuy():
-                buytxt = "BUY COMPLETE, %.2f" % order.executed.price
+                buytxt = f"BUY COMPLETE, {order.executed.price:.2f}"
                 self.log(buytxt, order.executed.dt)
             else:
-                selltxt = "SELL COMPLETE, %.2f" % order.executed.price
+                selltxt = f"SELL COMPLETE, {order.executed.price:.2f}"
                 self.log(selltxt, order.executed.dt)
 
         elif order.status in [order.Expired, order.Canceled, order.Margin]:
-            self.log("%s ," % order.Status[order.status])
+            self.log(f"{order.Status[order.status]} ,")
             pass  # Simply log
 
         # Allow new orders
@@ -168,8 +168,8 @@ class PairTradingStrategy(bt.Strategy):
 
     def stop(self):
         print("==================================================")
-        print("Starting Value - %.2f" % self.broker.startingcash)
-        print("Ending   Value - %.2f" % self.broker.getvalue())
+        print(f"Starting Value - {self.broker.startingcash:.2f}")
+        print(f"Ending   Value - {self.broker.getvalue():.2f}")
         print("==================================================")
 
 

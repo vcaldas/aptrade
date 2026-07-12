@@ -21,7 +21,8 @@
 import collections
 from datetime import datetime, timedelta
 
-from aptrade import AbstractDataBase, TimeFrame
+from aptrade.dataseries import TimeFrame
+from aptrade.feed import AbstractDataBase
 
 
 class DataFiller(AbstractDataBase):

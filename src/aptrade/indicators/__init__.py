@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
 ###############################################################################
 #
 # Copyright (C) 2015-2023 Daniel Rodriguez
@@ -17,49 +16,53 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-###############################################################################
-from __future__ import (absolute_import, division, print_function,
-                        unicode_literals)
-
-from aptrade import Indicator
+##############################################################################
+# from aptrade import Indicator
 from aptrade.functions import *
+from aptrade.indicator import Indicator
 
-# The modules below should/must define __all__ with the Indicator objects
-# of prepend an "_" (underscore) to private classes/variables
-
-from .basicops import *
-
-# base for moving averages
-from .mabase import *
-
-# moving averages (so envelope and oscillators can be auto-generated)
-from .sma import *
-from .ema import *
-from .smma import *
-from .wma import *
-from .dema import *
-from .kama import *
-from .zlema import *
-from .hma import *
-from .zlind import *
-from .dma import *
-
-# depends on moving averages
-from .deviation import *
+# Now all indicators can reference MovAv.ClassName in their params
+from .accdecoscillator import *
+from .aroon import *
 
 # depend on basicops, moving averages and deviations
 from .atr import *
-from .aroon import *
+from .awesomeoscillator import *
+
+# The modules below should/must define __all__ with the Indicator objects
+# of prepend an "_" (underscore) to private classes/variables
+from .basicops import *
 from .bollinger import *
 from .cci import *
 from .crossover import *
-from .dpo import *
+from .dema import *
+
+# depends on moving averages
+from .deviation import *
 from .directionalmove import *
+from .dma import *
+from .dpo import *
+from .dv2 import *  # depends on percentrank
+from .ema import *
 from .envelope import *
+from .hadelta import *
 from .heikinashi import *
+from .hma import *
+from .hurst import *
+from .ichimoku import *
+from .kama import *
+
+# Depends on Momentum
+from .kst import *
 from .lrsi import *
+
+# # base for moving averages - must be imported FIRST so MovAv class exists
+from .mabase import *
+
+# base for moving averages already imported at top
 from .macd import *
 from .momentum import *
+from .ols import *
 from .oscillator import *
 from .percentchange import *
 from .percentrank import *
@@ -67,25 +70,18 @@ from .pivotpoint import *
 from .prettygoodoscillator import *
 from .priceoscillator import *
 from .psar import *
+from .relativevolume import *
+from .rmi import *
 from .rsi import *
+
+# All moving average implementations (register themselves with MovAv)
+from .sma import *
+from .smma import *
 from .stochastic import *
 from .trix import *
 from .tsi import *
 from .ultimateoscillator import *
 from .williams import *
-from .rmi import *
-from .awesomeoscillator import *
-from .accdecoscillator import *
-
-
-from .dv2 import *  # depends on percentrank
-
-# Depends on Momentum
-from .kst import *
-
-from .ichimoku import *
-
-from .hurst import *
-from .ols import *
-from .hadelta import *
-from .relativevolume import *
+from .wma import *
+from .zlema import *
+from .zlind import *

@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
 ###############################################################################
 #
 # Copyright (C) 2015-2023 Daniel Rodriguez
@@ -18,16 +17,16 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
-from __future__ import absolute_import, division, print_function, unicode_literals
 
 import aptrade as bt
+from aptrade.indicator import Indicator
 
 from . import MovAv
 
 __all__ = ["haDelta", "haD"]
 
 
-class haDelta(bt.Indicator):
+class haDelta(Indicator):
     """Heikin Ashi Delta. Defined by Dan Valcu in his book "Heikin-Ashi: How to
     Trade Without Candlestick Patterns ".
 
@@ -51,20 +50,20 @@ class haDelta(bt.Indicator):
 
     params = (
         ("period", 3),
-        ("movav", MovAv.SMA),
+        ("movav", lambda: MovAv.SMA),
         ("autoheikin", True),
     )
 
-    plotinfo = dict(subplot=True)
+    plotinfo = {"subplot": True}
 
-    plotlines = dict(
-        haDelta=dict(color="red"),
-        smoothed=dict(color="grey", _fill_gt=(0, "green"), _fill_lt=(0, "red")),
-    )
+    plotlines = {
+        "haDelta": {"color": "red"},
+        "smoothed": {"color": "grey", "_fill_gt": (0, "green"), "_fill_lt": (0, "red")},
+    }
 
     def __init__(self):
         d = bt.ind.HeikinAshi(self.data) if self.p.autoheikin else self.data
 
         self.lines.haDelta = hd = d.close - d.open
         self.lines.smoothed = self.p.movav(hd, period=self.p.period)
-        super(haDelta, self).__init__()
+        super().__init__()

@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
 ###############################################################################
 #
 # Copyright (C) 2015-2023 Daniel Rodriguez
@@ -18,17 +17,18 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
-from __future__ import absolute_import, division, print_function, unicode_literals
-
-import collections
-
-import aptrade as bt
-from aptrade.utils.py3 import items, iteritems
-
-from . import GrossLeverage, PositionsValue, TimeReturn, Transactions
 
 
-class PyFolio(bt.Analyzer):
+from aptrade.analyzer import Analyzer
+from aptrade.analyzers.leverage import GrossLeverage
+from aptrade.analyzers.positions import PositionsValue
+from aptrade.analyzers.timereturn import TimeReturn
+from aptrade.analyzers.transactions import Transactions
+from aptrade.dataseries import TimeFrame
+from aptrade.utils.py3 import iteritems
+
+
+class PyFolio(Analyzer):
     """This analyzer uses 4 children analyzers to collect data and transforms it
     in to a data set compatible with ``pyfolio``
 
@@ -77,10 +77,10 @@ class PyFolio(bt.Analyzer):
         each return as keys
     """
 
-    params = (("timeframe", bt.TimeFrame.Days), ("compression", 1))
+    params = (("timeframe", TimeFrame.Days), ("compression", 1))
 
     def __init__(self):
-        dtfcomp = dict(timeframe=self.p.timeframe, compression=self.p.compression)
+        dtfcomp = {"timeframe": self.p.timeframe, "compression": self.p.compression}
 
         self._returns = TimeReturn(**dtfcomp)
         self._positions = PositionsValue(headers=True, cash=True)
@@ -88,7 +88,7 @@ class PyFolio(bt.Analyzer):
         self._gross_lev = GrossLeverage()
 
     def stop(self):
-        super(PyFolio, self).stop()
+        super().stop()
         self.rets["returns"] = self._returns.get_analysis()
         self.rets["positions"] = self._positions.get_analysis()
         self.rets["transactions"] = self._transactions.get_analysis()
@@ -132,7 +132,7 @@ class PyFolio(bt.Analyzer):
         #
         # Transactions
         txss = self.rets["transactions"]
-        txs = list()
+        txs = []
         # The transactions have a common key (date) and can potentially happend
         # for several assets. The dictionary has a single key and a list of
         # lists. Each sublist contains the fields of a transaction

@@ -25,7 +25,13 @@ import aptrade as bt
 
 
 class TheStrategy(bt.SignalStrategy):
-    params = dict(rsi_per=14, rsi_upper=65.0, rsi_lower=35.0, rsi_out=50.0, warmup=35)
+    params = {
+        "rsi_per": 14,
+        "rsi_upper": 65.0,
+        "rsi_lower": 35.0,
+        "rsi_out": 50.0,
+        "warmup": 35,
+    }
 
     def notify_order(self, order):
         super().notify_order(order)
@@ -40,7 +46,7 @@ class TheStrategy(bt.SignalStrategy):
             )
 
             d = order.data
-            print("Close[-1]: %f - Open[0]: %f" % (d.close[-1], d.open[0]))
+            print(f"Close[-1]: {d.close[-1]:f} - Open[0]: {d.open[0]:f}")
 
     def __init__(self):
         # Original code needs artificial warmup phase - hidden sma to replic

@@ -35,7 +35,7 @@ class SMACrossOver(bt.Strategy):
     def log(self, txt, dt=None):
         """Logging function fot this strategy"""
         dt = dt or self.datas[0].datetime.date(0)
-        print("%s, %s" % (dt.isoformat(), txt))
+        print(f"{dt.isoformat()}, {txt}")
 
     def notify_order(self, order):
         if order.status in [order.Submitted, order.Accepted]:
@@ -47,18 +47,16 @@ class SMACrossOver(bt.Strategy):
         if order.status in [order.Completed, order.Canceled, order.Margin]:
             if order.isbuy():
                 self.log(
-                    "BUY EXECUTED, Price: %.2f, Cost: %.2f, Comm %.2f"
-                    % (order.executed.price, order.executed.value, order.executed.comm)
+                    f"BUY EXECUTED, Price: {order.executed.price:.2f}, Cost: {order.executed.value:.2f}, Comm {order.executed.comm:.2f}"
                 )
             else:  # Sell
                 self.log(
-                    "SELL EXECUTED, Price: %.2f, Cost: %.2f, Comm %.2f"
-                    % (order.executed.price, order.executed.value, order.executed.comm)
+                    f"SELL EXECUTED, Price: {order.executed.price:.2f}, Cost: {order.executed.value:.2f}, Comm {order.executed.comm:.2f}"
                 )
 
     def notify_trade(self, trade):
         if trade.isclosed:
-            self.log("TRADE PROFIT, GROSS %.2f, NET %.2f" % (trade.pnl, trade.pnlcomm))
+            self.log(f"TRADE PROFIT, GROSS {trade.pnl:.2f}, NET {trade.pnlcomm:.2f}")
 
     def __init__(self):
         sma = btind.SMA(self.data, period=self.p.period)
@@ -67,11 +65,11 @@ class SMACrossOver(bt.Strategy):
 
     def next(self):
         if self.buysell_sig > 0:
-            self.log("BUY CREATE, %.2f" % self.data.close[0])
+            self.log(f"BUY CREATE, {self.data.close[0]:.2f}")
             self.buy(size=self.p.stake)  # keep order ref to avoid 2nd orders
 
         elif self.position and self.buysell_sig < 0:
-            self.log("SELL CREATE, %.2f" % self.data.close[0])
+            self.log(f"SELL CREATE, {self.data.close[0]:.2f}")
             self.sell(size=self.p.stake)
 
 
@@ -99,9 +97,11 @@ def runstrategy():
     # Add the commission - only stocks like a for each operation
     cerebro.broker.setcash(args.cash)
 
-    commtypes = dict(
-        none=None, perc=bt.CommInfoBase.COMM_PERC, fixed=bt.CommInfoBase.COMM_FIXED
-    )
+    commtypes = {
+        "none": None,
+        "perc": bt.CommInfoBase.COMM_PERC,
+        "fixed": bt.CommInfoBase.COMM_FIXED,
+    }
 
     # Add the commission - only stocks like a for each operation
     cerebro.broker.setcommission(

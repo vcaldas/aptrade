@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
 ###############################################################################
 #
 # Copyright (C) 2015-2023 Daniel Rodriguez
@@ -18,15 +17,15 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
-from __future__ import absolute_import, division, print_function, unicode_literals
 
 import collections
 
-import aptrade as bt
-from aptrade import Order, Position
+from aptrade.analyzer import Analyzer
+from aptrade.order import Order
+from aptrade.position import Position
 
 
-class Transactions(bt.Analyzer):
+class Transactions(Analyzer):
     """This analyzer reports the transactions occurred with each an every data in
     the system
 
@@ -62,7 +61,7 @@ class Transactions(bt.Analyzer):
     )
 
     def start(self):
-        super(Transactions, self).start()
+        super().start()
         if self.p.headers:
             self.rets[self.p._pfheaders[0]] = [list(self.p._pfheaders[1:])]
 

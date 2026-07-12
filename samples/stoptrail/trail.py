@@ -25,15 +25,15 @@ import aptrade as bt
 
 
 class St(bt.Strategy):
-    params = dict(
-        ma=bt.ind.SMA,
-        p1=10,
-        p2=30,
-        stoptype=bt.Order.StopTrail,
-        trailamount=0.0,
-        trailpercent=0.0,
-        limitoffset=0.0,
-    )
+    params = {
+        "ma": bt.ind.SMA,
+        "p1": 10,
+        "p2": 30,
+        "stoptype": bt.Order.StopTrail,
+        "trailamount": 0.0,
+        "trailpercent": 0.0,
+        "limitoffset": 0.0,
+    }
 
     def __init__(self):
         ma1, ma2 = self.p.ma(period=self.p.p1), self.p.ma(period=self.p.p2)
@@ -43,7 +43,7 @@ class St(bt.Strategy):
     def next(self):
         if not self.position:
             if self.crup:
-                o = self.buy()
+                self.buy()
                 self.order = None
                 print("*" * 50)
 
@@ -107,7 +107,7 @@ def runstrat(args=None):
     cerebro = bt.Cerebro()
 
     # Data feed kwargs
-    kwargs = dict()
+    kwargs = {}
 
     # Parse from/to-date
     dtfmt, tmfmt = "%Y-%m-%d", "T%H:%M:%S"

@@ -30,22 +30,22 @@ DataCls = bt.feeds.OandaData
 
 
 class TestStrategy(bt.Strategy):
-    params = dict(
-        smaperiod=5,
-        trade=False,
-        stake=10,
-        exectype=bt.Order.Market,
-        stopafter=0,
-        valid=None,
-        cancel=0,
-        donotcounter=False,
-        sell=False,
-        usebracket=False,
-    )
+    params = {
+        "smaperiod": 5,
+        "trade": False,
+        "stake": 10,
+        "exectype": bt.Order.Market,
+        "stopafter": 0,
+        "valid": None,
+        "cancel": 0,
+        "donotcounter": False,
+        "sell": False,
+        "usebracket": False,
+    }
 
     def __init__(self):
         # To control operation entries
-        self.orderid = list()
+        self.orderid = []
         self.order = None
 
         self.counttostop = 0
@@ -84,12 +84,12 @@ class TestStrategy(bt.Strategy):
         self.next(frompre=True)
 
     def next(self, frompre=False):
-        txt = list()
+        txt = []
         txt.append("Data0")
         txt.append("%04d" % len(self.data0))
         dtfmt = "%Y-%m-%dT%H:%M:%S.%f"
         txt.append(f"{self.data.datetime[0]:f}")
-        txt.append("%s" % self.data.datetime.datetime(0).strftime(dtfmt))
+        txt.append(f"{self.data.datetime.datetime(0).strftime(dtfmt)}")
         txt.append(f"{self.data.open[0]:f}")
         txt.append(f"{self.data.high[0]:f}")
         txt.append(f"{self.data.low[0]:f}")
@@ -100,12 +100,12 @@ class TestStrategy(bt.Strategy):
         print(", ".join(txt))
 
         if len(self.datas) > 1 and len(self.data1):
-            txt = list()
+            txt = []
             txt.append("Data1")
             txt.append("%04d" % len(self.data1))
             dtfmt = "%Y-%m-%dT%H:%M:%S.%f"
             txt.append(f"{self.data1.datetime[0]}")
-            txt.append("%s" % self.data1.datetime.datetime(0).strftime(dtfmt))
+            txt.append(f"{self.data1.datetime.datetime(0).strftime(dtfmt)}")
             txt.append(f"{self.data1.open[0]}")
             txt.append(f"{self.data1.high[0]}")
             txt.append(f"{self.data1.low[0]}")
@@ -208,7 +208,11 @@ def runstrategy():
     # Create a cerebro
     cerebro = bt.Cerebro()
 
-    storekwargs = dict(token=args.token, account=args.account, practice=not args.live)
+    storekwargs = {
+        "token": args.token,
+        "account": args.account,
+        "practice": not args.live,
+    }
 
     if not args.no_store:
         store = StoreCls(**storekwargs)
@@ -244,18 +248,18 @@ def runstrategy():
 
     DataFactory = DataCls if args.no_store else store.getdata
 
-    datakwargs = dict(
-        timeframe=datatf,
-        compression=datacomp,
-        qcheck=args.qcheck,
-        historical=args.historical,
-        fromdate=fromdate,
-        bidask=args.bidask,
-        useask=args.useask,
-        backfill_start=not args.no_backfill_start,
-        backfill=not args.no_backfill,
-        tz=args.timezone,
-    )
+    datakwargs = {
+        "timeframe": datatf,
+        "compression": datacomp,
+        "qcheck": args.qcheck,
+        "historical": args.historical,
+        "fromdate": fromdate,
+        "bidask": args.bidask,
+        "useask": args.useask,
+        "backfill_start": not args.no_backfill_start,
+        "backfill": not args.no_backfill,
+        "tz": args.timezone,
+    }
 
     if args.no_store and not args.broker:  # neither store nor broker
         datakwargs.update(storekwargs)  # pass the store args over the data
@@ -271,14 +275,14 @@ def runstrategy():
         else:
             data1 = data0
 
-    rekwargs = dict(
-        timeframe=timeframe,
-        compression=args.compression,
-        bar2edge=not args.no_bar2edge,
-        adjbartime=not args.no_adjbartime,
-        rightedge=not args.no_rightedge,
-        takelate=not args.no_takelate,
-    )
+    rekwargs = {
+        "timeframe": timeframe,
+        "compression": args.compression,
+        "bar2edge": not args.no_bar2edge,
+        "adjbartime": not args.no_adjbartime,
+        "rightedge": not args.no_rightedge,
+        "takelate": not args.no_takelate,
+    }
 
     if args.replay:
         cerebro.replaydata(data0, **rekwargs)
@@ -324,7 +328,7 @@ def runstrategy():
     cerebro.run(exactbars=args.exactbars)
     if args.exactbars < 1:  # plotting is possible
         if args.plot:
-            pkwargs = dict(style="line")
+            pkwargs = {"style": "line"}
             if args.plot is not True:  # evals to True but is not True
                 npkwargs = eval("dict(" + args.plot + ")")  # args were passed
                 pkwargs.update(npkwargs)

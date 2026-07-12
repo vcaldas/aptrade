@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
 ###############################################################################
 #
 # Copyright (C) 2015-2023 Daniel Rodriguez
@@ -18,9 +17,10 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
-from __future__ import absolute_import, division, print_function, unicode_literals
-
-from . import Indicator, Max, Min, MovAv
+from aptrade.functions import Max, Min
+from aptrade.indicator import Indicator
+from aptrade.indicators.mabase import MovAv  # noqa: F401
+from aptrade.indicators.smma import SmoothedMovingAverage as Smoothed  # noqa: F401
 
 
 class TrueHigh(Indicator):
@@ -42,7 +42,7 @@ class TrueHigh(Indicator):
 
     def __init__(self):
         self.lines.truehigh = Max(self.data.high, self.data.close(-1))
-        super(TrueHigh, self).__init__()
+        super().__init__()
 
 
 class TrueLow(Indicator):
@@ -64,7 +64,7 @@ class TrueLow(Indicator):
 
     def __init__(self):
         self.lines.truelow = Min(self.data.low, self.data.close(-1))
-        super(TrueLow, self).__init__()
+        super().__init__()
 
 
 class TrueRange(Indicator):
@@ -92,7 +92,7 @@ class TrueRange(Indicator):
 
     def __init__(self):
         self.lines.tr = TrueHigh(self.data) - TrueLow(self.data)
-        super(TrueRange, self).__init__()
+        super().__init__()
 
 
 class AverageTrueRange(Indicator):
@@ -122,4 +122,4 @@ class AverageTrueRange(Indicator):
 
     def __init__(self):
         self.lines.atr = self.p.movav(TR(self.data), period=self.p.period)
-        super(AverageTrueRange, self).__init__()
+        super().__init__()

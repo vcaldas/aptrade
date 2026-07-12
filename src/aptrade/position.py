@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
 ###############################################################################
 #
 # Copyright (C) 2015-2023 Daniel Rodriguez
@@ -18,12 +17,9 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
-from __future__ import absolute_import, division, print_function, unicode_literals
-
-from copy import copy
 
 
-class Position(object):
+class Position:
     """
     Keeps and updates the size and price of a position. The object has no
     relationship to any asset. It only keeps size and price.
@@ -37,14 +33,14 @@ class Position(object):
     """
 
     def __str__(self):
-        items = list()
+        items = []
         items.append("--- Position Begin")
-        items.append("- Size: {}".format(self.size))
-        items.append("- Price: {}".format(self.price))
-        items.append("- Price orig: {}".format(self.price_orig))
-        items.append("- Closed: {}".format(self.upclosed))
-        items.append("- Opened: {}".format(self.upopened))
-        items.append("- Adjbase: {}".format(self.adjbase))
+        items.append(f"- Size: {self.size}")
+        items.append(f"- Price: {self.price}")
+        items.append(f"- Price orig: {self.price_orig}")
+        items.append(f"- Closed: {self.upclosed}")
+        items.append(f"- Opened: {self.upopened}")
+        items.append(f"- Adjbase: {self.adjbase}")
         items.append("--- Position End")
         return "\n".join(items)
 

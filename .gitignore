@@ -71,3 +71,6 @@ datas/*.py
 .idea/
 tmp/
 src/aptrade/private/
+.env
+results
+examples

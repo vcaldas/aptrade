@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
 ###############################################################################
 #
 # Copyright (C) 2015-2023 Daniel Rodriguez
@@ -19,14 +18,14 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
-from __future__ import absolute_import, division, print_function, unicode_literals
 
 import aptrade as bt
+from aptrade.indicator import Indicator
 
 __all__ = ["Vortex"]
 
 
-class Vortex(bt.Indicator):
+class Vortex(Indicator):
     """
     See:
       - http://www.vortexindicator.com/VFX_VORTEX.PDF
@@ -40,7 +39,7 @@ class Vortex(bt.Indicator):
 
     params = (("period", 14),)
 
-    plotlines = dict(vi_plus=dict(_name="+VI"), vi_minus=dict(_name="-VI"))
+    plotlines = {"vi_plus": {"_name": "+VI"}, "vi_minus": {"_name": "-VI"}}
 
     def __init__(self):
         h0l1 = abs(self.data.high(0) - self.data.low(-1))

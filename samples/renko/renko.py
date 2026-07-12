@@ -25,7 +25,7 @@ import aptrade as bt
 
 
 class St(bt.Strategy):
-    params = dict()
+    params = {}
 
     def __init__(self):
         for d in self.datas:
@@ -41,7 +41,7 @@ def runstrat(args=None):
     cerebro = bt.Cerebro()
 
     # Data feed kwargs
-    kwargs = dict()
+    kwargs = {}
 
     # Parse from/to-date
     dtfmt, tmfmt = "%Y-%m-%d", "T%H:%M:%S"
@@ -52,7 +52,7 @@ def runstrat(args=None):
 
     data0 = bt.feeds.BacktraderCSVData(dataname=args.data0, **kwargs)
 
-    fkwargs = dict()
+    fkwargs = {}
     fkwargs.update(**eval("dict(" + args.renko + ")"))
 
     if not args.dual:
@@ -74,12 +74,12 @@ def runstrat(args=None):
     cerebro.addstrategy(St, **eval("dict(" + args.strat + ")"))
 
     # Execute
-    kwargs = dict(stdstats=False)
+    kwargs = {"stdstats": False}
     kwargs.update(**eval("dict(" + args.cerebro + ")"))
     cerebro.run(**kwargs)
 
     if args.plot:  # Plot if requested to
-        kwargs = dict(style="candle")
+        kwargs = {"style": "candle"}
         kwargs.update(**eval("dict(" + args.plot + ")"))
         cerebro.plot(**kwargs)
 

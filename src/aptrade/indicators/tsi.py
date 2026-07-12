@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
 ###############################################################################
 #
 # Copyright (C) 2015-2023 Daniel Rodriguez
@@ -18,14 +17,13 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
-from __future__ import absolute_import, division, print_function, unicode_literals
 
-import aptrade as bt
+from aptrade.indicator import Indicator
 
 from . import EMA
 
 
-class TrueStrengthIndicator(bt.Indicator):
+class TrueStrengthIndicator(Indicator):
     """
     The True Strength Indicators was first introduced in Stocks & Commodities
     Magazine by its author William Blau. It measures momentum with a double

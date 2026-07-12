@@ -20,10 +20,10 @@
 
 import datetime
 
-import aptrade as bt
+from aptrade.metabase import MetaParams
 
 
-class DaySplitter_Close(metaclass=bt.MetaParams):
+class DaySplitter_Close(metaclass=MetaParams):
     """
     Splits a daily bar in two parts simulating 2 ticks which will be used to
     replay the data:

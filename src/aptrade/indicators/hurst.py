@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
 ###############################################################################
 #
 # Copyright (C) 2015-2023 Daniel Rodriguez
@@ -18,7 +17,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
-from __future__ import absolute_import, division, print_function, unicode_literals
 
 from . import PeriodN
 
@@ -74,7 +72,7 @@ class HurstExponent(PeriodN):
         return plabels
 
     def __init__(self):
-        super(HurstExponent, self).__init__()
+        super().__init__()
         # Prepare the lags array
         self._lag_start = lag_start = self.p.lag_start or 2
         self._lag_end = lag_end = self.p.lag_end or (self.p.period // 2)

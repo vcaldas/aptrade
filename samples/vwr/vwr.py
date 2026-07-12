@@ -23,12 +23,12 @@ import datetime
 
 import aptrade as bt
 
-TFRAMES = dict(
-    days=bt.TimeFrame.Days,
-    weeks=bt.TimeFrame.Weeks,
-    months=bt.TimeFrame.Months,
-    years=bt.TimeFrame.Years,
-)
+TFRAMES = {
+    "days": bt.TimeFrame.Days,
+    "weeks": bt.TimeFrame.Weeks,
+    "months": bt.TimeFrame.Months,
+    "years": bt.TimeFrame.Years,
+}
 
 
 def runstrat(pargs=None):
@@ -40,7 +40,7 @@ def runstrat(pargs=None):
     if args.cash is not None:
         cerebro.broker.set_cash(args.cash)
 
-    dkwargs = dict()
+    dkwargs = {}
     # Get the dates from the args
     if args.fromdate is not None:
         fromdate = datetime.datetime.strptime(args.fromdate, "%Y-%m-%d")
@@ -55,7 +55,7 @@ def runstrat(pargs=None):
 
     cerebro.addstrategy(bt.strategies.SMA_CrossOver)  # Add the strategy
 
-    lrkwargs = dict()
+    lrkwargs = {}
     if args.tframe is not None:
         lrkwargs["timeframe"] = TFRAMES[args.tframe]
 
@@ -64,7 +64,7 @@ def runstrat(pargs=None):
 
     cerebro.addanalyzer(bt.analyzers.Returns, **lrkwargs)  # Returns
 
-    vwrkwargs = dict()
+    vwrkwargs = {}
     if args.tframe is not None:
         vwrkwargs["timeframe"] = TFRAMES[args.tframe]
 
@@ -91,7 +91,7 @@ def runstrat(pargs=None):
 
     # Plot if requested
     if args.plot:
-        pkwargs = dict(style="bar")
+        pkwargs = {"style": "bar"}
         if args.plot is not True:  # evals to True but is not True
             npkwargs = eval("dict(" + args.plot + ")")  # args were passed
             pkwargs.update(npkwargs)

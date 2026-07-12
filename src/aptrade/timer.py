@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
 ###############################################################################
 #
 # Copyright (C) 2015-2023 Daniel Rodriguez
@@ -18,13 +17,11 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
-from __future__ import absolute_import, division, print_function, unicode_literals
 
 import bisect
 import collections
-from numbers import Integral
 from datetime import date, datetime, timedelta
-from itertools import islice
+from numbers import Integral
 
 from .feed import AbstractDataBase
 from .metabase import MetaParams

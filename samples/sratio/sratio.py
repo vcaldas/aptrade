@@ -5,10 +5,6 @@ import argparse
 import itertools
 import math
 import operator
-import sys
-
-if sys.version_info.major == 2:
-    map = itertools.imap
 
 
 def average(x):
@@ -17,7 +13,7 @@ def average(x):
 
 def variance(x):
     avgx = average(x)
-    return list(map(lambda y: (y - avgx) ** 2, x))
+    return [(y - avgx) ** 2 for y in x]
 
 
 def standarddev(x):

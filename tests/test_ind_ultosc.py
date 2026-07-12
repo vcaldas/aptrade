@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
 ###############################################################################
 #
 # Copyright (C) 2015-2023 Daniel Rodriguez
@@ -18,17 +17,15 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
-from __future__ import absolute_import, division, print_function, unicode_literals
 
 import testcommon
-
-import aptrade as bt
+from aptrade.indicators.ultimateoscillator import UltimateOscillator
 
 chkdatas = 1
 chkvals = [["51.991177", "62.334055", "46.707445"]]
 
 chkmin = 29  # 28 from longest SumN/Sum + 1 extra from truelow/truerange
-chkind = bt.indicators.UltimateOscillator
+chkind = UltimateOscillator
 
 
 def test_run(main=False):

@@ -28,12 +28,22 @@ class OrderObserver(bt.observer.Observer):
         "expired",
     )
 
-    plotinfo = dict(plot=True, subplot=True, plotlinelabels=True)
+    plotinfo = {"plot": True, "subplot": True, "plotlinelabels": True}
 
-    plotlines = dict(
-        created=dict(marker="*", markersize=8.0, color="lime", fillstyle="full"),
-        expired=dict(marker="s", markersize=8.0, color="red", fillstyle="full"),
-    )
+    plotlines = {
+        "created": {
+            "marker": "*",
+            "markersize": 8.0,
+            "color": "lime",
+            "fillstyle": "full",
+        },
+        "expired": {
+            "marker": "s",
+            "markersize": 8.0,
+            "color": "red",
+            "fillstyle": "full",
+        },
+    }
 
     def next(self):
         for order in self._owner._orderspending:

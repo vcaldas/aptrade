@@ -20,10 +20,10 @@
 
 import os.path
 
-import aptrade as bt
+from aptrade.store import Store
 
 
-class VChartFile(bt.Store):
+class VChartFile(Store):
     """Store provider for Visual Chart binary files
 
     Params:

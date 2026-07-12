@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
 ###############################################################################
 #
 # Copyright (C) 2015-2023 Daniel Rodriguez
@@ -18,9 +17,9 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
-from __future__ import absolute_import, division, print_function, unicode_literals
 
-from . import MovAv, MovingAverageBase
+from aptrade.indicators.mabase import MovAv, MovingAverageBase
+from aptrade.indicators.wma import WeightedMovingAverage as WMA  # noqa: F401
 
 
 # Inherits from MovingAverageBase to auto-register as MovingAverage type
@@ -65,4 +64,4 @@ class HullMovingAverage(MovingAverageBase):
         self.lines.hma = self.p._movav(wma2 - wma, period=int(sqrtperiod))
 
         # Done after calc to ensure coop inheritance and composition work
-        super(HullMovingAverage, self).__init__()
+        super().__init__()

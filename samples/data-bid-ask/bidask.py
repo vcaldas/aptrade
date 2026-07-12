@@ -51,7 +51,7 @@ class St(bt.Strategy):
         )
 
         if self.p.sma:
-            txt += " - SMA: %.4f" % self.sma[0]
+            txt += f" - SMA: {self.sma[0]:.4f}"
         print(txt)
 
 

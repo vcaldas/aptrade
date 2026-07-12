@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
 ###############################################################################
 #
 # Copyright (C) 2015-2023 Daniel Rodriguez
@@ -18,9 +17,10 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
-from __future__ import absolute_import, division, print_function, unicode_literals
 
-from . import SMA, Indicator, PercentRank
+from aptrade.indicator import Indicator
+from aptrade.indicators.percentrank import PercentRank
+from aptrade.indicators.sma import MovingAverageSimple as SMA
 
 __all__ = ["DV2"]
 
@@ -49,4 +49,4 @@ class DV2(Indicator):
         chl = self.data.close / ((self.data.high + self.data.low) / 2.0)
         dvu = self.p._movav(chl, period=self.p.maperiod)
         self.lines.dv2 = PercentRank(dvu, period=self.p.period) * 100
-        super(DV2, self).__init__()
+        super().__init__()

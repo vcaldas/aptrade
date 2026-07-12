@@ -100,9 +100,9 @@ class IQFeedTool:
             start = start[:4]
 
         for year in range(int(start), int(stop) + 1):
-            beg_time = "%s0101000000" % year
-            end_time = "%s1231235959" % year
-            msg = "HIT,%s,60,%s,%s,,,,1,,,s\r\n" % (ticker, beg_time, end_time)
+            beg_time = f"{year}0101000000"
+            end_time = f"{year}1231235959"
+            msg = f"HIT,{ticker},60,{beg_time},{end_time},,,,1,,,s\r\n"
             try:
                 data = iq.iq_query(message=msg)
                 iq.add_data_to_df(data=data)
@@ -112,7 +112,7 @@ class IQFeedTool:
         try:
             self.dfdb.write_points(self._ndf, ticker)
         except InfluxDBClientError as err:
-            log.error("Write to database failed: %s" % err)
+            log.error(f"Write to database failed: {err}")
 
     def add_data_to_df(self, data: np.array):
         """Build Pandas Dataframe in memory"""

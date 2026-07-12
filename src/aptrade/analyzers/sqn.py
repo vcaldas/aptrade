@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
 ###############################################################################
 #
 # Copyright (C) 2015-2023 Daniel Rodriguez
@@ -18,11 +17,10 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
-from __future__ import absolute_import, division, print_function, unicode_literals
 
 import math
 
-from aptrade import Analyzer
+from aptrade.analyzer import Analyzer
 from aptrade.mathsupport import average, standarddev
 from aptrade.utils import AutoOrderedDict
 
@@ -61,8 +59,8 @@ class SQN(Analyzer):
         self.rets = AutoOrderedDict()
 
     def start(self):
-        super(SQN, self).start()
-        self.pnl = list()
+        super().start()
+        self.pnl = []
         self.count = 0
 
     def notify_trade(self, trade):

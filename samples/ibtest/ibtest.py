@@ -26,27 +26,27 @@ import aptrade as bt
 
 
 class TestStrategy(bt.Strategy):
-    params = dict(
-        smaperiod=5,
-        trade=False,
-        stake=10,
-        exectype=bt.Order.Market,
-        stopafter=0,
-        valid=None,
-        cancel=0,
-        donotsell=False,
-        stoptrail=False,
-        stoptraillimit=False,
-        trailamount=None,
-        trailpercent=None,
-        limitoffset=None,
-        oca=False,
-        bracket=False,
-    )
+    params = {
+        "smaperiod": 5,
+        "trade": False,
+        "stake": 10,
+        "exectype": bt.Order.Market,
+        "stopafter": 0,
+        "valid": None,
+        "cancel": 0,
+        "donotsell": False,
+        "stoptrail": False,
+        "stoptraillimit": False,
+        "trailamount": None,
+        "trailpercent": None,
+        "limitoffset": None,
+        "oca": False,
+        "bracket": False,
+    }
 
     def __init__(self):
         # To control operation entries
-        self.orderid = list()
+        self.orderid = []
         self.order = None
 
         self.counttostop = 0
@@ -85,12 +85,12 @@ class TestStrategy(bt.Strategy):
         self.next(frompre=True)
 
     def next(self, frompre=False):
-        txt = list()
+        txt = []
         txt.append("Data0")
         txt.append("%04d" % len(self.data0))
         dtfmt = "%Y-%m-%dT%H:%M:%S.%f"
         txt.append(f"{self.data.datetime[0]}")
-        txt.append("%s" % self.data.datetime.datetime(0).strftime(dtfmt))
+        txt.append(f"{self.data.datetime.datetime(0).strftime(dtfmt)}")
         txt.append(f"{self.data.open[0]}")
         txt.append(f"{self.data.high[0]}")
         txt.append(f"{self.data.low[0]}")
@@ -101,12 +101,12 @@ class TestStrategy(bt.Strategy):
         print(", ".join(txt))
 
         if len(self.datas) > 1 and len(self.data1):
-            txt = list()
+            txt = []
             txt.append("Data1")
             txt.append("%04d" % len(self.data1))
             dtfmt = "%Y-%m-%dT%H:%M:%S.%f"
             txt.append(f"{self.data1.datetime[0]}")
-            txt.append("%s" % self.data1.datetime.datetime(0).strftime(dtfmt))
+            txt.append(f"{self.data1.datetime.datetime(0).strftime(dtfmt)}")
             txt.append(f"{self.data1.open[0]}")
             txt.append(f"{self.data1.high[0]}")
             txt.append(f"{self.data1.low[0]}")
@@ -233,14 +233,14 @@ def runstrategy():
     # Create a cerebro
     cerebro = bt.Cerebro()
 
-    storekwargs = dict(
-        host=args.host,
-        port=args.port,
-        clientId=args.clientId,
-        timeoffset=not args.no_timeoffset,
-        timeout=args.timeout,
-        _debug=args.debug,
-    )
+    storekwargs = {
+        "host": args.host,
+        "port": args.port,
+        "clientId": args.clientId,
+        "timeoffset": not args.no_timeoffset,
+        "timeout": args.timeout,
+        "_debug": args.debug,
+    }
 
     if args.usestore:
         ibstore = bt.stores.IBStore(**storekwargs)
@@ -276,19 +276,19 @@ def runstrategy():
 
     IBDataFactory = ibstore.getdata if args.usestore else bt.feeds.IBData
 
-    datakwargs = dict(
-        timeframe=datatf,
-        compression=datacomp,
-        historical=args.historical,
-        fromdate=fromdate,
-        rtbar=args.rtbar,
-        qcheck=args.qcheck,
-        what=args.what,
-        backfill_start=not args.no_backfill_start,
-        backfill=not args.no_backfill,
-        latethrough=args.latethrough,
-        tz=args.timezone,
-    )
+    datakwargs = {
+        "timeframe": datatf,
+        "compression": datacomp,
+        "historical": args.historical,
+        "fromdate": fromdate,
+        "rtbar": args.rtbar,
+        "qcheck": args.qcheck,
+        "what": args.what,
+        "backfill_start": not args.no_backfill_start,
+        "backfill": not args.no_backfill,
+        "latethrough": args.latethrough,
+        "tz": args.timezone,
+    }
 
     if not args.usestore and not args.broker:  # neither store nor broker
         datakwargs.update(storekwargs)  # pass the store args over the data
@@ -304,14 +304,14 @@ def runstrategy():
         else:
             data1 = data0
 
-    rekwargs = dict(
-        timeframe=timeframe,
-        compression=args.compression,
-        bar2edge=not args.no_bar2edge,
-        adjbartime=not args.no_adjbartime,
-        rightedge=not args.no_rightedge,
-        takelate=not args.no_takelate,
-    )
+    rekwargs = {
+        "timeframe": timeframe,
+        "compression": args.compression,
+        "bar2edge": not args.no_bar2edge,
+        "adjbartime": not args.no_adjbartime,
+        "rightedge": not args.no_rightedge,
+        "takelate": not args.no_takelate,
+    }
 
     if args.replay:
         cerebro.replaydata(data0, **rekwargs)

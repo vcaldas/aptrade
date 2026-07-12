@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
 ###############################################################################
 #
 # Copyright (C) 2015-2023 Daniel Rodriguez
@@ -18,13 +17,12 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
-from __future__ import absolute_import, division, print_function, unicode_literals
 
 import functools
 import math
 import operator
 
-from . import Indicator
+from aptrade.indicator import Indicator
 
 
 class PeriodN(Indicator):
@@ -38,7 +36,7 @@ class PeriodN(Indicator):
     params = (("period", 1),)
 
     def __init__(self):
-        super(PeriodN, self).__init__()
+        super().__init__()
         self.addminperiod(self.p.period)
 
 
@@ -87,7 +85,7 @@ class BaseApplyN(OperationN):
 
     def __init__(self):
         self.func = self.p.func
-        super(BaseApplyN, self).__init__()
+        super().__init__()
 
 
 class ApplyN(BaseApplyN):
@@ -160,7 +158,7 @@ class ReduceN(OperationN):
                 self.func, function, initializer=kwargs["initializer"]
             )
 
-        super(ReduceN, self).__init__()
+        super().__init__()
 
 
 class SumN(OperationN):
@@ -409,18 +407,18 @@ class ExponentialSmoothing(Average):
 
         self.alpha1 = 1.0 - self.alpha
 
-        super(ExponentialSmoothing, self).__init__()
+        super().__init__()
 
     def nextstart(self):
         # Fetch the seed value from the base class calculation
-        super(ExponentialSmoothing, self).next()
+        super().next()
 
     def next(self):
         self.line[0] = self.line[-1] * self.alpha1 + self.data[0] * self.alpha
 
     def oncestart(self, start, end):
         # Fetch the seed value from the base class calculation
-        super(ExponentialSmoothing, self).once(start, end)
+        super().once(start, end)
 
     def once(self, start, end):
         darray = self.data.array
@@ -454,7 +452,7 @@ class ExponentialSmoothingDynamic(ExponentialSmoothing):
     alias = ("ExpSmoothingDynamic",)
 
     def __init__(self):
-        super(ExponentialSmoothingDynamic, self).__init__()
+        super().__init__()
 
         # Hack: alpha is a "line" and carries a minperiod which is not being
         # considered because this indicator makes no line assignment. It has
@@ -497,11 +495,11 @@ class WeightedAverage(PeriodN):
     lines = ("av",)
     params = (
         ("coef", 1.0),
-        ("weights", tuple()),
+        ("weights", ()),
     )
 
     def __init__(self):
-        super(WeightedAverage, self).__init__()
+        super().__init__()
 
     def next(self):
         data = self.data.get(size=self.p.period)

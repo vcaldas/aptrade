@@ -25,14 +25,14 @@ import aptrade as bt
 
 
 class St(bt.Strategy):
-    params = dict(
-        when=bt.timer.SESSION_START,
-        timer=True,
-        cheat=False,
-        offset=datetime.timedelta(),
-        repeat=datetime.timedelta(),
-        weekdays=[],
-    )
+    params = {
+        "when": bt.timer.SESSION_START,
+        "timer": True,
+        "cheat": False,
+        "offset": datetime.timedelta(),
+        "repeat": datetime.timedelta(),
+        "weekdays": [],
+    }
 
     def __init__(self):
         bt.ind.SMA()
@@ -82,12 +82,12 @@ def runstrat(args=None):
     cerebro = bt.Cerebro()
 
     # Data feed kwargs
-    kwargs = dict(
-        timeframe=bt.TimeFrame.Days,
-        compression=1,
-        sessionstart=datetime.time(9, 0),
-        sessionend=datetime.time(17, 30),
-    )
+    kwargs = {
+        "timeframe": bt.TimeFrame.Days,
+        "compression": 1,
+        "sessionstart": datetime.time(9, 0),
+        "sessionend": datetime.time(17, 30),
+    }
 
     # Parse from/to-date
     dtfmt, tmfmt = "%Y-%m-%d", "T%H:%M:%S"

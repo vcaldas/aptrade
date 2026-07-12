@@ -38,9 +38,11 @@ def runstrat():
     data = btfeeds.BacktraderCSVData(dataname=datapath)
 
     # Handy dictionary for the argument timeframe conversion
-    tframes = dict(
-        daily=bt.TimeFrame.Days, weekly=bt.TimeFrame.Weeks, monthly=bt.TimeFrame.Months
-    )
+    tframes = {
+        "daily": bt.TimeFrame.Days,
+        "weekly": bt.TimeFrame.Weeks,
+        "monthly": bt.TimeFrame.Months,
+    }
 
     # Resample the data
     if args.oldrs:

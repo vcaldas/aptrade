@@ -42,7 +42,7 @@ def runstrat(pargs=None):
 
     cerebro = bt.Cerebro()
 
-    dkwargs = dict()
+    dkwargs = {}
     # Get the dates from the args
     if args.fromdate is not None:
         fromdate = datetime.datetime.strptime(args.fromdate, "%Y-%m-%d")
@@ -59,7 +59,7 @@ def runstrat(pargs=None):
 
     # Plot if requested
     if args.plot:
-        pkwargs = dict(style="bar")
+        pkwargs = {"style": "bar"}
         if args.plot is not True:  # evals to True but is not True
             npkwargs = eval("dict(" + args.plot + ")")  # args were passed
             pkwargs.update(npkwargs)

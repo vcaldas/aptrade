@@ -3,11 +3,11 @@ import logging
 import threading
 import time
 from collections import defaultdict
-from typing import Optional
 
 from telegram import Bot, Update
 from telegram.ext import ContextTypes
 from telegram.request import HTTPXRequest
+
 from aptrade.core.config import settings
 
 BOTKEY = settings.TELEGRAM_BOTKEY
@@ -79,9 +79,7 @@ class TelegramBot:
         # Don't wait for result to avoid blocking
         return future
 
-    async def hello(
-        self, update: Update, context: ContextTypes.DEFAULT_TYPE
-    ) -> None:  # noqa: ARG002
+    async def hello(self, update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:  # noqa: ARG002
         await update.message.reply_text(f"Hello {update.effective_user.first_name}")
 
     async def send_startup_message(self) -> None:
@@ -156,7 +154,7 @@ telegram_bot = None
 
 def get_telegram_bot(
     bot_key: str = BOTKEY, chat_id: str = CHAT_ID
-) -> Optional[TelegramBot]:
+) -> TelegramBot | None:
     """Return a module-level TelegramBot instance or None if it cannot be created.
 
     This avoids creating a bot at import time which can raise when no token

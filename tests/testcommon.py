@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
 ###############################################################################
 #
 # Copyright (C) 2015-2023 Daniel Rodriguez
@@ -18,7 +17,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
-from __future__ import absolute_import, division, print_function, unicode_literals
 
 import datetime
 import os
@@ -29,7 +27,6 @@ import sys
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 import aptrade as bt
-import aptrade.utils.flushfile
 from aptrade.metabase import ParamsBase
 
 modpath = os.path.dirname(os.path.abspath(__file__))
@@ -69,7 +66,7 @@ def runtest(
     preloads = [True, False] if preload is None else [preload]
     exbars = [-2, -1, False] if exbar is None else [exbar]
 
-    cerebros = list()
+    cerebros = []
     for prload in preloads:
         for ronce in runonces:
             for exbar in exbars:
@@ -78,7 +75,7 @@ def runtest(
                 )
 
                 if kwargs.get("main", False):
-                    print("prload {} / ronce {} exbar {}".format(prload, ronce, exbar))
+                    print(f"prload {prload} / ronce {ronce} exbar {exbar}")
 
                 if isinstance(datas, bt.LineSeries):
                     datas = [datas]
@@ -111,15 +108,15 @@ def runtest(
 
 
 class TestStrategy(bt.Strategy):
-    params = dict(
-        main=False,
-        chkind=[],
-        inddata=[],
-        chkmin=1,
-        chknext=0,
-        chkvals=None,
-        chkargs=dict(),
-    )
+    params = {
+        "main": False,
+        "chkind": [],
+        "inddata": [],
+        "chkmin": 1,
+        "chknext": 0,
+        "chkvals": None,
+        "chkargs": {},
+    }
 
     def __init__(self):
         try:
@@ -148,14 +145,14 @@ class TestStrategy(bt.Strategy):
 
     def nextstart(self):
         self.chkmin = len(self)
-        super(TestStrategy, self).nextstart()
+        super().nextstart()
 
     def next(self):
         self.nextcalls += 1
 
         if self.p.main:
             dtstr = self.data.datetime.date(0).strftime("%Y-%m-%d")
-            print("%s - %d - %f" % (dtstr, len(self), self.ind[0]))
+            print(f"{dtstr} - {len(self)} - {self.ind[0]:f}")
             pstr = ", ".join(
                 str(x)
                 for x in [
@@ -165,34 +162,34 @@ class TestStrategy(bt.Strategy):
                     self.data.close[0],
                 ]
             )
-            print("%s - %d, %s" % (dtstr, len(self), pstr))
+            print(f"{dtstr} - {len(self)}, {pstr}")
 
     def start(self):
         self.nextcalls = 0
         self.chkmin = self.p.chkmin
 
     def stop(self):
-        l = len(self.ind)
+        _l = len(self.ind)
         mp = self.chkmin
-        chkpts = [0, -l + mp, (-l + mp) // 2]
+        chkpts = [0, -_l + mp, (-_l + mp) // 2]
 
         if self.p.main:
             print("----------------------------------------")
-            print("len ind %d == %d len self" % (l, len(self)))
-            print("minperiod %d" % self.chkmin)
-            print("self.p.chknext %d nextcalls %d" % (self.p.chknext, self.nextcalls))
+            print(f"len ind {_l} == {len(self)} len self")
+            print(f"minperiod {self.chkmin}")
+            print(f"self.p.chknext {self.p.chknext} nextcalls {self.nextcalls}")
 
             print("chkpts are", chkpts)
-            for chkpt in chkpts:
-                dtstr = self.data.datetime.date(chkpt).strftime("%Y-%m-%d")
-                print("chkpt %d -> %s" % (chkpt, dtstr))
+        for chkpt in chkpts:
+            dtstr = self.data.datetime.date(chkpt).strftime("%Y-%m-%d")
+            print(f"chkpt {chkpt} -> {dtstr}")
 
             for lidx in range(self.ind.size()):
-                chkvals = list()
+                chkvals = []
                 outtxt = "    ["
                 for chkpt in chkpts:
-                    valtxt = "'%f'" % self.ind.lines[lidx][chkpt]
-                    outtxt += "'%s'," % valtxt
+                    valtxt = f"'{self.ind.lines[lidx][chkpt]:.6f}'"
+                    outtxt += f"'{valtxt}',"
                     chkvals.append(valtxt)
 
                     outtxt = "    [" + ", ".join(chkvals) + "],"
@@ -208,20 +205,27 @@ class TestStrategy(bt.Strategy):
                 print(chkval)
 
         else:
-            assert l == len(self)
+            assert _l == len(self)
             if self.p.chknext:
                 assert self.p.chknext == self.nextcalls
             assert mp == self.p.chkmin
             for lidx, linevals in enumerate(self.p.chkvals):
                 for i, chkpt in enumerate(chkpts):
-                    chkval = "%f" % self.ind.lines[lidx][chkpt]
+                    val = self.ind.lines[lidx][chkpt]
+                    chkval = f"{val:.6f}"
                     if not isinstance(linevals[i], tuple):
-                        assert chkval == linevals[i]
+                        assert chkval == linevals[i], (
+                            f"Mismatch at {lidx}[{i}]: {chkval} != {linevals[i]}"
+                        )
                     else:
                         try:
-                            assert chkval == linevals[i][0]
+                            assert chkval == linevals[i][0], (
+                                f"Mismatch at {lidx}[{i}]: {chkval} != {linevals[i][0]}"
+                            )
                         except AssertionError:
-                            assert chkval == linevals[i][1]
+                            assert chkval == linevals[i][1], (
+                                f"Mismatch at {lidx}[{i}]: {chkval} != {linevals[i][1]}"
+                            )
 
 
 class SampleParamsHolder(ParamsBase):

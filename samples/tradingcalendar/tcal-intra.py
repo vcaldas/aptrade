@@ -26,8 +26,8 @@ from aptrade.tradingcal import TradingCalendar
 
 
 class NYSE_2016(TradingCalendar):
-    params = dict(
-        holidays=[
+    params = {
+        "holidays": [
             datetime.date(2016, 1, 1),
             datetime.date(2016, 1, 18),
             datetime.date(2016, 2, 15),
@@ -38,16 +38,16 @@ class NYSE_2016(TradingCalendar):
             datetime.date(2016, 11, 24),
             datetime.date(2016, 12, 26),
         ],
-        earlydays=[
+        "earlydays": [
             (datetime.date(2016, 11, 25), datetime.time(9, 30), datetime.time(13, 1))
         ],
-        open=datetime.time(9, 30),
-        close=datetime.time(16, 0),
-    )
+        "open": datetime.time(9, 30),
+        "close": datetime.time(16, 0),
+    }
 
 
 class St(bt.Strategy):
-    params = dict()
+    params = {}
 
     def __init__(self):
         pass
@@ -86,7 +86,7 @@ def runstrat(args=None):
     tzinput = "Europe/Berlin"
     # tz = tzinput
     tz = "US/Eastern"
-    kwargs = dict(tzinput=tzinput, tz=tz)
+    kwargs = {"tzinput": tzinput, "tz": tz}
 
     # Parse from/to-date
     dtfmt, tmfmt = "%Y-%m-%d", "T%H:%M:%S"
@@ -99,7 +99,7 @@ def runstrat(args=None):
     data0 = bt.feeds.BacktraderCSVData(dataname=args.data0, **kwargs)
     cerebro.adddata(data0)
 
-    d1 = cerebro.resampledata(data0, timeframe=getattr(bt.TimeFrame, args.timeframe))
+    cerebro.resampledata(data0, timeframe=getattr(bt.TimeFrame, args.timeframe))
     # d1.plotinfo.plotmaster = data0
     # d1.plotinfo.sameaxis = False
 

@@ -309,7 +309,7 @@ class YahooFinanceData(YahooFinanceCSVData):
             self.p.urlchart.format(quote(self.p.dataname)), "&".join(urlargs)
         )
 
-        for i in range(self.p.retries + 1):
+        for _i in range(self.p.retries + 1):
             resp = sess.get(url, **sesskwargs)
             if resp.status_code != 200:
                 self.error = f"Yahoo chart API request failed: {resp.status_code}"
@@ -341,7 +341,7 @@ class YahooFinanceData(YahooFinanceCSVData):
         self.error = None
         url = self.p.urlhist.format(self.p.dataname)
 
-        sesskwargs = dict()
+        sesskwargs = {}
         if self.p.proxies:
             sesskwargs["proxies"] = self.p.proxies
 
@@ -417,7 +417,7 @@ class YahooFinanceData(YahooFinanceCSVData):
             ctype = resp.headers["Content-Type"]
             # Cover as many text types as possible for Yahoo changes
             if not ctype.startswith("text/"):
-                self.error = "Wrong content type: %s" % ctype
+                self.error = f"Wrong content type: {ctype}"
                 continue  # HTML returned? wrong url?
 
             # buffer everything from the socket into a local buffer

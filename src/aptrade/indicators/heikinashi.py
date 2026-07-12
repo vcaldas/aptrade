@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
 ###############################################################################
 #
 # Copyright (C) 2015-2023 Daniel Rodriguez
@@ -18,14 +17,14 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
-from __future__ import absolute_import, division, print_function, unicode_literals
 
 import aptrade as bt
+from aptrade.indicator import Indicator
 
 __all__ = ["HeikinAshi"]
 
 
-class HeikinAshi(bt.Indicator):
+class HeikinAshi(Indicator):
     """
     Heikin Ashi candlesticks in the forms of lines
 
@@ -66,7 +65,7 @@ class HeikinAshi(bt.Indicator):
         ),
     )
 
-    plotinfo = dict(subplot=False)
+    plotinfo = {"subplot": False}
 
     _nextforce = True
 
@@ -81,7 +80,7 @@ class HeikinAshi(bt.Indicator):
         self.l.ha_high = bt.Max(h, ha_open, ha_close)
         self.l.ha_low = bt.Min(l, ha_open, ha_close)
 
-        super(HeikinAshi, self).__init__()
+        super().__init__()
 
     def prenext(self):
         # seed recursive value

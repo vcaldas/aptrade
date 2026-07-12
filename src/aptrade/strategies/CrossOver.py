@@ -1,4 +1,4 @@
-import aptsystem as bt
+import aptrade as bt
 
 from . import BaseStrategy as base
 
@@ -22,7 +22,7 @@ class CrossOver(base.Strategy):
         if not self.position:
             if self.buysell > 0 or self.order_rejected:
                 # Buy the up crossover
-                self.log("BUY CREATE, {:.2f}".format(self.data.close[0]))
+                self.log(f"BUY CREATE, {self.data.close[0]:.2f}")
                 self.order = self.order_target_percent(
                     target=self.params.target_percent
                 )
@@ -30,5 +30,5 @@ class CrossOver(base.Strategy):
         else:
             if self.buysell < 0:
                 # Sell the down crossover
-                self.log("SELL CREATE, {:.2f}".format(self.data.close[0]))
+                self.log(f"SELL CREATE, {self.data.close[0]:.2f}")
                 self.order = self.close()

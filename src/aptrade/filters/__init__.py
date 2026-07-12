@@ -19,7 +19,6 @@
 ###############################################################################
 
 
-from .. import Filter
 from .bsplitter import *
 from .calendardays import *
 from .datafiller import *

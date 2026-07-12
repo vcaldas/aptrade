@@ -59,8 +59,9 @@ from importlib import import_module
 
 from ib_async import IB, Contract, StartupFetch, util
 
-from aptrade import Position, TimeFrame
+from aptrade.dataseries import TimeFrame
 from aptrade.metabase import MetaParams
+from aptrade.position import Position
 from aptrade.utils import AutoDict
 from aptrade.utils.py3 import queue
 
@@ -183,15 +184,15 @@ class MetaSingleton(MetaParams):
     ``clientId`` values per connection.
     """
 
-    def __init__(cls, name, bases, dct):
+    def __init__(self, name, bases, dct):
         super().__init__(name, bases, dct)
-        cls._singleton = None  # initialise the cache slot
+        self._singleton = None  # initialise the cache slot
 
-    def __call__(cls, *args, **kwargs):
-        if cls._singleton is None:
+    def __call__(self, *args, **kwargs):
+        if self._singleton is None:
             # First call — create and cache the instance.
-            cls._singleton = super().__call__(*args, **kwargs)
-        return cls._singleton
+            self._singleton = super().__call__(*args, **kwargs)
+        return self._singleton
 
 
 class IBStore(metaclass=MetaSingleton):
@@ -484,7 +485,7 @@ class IBStore(metaclass=MetaSingleton):
             list: All notification items queued since the last call.
         """
         self.notifs.put(None)  # sentinel marks the end of this batch
-        notifs = list()
+        notifs = []
         while True:
             notif = self.notifs.get()
             if notif is None:  # sentinel reached
@@ -898,325 +899,271 @@ class IBStore(metaclass=MetaSingleton):
     # supports.  This is used in __init__ to build the inverted table
     # self.revdur, and by reqHistoricalDataEx to select the right duration.
 
-    _durations = dict(
-        [
-            # 60 seconds - 1 min
-            ("60 S", ("1 secs", "5 secs", "10 secs", "15 secs", "30 secs", "1 min")),
-            # 120 seconds - 2 mins
-            (
-                "120 S",
-                (
-                    "1 secs",
-                    "5 secs",
-                    "10 secs",
-                    "15 secs",
-                    "30 secs",
-                    "1 min",
-                    "2 mins",
-                ),
-            ),
-            # 180 seconds - 3 mins
-            (
-                "180 S",
-                (
-                    "1 secs",
-                    "5 secs",
-                    "10 secs",
-                    "15 secs",
-                    "30 secs",
-                    "1 min",
-                    "2 mins",
-                    "3 mins",
-                ),
-            ),
-            # 300 seconds - 5 mins
-            (
-                "300 S",
-                (
-                    "1 secs",
-                    "5 secs",
-                    "10 secs",
-                    "15 secs",
-                    "30 secs",
-                    "1 min",
-                    "2 mins",
-                    "3 mins",
-                    "5 mins",
-                ),
-            ),
-            # 600 seconds - 10 mins
-            (
-                "600 S",
-                (
-                    "1 secs",
-                    "5 secs",
-                    "10 secs",
-                    "15 secs",
-                    "30 secs",
-                    "1 min",
-                    "2 mins",
-                    "3 mins",
-                    "5 mins",
-                    "10 mins",
-                ),
-            ),
-            # 900 seconds - 15 mins
-            (
-                "900 S",
-                (
-                    "1 secs",
-                    "5 secs",
-                    "10 secs",
-                    "15 secs",
-                    "30 secs",
-                    "1 min",
-                    "2 mins",
-                    "3 mins",
-                    "5 mins",
-                    "10 mins",
-                    "15 mins",
-                ),
-            ),
-            # 1200 seconds - 20 mins
-            (
-                "1200 S",
-                (
-                    "1 secs",
-                    "5 secs",
-                    "10 secs",
-                    "15 secs",
-                    "30 secs",
-                    "1 min",
-                    "2 mins",
-                    "3 mins",
-                    "5 mins",
-                    "10 mins",
-                    "15 mins",
-                    "20 mins",
-                ),
-            ),
-            # 1800 seconds - 30 mins
-            (
-                "1800 S",
-                (
-                    "1 secs",
-                    "5 secs",
-                    "10 secs",
-                    "15 secs",
-                    "30 secs",
-                    "1 min",
-                    "2 mins",
-                    "3 mins",
-                    "5 mins",
-                    "10 mins",
-                    "15 mins",
-                    "20 mins",
-                    "30 mins",
-                ),
-            ),
-            # 3600 seconds - 1 hour
-            (
-                "3600 S",
-                (
-                    "5 secs",
-                    "10 secs",
-                    "15 secs",
-                    "30 secs",
-                    "1 min",
-                    "2 mins",
-                    "3 mins",
-                    "5 mins",
-                    "10 mins",
-                    "15 mins",
-                    "20 mins",
-                    "30 mins",
-                    "1 hour",
-                ),
-            ),
-            # 7200 seconds - 2 hours
-            (
-                "7200 S",
-                (
-                    "5 secs",
-                    "10 secs",
-                    "15 secs",
-                    "30 secs",
-                    "1 min",
-                    "2 mins",
-                    "3 mins",
-                    "5 mins",
-                    "10 mins",
-                    "15 mins",
-                    "20 mins",
-                    "30 mins",
-                    "1 hour",
-                    "2 hours",
-                ),
-            ),
-            # 10800 seconds - 3 hours
-            (
-                "10800 S",
-                (
-                    "10 secs",
-                    "15 secs",
-                    "30 secs",
-                    "1 min",
-                    "2 mins",
-                    "3 mins",
-                    "5 mins",
-                    "10 mins",
-                    "15 mins",
-                    "20 mins",
-                    "30 mins",
-                    "1 hour",
-                    "2 hours",
-                    "3 hours",
-                ),
-            ),
-            # 14400 seconds - 4 hours
-            (
-                "14400 S",
-                (
-                    "15 secs",
-                    "30 secs",
-                    "1 min",
-                    "2 mins",
-                    "3 mins",
-                    "5 mins",
-                    "10 mins",
-                    "15 mins",
-                    "20 mins",
-                    "30 mins",
-                    "1 hour",
-                    "2 hours",
-                    "3 hours",
-                    "4 hours",
-                ),
-            ),
-            # 28800 seconds - 8 hours
-            (
-                "28800 S",
-                (
-                    "30 secs",
-                    "1 min",
-                    "2 mins",
-                    "3 mins",
-                    "5 mins",
-                    "10 mins",
-                    "15 mins",
-                    "20 mins",
-                    "30 mins",
-                    "1 hour",
-                    "2 hours",
-                    "3 hours",
-                    "4 hours",
-                    "8 hours",
-                ),
-            ),
-            # 1 day
-            (
-                "1 D",
-                (
-                    "1 min",
-                    "2 mins",
-                    "3 mins",
-                    "5 mins",
-                    "10 mins",
-                    "15 mins",
-                    "20 mins",
-                    "30 mins",
-                    "1 hour",
-                    "2 hours",
-                    "3 hours",
-                    "4 hours",
-                    "8 hours",
-                    "1 day",
-                ),
-            ),
-            # 2 days
-            (
-                "2 D",
-                (
-                    "2 mins",
-                    "3 mins",
-                    "5 mins",
-                    "10 mins",
-                    "15 mins",
-                    "20 mins",
-                    "30 mins",
-                    "1 hour",
-                    "2 hours",
-                    "3 hours",
-                    "4 hours",
-                    "8 hours",
-                    "1 day",
-                ),
-            ),
-            # 1 week
-            (
-                "1 W",
-                (
-                    "3 mins",
-                    "5 mins",
-                    "10 mins",
-                    "15 mins",
-                    "20 mins",
-                    "30 mins",
-                    "1 hour",
-                    "2 hours",
-                    "3 hours",
-                    "4 hours",
-                    "8 hours",
-                    "1 day",
-                    "1 W",
-                ),
-            ),
-            # 2 weeks
-            (
-                "2 W",
-                (
-                    "15 mins",
-                    "20 mins",
-                    "30 mins",
-                    "1 hour",
-                    "2 hours",
-                    "3 hours",
-                    "4 hours",
-                    "8 hours",
-                    "1 day",
-                    "1 W",
-                ),
-            ),
-            # 1 month
-            (
-                "1 M",
-                (
-                    "30 mins",
-                    "1 hour",
-                    "2 hours",
-                    "3 hours",
-                    "4 hours",
-                    "8 hours",
-                    "1 day",
-                    "1 W",
-                    "1 M",
-                ),
-            ),
-            # 2 – 11 months (only daily, weekly, and monthly bars are valid)
-            ("2 M", ("1 day", "1 W", "1 M")),
-            ("3 M", ("1 day", "1 W", "1 M")),
-            ("4 M", ("1 day", "1 W", "1 M")),
-            ("5 M", ("1 day", "1 W", "1 M")),
-            ("6 M", ("1 day", "1 W", "1 M")),
-            ("7 M", ("1 day", "1 W", "1 M")),
-            ("8 M", ("1 day", "1 W", "1 M")),
-            ("9 M", ("1 day", "1 W", "1 M")),
-            ("10 M", ("1 day", "1 W", "1 M")),
-            ("11 M", ("1 day", "1 W", "1 M")),
-            # 1 year
-            ("1 Y", ("1 day", "1 W", "1 M")),
-        ]
-    )
+    _durations = {
+        "60 S": ("1 secs", "5 secs", "10 secs", "15 secs", "30 secs", "1 min"),
+        # 120 seconds - 2 mins
+        "120 S": (
+            "1 secs",
+            "5 secs",
+            "10 secs",
+            "15 secs",
+            "30 secs",
+            "1 min",
+            "2 mins",
+        ),
+        # 180 seconds - 3 mins
+        "180 S": (
+            "1 secs",
+            "5 secs",
+            "10 secs",
+            "15 secs",
+            "30 secs",
+            "1 min",
+            "2 mins",
+            "3 mins",
+        ),
+        # 300 seconds - 5 mins
+        "300 S": (
+            "1 secs",
+            "5 secs",
+            "10 secs",
+            "15 secs",
+            "30 secs",
+            "1 min",
+            "2 mins",
+            "3 mins",
+            "5 mins",
+        ),
+        # 600 seconds - 10 mins
+        "600 S": (
+            "1 secs",
+            "5 secs",
+            "10 secs",
+            "15 secs",
+            "30 secs",
+            "1 min",
+            "2 mins",
+            "3 mins",
+            "5 mins",
+            "10 mins",
+        ),
+        # 900 seconds - 15 mins
+        "900 S": (
+            "1 secs",
+            "5 secs",
+            "10 secs",
+            "15 secs",
+            "30 secs",
+            "1 min",
+            "2 mins",
+            "3 mins",
+            "5 mins",
+            "10 mins",
+            "15 mins",
+        ),
+        # 1200 seconds - 20 mins
+        "1200 S": (
+            "1 secs",
+            "5 secs",
+            "10 secs",
+            "15 secs",
+            "30 secs",
+            "1 min",
+            "2 mins",
+            "3 mins",
+            "5 mins",
+            "10 mins",
+            "15 mins",
+            "20 mins",
+        ),
+        # 1800 seconds - 30 mins
+        "1800 S": (
+            "1 secs",
+            "5 secs",
+            "10 secs",
+            "15 secs",
+            "30 secs",
+            "1 min",
+            "2 mins",
+            "3 mins",
+            "5 mins",
+            "10 mins",
+            "15 mins",
+            "20 mins",
+            "30 mins",
+        ),
+        # 3600 seconds - 1 hour
+        "3600 S": (
+            "5 secs",
+            "10 secs",
+            "15 secs",
+            "30 secs",
+            "1 min",
+            "2 mins",
+            "3 mins",
+            "5 mins",
+            "10 mins",
+            "15 mins",
+            "20 mins",
+            "30 mins",
+            "1 hour",
+        ),
+        # 7200 seconds - 2 hours
+        "7200 S": (
+            "5 secs",
+            "10 secs",
+            "15 secs",
+            "30 secs",
+            "1 min",
+            "2 mins",
+            "3 mins",
+            "5 mins",
+            "10 mins",
+            "15 mins",
+            "20 mins",
+            "30 mins",
+            "1 hour",
+            "2 hours",
+        ),
+        # 10800 seconds - 3 hours
+        "10800 S": (
+            "10 secs",
+            "15 secs",
+            "30 secs",
+            "1 min",
+            "2 mins",
+            "3 mins",
+            "5 mins",
+            "10 mins",
+            "15 mins",
+            "20 mins",
+            "30 mins",
+            "1 hour",
+            "2 hours",
+            "3 hours",
+        ),
+        # 14400 seconds - 4 hours
+        "14400 S": (
+            "15 secs",
+            "30 secs",
+            "1 min",
+            "2 mins",
+            "3 mins",
+            "5 mins",
+            "10 mins",
+            "15 mins",
+            "20 mins",
+            "30 mins",
+            "1 hour",
+            "2 hours",
+            "3 hours",
+            "4 hours",
+        ),
+        # 28800 seconds - 8 hours
+        "28800 S": (
+            "30 secs",
+            "1 min",
+            "2 mins",
+            "3 mins",
+            "5 mins",
+            "10 mins",
+            "15 mins",
+            "20 mins",
+            "30 mins",
+            "1 hour",
+            "2 hours",
+            "3 hours",
+            "4 hours",
+            "8 hours",
+        ),
+        # 1 day
+        "1 D": (
+            "1 min",
+            "2 mins",
+            "3 mins",
+            "5 mins",
+            "10 mins",
+            "15 mins",
+            "20 mins",
+            "30 mins",
+            "1 hour",
+            "2 hours",
+            "3 hours",
+            "4 hours",
+            "8 hours",
+            "1 day",
+        ),
+        # 2 days
+        "2 D": (
+            "2 mins",
+            "3 mins",
+            "5 mins",
+            "10 mins",
+            "15 mins",
+            "20 mins",
+            "30 mins",
+            "1 hour",
+            "2 hours",
+            "3 hours",
+            "4 hours",
+            "8 hours",
+            "1 day",
+        ),
+        # 1 week
+        "1 W": (
+            "3 mins",
+            "5 mins",
+            "10 mins",
+            "15 mins",
+            "20 mins",
+            "30 mins",
+            "1 hour",
+            "2 hours",
+            "3 hours",
+            "4 hours",
+            "8 hours",
+            "1 day",
+            "1 W",
+        ),
+        # 2 weeks
+        "2 W": (
+            "15 mins",
+            "20 mins",
+            "30 mins",
+            "1 hour",
+            "2 hours",
+            "3 hours",
+            "4 hours",
+            "8 hours",
+            "1 day",
+            "1 W",
+        ),
+        # 1 month
+        "1 M": (
+            "30 mins",
+            "1 hour",
+            "2 hours",
+            "3 hours",
+            "4 hours",
+            "8 hours",
+            "1 day",
+            "1 W",
+            "1 M",
+        ),
+        # 2 – 11 months (only daily, weekly, and monthly bars are valid)
+        "2 M": ("1 day", "1 W", "1 M"),
+        "3 M": ("1 day", "1 W", "1 M"),
+        "4 M": ("1 day", "1 W", "1 M"),
+        "5 M": ("1 day", "1 W", "1 M"),
+        "6 M": ("1 day", "1 W", "1 M"),
+        "7 M": ("1 day", "1 W", "1 M"),
+        "8 M": ("1 day", "1 W", "1 M"),
+        "9 M": ("1 day", "1 W", "1 M"),
+        "10 M": ("1 day", "1 W", "1 M"),
+        "11 M": ("1 day", "1 W", "1 M"),
+        # 1 year
+        "1 Y": ("1 day", "1 W", "1 M"),
+    }
 
     # Maps IB bar size unit strings to (Backtrader TimeFrame, multiplier).
     # The multiplier converts the numeric part of a bar size string to a

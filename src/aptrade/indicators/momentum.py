@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
 ###############################################################################
 #
 # Copyright (C) 2015-2023 Daniel Rodriguez
@@ -18,7 +17,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
-from __future__ import absolute_import, division, print_function, unicode_literals
 
 from . import Indicator
 
@@ -38,11 +36,11 @@ class Momentum(Indicator):
 
     lines = ("momentum",)
     params = (("period", 12),)
-    plotinfo = dict(plothlines=[0.0])
+    plotinfo = {"plothlines": [0.0]}
 
     def __init__(self):
         self.l.momentum = self.data - self.data(-self.p.period)
-        super(Momentum, self).__init__()
+        super().__init__()
 
 
 class MomentumOscillator(Indicator):
@@ -73,7 +71,7 @@ class MomentumOscillator(Indicator):
 
     def __init__(self):
         self.l.momosc = 100.0 * (self.data / self.data(-self.p.period))
-        super(MomentumOscillator, self).__init__()
+        super().__init__()
 
 
 class RateOfChange(Indicator):
@@ -98,7 +96,7 @@ class RateOfChange(Indicator):
     def __init__(self):
         dperiod = self.data(-self.p.period)
         self.l.roc = (self.data - dperiod) / dperiod
-        super(RateOfChange, self).__init__()
+        super().__init__()
 
 
 class RateOfChange100(Indicator):
@@ -124,5 +122,5 @@ class RateOfChange100(Indicator):
     params = (("period", 12),)
 
     def __init__(self):
-        self.l.roc100 = 100.0 * ROC(self.data, period=self.p.period)
-        super(RateOfChange100, self).__init__()
+        self.l.roc100 = 100.0 * RateOfChange(self.data, period=self.p.period)
+        super().__init__()

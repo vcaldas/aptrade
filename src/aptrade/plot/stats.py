@@ -45,7 +45,7 @@ class Statistics:
             else "Multiple Strategies"
         )
         if strats and len(strats) == 1:
-            for key, val in strats[0].p._getitems():
+            for key, _val in strats[0].p._getitems():
                 df_desc.loc[key] = strats[0].p._get(key)
 
         annual_trading_days = float(
@@ -162,7 +162,7 @@ class Statistics:
             fig.update_traces(
                 text=monthly_heatmap_labels.to_numpy(),
                 texttemplate="%{text}",
-                textfont=dict(size=11),
+                textfont={"size": 11},
             )
         self.graphs.append(fig)
 
@@ -269,7 +269,7 @@ class Statistics:
             title="Rolling Win Rate (6-Months) %",
             color="seagreen",
         )
-        fig.update_layout(yaxis=dict(range=[0, 100]))
+        fig.update_layout(yaxis={"range": [0, 100]})
         if not d_rolling_win_rate.empty:
             add_level(
                 fig,
@@ -380,14 +380,14 @@ class Statistics:
                 x=trades_df["Duration Hours"].values,
                 y=trades_df["Return %"].values,
                 title="Trade Duration vs Return",
-                marker=dict(
-                    size=8,
-                    opacity=0.75,
-                    color=trades_df["pnlcomm"].values,
-                    colorscale="RdYlGn",
-                    colorbar=dict(title="PnL"),
-                    showscale=True,
-                ),
+                marker={
+                    "size": 8,
+                    "opacity": 0.75,
+                    "color": trades_df["pnlcomm"].values,
+                    "colorscale": "RdYlGn",
+                    "colorbar": {"title": "PnL"},
+                    "showscale": True,
+                },
                 height=380,
                 customdata=np.column_stack(
                     [
@@ -463,7 +463,7 @@ class Statistics:
                         y=excursions_df["mfe_pct"].values,
                         mode="markers",
                         name="MFE",
-                        marker=dict(color="goldenrod", size=8, opacity=0.75),
+                        marker={"color": "goldenrod", "size": 8, "opacity": 0.75},
                         customdata=customdata,
                         hovertemplate=(
                             "Instrument %{customdata[0]}<br>Final Return %{x:.2f}%<br>MFE %{y:.2f}%"
@@ -477,7 +477,7 @@ class Statistics:
                         y=excursions_df["mae_pct"].values,
                         mode="markers",
                         name="MAE",
-                        marker=dict(color="indianred", size=8, opacity=0.75),
+                        marker={"color": "indianred", "size": 8, "opacity": 0.75},
                         customdata=customdata,
                         hovertemplate=(
                             "Instrument %{customdata[0]}<br>Final Return %{x:.2f}%<br>MAE %{y:.2f}%"
@@ -497,33 +497,34 @@ class Statistics:
             fig_params = go.Figure(
                 data=[
                     go.Table(
-                        header=dict(
-                            values=["Parameter", "Value"], fill_color="lightgray"
-                        ),
-                        cells=dict(
-                            values=[
+                        header={
+                            "values": ["Parameter", "Value"],
+                            "fill_color": "lightgray",
+                        },
+                        cells={
+                            "values": [
                                 df_desc.index.tolist(),
                                 [str(val) for val in df_desc.values],
                             ],
-                            align=["left", "right"],
-                            font=dict(size=13),
-                            height=26,
-                            line_color="darkgray",
-                            fill_color=[
+                            "align": ["left", "right"],
+                            "font": {"size": 13},
+                            "height": 26,
+                            "line_color": "darkgray",
+                            "fill_color": [
                                 [
                                     "#f0f0f0" if i % 2 == 0 else "rgb(244,255,255)"
                                     for i in range(len(df_desc))
                                 ]
                             ],
-                        ),
+                        },
                     )
                 ]
             )
             fig_params.update_layout(
                 title=f"Strategy [{df_desc_name}] Parameters",
-                margin=dict(l=20, r=10, t=30, b=10),
+                margin={"l": 20, "r": 10, "t": 30, "b": 10},
                 height=300,
-                font=dict(size=12),
+                font={"size": 12},
             )
             self.tables.append(fig_params)
 
@@ -531,31 +532,31 @@ class Statistics:
         fig_metrics = go.Figure(
             data=[
                 go.Table(
-                    header=dict(values=["Metric", "Value"], fill_color="lightgray"),
-                    cells=dict(
-                        values=[
+                    header={"values": ["Metric", "Value"], "fill_color": "lightgray"},
+                    cells={
+                        "values": [
                             df_stats.index.tolist(),
                             [str(val) for val in df_stats.values],
                         ],
-                        align=["left", "right"],
-                        font=dict(size=13),
-                        height=26,
-                        line_color="darkgray",
-                        fill_color=[
+                        "align": ["left", "right"],
+                        "font": {"size": 13},
+                        "height": 26,
+                        "line_color": "darkgray",
+                        "fill_color": [
                             [
                                 "#f0f0f0" if i % 2 == 0 else "rgb(244,255,255)"
                                 for i in range(len(df_stats))
                             ]
                         ],
-                    ),
+                    },
                 )
             ]
         )
         fig_metrics.update_layout(
             title="Performance Metrics",
-            margin=dict(l=20, r=10, t=30, b=10),
+            margin={"l": 20, "r": 10, "t": 30, "b": 10},
             height=1040,
-            font=dict(size=12),
+            font={"size": 12},
         )
         self.tables.append(fig_metrics)
 
@@ -574,28 +575,28 @@ class Statistics:
         fig_addons = go.Figure(
             data=[
                 go.Table(
-                    header=dict(values=["Metric", "Value"], fill_color="lightgray"),
-                    cells=dict(
-                        values=[addons.index.tolist(), addons.values.tolist()],
-                        align=["left", "left"],
-                        font=dict(size=13),
-                        height=26,
-                        line_color="darkgray",
-                        fill_color=[
+                    header={"values": ["Metric", "Value"], "fill_color": "lightgray"},
+                    cells={
+                        "values": [addons.index.tolist(), addons.values.tolist()],
+                        "align": ["left", "left"],
+                        "font": {"size": 13},
+                        "height": 26,
+                        "line_color": "darkgray",
+                        "fill_color": [
                             [
                                 "#f0f0f0" if i % 2 == 0 else "rgb(244,255,255)"
                                 for i in range(len(addons))
                             ]
                         ],
-                    ),
+                    },
                 )
             ]
         )
         fig_addons.update_layout(
             title="Additional Metrics",
-            margin=dict(l=20, r=10, t=30, b=10),
+            margin={"l": 20, "r": 10, "t": 30, "b": 10},
             height=220,
-            font=dict(size=12),
+            font={"size": 12},
         )
         self.tables.append(fig_addons)
 
@@ -615,36 +616,41 @@ class Statistics:
         fig_yoy = go.Figure(
             data=[
                 go.Table(
-                    header=dict(
-                        values=["Year", "Return %", "Cumulative %", "Max Drawdown %"],
-                        fill_color="lightgray",
-                    ),
-                    cells=dict(
-                        values=[
+                    header={
+                        "values": [
+                            "Year",
+                            "Return %",
+                            "Cumulative %",
+                            "Max Drawdown %",
+                        ],
+                        "fill_color": "lightgray",
+                    },
+                    cells={
+                        "values": [
                             yoy.index.tolist(),
                             yoy["Return"].tolist(),
                             yoy["Cumulative"].tolist(),
                             yoy["Drawdown"].tolist(),
                         ],
-                        align=["right", "right", "right", "right"],
-                        font=dict(size=13),
-                        height=26,
-                        line_color="darkgray",
-                        fill_color=[
+                        "align": ["right", "right", "right", "right"],
+                        "font": {"size": 13},
+                        "height": 26,
+                        "line_color": "darkgray",
+                        "fill_color": [
                             [
                                 "#f0f0f0" if i % 2 == 0 else "rgb(244,255,255)"
                                 for i in range(len(yoy))
                             ]
                         ],
-                    ),
+                    },
                 )
             ]
         )
         fig_yoy.update_layout(
             title="EOY Returns",
-            margin=dict(l=20, r=10, t=30, b=10),
+            margin={"l": 20, "r": 10, "t": 30, "b": 10},
             height=400,
-            font=dict(size=12),
+            font={"size": 12},
         )
         self.tables.append(fig_yoy)
 
@@ -656,36 +662,36 @@ class Statistics:
         fig_dd = go.Figure(
             data=[
                 go.Table(
-                    header=dict(
-                        values=["Started", "Recovered", "Drawdown %", "Days"],
-                        fill_color="lightgray",
-                    ),
-                    cells=dict(
-                        values=[
+                    header={
+                        "values": ["Started", "Recovered", "Drawdown %", "Days"],
+                        "fill_color": "lightgray",
+                    },
+                    cells={
+                        "values": [
                             dd_info["Started"].tolist(),
                             dd_info["Recovered"].tolist(),
                             dd_info["Drawdown"].tolist(),
                             dd_info["Days"].tolist(),
                         ],
-                        align=["left", "left", "right", "right"],
-                        font=dict(size=13),
-                        height=26,
-                        line_color="darkgray",
-                        fill_color=[
+                        "align": ["left", "left", "right", "right"],
+                        "font": {"size": 13},
+                        "height": 26,
+                        "line_color": "darkgray",
+                        "fill_color": [
                             [
                                 "#f0f0f0" if i % 2 == 0 else "rgb(244,255,255)"
                                 for i in range(len(dd_info))
                             ]
                         ],
-                    ),
+                    },
                 )
             ]
         )
         fig_dd.update_layout(
             title="Worst 10 Drawdowns",
-            margin=dict(l=20, r=10, t=30, b=10),
+            margin={"l": 20, "r": 10, "t": 30, "b": 10},
             height=360,
-            font=dict(size=12),
+            font={"size": 12},
         )
         self.tables.append(fig_dd)
 
@@ -1521,25 +1527,25 @@ def _apply_initial_dark_theme_to_figure(fig, palette):
     current_hover_font = current_hover.get("font", {})
     current_font = fig.layout.font.to_plotly_json() if fig.layout.font else {}
 
-    layout_update = dict(
-        paper_bgcolor=palette["plot_paper_bg"],
-        plot_bgcolor=palette["plot_bg"],
-        font={**current_font, "color": palette["plot_font"]},
-        title={
+    layout_update = {
+        "paper_bgcolor": palette["plot_paper_bg"],
+        "plot_bgcolor": palette["plot_bg"],
+        "font": {**current_font, "color": palette["plot_font"]},
+        "title": {
             **current_title,
             "font": {**current_title_font, "color": palette["plot_font"]},
         },
-        legend={
+        "legend": {
             **current_legend,
             "bgcolor": "rgba(0,0,0,0)",
             "font": {**current_legend_font, "color": palette["plot_font"]},
         },
-        hoverlabel={
+        "hoverlabel": {
             **current_hover,
             "bgcolor": palette["plot_hover_bg"],
             "font": {**current_hover_font, "color": palette["plot_hover_font"]},
         },
-    )
+    }
 
     if any(getattr(trace, "type", None) != "table" for trace in fig.data):
         if fig.layout.xaxis:
@@ -1627,18 +1633,18 @@ def _apply_initial_dark_theme_to_axis(axis, palette):
 #### Figure Creation
 def create_fig(x, y, title, color="blue", fill=None, height=550, margin=None):
     if margin is None:
-        margin = dict(l=50, r=10, t=30, b=10)
-    fig = go.Figure(go.Scatter(x=x, y=y, fill=fill, line=dict(color=color)))
+        margin = {"l": 50, "r": 10, "t": 30, "b": 10}
+    fig = go.Figure(go.Scatter(x=x, y=y, fill=fill, line={"color": color}))
     # fig_equity.update_layout(title="📈 Equity Curve", margin=dict(l=50, r=10, t=50, b=10), template="plotly_dark")
-    fig.update_layout(title=title, margin=margin, height=height, font=dict(size=12))
+    fig.update_layout(title=title, margin=margin, height=height, font={"size": 12})
     return fig
 
 
 def create_bar(x, y, title, color="blue", height=550, margin=None):
     if margin is None:
-        margin = dict(l=50, r=10, t=30, b=10)
+        margin = {"l": 50, "r": 10, "t": 30, "b": 10}
     fig = go.Figure(go.Bar(x=x, y=y, marker_color=color))
-    fig.update_layout(title=title, margin=margin, height=height, font=dict(size=12))
+    fig.update_layout(title=title, margin=margin, height=height, font={"size": 12})
     return fig
 
 
@@ -1655,32 +1661,32 @@ def create_heatmap(
     hovertemplate=None,
 ):
     if margin is None:
-        margin = dict(l=50, r=10, t=30, b=10)
-    heatmap_kwargs = dict(
-        z=z,
-        x=x,
-        y=y,
-        colorscale=colorscale,
-        zmid=zmid,
-        hoverongaps=False,
-        xgap=1,
-        ygap=1,
-    )
+        margin = {"l": 50, "r": 10, "t": 30, "b": 10}
+    heatmap_kwargs = {
+        "z": z,
+        "x": x,
+        "y": y,
+        "colorscale": colorscale,
+        "zmid": zmid,
+        "hoverongaps": False,
+        "xgap": 1,
+        "ygap": 1,
+    }
     if colorbar_title is not None:
-        heatmap_kwargs["colorbar"] = dict(title=colorbar_title)
+        heatmap_kwargs["colorbar"] = {"title": colorbar_title}
     if hovertemplate is not None:
         heatmap_kwargs["hovertemplate"] = hovertemplate
     fig = go.Figure(go.Heatmap(**heatmap_kwargs))
-    fig.update_layout(title=title, margin=margin, height=height, font=dict(size=12))
+    fig.update_layout(title=title, margin=margin, height=height, font={"size": 12})
     return fig
 
 
 def create_histogram(x, title, color="blue", height=550, margin=None, nbinsx=40):
     if margin is None:
-        margin = dict(l=50, r=10, t=30, b=10)
+        margin = {"l": 50, "r": 10, "t": 30, "b": 10}
     fig = go.Figure(go.Histogram(x=x, marker_color=color, nbinsx=nbinsx, opacity=0.85))
     fig.update_layout(
-        title=title, margin=margin, height=height, font=dict(size=12), bargap=0.05
+        title=title, margin=margin, height=height, font={"size": 12}, bargap=0.05
     )
     return fig
 
@@ -1696,9 +1702,9 @@ def create_scatter(
     hovertemplate=None,
 ):
     if margin is None:
-        margin = dict(l=50, r=10, t=30, b=10)
+        margin = {"l": 50, "r": 10, "t": 30, "b": 10}
     if marker is None:
-        marker = dict(color="blue", size=8, opacity=0.75)
+        marker = {"color": "blue", "size": 8, "opacity": 0.75}
     fig = go.Figure(
         go.Scatter(
             x=x,
@@ -1709,23 +1715,23 @@ def create_scatter(
             hovertemplate=hovertemplate,
         )
     )
-    fig.update_layout(title=title, margin=margin, height=height, font=dict(size=12))
+    fig.update_layout(title=title, margin=margin, height=height, font={"size": 12})
     return fig
 
 
 def create_multi_scatter(title, height=550, margin=None):
     if margin is None:
-        margin = dict(l=50, r=10, t=30, b=10)
+        margin = {"l": 50, "r": 10, "t": 30, "b": 10}
     fig = go.Figure()
-    fig.update_layout(title=title, margin=margin, height=height, font=dict(size=12))
+    fig.update_layout(title=title, margin=margin, height=height, font={"size": 12})
     return fig
 
 
 def create_empty_fig(title, height=550, margin=None):
     if margin is None:
-        margin = dict(l=50, r=10, t=30, b=10)
+        margin = {"l": 50, "r": 10, "t": 30, "b": 10}
     fig = go.Figure()
-    fig.update_layout(title=title, margin=margin, height=height, font=dict(size=12))
+    fig.update_layout(title=title, margin=margin, height=height, font={"size": 12})
     return fig
 
 
@@ -1736,7 +1742,7 @@ def add_level(fig, x0, x1, y0, y1, color="black", width=1, dash="dash"):
         x1=x1,
         y0=y0,
         y1=y1,
-        line=dict(color=color, width=width, dash=dash),
+        line={"color": color, "width": width, "dash": dash},
     )
 
 

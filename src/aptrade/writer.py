@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
 ###############################################################################
 #
 # Copyright (C) 2015-2023 Daniel Rodriguez
@@ -18,7 +17,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
-from __future__ import absolute_import, division, print_function, unicode_literals
 
 import collections
 import io
@@ -27,7 +25,7 @@ import sys
 
 import aptrade as bt
 
-collectionsAbc = collections.abc  # collections.Iterable -> collections.abc.Iterable
+collections_abc = collections.abc  # collections.Iterable -> collections.abc.Iterable
 
 
 class WriterBase(metaclass=bt.MetaParams):
@@ -44,7 +42,8 @@ class WriterFile(WriterBase):
         If a string is passed a filename with the content of the parameter will
         be used.
 
-        If you wish to run with ``sys.stdout`` while doing multiprocess optimization, leave it as ``None``, which will
+        If you wish to run with ``sys.stdout`` while doing multiprocess optimization,
+        leave it as ``None``, which will
         automatically initiate ``sys.stdout`` on the child processes.
 
       - ``close_out``  (default: ``False``)
@@ -100,8 +99,8 @@ class WriterFile(WriterBase):
 
     def __init__(self):
         self._len = itertools.count(1)
-        self.headers = list()
-        self.values = list()
+        self.headers = []
+        self.values = []
 
     def _start_output(self):
         # open file if needed
@@ -130,7 +129,7 @@ class WriterFile(WriterBase):
     def next(self):
         if self.p.csv:
             self.writeiterable(self.values, func=str, counter=next(self._len))
-            self.values = list()
+            self.values = []
 
     def addheaders(self, headers):
         if self.p.csv:
@@ -139,7 +138,7 @@ class WriterFile(WriterBase):
     def addvalues(self, values):
         if self.p.csv:
             if self.p.csv_filternan:
-                values = map(lambda x: x if x == x else "", values)
+                values = (x if x == x else "" for x in values)
             self.values.extend(values)
 
     def writeiterable(self, iterable, func=None, counter=""):
@@ -147,7 +146,7 @@ class WriterFile(WriterBase):
             iterable = itertools.chain([counter], iterable)
 
         if func is not None:
-            iterable = map(lambda x: func(x), iterable)
+            iterable = (func(x) for x in iterable)
 
         line = self.p.csvsep.join(iterable)
         self.writeline(line)
@@ -204,9 +203,9 @@ class WriterFile(WriterBase):
                 self.writeline(kline)
                 self.writedict(val, level=level + 1, recurse=True)
             elif isinstance(
-                val, (list, tuple, collectionsAbc.Iterable)
+                val, (list, tuple, collections_abc.Iterable)
             ):  # Для разных версий Python будут вызываться разные функции
-                line = ", ".join(map(str, val))
+                line = ", ".join(str(x) for x in val)
                 self.writeline(kline + " " + line)
             else:
                 kline += " " + str(val)
@@ -217,13 +216,13 @@ class WriterStringIO(WriterFile):
     params = (("out", io.StringIO),)
 
     def __init__(self):
-        super(WriterStringIO, self).__init__()
+        super().__init__()
 
     def _start_output(self):
-        super(WriterStringIO, self)._start_output()
+        super()._start_output()
         self.out = self.out()
 
     def stop(self):
-        super(WriterStringIO, self).stop()
+        super().stop()
         # Leave the file positioned at the beginning
         self.out.seek(0)

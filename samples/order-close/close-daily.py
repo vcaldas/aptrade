@@ -37,9 +37,9 @@ class St(bt.Strategy):
         if order.status in [order.Completed]:
             dtstr = bt.num2date(order.executed.dt).strftime("%a %Y-%m-%d")
             if order.isbuy():
-                print("%s: BUY  EXECUTED, on:" % curdtstr, dtstr)
+                print(f"{curdtstr}: BUY  EXECUTED, on:", dtstr)
             else:  # Sell
-                print("%s: SELL EXECUTED, on:" % curdtstr, dtstr)
+                print(f"{curdtstr}: SELL EXECUTED, on:", dtstr)
 
             self.order = None
 
@@ -51,10 +51,10 @@ class St(bt.Strategy):
 
         if not random.randint(0, 5):  # roll a dice to decide entering/exit
             if self.position:
-                print("%s: SELL CREATED" % dtstr)
+                print(f"{dtstr}: SELL CREATED")
                 self.order = self.close(exectype=bt.Order.Close)
             else:  # no pending order
-                print("%s: BUY  CREATED" % dtstr)
+                print(f"{dtstr}: BUY  CREATED")
                 self.order = self.buy(exectype=bt.Order.Close)
 
 
@@ -100,13 +100,13 @@ def runstrat():
 
 
 def getdata(args):
-    dataformat = dict(
-        bt=btfeeds.BacktraderCSVData,
-        yahoo=btfeeds.YahooFinanceCSVData,
-        yahoo_unreversed=btfeeds.YahooFinanceCSVData,
-    )
+    dataformat = {
+        "bt": btfeeds.BacktraderCSVData,
+        "yahoo": btfeeds.YahooFinanceCSVData,
+        "yahoo_unreversed": btfeeds.YahooFinanceCSVData,
+    }
 
-    dfkwargs = dict()
+    dfkwargs = {}
     if args.csvformat == "yahoo_unreversed":
         dfkwargs["reverse"] = True
 

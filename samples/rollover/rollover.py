@@ -43,7 +43,7 @@ class TheStrategy(bt.Strategy):
         print(", ".join(header))
 
     def next(self):
-        txt = list()
+        txt = []
         txt.append("%04d" % len(self.data0))
         txt.append(f"{self.data0._dataname}")
         # Internal knowledge ... current expiration in use is in _d
@@ -65,7 +65,7 @@ def checkdate(dt, d):
     # EuroStoxx50 expiry codes: MY
     # M -> H, M, U, Z (Mar, Jun, Sep, Dec)
     # Y -> 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 -> year code. 5 -> 2015
-    MONTHS = dict(H=3, M=6, U=9, Z=12)
+    MONTHS = {"H": 3, "M": 6, "U": 9, "Z": 12}
 
     M = MONTHS[d._dataname[-2]]
 
@@ -104,7 +104,7 @@ def runstrat(args=None):
     store = bt.stores.VChartFile()
     ffeeds = [store.getdata(dataname=x) for x in fcodes]
 
-    rollkwargs = dict()
+    rollkwargs = {}
     if args.checkdate:
         rollkwargs["checkdate"] = checkdate
 
@@ -124,7 +124,7 @@ def runstrat(args=None):
     cerebro.run(stdstats=False)
 
     if args.plot:
-        pkwargs = dict(style="bar")
+        pkwargs = {"style": "bar"}
         if args.plot is not True:  # evals to True but is not True
             npkwargs = eval("dict(" + args.plot + ")")  # args were passed
             pkwargs.update(npkwargs)

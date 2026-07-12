@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
 ###############################################################################
 #
 # Copyright (C) 2015-2023 Daniel Rodriguez
@@ -30,7 +29,7 @@ lines at once.
 """
 
 import sys
-from typing import Any, List, Optional
+from typing import Any
 
 from .linebuffer import NAN, LineActions, LineBuffer, LineDelay
 from .lineroot import LineMultiple, LineRoot
@@ -54,7 +53,7 @@ class LineAlias:
     def __init__(self, line: int) -> None:
         self.line: int = line
 
-    def __get__(self, obj: Any, cls: Optional[type] = None) -> LineBuffer:
+    def __get__(self, obj: Any, cls: type | None = None) -> LineBuffer:
         return obj.lines[self.line]
 
     def __set__(self, obj: Any, value: Any) -> None:
@@ -136,11 +135,11 @@ class Lines:
         newcls.__module__ = cls.__module__
         setattr(clsmodule, f"{cls.__name__}_{name}", newcls)
 
-        setattr(newcls, "_getlinesbase", classmethod(lambda cls: baselines))
-        setattr(newcls, "_getlines", classmethod(lambda cls: clslines))
+        newcls._getlinesbase = classmethod(lambda cls: baselines)
+        newcls._getlines = classmethod(lambda cls: clslines)
 
-        setattr(newcls, "_getlinesextrabase", classmethod(lambda cls: baseextralines))
-        setattr(newcls, "_getlinesextra", classmethod(lambda cls: clsextralines))
+        newcls._getlinesextrabase = classmethod(lambda cls: baseextralines)
+        newcls._getlinesextra = classmethod(lambda cls: clsextralines)
 
         l2start = len(cls._getlines()) if not linesoverride else 0
         l2add = enumerate(lines2add, start=l2start)
@@ -196,9 +195,9 @@ class Lines:
         Create the lines recording during "_derive" or else use the
         provided "initlines"
         """
-        self.lines: List[LineBuffer] = list()
-        for line, linealias in enumerate(self._getlines()):
-            kwargs = dict()
+        self.lines: list[LineBuffer] = []
+        for _line, _linealias in enumerate(self._getlines()):
+            kwargs = {}
             self.lines.append(LineBuffer(**kwargs))
 
         # Add the required extralines
@@ -328,7 +327,7 @@ class MetaLineSeries(LineMultiple.__class__):
 
         # Get the aliases - don't leave it there for subclasses
         aliases = dct.setdefault("alias", ())
-        aliased = dct.setdefault("aliased", "")
+        dct.setdefault("aliased", "")
 
         # Remove the line definition (if any) from the class creation
         linesoverride = dct.pop("linesoverride", False)
@@ -343,7 +342,7 @@ class MetaLineSeries(LineMultiple.__class__):
         newplotlines = dict(dct.pop("plotlines", {}))
 
         # Create the class - pulling in any existing "lines"
-        cls = super(MetaLineSeries, meta).__new__(meta, name, bases, dct)
+        cls = super().__new__(meta, name, bases, dct)
 
         # Check the line aliases before creating the lines
         lalias = getattr(cls, "linealias", AutoInfoClass)
@@ -372,7 +371,7 @@ class MetaLineSeries(LineMultiple.__class__):
         # Before doing plotline newlines have been added and no plotlineinfo
         # is there add a default
         for line in newlines:
-            newplotlines.setdefault(line, dict())
+            newplotlines.setdefault(line, {})
 
         morebasesplotlines = [x.plotlines for x in bases[1:] if hasattr(x, "plotlines")]
         cls.plotlines = plotlines._derive(
@@ -391,7 +390,7 @@ class MetaLineSeries(LineMultiple.__class__):
                 # a tuple or list was passed, 1st is name, 2nd plotname
                 aliasplotname = alias[1]
                 alias = alias[0]
-                newdct["plotinfo"] = dict(plotname=aliasplotname)
+                newdct["plotinfo"] = {"plotname": aliasplotname}
 
             newcls = type(alias, (cls,), newdct)
             clsmodule = sys.modules[cls.__module__]
@@ -400,29 +399,29 @@ class MetaLineSeries(LineMultiple.__class__):
         # return the class
         return cls
 
-    def donew(cls, *args, **kwargs):
+    def donew(self, *args, **kwargs):
         """
         Intercept instance creation, take over lines/plotinfo/plotlines
         class attributes by creating corresponding instance variables and add
         aliases for "lines" and the "lines" held within it
         """
         # _obj.plotinfo shadows the plotinfo (class) definition in the class
-        plotinfo = cls.plotinfo()
+        plotinfo = self.plotinfo()
 
-        for pname, pdef in cls.plotinfo._getitems():
+        for pname, pdef in self.plotinfo._getitems():
             setattr(plotinfo, pname, kwargs.pop(pname, pdef))
 
         # Create the object and set the params in place
-        _obj, args, kwargs = super(MetaLineSeries, cls).donew(*args, **kwargs)
+        _obj, args, kwargs = super().donew(*args, **kwargs)
 
         # set the plotinfo member in the class
         _obj.plotinfo = plotinfo
 
         # _obj.lines shadows the lines (class) definition in the class
-        _obj.lines = cls.lines()
+        _obj.lines = self.lines()
 
         # _obj.plotinfo shadows the plotinfo (class) definition in the class
-        _obj.plotlines = cls.plotlines()
+        _obj.plotlines = self.plotlines()
 
         # add aliases for lines and for the lines class itself
         _obj.l = _obj.lines
@@ -430,7 +429,7 @@ class MetaLineSeries(LineMultiple.__class__):
             _obj.line = _obj.lines[0]
 
         for l, line in enumerate(_obj.lines):
-            setattr(_obj, "line_%s" % l, _obj._getlinealias(l))
+            setattr(_obj, f"line_{l}", _obj._getlinealias(l))
             setattr(_obj, "line_%d" % l, line)
             setattr(_obj, "line%d" % l, line)
 
@@ -439,11 +438,11 @@ class MetaLineSeries(LineMultiple.__class__):
 
 
 class LineSeries(LineMultiple, metaclass=MetaLineSeries):
-    plotinfo = dict(
-        plot=True,
-        plotmaster=None,
-        legendloc=None,
-    )
+    plotinfo = {
+        "plot": True,
+        "plotmaster": None,
+        "legendloc": None,
+    }
 
     csv = True
 
@@ -471,7 +470,7 @@ class LineSeries(LineMultiple, metaclass=MetaLineSeries):
         # defining a __init__ guarantees the existence of im_func to findbases
         # in lineiterator later, because object.__init__ has no im_func
         # (object has slots)
-        super(LineSeries, self).__init__()
+        super().__init__()
         pass
 
     def plotlabel(self):
@@ -489,7 +488,7 @@ class LineSeries(LineMultiple, metaclass=MetaLineSeries):
 
                     sublabels[i] = s or sublabel.__name__
 
-            label += " (%s)" % ", ".join(map(str, sublabels))
+            label += " ({})".format(", ".join(map(str, sublabels)))
         return label
 
     def _plotlabel(self):
@@ -600,39 +599,39 @@ class LineSeriesStub(LineSeries):
     # Only execute the operations below if the object is not a slave
     def forward(self, value=NAN, size=1):
         if not self.slave:
-            super(LineSeriesStub, self).forward(value, size)
+            super().forward(value, size)
 
     def backwards(self, size=1, force=False):
         if not self.slave:
-            super(LineSeriesStub, self).backwards(size, force=force)
+            super().backwards(size, force=force)
 
     def rewind(self, size=1):
         if not self.slave:
-            super(LineSeriesStub, self).rewind(size)
+            super().rewind(size)
 
     def extend(self, value=NAN, size=0):
         if not self.slave:
-            super(LineSeriesStub, self).extend(value, size)
+            super().extend(value, size)
 
     def reset(self):
         if not self.slave:
-            super(LineSeriesStub, self).reset()
+            super().reset()
 
     def home(self):
         if not self.slave:
-            super(LineSeriesStub, self).home()
+            super().home()
 
     def advance(self, size=1):
         if not self.slave:
-            super(LineSeriesStub, self).advance(size)
+            super().advance(size)
 
     def qbuffer(self):
         if not self.slave:
-            super(LineSeriesStub, self).qbuffer()
+            super().qbuffer()
 
     def minbuffer(self, size):
         if not self.slave:
-            super(LineSeriesStub, self).minbuffer(size)
+            super().minbuffer(size)
 
 
 def LineSeriesMaker(arg, slave=False):

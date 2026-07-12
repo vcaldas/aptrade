@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
 ###############################################################################
 #
 # Copyright (C) 2015-2023 Daniel Rodriguez
@@ -18,7 +17,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
-from __future__ import absolute_import, division, print_function, unicode_literals
 
 import collections
 import sys
@@ -31,8 +29,8 @@ from .utils import DotDict
 
 
 class MetaLineIterator(LineSeries.__class__):
-    def donew(cls, *args, **kwargs):
-        _obj, args, kwargs = super(MetaLineIterator, cls).donew(*args, **kwargs)
+    def donew(self, *args, **kwargs):
+        _obj, args, kwargs = super().donew(*args, **kwargs)
 
         # Prepare to hold children that need to be calculated and
         # influence minperiod - Moved here to support LineNum below
@@ -72,7 +70,7 @@ class MetaLineIterator(LineSeries.__class__):
         # Create a dictionary to be able to check for presence
         # lists in python use "==" operator when testing for presence with "in"
         # which doesn't really check for presence but for equality
-        _obj.ddatas = {x: None for x in _obj.datas}
+        _obj.ddatas = dict.fromkeys(_obj.datas)
 
         # For each found data add access member -
         # for the first data 2 (data and data0)
@@ -82,7 +80,7 @@ class MetaLineIterator(LineSeries.__class__):
             for l, line in enumerate(data.lines):
                 linealias = data._getlinealias(l)
                 if linealias:
-                    setattr(_obj, "data_%s" % linealias, line)
+                    setattr(_obj, f"data_{linealias}", line)
                 setattr(_obj, "data_%d" % l, line)
 
             for d, data in enumerate(_obj.datas):
@@ -101,10 +99,8 @@ class MetaLineIterator(LineSeries.__class__):
 
         return _obj, newargs, kwargs
 
-    def dopreinit(cls, _obj, *args, **kwargs):
-        _obj, args, kwargs = super(MetaLineIterator, cls).dopreinit(
-            _obj, *args, **kwargs
-        )
+    def dopreinit(self, _obj, *args, **kwargs):
+        _obj, args, kwargs = super().dopreinit(_obj, *args, **kwargs)
 
         # if no datas were found use, use the _owner (to have a clock)
         _obj.datas = _obj.datas or [_obj._owner]
@@ -125,10 +121,8 @@ class MetaLineIterator(LineSeries.__class__):
 
         return _obj, args, kwargs
 
-    def dopostinit(cls, _obj, *args, **kwargs):
-        _obj, args, kwargs = super(MetaLineIterator, cls).dopostinit(
-            _obj, *args, **kwargs
-        )
+    def dopostinit(self, _obj, *args, **kwargs):
+        _obj, args, kwargs = super().dopostinit(_obj, *args, **kwargs)
 
         # my minperiod is as large as the minperiod of my lines
         _obj._minperiod = max([x._minperiod for x in _obj.lines])
@@ -150,22 +144,22 @@ class LineIterator(LineSeries, metaclass=MetaLineIterator):
     _mindatas = 1
     _ltype = LineSeries.IndType
 
-    plotinfo = dict(
-        plot=True,
-        subplot=True,
-        plotname="",
-        plotskip=False,
-        plotabove=False,
-        plotlinelabels=False,
-        plotlinevalues=True,
-        plotvaluetags=True,
-        plotymargin=0.0,
-        plotyhlines=[],
-        plotyticks=[],
-        plothlines=[],
-        plotforce=False,
-        plotmaster=None,
-    )
+    plotinfo = {
+        "plot": True,
+        "subplot": True,
+        "plotname": "",
+        "plotskip": False,
+        "plotabove": False,
+        "plotlinelabels": False,
+        "plotlinevalues": True,
+        "plotvaluetags": True,
+        "plotymargin": 0.0,
+        "plotyhlines": [],
+        "plotyticks": [],
+        "plothlines": [],
+        "plotforce": False,
+        "plotmaster": None,
+    }
 
     def _periodrecalc(self):
         # last check in case not all lineiterators were assigned to
@@ -177,7 +171,7 @@ class LineIterator(LineSeries, metaclass=MetaLineIterator):
         self.updateminperiod(indminperiod)
 
     def _stage2(self):
-        super(LineIterator, self)._stage2()
+        super()._stage2()
 
         for data in self.datas:
             data._stage2()
@@ -190,7 +184,7 @@ class LineIterator(LineSeries, metaclass=MetaLineIterator):
             lineiterator._stage2()
 
     def _stage1(self):
-        super(LineIterator, self)._stage1()
+        super()._stage1()
 
         for data in self.datas:
             data._stage1()
@@ -243,7 +237,7 @@ class LineIterator(LineSeries, metaclass=MetaLineIterator):
         elif not isinstance(own, collections.Iterable):
             own = [own]
 
-        for lineowner, lineown in zip(owner, own):
+        for lineowner, lineown in zip(owner, own, strict=False):
             if isinstance(lineowner, str):
                 lownerref = getattr(self._owner.lines, lineowner)
             else:
@@ -417,7 +411,7 @@ class StrategyBase(DataAccessor):
 
 class SingleCoupler(LineActions):
     def __init__(self, cdata, clock=None):
-        super(SingleCoupler, self).__init__()
+        super().__init__()
         self._clock = clock if clock is not None else self._owner
 
         self.cdata = cdata
@@ -436,7 +430,7 @@ class MultiCoupler(LineIterator):
     _ltype = LineIterator.IndType
 
     def __init__(self):
-        super(MultiCoupler, self).__init__()
+        super().__init__()
         self.dlen = 0
         self.dsize = self.fullsize()  # shorcut for number of lines
         self.dvals = [float("NaN")] * self.dsize

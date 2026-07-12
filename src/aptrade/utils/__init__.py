@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
 ###############################################################################
 #
 # Copyright (C) 2015-2023 Daniel Rodriguez
@@ -18,10 +17,9 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 import datetime
 from zoneinfo import ZoneInfo
-from typing import Union
 
 
-def format_datetime(dt: datetime, tz: Union[str, ZoneInfo] = None) -> str:
+def format_datetime(dt: datetime, tz: str | ZoneInfo = None) -> str:
     if tz is None:
         # tz = ZoneInfo(get_localzone_name())
         return dt.strftime("%Y-%m-%d %H:%M")
@@ -34,9 +32,8 @@ def format_datetime(dt: datetime, tz: Union[str, ZoneInfo] = None) -> str:
         # Convert datetime to the required timezone
         dt = dt.astimezone(tz)
     return dt.strftime("%Y-%m-%d %H:%M GMT%z")
-from collections import OrderedDict
-import sys
 
-from .date import *
-from .ordereddefaultdict import *
-from .autodict import *
+
+from .autodict import *  # noqa: F403, F401
+from .date import *  # noqa: F403, F401
+from .ordereddefaultdict import *  # noqa: F403, F401

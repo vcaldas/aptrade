@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8; py-indent-offset:4 -*-
 ###############################################################################
 #
 # Copyright (C) 2015-2023 Daniel Rodriguez
@@ -18,12 +17,11 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
-from __future__ import absolute_import, division, print_function, unicode_literals
 
 from . import Indicator
 
 
-class MovingAverage(object):
+class MovingAverage:
     """MovingAverage (alias MovAv)
 
     A placeholder to gather all Moving Average Types in a single place.
@@ -76,7 +74,7 @@ class MetaMovAvBase(Indicator.__class__):
 
     def __new__(meta, name, bases, dct):
         # Create the class
-        cls = super(MetaMovAvBase, meta).__new__(meta, name, bases, dct)
+        cls = super().__new__(meta, name, bases, dct)
 
         MovingAverage.register(cls)
 
@@ -86,4 +84,4 @@ class MetaMovAvBase(Indicator.__class__):
 
 class MovingAverageBase(Indicator, metaclass=MetaMovAvBase):
     params = (("period", 30),)
-    plotinfo = dict(subplot=False)
+    plotinfo = {"subplot": False}
