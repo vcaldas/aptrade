@@ -19,12 +19,7 @@
 ###############################################################################
 
 import itertools
-import time
-
-try:
-    time_clock = time.process_time
-except:
-    time_clock = time.clock
+from time import perf_counter as time_clock
 
 import aptrade as bt
 import aptrade.indicators as btind
