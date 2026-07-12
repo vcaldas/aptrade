@@ -149,13 +149,6 @@ class CurrentTestStrategy(bt.Strategy):
                 f"Time used: {tused}  - Period {self.p.period} - "
                 f"Start value: {self.broker.startingcash:.2f} - "
                 f"End value: {self.broker.getvalue():.2f}"
-                # ("Time used: %s  - Period % d - Start value: %.2f - End value: %.2f")
-                # % (
-                #     str(tused),
-                #     self.p.period,
-                #     self.broker.startingcash,
-                #     self.broker.getvalue(),
-                # )
             )
 
         value = f"{self.broker.getvalue():.2f}"
