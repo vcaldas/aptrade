@@ -2,10 +2,13 @@
 Run each sample script that has a matching <script-stem>.txt reference file.
 A new sample is picked up automatically once its reference file is added.
 """
+
 import os
 import subprocess
 import sys
 from pathlib import Path
+
+import pytest
 
 ROOT_DIR = Path(__file__).parent.parent.parent
 SAMPLES_DIR = ROOT_DIR / "samples"
@@ -524,9 +527,6 @@ def _cases():
     for script_key in sorted(SAMPLE_SMOKE_TESTS):
         script = ROOT_DIR / script_key
         yield pytest.param(script, None, id=script.stem)
-
-
-import pytest
 
 
 @pytest.mark.parametrize("script,reference", _cases())
