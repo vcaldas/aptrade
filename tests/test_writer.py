@@ -47,18 +47,18 @@ def test_run(main=False):
         writer = cerebro.runwriters[0]
         if main:
             # writer.out.seek(0)
-            for l in writer.out:
-                print(l.rstrip("\r\n"))
+            for ln in writer.out:
+                print(ln.rstrip("\r\n"))
 
         else:
             lines = iter(writer.out)
-            l = next(lines).rstrip("\r\n")
-            assert l == "=" * 79
+            ln = next(lines).rstrip("\r\n")
+            assert ln == "=" * 79
 
             count = 0
             while True:
-                l = next(lines).rstrip("\r\n")
-                if l[0] == "=":
+                ln = next(lines).rstrip("\r\n")
+                if ln[0] == "=":
                     break
                 count += 1
 
