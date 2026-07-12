@@ -245,11 +245,6 @@ def date2num(dt, tz=None):
 
     base = float(dt.toordinal())
     if hasattr(dt, "hour"):
-        # base += (dt.hour / HOURS_PER_DAY +
-        #          dt.minute / MINUTES_PER_DAY +
-        #          dt.second / SECONDS_PER_DAY +
-        #          dt.microsecond / MUSECONDS_PER_DAY
-        #         )
         base = math.fsum(
             (
                 base,

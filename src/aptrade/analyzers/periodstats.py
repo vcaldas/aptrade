@@ -22,7 +22,6 @@ from aptrade.analyzer import Analyzer
 from aptrade.analyzers.timereturn import TimeReturn
 from aptrade.dataseries import TimeFrame
 from aptrade.mathsupport import average, standarddev
-from aptrade.utils.py3 import itervalues
 
 __all__ = ["PeriodStats"]
 
@@ -86,7 +85,7 @@ class PeriodStats(Analyzer):
     def stop(self):
         trets = self._tr.get_analysis()  # dict key = date, value = ret
         pos = nul = neg = 0
-        trets = list(itervalues(trets))
+        trets = list(iter(trets.values()))
         for tret in trets:
             if tret > 0.0:
                 pos += 1

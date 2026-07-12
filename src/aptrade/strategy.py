@@ -1,7 +1,8 @@
-#!/usr/bin389/env python
+#!/usr/bin/env python
 ###############################################################################
 #
 # Copyright (C) 2015-2023 Daniel Rodriguez
+# Copyright (C) 2025-2026 Victor Caldas
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -23,6 +24,7 @@ import copy
 import datetime
 import itertools
 import operator
+import sys
 
 import pandas as pd
 
@@ -35,11 +37,6 @@ from .lineseries import LineSeriesStub
 from .metabase import ItemCollection, findowner
 from .trade import Trade
 from .utils import AutoDictList, AutoOrderedDict
-from .utils.py3 import (
-    MAXINT,
-    iteritems,
-    keys,
-)
 
 
 class MetaStrategy(StrategyBase.__class__):
@@ -451,7 +448,7 @@ class Strategy(StrategyBase, metaclass=MetaStrategy):
 
         self._dlens = [len(data) for data in self.datas]
 
-        self._minperstatus = MAXINT  # start in prenext
+        self._minperstatus = sys.maxsize  # start in prenext
 
         self.start()
 
@@ -832,7 +829,7 @@ class Strategy(StrategyBase, metaclass=MetaStrategy):
         """
         Returns a list of the existing data names
         """
-        return keys(self.env.datasbyname)
+        return list(self.env.datasbyname.keys())
 
     def getdatabyname(self, name):
         """
@@ -1611,7 +1608,7 @@ class Strategy(StrategyBase, metaclass=MetaStrategy):
         positions = broker.positions
 
         posbyname = collections.OrderedDict()
-        for name, data in iteritems(self.env.datasbyname):
+        for name, data in self.env.datasbyname.items():
             posbyname[name] = positions[data]
 
         return posbyname

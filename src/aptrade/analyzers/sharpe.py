@@ -24,7 +24,6 @@ from aptrade.analyzer import Analyzer
 from aptrade.analyzers import AnnualReturn, TimeReturn
 from aptrade.dataseries import TimeFrame
 from aptrade.mathsupport import average, standarddev
-from aptrade.utils.py3 import itervalues
 
 
 class SharpeRatio(Analyzer):
@@ -148,7 +147,7 @@ class SharpeRatio(Analyzer):
             self.ratio = retavg / retdev
         else:
             # Get the returns from the subanalyzer
-            returns = list(itervalues(self.timereturn.get_analysis()))
+            returns = list(self.timereturn.get_analysis().values())
 
             rate = self.p.riskfreerate  #
 

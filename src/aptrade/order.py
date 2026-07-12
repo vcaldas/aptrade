@@ -2,6 +2,7 @@
 ###############################################################################
 #
 # Copyright (C) 2015-2023 Daniel Rodriguez
+# Copyright (C) 2025-2026 Victor Caldas
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -25,7 +26,6 @@ from copy import copy
 
 from .metabase import MetaParams
 from .utils import AutoOrderedDict
-from .utils.py3 import iteritems
 
 
 class Counter:
@@ -540,7 +540,7 @@ class OrderBase(metaclass=MetaParams):
         """Add the keys, values of kwargs to the internal info dictionary to
         hold custom information in the order
         """
-        for key, val in iteritems(kwargs):
+        for key, val in kwargs.items():
             self.info[key] = val
 
     def __eq__(self, other):

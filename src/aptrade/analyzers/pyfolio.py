@@ -25,7 +25,6 @@ from aptrade.analyzers.positions import PositionsValue
 from aptrade.analyzers.timereturn import TimeReturn
 from aptrade.analyzers.transactions import Transactions
 from aptrade.dataseries import TimeFrame
-from aptrade.utils.py3 import iteritems
 
 
 class PyFolio(Analyzer):
@@ -115,7 +114,7 @@ class PyFolio(Analyzer):
         # Returns
         cols = ["index", "return"]
         returns = DF.from_records(
-            iteritems(self.rets["returns"]), index=cols[0], columns=cols
+            self.rets["returns"].items(), index=cols[0], columns=cols
         )
         returns.index = pandas.to_datetime(returns.index)
         returns.index = returns.index.tz_localize("UTC")
@@ -123,7 +122,7 @@ class PyFolio(Analyzer):
         #
         # Positions
         pss = self.rets["positions"]
-        ps = [[k] + v[-2:] for k, v in iteritems(pss)]
+        ps = [[k] + v[-2:] for k, v in pss.items()]
         cols = ps.pop(0)  # headers are in the first entry
         positions = DF.from_records(ps, index=cols[0], columns=cols)
         positions.index = pandas.to_datetime(positions.index)
