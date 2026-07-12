@@ -145,22 +145,22 @@ class AutoDateLocator(ADLocator):
         # methods because there is incomplete overlap in the functionality of
         # these similar functions, and it's best to avoid doing our own math
         # whenever possible.
-        numYears = float(delta.years)
-        numMonths = (numYears * MONTHS_PER_YEAR) + delta.months
-        numDays = tdelta.days  # Avoids estimates of days/month, days/year
-        numHours = (numDays * HOURS_PER_DAY) + delta.hours
-        numMinutes = (numHours * MIN_PER_HOUR) + delta.minutes
-        numSeconds = np.floor(tdelta.total_seconds())
-        numMicroseconds = np.floor(tdelta.total_seconds() * 1e6)
+        num_years = float(delta.years)
+        num_months = (num_years * MONTHS_PER_YEAR) + delta.months
+        num_days = tdelta.days  # Avoids estimates of days/month, days/year
+        num_hours = (num_days * HOURS_PER_DAY) + delta.hours
+        num_minutes = (num_hours * MIN_PER_HOUR) + delta.minutes
+        num_seconds = np.floor(tdelta.total_seconds())
+        num_microseconds = np.floor(tdelta.total_seconds() * 1e6)
 
         nums = [
-            numYears,
-            numMonths,
-            numDays,
-            numHours,
-            numMinutes,
-            numSeconds,
-            numMicroseconds,
+            num_years,
+            num_months,
+            num_days,
+            num_hours,
+            num_minutes,
+            num_seconds,
+            num_microseconds,
         ]
 
         use_rrule_locator = [True] * 6 + [False]
