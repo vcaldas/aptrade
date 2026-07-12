@@ -19,6 +19,7 @@
 ###############################################################################
 
 from time import perf_counter as time_clock
+
 import aptrade as bt
 import aptrade.indicators as btind
 import testcommon
