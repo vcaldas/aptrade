@@ -23,7 +23,6 @@ from time import perf_counter as time_clock
 
 import aptrade as bt
 import aptrade.indicators as btind
-
 import testcommon
 
 CHKVALUES = [
@@ -147,13 +146,16 @@ class CurrentTestStrategy(bt.Strategy):
         tused = time_clock() - self.tstart
         if self.p.printdata:
             self.log(
-                ("Time used: %s  - Period % d - Start value: %.2f - End value: %.2f")
-                % (
-                    str(tused),
-                    self.p.period,
-                    self.broker.startingcash,
-                    self.broker.getvalue(),
-                )
+                f"Time used: {tused}  - Period {self.p.period} - "
+                f"Start value: {self.broker.startingcash:.2f} - "
+                f"End value: {self.broker.getvalue():.2f}"
+                # ("Time used: %s  - Period % d - Start value: %.2f - End value: %.2f")
+                # % (
+                #     str(tused),
+                #     self.p.period,
+                #     self.broker.startingcash,
+                #     self.broker.getvalue(),
+                # )
             )
 
         value = f"{self.broker.getvalue():.2f}"
