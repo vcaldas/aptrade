@@ -38,6 +38,14 @@ dependencies = [
     "scipy>=1.17.1",
     "typer>=0.16.0",
 ]
+[project.optional-dependencies]
+docs = [
+    "myst-parser",
+    "pydata-sphinx-theme>=0.20.0",
+    "sphinx-copybutton",
+    "sphinx-design",
+]
+
 [project.scripts]
 aptrade = "aptrade.cli:app"
 
@@ -53,19 +61,17 @@ dev = [
     "copier",
     "myst-parser",
     "pre-commit",
-    "pydata-sphinx-theme>=0.12",
+    "pydata-sphinx-theme>=0.20.0",
     "pyright",
     "pytest",
     "pytest-cov",
     "ruff",
-    "sphinx-autobuild",
+    "sphinx>=9.0.4",
+    "sphinx-autobuild>=2025.8.25",
     "sphinx-copybutton",
     "sphinx-design",
     "tox-uv",
     "types-mock",
-     "pydata-sphinx-theme>=0.20.0",
-    "sphinx>=9.0.4",
-    "sphinx-autobuild>=2025.8.25",
 ]
 
 
