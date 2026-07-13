@@ -4,8 +4,8 @@ html_theme.sidebar_secondary.remove: true
 
 # Aptrade
 
-```{include} ../README.rst
-:start-after: Aptrade
+```{include} ../README.md
+:start-after: "# Aptrade"
 ```
 
 
