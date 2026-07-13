@@ -2,8 +2,10 @@
 html_theme.sidebar_secondary.remove: true
 ---
 
+# Aptrade
+
 ```{include} ../README.rst
-:end-before: <!-- README only content
+:start-after: Aptrade
 ```
 
 
