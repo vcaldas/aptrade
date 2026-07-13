@@ -70,8 +70,7 @@ from .order import *
 from .position import *
 from .resamplerfilter import *
 from .signal import *
-from .sizer import *
-from .sizers import SizerFix  # old sizer for compatibility
+from .sizers import FixedSize  # old sizer for compatibility
 from .store import Store
 from .strategy import *
 from .timer import *

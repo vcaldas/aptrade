@@ -498,24 +498,6 @@ PREFERRED_SCRIPT_NAMES = {
 }
 
 
-def _resolve_script(folder: Path) -> Path:
-    preferred = PREFERRED_SCRIPT_NAMES.get(folder.name)
-    if preferred is not None:
-        script = folder / preferred
-        if script.exists():
-            return script
-
-    canonical = folder / f"{folder.name}.py"
-    if canonical.exists():
-        return canonical
-
-    scripts = sorted(path for path in folder.glob("*.py") if path.is_file())
-    if len(scripts) == 1:
-        return scripts[0]
-
-    raise FileNotFoundError(f"Could not resolve sample entrypoint for {folder}")
-
-
 def _cases():
     for folder in sorted(path for path in SAMPLES_DIR.iterdir() if path.is_dir()):
         for ref in sorted(folder.glob("*.txt")):

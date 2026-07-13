@@ -18,7 +18,15 @@
 #
 ###############################################################################
 
+from dataclasses import dataclass
+
 from aptrade.sizers import AbstractSizer
+
+
+@dataclass(slots=True)
+class FixedSizeParams:
+    stake: int = 1
+    tranches: int = 1
 
 
 class FixedSize(AbstractSizer):
@@ -34,7 +42,11 @@ class FixedSize(AbstractSizer):
       - ``tranches`` (default: ``1``)
     """
 
-    params = (("stake", 1), ("tranches", 1))
+    # params = (("stake", 1), ("tranches", 1))
+    params_cls = FixedSizeParams
+
+    def __init__(self, **kwargs):
+        self.p = self.params_cls(**kwargs)
 
     def _getsizing(self, comminfo, cash, data, isbuy):
         if self.p.tranches > 1:
@@ -49,7 +61,7 @@ class FixedSize(AbstractSizer):
             self.p.stake = stake  # OLD METHOD FOR SAMPLE COMPATIBILITY
 
 
-SizerFix = FixedSize
+# SizerFix = FixedSize
 
 
 class FixedReverser(AbstractSizer):
