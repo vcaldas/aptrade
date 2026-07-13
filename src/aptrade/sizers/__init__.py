@@ -167,6 +167,6 @@ class PositionSizer(ABC):
 #         self.broker = broker
 
 
-from .fixedsize import * # noqa: F403, F401, E402
-from .percents_sizer import * #noqa: F403, F401, E402
+from .fixedsize import *  # noqa: F403, F401, E402
+from .percents_sizer import *  # noqa: F403, F401, E402
 from .simple import *  # noqa: F403, F401, E402
