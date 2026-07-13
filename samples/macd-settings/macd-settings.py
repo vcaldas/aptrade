@@ -22,21 +22,21 @@ import argparse
 import datetime
 
 import aptrade as bt
+from aptrade.sizers.percents_sizer import PercentSizer
 
+# class FixedPerc(bt.sizers.AbstractSizer):
+#     """This sizer simply returns a fixed size for any operation
 
-class FixedPerc(bt.sizers.AbstractSizer):
-    """This sizer simply returns a fixed size for any operation
+#     Params:
+#       - ``perc`` (default: ``0.20``) Perc of cash to allocate for operation
+#     """
 
-    Params:
-      - ``perc`` (default: ``0.20``) Perc of cash to allocate for operation
-    """
+#     params = (("perc", 0.20),)  # perc of cash to use for operation
 
-    params = (("perc", 0.20),)  # perc of cash to use for operation
-
-    def _getsizing(self, comminfo, cash, data, isbuy):
-        cashtouse = self.p.perc * cash
-        size = cashtouse // data.close[0]
-        return size
+#     def _getsizing(self, comminfo, cash, data, isbuy):
+#         cashtouse = self.p.perc * cash
+#         size = cashtouse // data.close[0]
+#         return size
 
 
 class TheStrategy(bt.Strategy):
@@ -163,7 +163,7 @@ def runstrat(args=None):
         dirperiod=args.dirperiod,
     )
 
-    cerebro.addsizer(FixedPerc, perc=args.cashalloc)
+    cerebro.addsizer(PercentSizer, percents=args.cashalloc)
 
     # Add TimeReturn Analyzers for self and the benchmark data
     cerebro.addanalyzer(
@@ -253,7 +253,7 @@ def parse_args(pargs=None):
         required=False,
         action="store",
         type=float,
-        default=0.20,
+        default=20,
         help=("Perc (abs) of cash to allocate for ops"),
     )
 

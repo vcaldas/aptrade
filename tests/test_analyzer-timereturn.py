@@ -18,12 +18,7 @@
 #
 ###############################################################################
 
-import time
-
-try:
-    time_clock = time.process_time
-except:
-    time_clock = time.clock
+from time import perf_counter as time_clock
 
 import aptrade as bt
 import aptrade.indicators as btind
@@ -109,7 +104,9 @@ class CurrentTestStrategy(bt.Strategy):
     def next(self):
         if self.p.printdata:
             self.log(
-                f"Open, High, Low, Close, {self.data.open[0]:.2f}, {self.data.high[0]:.2f}, {self.data.low[0]:.2f}, {self.data.close[0]:.2f}, Sma, {self.sma[0]:f}"
+                f"Open, High, Low, Close, {self.data.open[0]:.2f}, "
+                f"{self.data.high[0]:.2f}, {self.data.low[0]:.2f}, "
+                f"{self.data.close[0]:.2f}, Sma, {self.sma[0]:f}"
             )
             self.log(f"Close {self.data.close[0]:.2f} - Sma {self.sma[0]:.2f}")
 

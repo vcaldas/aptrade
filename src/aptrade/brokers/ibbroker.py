@@ -41,6 +41,7 @@ This module contains three public classes:
 
 import collections
 import logging
+import queue
 import threading
 import uuid
 from datetime import date, datetime, timedelta
@@ -53,7 +54,6 @@ from aptrade.order import Order, OrderBase
 from aptrade.position import Position
 from aptrade.stores.ibstore import IBStore
 from aptrade.utils.dateintern import num2date
-from aptrade.utils.py3 import queue
 
 logger = logging.getLogger(__name__)
 

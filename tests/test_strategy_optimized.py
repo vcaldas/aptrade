@@ -19,12 +19,7 @@
 ###############################################################################
 
 import itertools
-import time
-
-try:
-    time_clock = time.process_time
-except:
-    time_clock = time.clock
+from time import perf_counter as time_clock
 
 import aptrade as bt
 import aptrade.indicators as btind
@@ -151,7 +146,9 @@ class CurrentTestStrategy(bt.Strategy):
         tused = time_clock() - self.tstart
         if self.p.printdata:
             self.log(
-                f"Time used: {tused}  - Period {d: d} - Start value: {svalue:.2f} - End value: {evalue:.2f}"
+                f"Time used: {tused}  - Period {self.p.period} - "
+                f"Start value: {self.broker.startingcash:.2f} - "
+                f"End value: {self.broker.getvalue():.2f}"
             )
 
         value = f"{self.broker.getvalue():.2f}"

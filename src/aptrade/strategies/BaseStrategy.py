@@ -37,7 +37,10 @@ class Strategy(bt.Strategy):
                 self.buycomm = order.executed.comm
             if order.issell():
                 self.log(
-                    f"SELL {order.data._name}\t{order.executed.price:.2f}\t  Cost: {order.executed.value:.2f}\tComm: {order.executed.comm:.2f}"
+                    f"SELL {order.data._name}\t"
+                    f"{order.executed.price:.2f}\t"
+                    f"Cost: {order.executed.value:.2f}\t"
+                    f"Comm: {order.executed.comm:.2f}"
                 )
 
         elif order.status in [order.Canceled, order.Margin, order.Rejected]:
@@ -54,7 +57,8 @@ class Strategy(bt.Strategy):
                 )
             )
             self.log(
-                f"Cash: {self.broker.get_cash():.2f}, Order: {(order.price or 0) * (order.size or 0):.2f}"
+                f"Cash: {self.broker.get_cash():.2f}, "
+                f"Order: {(order.price or 0) * (order.size or 0):.2f}"
             )
             self.order_rejected = True
 

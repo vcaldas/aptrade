@@ -2,10 +2,13 @@
 Run each sample script that has a matching <script-stem>.txt reference file.
 A new sample is picked up automatically once its reference file is added.
 """
+
 import os
 import subprocess
 import sys
 from pathlib import Path
+
+import pytest
 
 ROOT_DIR = Path(__file__).parent.parent.parent
 SAMPLES_DIR = ROOT_DIR / "samples"
@@ -495,24 +498,6 @@ PREFERRED_SCRIPT_NAMES = {
 }
 
 
-def _resolve_script(folder: Path) -> Path:
-    preferred = PREFERRED_SCRIPT_NAMES.get(folder.name)
-    if preferred is not None:
-        script = folder / preferred
-        if script.exists():
-            return script
-
-    canonical = folder / f"{folder.name}.py"
-    if canonical.exists():
-        return canonical
-
-    scripts = sorted(path for path in folder.glob("*.py") if path.is_file())
-    if len(scripts) == 1:
-        return scripts[0]
-
-    raise FileNotFoundError(f"Could not resolve sample entrypoint for {folder}")
-
-
 def _cases():
     for folder in sorted(path for path in SAMPLES_DIR.iterdir() if path.is_dir()):
         for ref in sorted(folder.glob("*.txt")):
@@ -524,9 +509,6 @@ def _cases():
     for script_key in sorted(SAMPLE_SMOKE_TESTS):
         script = ROOT_DIR / script_key
         yield pytest.param(script, None, id=script.stem)
-
-
-import pytest
 
 
 @pytest.mark.parametrize("script,reference", _cases())

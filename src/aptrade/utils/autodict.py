@@ -20,8 +20,6 @@
 
 from collections import OrderedDict
 
-from .py3 import values as py3lvalues
-
 
 class AutoDictList(dict):
     def __missing__(self, key):
@@ -135,4 +133,4 @@ class AutoOrderedDict(OrderedDict):
         return self + other
 
     def lvalues(self):
-        return py3lvalues(self)
+        return list(self.values())

@@ -18,7 +18,7 @@
 #
 ###############################################################################
 
-from aptrade.utils.py3 import MAXINT
+import sys
 
 from . import MovAv, MovingAverageBase
 
@@ -74,7 +74,7 @@ class ZeroLagIndicator(MovingAverageBase):
         super().__init__()
 
     def next(self):
-        leasterror = MAXINT  # 1000000 in original code
+        leasterror = sys.maxsize  # 1000000 in original code
         bestec = ema = self.ema[0]  # seed value 1st time for ec
         price = self.data[0]
         ec1 = self.lines.ec[-1]

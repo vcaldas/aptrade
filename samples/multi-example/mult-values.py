@@ -20,23 +20,44 @@
 
 import argparse
 import datetime
+from dataclasses import dataclass
 
 import aptrade as bt
 
 
+@dataclass(slots=True, frozen=True)
+class TestSizerParameters:
+    stake: int = 1
+
+
 class TestSizer(bt.sizers.AbstractSizer):
-    params = (("stake", 1),)
+    Parameters = TestSizerParameters
 
-    def _getsizing(self, comminfo, cash, data, isbuy):
-        dt, _i = self.strategy.datetime.date(), data._id
-        s = self.p.stake * (1 + (not isbuy))
-        print(
-            "{} Data {} OType {} Sizing to {}".format(
-                dt, data._name, ("buy" * isbuy) or "sell", s
-            )
-        )
+    def _getsizing(self, comminfo, cash, data, isbuy) -> int:
+        dt = self.strategy.datetime.date()
 
-        return s
+        size = self.p.stake * (1 + (not isbuy))
+
+        order_type = "buy" if isbuy else "sell"
+
+        print(f"{dt} Data {data._name} OType {order_type} Sizing to {size}")
+
+        return size
+
+
+# class TestSizer(bt.sizers.AbstractSizer):
+#     params = (("stake", 1),)
+
+#     def _getsizing(self, comminfo, cash, data, isbuy):
+#         dt, _i = self.strategy.datetime.date(), data._id
+#         s = self.p.stake * (1 + (not isbuy))
+#         print(
+#             "{} Data {} OType {} Sizing to {}".format(
+#                 dt, data._name, ("buy" * isbuy) or "sell", s
+#             )
+#         )
+
+#         return s
 
 
 class St(bt.Strategy):

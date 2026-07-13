@@ -51,6 +51,7 @@ fits the requested date range without making multiple IB round-trips.
 import asyncio
 import collections
 import logging
+import queue
 import random
 import threading
 from copy import copy
@@ -63,7 +64,6 @@ from aptrade.dataseries import TimeFrame
 from aptrade.metabase import MetaParams
 from aptrade.position import Position
 from aptrade.utils import AutoDict
-from aptrade.utils.py3 import queue
 
 logger = logging.getLogger(__name__)
 

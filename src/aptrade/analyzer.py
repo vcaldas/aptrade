@@ -21,12 +21,12 @@
 import calendar
 import datetime
 import pprint as pp
+import sys
 from collections import OrderedDict
 
 import aptrade as bt
 from aptrade.dataseries import TimeFrame
 from aptrade.metabase import MetaParams
-from aptrade.utils.py3 import MAXINT
 
 
 class MetaAnalyzer(MetaParams):
@@ -340,7 +340,7 @@ class TimeFrameAnalyzerBase(Analyzer, metaclass=MetaTimeFrameAnalyzerBase):
 
     def _dt_over(self):
         if self.timeframe == TimeFrame.NoTimeFrame:
-            dtcmp, dtkey = MAXINT, datetime.datetime.max
+            dtcmp, dtkey = sys.maxsize, datetime.datetime.max
         else:
             # With >= 1.9.x the system datetime is in the strategy
             dt = self.strategy.datetime.datetime()

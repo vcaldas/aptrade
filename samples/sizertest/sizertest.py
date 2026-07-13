@@ -20,8 +20,10 @@
 
 import argparse
 import datetime
+from dataclasses import dataclass
 
 import aptrade as bt
+from aptrade.sizers import AbstractSizer
 
 
 class CloseSMA(bt.Strategy):
@@ -50,22 +52,38 @@ class LongOnly(bt.sizers.AbstractSizer):
         position = self.broker.getposition(data)
         if not position.size:
             return 0  # do not sell if nothing is open
-
+        print(f"LongOnly: position.size={position.size}, size={self.p.stake}")
         return self.p.stake
 
 
-class FixedReverser(bt.sizers.AbstractSizer):
-    params = (("stake", 1),)
+@dataclass(slots=True, frozen=True)
+class FixedReverserParameters:
+    stake: int = 1
+
+
+class FixedReverser(AbstractSizer):
+    Parameters = FixedReverserParameters
 
     def _getsizing(self, comminfo, cash, data, isbuy):
         position = self.strategy.getposition(data)
         size = self.p.stake * (1 + (position.size != 0))
+        print(f"FixedReverser: position.size={position.size}, size={size}")
         return size
+
+
+# class FixedReverser(bt.sizers.AbstractSizer):
+#     params = (("stake", 1),)
+
+#     def _getsizing(self, comminfo, cash, data, isbuy):
+#         position = self.strategy.getposition(data)
+#         size = self.p.stake * (1 + (position.size != 0))
+#         print(f"FixedReverser: position.size={position.size}, size={size}")
+#         return size
 
 
 def runstrat(args=None):
     args = parse_args(args)
-
+    print(args)
     cerebro = bt.Cerebro()
     cerebro.broker.set_cash(args.cash)
 

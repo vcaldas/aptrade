@@ -154,7 +154,6 @@ def test_prepare_trades_list_formats_placeholder_rows(plot_module, monkeypatch):
                 "pnl": np.nan,
                 "pnlcomm": np.nan,
                 "return_pct": np.nan,
-                "dateopen": pd.NaT,
                 "dateclose": pd.NaT,
                 "size": np.nan,
                 "barlen": np.nan,

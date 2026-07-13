@@ -2,6 +2,7 @@
 ###############################################################################
 #
 # Copyright (C) 2015-2023 Daniel Rodriguez
+# Copyright (C) 2025-2026 Victor Caldas
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -17,69 +18,71 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
+from dataclasses import dataclass
 
 from aptrade.sizers import AbstractSizer
 
 __all__ = ["PercentSizer", "AllInSizer", "PercentSizerInt", "AllInSizerInt"]
 
 
+@dataclass(slots=True, frozen=True)
+class PercentSizerParams:
+    """Parameters for PercentSizer."""
+
+    percents: float = 20.0
+    retint: bool = False
+
+
+@dataclass(slots=True, frozen=True)
+class AllInSizerParams(PercentSizerParams):
+    """Parameters for AllInSizer."""
+
+    percents: float = 100.0
+
+
+@dataclass(slots=True, frozen=True)
+class PercentSizerIntParams(PercentSizerParams):
+    """Parameters for PercentSizerInt."""
+
+    retint: bool = True
+
+
+@dataclass(slots=True, frozen=True)
+class AllInSizerIntParams(PercentSizerIntParams):
+    """Parameters for AllInSizerInt."""
+
+    percents: float = 100.0
+
+
 class PercentSizer(AbstractSizer):
-    """This sizer return percents of available cash
+    """Sizer that allocates a percentage of available cash."""
 
-    Params:
-      - ``percents`` (default: ``20``)
-    """
-
-    params = (
-        ("percents", 20),
-        ("retint", False),  # return an int size or rather the float value
-    )
-
-    def __init__(self):
-        pass
+    Parameters = PercentSizerParams
 
     def _getsizing(self, comminfo, cash, data, isbuy):
         position = self.broker.getposition(data)
+
         if not position:
-            size = cash / data.close[0] * (self.params.percents / 100)
+            size = cash / data.close[0] * (self.p.percents / 100.0)
         else:
             size = position.size
 
-        if self.p.retint:
-            size = int(size)
-
-        return size
+        return int(size) if self.p.retint else size
 
 
 class AllInSizer(PercentSizer):
-    """This sizer return all available cash of broker
+    """Sizer that allocates 100% of available cash."""
 
-    Params:
-      - ``percents`` (default: ``100``)
-    """
-
-    params = (("percents", 100),)
+    Parameters = AllInSizerParams
 
 
 class PercentSizerInt(PercentSizer):
-    """This sizer return percents of available cash in form of size truncated
-    to an int
+    """Sizer that allocates a percentage of cash and returns an integer size."""
 
-    Params:
-      - ``percents`` (default: ``20``)
-    """
-
-    params = (
-        ("retint", True),  # return an int size or rather the float value
-    )
+    Parameters = PercentSizerIntParams
 
 
 class AllInSizerInt(PercentSizerInt):
-    """This sizer return all available cash of broker with the
-    size truncated to an int
+    """Sizer that allocates all available cash and returns an integer size."""
 
-     Params:
-       - ``percents`` (default: ``100``)
-    """
-
-    params = (("percents", 100),)
+    Parameters = AllInSizerIntParams

@@ -14,7 +14,6 @@ from pandas import DataFrame as df
 # from math import copysign
 from aptrade.analyzer import Analyzer
 from aptrade.order import Order
-from aptrade.utils.py3 import iteritems
 
 
 class Eq(Analyzer):
@@ -198,7 +197,7 @@ class Eq(Analyzer):
         def _to_dt(k):
             return _n2d(k) if isinstance(k, (int, float)) else k
 
-        data = [[_to_dt(k)] + v[-2:] for k, v in iteritems(self.rets)]
+        data = [[_to_dt(k)] + v[-2:] for k, v in self.rets.items()]
         eq_df = df.from_records(
             data, index=self.rets_header[0], columns=self.rets_header
         )
