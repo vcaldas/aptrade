@@ -11,6 +11,7 @@ repos:
       - id: check-yaml
       - id: check-merge-conflict
       - id: end-of-file-fixer
+        exclude: '(^|/)samples/.*\.txt$'
 
   - repo: local
     hooks:

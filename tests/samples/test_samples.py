@@ -511,7 +511,7 @@ def _cases():
         yield pytest.param(script, None, id=script.stem)
 
 
-@pytest.mark.parametrize("script,reference", _cases())
+@pytest.mark.parametrize("script,reference", list(_cases()))
 def test_sample_output(script, reference):
     script_key = script.relative_to(ROOT_DIR).as_posix()
     env = dict(os.environ)
