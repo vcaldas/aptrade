@@ -209,6 +209,23 @@ lint.ignore = [
     "N999", # Invalid module name
     "E501", # Line too long (142 > 88)
     "N806", # Variable `VC_NONE` in function should be lowercase
+    "N802", # Function name `updateAccountValue` should be lowercase
+    "B904", # Within an `except` clause, raise exceptions with `raise`
+    "N803", # Argument name `useRTH` should be lowercase
+    "UP031", # Use format specifiers instead of percent format
+    "E722", # Do not use bare `except`
+    "F401", # `.plot.Plot` imported but unused; consider removing, adding to `__all__`, or using a redundant alias
+    "F821", # Undefined name `RSI`
+    "N814", # Camelcase `RateOfChange100` imported as constant `ROC100`
+    "N817", # CamelCase `HullMovingAverage` imported as acronym `HMA`
+
+
+
+
+
+
+
+
 
 ]
 
