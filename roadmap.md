@@ -5,22 +5,28 @@
 Build a trading system with a clear separation of responsibilities:
 
 - `frontend` owns the trader-facing UI and workflows in TypeScript.
-- `backend` owns orchestration, business rules, APIs, persistence, and automation in Python.
-- `aptrade` owns lower-level broker and market-data actions, adapters, and execution primitives.
+- `backend` owns orchestration, business rules, APIs, persistence, and
+  automation in Python.
+- `aptrade` owns lower-level broker and market-data actions, adapters, and
+  execution primitives.
 
 This first roadmap focuses on:
 
 - Broker support for Interactive Brokers and TradeZero.
 - Market data support for Massive and BarChart.
-- A system design that allows new brokers and data providers to be added without rewriting the UI or core backend flows.
+- A system design that allows new brokers and data providers to be added without
+  rewriting the UI or core backend flows.
 
 ## Product Goals
 
 - View live and historical market data from supported providers.
-- Manage accounts, balances, positions, orders, and executions across multiple brokers.
+- Manage accounts, balances, positions, orders, and executions across multiple
+  brokers.
 - Run strategy workflows from a unified interface.
-- Keep broker-specific and provider-specific logic isolated behind stable internal interfaces.
-- Make it possible to test strategies and broker flows before enabling live trading.
+- Keep broker-specific and provider-specific logic isolated behind stable
+  internal interfaces.
+- Make it possible to test strategies and broker flows before enabling live
+  trading.
 
 ## Codebase Responsibilities
 
@@ -29,24 +35,30 @@ This first roadmap focuses on:
 - Strategy configuration and monitoring screens.
 - Broker and data-provider connection status.
 - Account, positions, orders, fills, and logs views.
-- Operator controls for enabling paper trading, live trading, and emergency stop.
+- Operator controls for enabling paper trading, live trading, and emergency
+  stop.
 - Alerts and error visibility for disconnected brokers or stale data streams.
 
 ### Backend
 
 - Public API consumed by the frontend.
-- Domain models for accounts, instruments, orders, executions, positions, and strategies.
+- Domain models for accounts, instruments, orders, executions, positions, and
+  strategies.
 - Authentication, authorization, and audit logging.
 - Strategy orchestration, task submission, and task status APIs.
-- Persistence for configuration, market snapshots, order state, fills, and system events.
+- Persistence for configuration, market snapshots, order state, fills, and
+  system events.
 - Risk checks, broker routing rules, and execution policies.
 
 ### Scheduling and Workers
 
 - Airflow owns long-running daily and batch pipelines.
-- Celery workers own on-demand background jobs triggered by users or internal services.
-- Celery Beat owns short-interval recurring jobs such as minute polling and health checks.
-- The backend remains the control plane for submitting jobs, checking status, and enforcing permissions.
+- Celery workers own on-demand background jobs triggered by users or internal
+  services.
+- Celery Beat owns short-interval recurring jobs such as minute polling and
+  health checks.
+- The backend remains the control plane for submitting jobs, checking status,
+  and enforcing permissions.
 
 ### aptrade
 
@@ -58,7 +70,8 @@ This first roadmap focuses on:
   - order placement, modification, and cancellation
   - account and position retrieval
   - execution and order-status events
-- Retry, reconnect, rate-limit handling, and normalization of vendor-specific payloads.
+- Retry, reconnect, rate-limit handling, and normalization of vendor-specific
+  payloads.
 
 ## Guiding Architecture
 
@@ -78,12 +91,13 @@ Each external integration should map into these internal types.
 
 ### 2. Separate orchestration from transport
 
-The backend should decide what the system does.
-`aptrade` should decide how to talk to each external broker or data vendor.
+The backend should decide what the system does. `aptrade` should decide how to
+talk to each external broker or data vendor.
 
 ### 3. Support both polling and streaming
 
-Not every provider will expose the same real-time behavior. The system should support:
+Not every provider will expose the same real-time behavior. The system should
+support:
 
 - streaming subscriptions when available
 - polling fallbacks when required
@@ -99,20 +113,26 @@ Every broker integration should be proven in:
 
 ### 5. Use the right scheduler for each task shape
 
-- Airflow for daily and dependency-heavy pipelines such as downloads, cleaning, enrichment, and end-of-day processing.
-- Celery workers for on-demand jobs such as backtests, analytics, ad hoc rebuilds, and user-triggered workflows.
-- Celery Beat for short recurring jobs such as every-minute polling, heartbeats, and stale-state detection.
-- Avoid using Airflow for minute-level polling or low-latency broker-facing execution paths.
+- Airflow for daily and dependency-heavy pipelines such as downloads, cleaning,
+  enrichment, and end-of-day processing.
+- Celery workers for on-demand jobs such as backtests, analytics, ad hoc
+  rebuilds, and user-triggered workflows.
+- Celery Beat for short recurring jobs such as every-minute polling, heartbeats,
+  and stale-state detection.
+- Avoid using Airflow for minute-level polling or low-latency broker-facing
+  execution paths.
 
 ## Phase Roadmap
 
 ## Phase 0: Foundation and Contracts
 
-Objective: create stable interfaces so integrations do not leak vendor behavior into the rest of the system.
+Objective: create stable interfaces so integrations do not leak vendor behavior
+into the rest of the system.
 
 Deliverables:
 
-- Define canonical models for instruments, quotes, bars, orders, fills, positions, balances, and strategy signals.
+- Define canonical models for instruments, quotes, bars, orders, fills,
+  positions, balances, and strategy signals.
 - Define adapter interfaces in `aptrade` for brokers and market data.
 - Define backend services that depend only on internal adapter contracts.
 - Add environment-based provider and broker configuration.
@@ -123,7 +143,8 @@ Deliverables:
   - premarket and after-hours support
   - paper trading support
   - short locate or margin-specific behaviors if applicable
-- Add structured logging and correlation IDs across frontend, backend, and `aptrade`.
+- Add structured logging and correlation IDs across frontend, backend, and
+  `aptrade`.
 
 Exit criteria:
 
@@ -132,7 +153,8 @@ Exit criteria:
 
 ## Phase 1: Market Data Baseline
 
-Objective: deliver normalized market data first, because strategies and execution logic depend on it.
+Objective: deliver normalized market data first, because strategies and
+execution logic depend on it.
 
 Priority order:
 
@@ -160,17 +182,22 @@ Deliverables:
 Default decisions:
 
 - Massive is the default source for real-time quotes in the first release.
-- BarChart is the secondary and fallback provider, with emphasis on coverage and gap handling.
-- Canonical instrument identity should separate `symbol`, `asset_type`, `primary_exchange`, and `currency` instead of encoding provider-specific formats into one string.
+- BarChart is the secondary and fallback provider, with emphasis on coverage and
+  gap handling.
+- Canonical instrument identity should separate `symbol`, `asset_type`,
+  `primary_exchange`, and `currency` instead of encoding provider-specific
+  formats into one string.
 
 Exit criteria:
 
-- A frontend user can choose a symbol and see normalized data regardless of provider.
+- A frontend user can choose a symbol and see normalized data regardless of
+  provider.
 - Backend can switch providers by configuration or failover rules.
 
 ## Phase 2: Broker Connectivity Baseline
 
-Objective: establish account and order lifecycle connectivity before strategy automation.
+Objective: establish account and order lifecycle connectivity before strategy
+automation.
 
 Priority order:
 
@@ -202,15 +229,18 @@ Default decisions:
 
 - Each strategy should bind to one broker account in the first release.
 - Live trading must remain behind explicit feature flags and permission checks.
-- Interactive Brokers is the first live-trading target; TradeZero follows after the broker abstractions are proven.
+- Interactive Brokers is the first live-trading target; TradeZero follows after
+  the broker abstractions are proven.
 
 Exit criteria:
 
-- A user can connect to each broker, inspect account state, and submit controlled test orders.
+- A user can connect to each broker, inspect account state, and submit
+  controlled test orders.
 
 ## Phase 3: Strategy Runtime
 
-Objective: connect data, execution, and operator workflows into a usable trading loop.
+Objective: connect data, execution, and operator workflows into a usable trading
+loop.
 
 Deliverables:
 
@@ -237,12 +267,15 @@ Deliverables:
 
 Exit criteria:
 
-- A configured strategy can run end to end in paper mode using supported data and broker integrations.
+- A configured strategy can run end to end in paper mode using supported data
+  and broker integrations.
 
 Default decisions:
 
-- Live strategy orchestration should stay in the backend control plane for the first release.
-- Celery workers should be used for on-demand background jobs such as backtests and heavy analysis, not as the primary live-trading runtime.
+- Live strategy orchestration should stay in the backend control plane for the
+  first release.
+- Celery workers should be used for on-demand background jobs such as backtests
+  and heavy analysis, not as the primary live-trading runtime.
 
 ## Phase 4: Risk, Reliability, and Controls
 
@@ -259,7 +292,8 @@ Deliverables:
 - Circuit breakers and emergency stop.
 - Heartbeats for brokers and data providers.
 - Automatic reconnection and stale-data detection.
-- Alerting for disconnects, rejected orders, and unacknowledged state transitions.
+- Alerting for disconnects, rejected orders, and unacknowledged state
+  transitions.
 - Replay tooling for order and market-data event debugging.
 
 Exit criteria:
@@ -277,37 +311,49 @@ Deliverables:
 - Deployment profiles for local, staging, and production.
 - Secrets management for broker and data-provider credentials.
 - Runbooks for outages, reconnects, and broker-specific failures.
-- Metrics dashboard for latency, fill rates, rejected orders, stale quotes, and provider uptime.
+- Metrics dashboard for latency, fill rates, rejected orders, stale quotes, and
+  provider uptime.
 
 Exit criteria:
 
-- The team can deploy, monitor, and support the system without relying on tribal knowledge.
+- The team can deploy, monitor, and support the system without relying on tribal
+  knowledge.
 
 ## Phase 6: Scheduling and Background Execution
 
-Objective: establish a clear execution model for daily pipelines, on-demand jobs, and short-interval recurring tasks.
+Objective: establish a clear execution model for daily pipelines, on-demand
+jobs, and short-interval recurring tasks.
 
 Deliverables:
 
-- Add Airflow for daily pipelines such as data download, cleaning, enrichment, reconciliation, and scheduled reports.
-- Add Celery workers for on-demand jobs such as backtests, analysis, ad hoc refreshes, and batch recomputations.
-- Add Celery Beat for minute-level polling, heartbeat checks, and periodic synchronization.
-- Define backend APIs for task submission, status retrieval, cancellation where supported, and audit logging.
-- Define task ownership boundaries so trading runtime logic does not depend on Airflow DAG execution.
-- Add observability for scheduled and background jobs, including duration, retries, queue depth, failures, and last-success timestamps.
+- Add Airflow for daily pipelines such as data download, cleaning, enrichment,
+  reconciliation, and scheduled reports.
+- Add Celery workers for on-demand jobs such as backtests, analysis, ad hoc
+  refreshes, and batch recomputations.
+- Add Celery Beat for minute-level polling, heartbeat checks, and periodic
+  synchronization.
+- Define backend APIs for task submission, status retrieval, cancellation where
+  supported, and audit logging.
+- Define task ownership boundaries so trading runtime logic does not depend on
+  Airflow DAG execution.
+- Add observability for scheduled and background jobs, including duration,
+  retries, queue depth, failures, and last-success timestamps.
 
 Exit criteria:
 
 - Daily pipelines run through Airflow.
 - On-demand jobs run through Celery workers.
 - Minute-level recurring jobs run through Celery Beat.
-- The frontend can inspect task status without needing to know the underlying scheduler.
+- The frontend can inspect task status without needing to know the underlying
+  scheduler.
 
 Default decisions:
 
-- The first Airflow DAG should run daily market-data download, normalization, cleaning, validation, and completion reporting.
+- The first Airflow DAG should run daily market-data download, normalization,
+  cleaning, validation, and completion reporting.
 - The first Celery task should be a user-triggered backtest.
-- The first Celery Beat jobs should be provider-health checks and minute-level data freshness polling.
+- The first Celery Beat jobs should be provider-health checks and minute-level
+  data freshness polling.
 
 ## Initial Priority Stack
 
@@ -330,10 +376,12 @@ If the goal is fastest useful progress, build in this order:
 
 ### Milestone 1: Foundations and Contracts
 
-- Canonical models are defined for market data, orders, positions, executions, and strategy inputs.
+- Canonical models are defined for market data, orders, positions, executions,
+  and strategy inputs.
 - Broker and market-data adapter interfaces are defined.
 - Logging, tracing, and capability-matrix conventions are documented.
-- Core architecture defaults are recorded so implementation can proceed without reopening baseline decisions.
+- Core architecture defaults are recorded so implementation can proceed without
+  reopening baseline decisions.
 
 ### Milestone 2: Scheduler and Worker Foundations
 
@@ -356,7 +404,8 @@ If the goal is fastest useful progress, build in this order:
 
 ### Milestone 5: Broker Visibility
 
-- Interactive Brokers account summary, positions, and open orders visible in the UI.
+- Interactive Brokers account summary, positions, and open orders visible in the
+  UI.
 - Manual test order path available behind a safety flag.
 
 ### Milestone 6: Multi-provider and Multi-broker Baseline
@@ -371,22 +420,29 @@ If the goal is fastest useful progress, build in this order:
 
 ## Current Defaults
 
-- Use PostgreSQL as the primary database, with append-only event tables for orders, executions, task runs, and system events.
+- Use PostgreSQL as the primary database, with append-only event tables for
+  orders, executions, task runs, and system events.
 - Run daily and dependency-heavy pipelines in Airflow.
 - Run on-demand background jobs in Celery workers.
 - Run minute-level recurring jobs in Celery Beat.
-- Keep live strategy orchestration in the backend control plane for the first release.
-- Keep `aptrade` as an internal Python package first, and only move to a service boundary if scale or isolation requirements justify it.
-- Use uppercase canonical symbols for the primary ticker and store exchange, asset type, and currency as separate fields.
-- Use WebSockets for live operational updates where needed, with polling fallback for simple screens and degraded environments.
+- Keep live strategy orchestration in the backend control plane for the first
+  release.
+- Keep `aptrade` as an internal Python package first, and only move to a service
+  boundary if scale or isolation requirements justify it.
+- Use uppercase canonical symbols for the primary ticker and store exchange,
+  asset type, and currency as separate fields.
+- Use WebSockets for live operational updates where needed, with polling
+  fallback for simple screens and degraded environments.
 
 ## Risks to Address Early
 
 - Broker APIs may differ materially in order support and status semantics.
 - Market-data entitlements and rate limits may constrain features.
 - Symbol identity mismatches can create execution risk.
-- Reconnect logic and stale-state handling are often harder than initial happy-path integration.
-- Live trading needs stronger controls than paper trading from the start of the design.
+- Reconnect logic and stale-state handling are often harder than initial
+  happy-path integration.
+- Live trading needs stronger controls than paper trading from the start of the
+  design.
 
 ## Suggested First Sprint
 
@@ -405,5 +461,6 @@ You should be able to say the platform has a solid foundation when:
 - the backend orchestrates against stable internal contracts
 - `aptrade` contains vendor-specific integration code
 - one data provider and one broker work end to end in a controlled flow
-- daily pipelines, on-demand jobs, and minute-level recurring jobs each have a clear execution path
+- daily pipelines, on-demand jobs, and minute-level recurring jobs each have a
+  clear execution path
 - adding the second provider and second broker is incremental, not architectural

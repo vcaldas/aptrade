@@ -1,7 +1,7 @@
 # Trading System Epics and Tickets
 
-This file breaks the roadmap into epics and issue-sized tickets.
-Each item is written so it can be copied into GitHub issues with minimal editing.
+This file breaks the roadmap into epics and issue-sized tickets. Each item is
+written so it can be copied into GitHub issues with minimal editing.
 
 ## GitHub Labels
 
@@ -43,7 +43,8 @@ Each item is written so it can be copied into GitHub issues with minimal editing
 
 ## Strict Implementation Sequence
 
-Build in this order. A later ticket should not start until its required predecessors are complete.
+Build in this order. A later ticket should not start until its required
+predecessors are complete.
 
 1. `1.1` Define canonical trading domain models
 2. `1.2` Define broker adapter interface
@@ -98,7 +99,8 @@ Build in this order. A later ticket should not start until its required predeces
 
 **Description**
 
-Create the shared architecture contracts that keep vendor-specific logic inside `aptrade` and let the backend and frontend depend on stable internal models.
+Create the shared architecture contracts that keep vendor-specific logic inside
+`aptrade` and let the backend and frontend depend on stable internal models.
 
 **Epic Checklist**
 
@@ -112,13 +114,17 @@ Create the shared architecture contracts that keep vendor-specific logic inside 
 
 **Description**
 
-Create normalized models for instruments, quotes, bars, orders, fills, positions, balances, account summaries, strategy inputs, and strategy events so the rest of the platform can remain vendor-agnostic.
+Create normalized models for instruments, quotes, bars, orders, fills,
+positions, balances, account summaries, strategy inputs, and strategy events so
+the rest of the platform can remain vendor-agnostic.
 
 **Checklist**
 
 - [ ] Define required and optional fields for `Instrument`, `Quote`, and `Bar`.
-- [ ] Define required and optional fields for `OrderRequest`, `OrderStatus`, and `ExecutionEvent`.
-- [ ] Define required and optional fields for `PositionSnapshot`, `BalanceSnapshot`, and `AccountSummary`.
+- [ ] Define required and optional fields for `OrderRequest`, `OrderStatus`, and
+      `ExecutionEvent`.
+- [ ] Define required and optional fields for `PositionSnapshot`,
+      `BalanceSnapshot`, and `AccountSummary`.
 - [ ] Define timestamp, timezone, and session conventions.
 - [ ] Document the models in a shared reference file.
 
@@ -126,7 +132,9 @@ Create normalized models for instruments, quotes, bars, orders, fills, positions
 
 **Description**
 
-Create a `BrokerAdapter` contract in `aptrade` that standardizes account access, order submission, order cancellation, order status updates, positions, and connection health.
+Create a `BrokerAdapter` contract in `aptrade` that standardizes account access,
+order submission, order cancellation, order status updates, positions, and
+connection health.
 
 **Checklist**
 
@@ -140,7 +148,8 @@ Create a `BrokerAdapter` contract in `aptrade` that standardizes account access,
 
 **Description**
 
-Create a `MarketDataAdapter` contract in `aptrade` that standardizes latest quotes, historical bars, subscriptions, provider health, and fallback behavior.
+Create a `MarketDataAdapter` contract in `aptrade` that standardizes latest
+quotes, historical bars, subscriptions, provider health, and fallback behavior.
 
 **Checklist**
 
@@ -154,13 +163,16 @@ Create a `MarketDataAdapter` contract in `aptrade` that standardizes latest quot
 
 **Description**
 
-Define a single capability schema that captures supported order types, historical data coverage, real-time behavior, paper-trading support, extended-hours support, and known constraints.
+Define a single capability schema that captures supported order types,
+historical data coverage, real-time behavior, paper-trading support,
+extended-hours support, and known constraints.
 
 **Checklist**
 
 - [ ] Define fields for broker capabilities.
 - [ ] Define fields for data-provider capabilities.
-- [ ] Add placeholders for Interactive Brokers, TradeZero, Massive, and BarChart.
+- [ ] Add placeholders for Interactive Brokers, TradeZero, Massive, and
+      BarChart.
 - [ ] Document unsupported or unknown capabilities explicitly.
 - [ ] Make the capability schema accessible to backend services.
 
@@ -168,12 +180,14 @@ Define a single capability schema that captures supported order types, historica
 
 **Description**
 
-Define the logging structure used across frontend, backend, and `aptrade` so requests, market-data events, and order events can be traced end to end.
+Define the logging structure used across frontend, backend, and `aptrade` so
+requests, market-data events, and order events can be traced end to end.
 
 **Checklist**
 
 - [ ] Define correlation ID propagation rules.
-- [ ] Define structured log fields for requests, broker events, and data-provider events.
+- [ ] Define structured log fields for requests, broker events, and
+      data-provider events.
 - [ ] Define log severity conventions.
 - [ ] Define error classification categories.
 - [ ] Document the standard for future implementation.
@@ -182,22 +196,26 @@ Define the logging structure used across frontend, backend, and `aptrade` so req
 
 **Description**
 
-Document and validate the current architecture defaults so implementation can proceed without reopening the same decisions in every ticket.
+Document and validate the current architecture defaults so implementation can
+proceed without reopening the same decisions in every ticket.
 
 **Checklist**
 
 - [ ] Document PostgreSQL as the primary database and event-storage baseline.
 - [ ] Document the default split across Airflow, Celery, and Celery Beat.
-- [ ] Document live strategy orchestration in the backend as the first-release default.
+- [ ] Document live strategy orchestration in the backend as the first-release
+      default.
 - [ ] Document `aptrade` as an internal Python package for the first release.
-- [ ] Document uppercase canonical symbols with exchange and asset metadata stored separately.
+- [ ] Document uppercase canonical symbols with exchange and asset metadata
+      stored separately.
 - [ ] Document WebSockets with polling fallback as the UI update baseline.
 
 ## Epic 2: Market Data Baseline
 
 **Description**
 
-Deliver normalized market-data access through the backend and frontend, starting with Massive and then adding BarChart as an alternate or fallback provider.
+Deliver normalized market-data access through the backend and frontend, starting
+with Massive and then adding BarChart as an alternate or fallback provider.
 
 **Epic Checklist**
 
@@ -211,7 +229,8 @@ Deliver normalized market-data access through the backend and frontend, starting
 
 **Description**
 
-Build the initial Massive integration in `aptrade` for latest quotes, historical bars, provider health, and normalized symbol handling.
+Build the initial Massive integration in `aptrade` for latest quotes, historical
+bars, provider health, and normalized symbol handling.
 
 **Checklist**
 
@@ -225,7 +244,8 @@ Build the initial Massive integration in `aptrade` for latest quotes, historical
 
 **Description**
 
-Build the BarChart integration in `aptrade` using the same normalized contract as Massive.
+Build the BarChart integration in `aptrade` using the same normalized contract
+as Massive.
 
 **Checklist**
 
@@ -239,7 +259,8 @@ Build the BarChart integration in `aptrade` using the same normalized contract a
 
 **Description**
 
-Define how symbols are mapped between frontend input, backend canonical representation, market-data providers, and brokers.
+Define how symbols are mapped between frontend input, backend canonical
+representation, market-data providers, and brokers.
 
 **Checklist**
 
@@ -254,7 +275,8 @@ Define how symbols are mapped between frontend input, backend canonical represen
 
 **Description**
 
-Create backend services that call market-data adapters through internal contracts and return normalized responses to the frontend.
+Create backend services that call market-data adapters through internal
+contracts and return normalized responses to the frontend.
 
 **Checklist**
 
@@ -268,7 +290,8 @@ Create backend services that call market-data adapters through internal contract
 
 **Description**
 
-Expose backend endpoints for latest quotes, historical bars, and provider health so the frontend can start integrating against stable APIs.
+Expose backend endpoints for latest quotes, historical bars, and provider health
+so the frontend can start integrating against stable APIs.
 
 **Checklist**
 
@@ -282,7 +305,8 @@ Expose backend endpoints for latest quotes, historical bars, and provider health
 
 **Description**
 
-Create a simple frontend screen that lets an operator enter a symbol, choose a provider, view quote and bar data, and inspect provider status.
+Create a simple frontend screen that lets an operator enter a symbol, choose a
+provider, view quote and bar data, and inspect provider status.
 
 **Checklist**
 
@@ -296,7 +320,8 @@ Create a simple frontend screen that lets an operator enter a symbol, choose a p
 
 **Description**
 
-Define and implement how the backend falls back between Massive and BarChart when data is missing, stale, or unavailable.
+Define and implement how the backend falls back between Massive and BarChart
+when data is missing, stale, or unavailable.
 
 **Checklist**
 
@@ -310,7 +335,8 @@ Define and implement how the backend falls back between Massive and BarChart whe
 
 **Description**
 
-Connect brokers for account visibility and controlled order workflows, starting with Interactive Brokers and then adding TradeZero.
+Connect brokers for account visibility and controlled order workflows, starting
+with Interactive Brokers and then adding TradeZero.
 
 **Epic Checklist**
 
@@ -324,7 +350,9 @@ Connect brokers for account visibility and controlled order workflows, starting 
 
 **Description**
 
-Build the Interactive Brokers adapter in `aptrade` for connection health, account summary, positions, open orders, place order, cancel order, and order status updates.
+Build the Interactive Brokers adapter in `aptrade` for connection health,
+account summary, positions, open orders, place order, cancel order, and order
+status updates.
 
 **Checklist**
 
@@ -338,7 +366,8 @@ Build the Interactive Brokers adapter in `aptrade` for connection health, accoun
 
 **Description**
 
-Build the TradeZero adapter in `aptrade` with the same baseline feature set as Interactive Brokers, while capturing broker-specific constraints.
+Build the TradeZero adapter in `aptrade` with the same baseline feature set as
+Interactive Brokers, while capturing broker-specific constraints.
 
 **Checklist**
 
@@ -352,7 +381,8 @@ Build the TradeZero adapter in `aptrade` with the same baseline feature set as I
 
 **Description**
 
-Define the internal order-state model and map each broker's native order lifecycle into that shared state machine.
+Define the internal order-state model and map each broker's native order
+lifecycle into that shared state machine.
 
 **Checklist**
 
@@ -366,7 +396,8 @@ Define the internal order-state model and map each broker's native order lifecyc
 
 **Description**
 
-Create backend services for broker connection status, account selection, account summary retrieval, positions, open orders, and order actions.
+Create backend services for broker connection status, account selection, account
+summary retrieval, positions, open orders, and order actions.
 
 **Checklist**
 
@@ -380,7 +411,8 @@ Create backend services for broker connection status, account selection, account
 
 **Description**
 
-Expose normalized broker APIs to the frontend for account visibility and controlled test-order workflows.
+Expose normalized broker APIs to the frontend for account visibility and
+controlled test-order workflows.
 
 **Checklist**
 
@@ -394,7 +426,9 @@ Expose normalized broker APIs to the frontend for account visibility and control
 
 **Description**
 
-Create a frontend screen for broker connection status, account summaries, positions, open orders, and manual test-order submission behind a safety control.
+Create a frontend screen for broker connection status, account summaries,
+positions, open orders, and manual test-order submission behind a safety
+control.
 
 **Checklist**
 
@@ -408,7 +442,8 @@ Create a frontend screen for broker connection status, account summaries, positi
 
 **Description**
 
-Introduce explicit feature flags and permission checks that restrict manual and automated live order placement until the system is ready.
+Introduce explicit feature flags and permission checks that restrict manual and
+automated live order placement until the system is ready.
 
 **Checklist**
 
@@ -422,7 +457,8 @@ Introduce explicit feature flags and permission checks that restrict manual and 
 
 **Description**
 
-Connect market data, execution, and operator controls so strategies can run in paper mode with full visibility and audit trails.
+Connect market data, execution, and operator controls so strategies can run in
+paper mode with full visibility and audit trails.
 
 **Epic Checklist**
 
@@ -436,7 +472,8 @@ Connect market data, execution, and operator controls so strategies can run in p
 
 **Description**
 
-Define the lifecycle states and transitions for strategies, including draft, paper, live, paused, and stopped.
+Define the lifecycle states and transitions for strategies, including draft,
+paper, live, paused, and stopped.
 
 **Checklist**
 
@@ -450,7 +487,8 @@ Define the lifecycle states and transitions for strategies, including draft, pap
 
 **Description**
 
-Create the normalized configuration model for strategies, including symbols, timeframe, broker, provider, sizing, and risk parameters.
+Create the normalized configuration model for strategies, including symbols,
+timeframe, broker, provider, sizing, and risk parameters.
 
 **Checklist**
 
@@ -464,7 +502,8 @@ Create the normalized configuration model for strategies, including symbols, tim
 
 **Description**
 
-Build the backend orchestration path that accepts signals, runs pre-trade checks, generates orders, reconciles fills, and updates positions.
+Build the backend orchestration path that accepts signals, runs pre-trade
+checks, generates orders, reconciles fills, and updates positions.
 
 **Checklist**
 
@@ -478,7 +517,8 @@ Build the backend orchestration path that accepts signals, runs pre-trade checks
 
 **Description**
 
-Add a paper-trading mode that exercises the strategy lifecycle and execution flow without sending live broker orders.
+Add a paper-trading mode that exercises the strategy lifecycle and execution
+flow without sending live broker orders.
 
 **Checklist**
 
@@ -492,7 +532,8 @@ Add a paper-trading mode that exercises the strategy lifecycle and execution flo
 
 **Description**
 
-Create frontend pages to create, edit, activate, pause, and inspect strategies, including the broker and provider assigned to each strategy.
+Create frontend pages to create, edit, activate, pause, and inspect strategies,
+including the broker and provider assigned to each strategy.
 
 **Checklist**
 
@@ -506,7 +547,8 @@ Create frontend pages to create, edit, activate, pause, and inspect strategies, 
 
 **Description**
 
-Provide a full history of automated actions, state changes, signals, generated orders, and operator interventions.
+Provide a full history of automated actions, state changes, signals, generated
+orders, and operator interventions.
 
 **Checklist**
 
@@ -520,7 +562,8 @@ Provide a full history of automated actions, state changes, signals, generated o
 
 **Description**
 
-Add the safeguards, health monitoring, and failure handling needed to run the system safely and diagnose problems quickly.
+Add the safeguards, health monitoring, and failure handling needed to run the
+system safely and diagnose problems quickly.
 
 **Epic Checklist**
 
@@ -534,7 +577,9 @@ Add the safeguards, health monitoring, and failure handling needed to run the sy
 
 **Description**
 
-Create the risk checks that run before any order is submitted, including size limits, trading windows, symbol allowlists, daily loss thresholds, and duplicate order prevention.
+Create the risk checks that run before any order is submitted, including size
+limits, trading windows, symbol allowlists, daily loss thresholds, and duplicate
+order prevention.
 
 **Checklist**
 
@@ -548,7 +593,8 @@ Create the risk checks that run before any order is submitted, including size li
 
 **Description**
 
-Implement mechanisms that can immediately stop automated trading or block order flow when critical conditions are detected.
+Implement mechanisms that can immediately stop automated trading or block order
+flow when critical conditions are detected.
 
 **Checklist**
 
@@ -562,7 +608,8 @@ Implement mechanisms that can immediately stop automated trading or block order 
 
 **Description**
 
-Create recurring health and heartbeat checks for brokers, providers, and key internal services.
+Create recurring health and heartbeat checks for brokers, providers, and key
+internal services.
 
 **Checklist**
 
@@ -576,7 +623,8 @@ Create recurring health and heartbeat checks for brokers, providers, and key int
 
 **Description**
 
-Handle disconnects, stale quotes, stale order state, and partial recovery so the system fails safely instead of drifting into an unknown state.
+Handle disconnects, stale quotes, stale order state, and partial recovery so the
+system fails safely instead of drifting into an unknown state.
 
 **Checklist**
 
@@ -590,7 +638,8 @@ Handle disconnects, stale quotes, stale order state, and partial recovery so the
 
 **Description**
 
-Define and implement alerting for disconnections, rejected orders, repeated reconnect failures, and other critical execution or data issues.
+Define and implement alerting for disconnections, rejected orders, repeated
+reconnect failures, and other critical execution or data issues.
 
 **Checklist**
 
@@ -604,7 +653,8 @@ Define and implement alerting for disconnections, rejected orders, repeated reco
 
 **Description**
 
-Provide tooling to inspect past order and market-data event sequences so failures can be understood and reproduced.
+Provide tooling to inspect past order and market-data event sequences so
+failures can be understood and reproduced.
 
 **Checklist**
 
@@ -618,7 +668,8 @@ Provide tooling to inspect past order and market-data event sequences so failure
 
 **Description**
 
-Prepare the system for repeatable deployment, support, testing, monitoring, and credential management.
+Prepare the system for repeatable deployment, support, testing, monitoring, and
+credential management.
 
 **Epic Checklist**
 
@@ -632,7 +683,8 @@ Prepare the system for repeatable deployment, support, testing, monitoring, and 
 
 **Description**
 
-Create integration tests that verify market-data providers and brokers conform to the internal contracts and handle common failure modes.
+Create integration tests that verify market-data providers and brokers conform
+to the internal contracts and handle common failure modes.
 
 **Checklist**
 
@@ -646,7 +698,8 @@ Create integration tests that verify market-data providers and brokers conform t
 
 **Description**
 
-Create repeatable regression scenarios that validate market-data ingestion, strategy execution, order generation, and state updates in paper mode.
+Create repeatable regression scenarios that validate market-data ingestion,
+strategy execution, order generation, and state updates in paper mode.
 
 **Checklist**
 
@@ -660,7 +713,8 @@ Create repeatable regression scenarios that validate market-data ingestion, stra
 
 **Description**
 
-Document and implement local, staging, and production deployment profiles with environment-specific configuration rules.
+Document and implement local, staging, and production deployment profiles with
+environment-specific configuration rules.
 
 **Checklist**
 
@@ -674,7 +728,8 @@ Document and implement local, staging, and production deployment profiles with e
 
 **Description**
 
-Define how broker credentials, provider credentials, and sensitive environment settings are stored, rotated, and accessed.
+Define how broker credentials, provider credentials, and sensitive environment
+settings are stored, rotated, and accessed.
 
 **Checklist**
 
@@ -688,7 +743,8 @@ Define how broker credentials, provider credentials, and sensitive environment s
 
 **Description**
 
-Create runbooks for common operational events, including disconnects, failed reconnects, rejected orders, stale data, and partial outages.
+Create runbooks for common operational events, including disconnects, failed
+reconnects, rejected orders, stale data, and partial outages.
 
 **Checklist**
 
@@ -702,7 +758,9 @@ Create runbooks for common operational events, including disconnects, failed rec
 
 **Description**
 
-Identify the metrics needed to operate the platform, then define a dashboard that highlights latency, uptime, fill rates, rejection rates, and stale-state signals.
+Identify the metrics needed to operate the platform, then define a dashboard
+that highlights latency, uptime, fill rates, rejection rates, and stale-state
+signals.
 
 **Checklist**
 
@@ -716,7 +774,9 @@ Identify the metrics needed to operate the platform, then define a dashboard tha
 
 **Description**
 
-Add the execution infrastructure for daily pipelines, on-demand background work, and short-interval recurring jobs using Airflow, Celery workers, and Celery Beat.
+Add the execution infrastructure for daily pipelines, on-demand background work,
+and short-interval recurring jobs using Airflow, Celery workers, and Celery
+Beat.
 
 **Epic Checklist**
 
@@ -730,7 +790,9 @@ Add the execution infrastructure for daily pipelines, on-demand background work,
 
 **Description**
 
-Create the rules that determine which jobs run in Airflow, which run in Celery workers, and which run in Celery Beat so the system has a stable scheduling model.
+Create the rules that determine which jobs run in Airflow, which run in Celery
+workers, and which run in Celery Beat so the system has a stable scheduling
+model.
 
 **Checklist**
 
@@ -744,7 +806,9 @@ Create the rules that determine which jobs run in Airflow, which run in Celery w
 
 **Description**
 
-Set up Airflow as the orchestration layer for daily long-running pipelines such as data downloads, cleaning, enrichment, reconciliation, and scheduled reporting.
+Set up Airflow as the orchestration layer for daily long-running pipelines such
+as data downloads, cleaning, enrichment, reconciliation, and scheduled
+reporting.
 
 **Checklist**
 
@@ -758,11 +822,13 @@ Set up Airflow as the orchestration layer for daily long-running pipelines such 
 
 **Description**
 
-Implement the first production-relevant Airflow DAG for daily download, processing, cleaning, and post-run validation of market data.
+Implement the first production-relevant Airflow DAG for daily download,
+processing, cleaning, and post-run validation of market data.
 
 **GitHub Metadata**
 
-- Labels: `epic:scheduling`, `area:airflow`, `area:backend`, `type:pipeline`, `priority:p0`
+- Labels: `epic:scheduling`, `area:airflow`, `area:backend`, `type:pipeline`,
+  `priority:p0`
 - Milestone: `M4 Scheduling Core`
 - Depends on: `1.1`, `1.3`, `1.4`, `7.1`, `7.2`, `2.3`
 
@@ -770,10 +836,13 @@ Implement the first production-relevant Airflow DAG for daily download, processi
 
 - Create a DAG named `daily_market_data_pipeline`.
 - Schedule it once per trading day with explicit timezone handling.
-- Split the DAG into discrete tasks for download, process, clean, validate, and publish completion status.
+- Split the DAG into discrete tasks for download, process, clean, validate, and
+  publish completion status.
 - Use idempotent task design so reruns do not corrupt stored datasets.
-- Store run metadata including start time, end time, duration, status, row counts, and validation summary.
-- Emit a normalized run result the backend can query without depending on the Airflow UI.
+- Store run metadata including start time, end time, duration, status, row
+  counts, and validation summary.
+- Emit a normalized run result the backend can query without depending on the
+  Airflow UI.
 
 **Acceptance Criteria**
 
@@ -798,7 +867,9 @@ Implement the first production-relevant Airflow DAG for daily download, processi
 
 **Description**
 
-Set up Celery and the message broker so the backend can dispatch background jobs such as backtests, analysis runs, ad hoc recomputations, and user-triggered refreshes.
+Set up Celery and the message broker so the backend can dispatch background jobs
+such as backtests, analysis runs, ad hoc recomputations, and user-triggered
+refreshes.
 
 **Checklist**
 
@@ -812,22 +883,29 @@ Set up Celery and the message broker so the backend can dispatch background jobs
 
 **Description**
 
-Use backtesting as the first on-demand Celery job so the system proves task submission, progress tracking, completion, and error handling for user-triggered background work.
+Use backtesting as the first on-demand Celery job so the system proves task
+submission, progress tracking, completion, and error handling for user-triggered
+background work.
 
 **GitHub Metadata**
 
-- Labels: `epic:scheduling`, `area:celery`, `area:backend`, `type:worker`, `priority:p0`
+- Labels: `epic:scheduling`, `area:celery`, `area:backend`, `type:worker`,
+  `priority:p0`
 - Milestone: `M4 Scheduling Core`
 - Depends on: `1.1`, `7.1`, `7.4`, `7.8`
 
 **Technical Scope**
 
 - Define a Celery task named `run_backtest` with a versioned input payload.
-- Inputs should include strategy identifier or configuration snapshot, symbol set, date range, timeframe, and execution mode.
-- Persist task state transitions such as queued, running, succeeded, failed, and cancelled if supported.
-- Expose progress updates from the worker so the backend can report intermediate status.
+- Inputs should include strategy identifier or configuration snapshot, symbol
+  set, date range, timeframe, and execution mode.
+- Persist task state transitions such as queued, running, succeeded, failed, and
+  cancelled if supported.
+- Expose progress updates from the worker so the backend can report intermediate
+  status.
 - Persist result metadata separately from large result artifacts.
-- Failures should return structured error codes for invalid input, dependency failure, timeout, and internal error.
+- Failures should return structured error codes for invalid input, dependency
+  failure, timeout, and internal error.
 
 **Acceptance Criteria**
 
@@ -852,7 +930,8 @@ Use backtesting as the first on-demand Celery job so the system proves task subm
 
 **Description**
 
-Set up Celery Beat for frequent recurring tasks such as every-minute polling, heartbeat checks, and periodic synchronization jobs.
+Set up Celery Beat for frequent recurring tasks such as every-minute polling,
+heartbeat checks, and periodic synchronization jobs.
 
 **Checklist**
 
@@ -866,19 +945,24 @@ Set up Celery Beat for frequent recurring tasks such as every-minute polling, he
 
 **Description**
 
-Build the first short-interval recurring task that polls data every minute, normalizes results, and records health or freshness status.
+Build the first short-interval recurring task that polls data every minute,
+normalizes results, and records health or freshness status.
 
 **GitHub Metadata**
 
-- Labels: `epic:scheduling`, `area:celery-beat`, `area:aptrade`, `area:backend`, `type:worker`, `priority:p0`
+- Labels: `epic:scheduling`, `area:celery-beat`, `area:aptrade`, `area:backend`,
+  `type:worker`, `priority:p0`
 - Milestone: `M4 Scheduling Core`
 - Depends on: `1.1`, `1.3`, `2.3`, `7.1`, `7.6`
 
 **Technical Scope**
 
-- Implement one minute-level polling task for a clearly defined target such as quotes, provider heartbeat, or symbol freshness checks.
-- Use a lock or equivalent overlap prevention so a delayed run does not create concurrent duplicate polls.
-- Normalize the fetched payload into internal quote or health models before persistence.
+- Implement one minute-level polling task for a clearly defined target such as
+  quotes, provider heartbeat, or symbol freshness checks.
+- Use a lock or equivalent overlap prevention so a delayed run does not create
+  concurrent duplicate polls.
+- Normalize the fetched payload into internal quote or health models before
+  persistence.
 - Record freshness timestamps, source status, retry count, and last error.
 - Respect provider rate limits and backoff rules.
 - Emit metrics the backend can use to show stale or degraded status.
@@ -906,7 +990,9 @@ Build the first short-interval recurring task that polls data every minute, norm
 
 **Description**
 
-Expose backend APIs that let the frontend submit on-demand jobs, query task status, and inspect recent scheduler activity without depending on Airflow or Celery internals.
+Expose backend APIs that let the frontend submit on-demand jobs, query task
+status, and inspect recent scheduler activity without depending on Airflow or
+Celery internals.
 
 **Checklist**
 
@@ -920,7 +1006,8 @@ Expose backend APIs that let the frontend submit on-demand jobs, query task stat
 
 **Description**
 
-Create a frontend screen for launching supported on-demand tasks, checking progress, and reviewing recent scheduled-task outcomes.
+Create a frontend screen for launching supported on-demand tasks, checking
+progress, and reviewing recent scheduled-task outcomes.
 
 **Checklist**
 
@@ -934,7 +1021,8 @@ Create a frontend screen for launching supported on-demand tasks, checking progr
 
 **Description**
 
-Track execution duration, queue depth, retries, failures, and last-success timestamps across Airflow, Celery workers, and Celery Beat.
+Track execution duration, queue depth, retries, failures, and last-success
+timestamps across Airflow, Celery workers, and Celery Beat.
 
 **Checklist**
 
@@ -967,7 +1055,8 @@ If you want the minimum set to start implementation, create these first:
 
 ## GitHub Import Order
 
-Create issues in this order so dependencies are already present in GitHub when later tickets are opened.
+Create issues in this order so dependencies are already present in GitHub when
+later tickets are opened.
 
 1. Epic issues: `Epic 1` through `Epic 7`
 2. Foundation tickets: `1.1` through `1.6`
@@ -982,13 +1071,20 @@ Create issues in this order so dependencies are already present in GitHub when l
 
 ## Confirmed Working Defaults
 
-These are the current defaults. Only revisit them if implementation or operating constraints prove they are wrong:
+These are the current defaults. Only revisit them if implementation or operating
+constraints prove they are wrong:
 
-- [ ] Massive is the default real-time provider; BarChart is the fallback and secondary source.
+- [ ] Massive is the default real-time provider; BarChart is the fallback and
+      secondary source.
 - [ ] Interactive Brokers is the first live-trading target after paper mode.
-- [ ] Live strategy orchestration stays in the backend; Celery workers are for on-demand background jobs.
+- [ ] Live strategy orchestration stays in the backend; Celery workers are for
+      on-demand background jobs.
 - [ ] `aptrade` remains an internal Python package in the first release.
-- [ ] Canonical symbols use an uppercase ticker, with exchange, asset type, and currency stored separately.
-- [ ] The first Airflow DAG covers daily market-data download, normalize, clean, validate, and report.
-- [ ] The first on-demand Celery task is backtesting, followed by analysis and ad hoc refresh jobs.
-- [ ] The first Celery Beat jobs are provider-health checks and minute-level data freshness polling.
+- [ ] Canonical symbols use an uppercase ticker, with exchange, asset type, and
+      currency stored separately.
+- [ ] The first Airflow DAG covers daily market-data download, normalize, clean,
+      validate, and report.
+- [ ] The first on-demand Celery task is backtesting, followed by analysis and
+      ad hoc refresh jobs.
+- [ ] The first Celery Beat jobs are provider-health checks and minute-level
+      data freshness polling.
