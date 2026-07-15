@@ -1,10 +1,15 @@
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
-
+.env/
+.env
 # C extensions
 *.so
-
+src/aptrade/_version.py
+src/aptrade/private/
+results/
+tmp/
+examples/
 # Distribution / packaging
 .Python
 env/

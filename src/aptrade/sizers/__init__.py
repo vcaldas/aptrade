@@ -23,6 +23,7 @@ from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from typing import Any, ClassVar
 
+
 @dataclass(slots=True, frozen=True)
 class EmptyParams:
     """Default parameter set."""

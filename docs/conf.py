@@ -150,15 +150,6 @@ if not switcher_exists:
         file=sys.stderr,
     )
 
-# Theme options for pydata_sphinx_theme
-# We don't check switcher because there are 3 possible states for a repo:
-# 1. New project, docs are not published so there is no switcher
-# 2. Existing project with latest copier template, switcher exists and works
-# 3. Existing project with old copier template that makes broken switcher,
-#    switcher exists but is broken
-# Point 3 makes checking switcher difficult, because the updated copier template
-# will fix the switcher at the end of the docs workflow, but never gets a chance
-# to complete as the docs build warns and fails.
 html_theme_options = {
     "logo": {
         "text": project,
