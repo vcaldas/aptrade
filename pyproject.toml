@@ -222,6 +222,7 @@ lint.ignore = [
     "B007", # Loop control variable `i` not used within loop body
     "N812", # Lowercase `__version__` imported as non-lowercase `APP_VERSION`
     "N816", # Variable `collectionsAbc` in global scope should not be mixedCase
+    "B008", # Do not perform function call `_data_period` in argument defaults
 
 
 
