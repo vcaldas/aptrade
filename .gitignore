@@ -13,6 +13,7 @@ develop-eggs/
 dist/
 downloads/
 eggs/
+.eggs/
 lib/
 lib64/
 parts/
@@ -21,6 +22,8 @@ var/
 *.egg-info/
 .installed.cfg
 *.egg
+**/_version.py
+src/aptrade/_version.py
 
 # PyInstaller
 #  Usually these files are written by a python script from a template
@@ -36,9 +39,13 @@ pip-delete-this-directory.txt
 htmlcov/
 .tox/
 .coverage
+.coverage.*
 .cache
 nosetests.xml
 coverage.xml
+cov.xml
+.pytest_cache/
+.mypy_cache/
 
 # Translations
 *.mo
@@ -49,28 +56,17 @@ coverage.xml
 
 # Sphinx documentation
 docs/_build/
-docs2/_build/
+docs/_api
 
 # PyBuilder
 target/
 
-# Backups
-*.bak
-*~
-.#*
-*#
-*.swp
-*.swo
+# likely venv names
+.venv*
+venv*
 
-.ipynb*
-samples2/
+# further build artifacts
+lockfiles/
 
-# Ignore test files in Datas
-datas/*.py
-
-.idea/
-tmp/
-src/aptrade/private/
-.env
-results
-examples
+# ruff cache
+.ruff_cache/
