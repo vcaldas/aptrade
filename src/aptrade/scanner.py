@@ -18,8 +18,8 @@ from aptrade.core.alerts import AlertEvent, get_alert_publisher
 from aptrade.core.config import settings
 from aptrade.feeds.massive_live import setup_massive_live_feeds
 from aptrade.plot import Plot
-from aptrade.private.strategies.ORB import OpeningRangeBreakout
 from aptrade.sizers import SimpleSizer
+from aptrade.strategies.BuyAndHold import BuyAndHold
 
 logger = get_alert_publisher()
 
@@ -97,19 +97,16 @@ def _build_scanner_runtime(
     )
     feed_count = manager.get_feed_count()
     logger.info(
-        f"Created {feed_count} live feeds; cerebro currently has {len(cerebro.datas)} registered datas"
+        f"Created {feed_count} live feeds;"
+        f"cerebro currently has {len(cerebro.datas)} registered datas."
     )
     if feed_count == 0 or len(cerebro.datas) == 0:
-        logger.warning(
-            "Scanner runtime initialized without active feeds; strategy startup will likely be a no-op"
-        )
+        logger.warning("Scanner runtime initialized without active feeds.")
 
     # logger.info("[scanner-checkpoint] build_runtime:before_ibbroker_init")
 
     logger.info("[scanner-checkpoint] build_runtime:after_setbroker")
-    # cerebro.addstrategy(OpeningRangeBreakoutTest)
-    cerebro.addstrategy(OpeningRangeBreakout)
-
+    cerebro.addstrategy(BuyAndHold)
     logger.info("[scanner-checkpoint] build_runtime:after_addstrategy")
     cerebro.addsizer(SimpleSizer, percents=10)
     logger.info("[scanner-checkpoint] build_runtime:after_addsizer")
@@ -117,9 +114,7 @@ def _build_scanner_runtime(
     logger.info("[scanner-checkpoint] build_runtime:after_addanalyzer_eq")
     cerebro.addanalyzer(TradeAnalyzer, _name="trade_analyzer")
     logger.info("[scanner-checkpoint] build_runtime:after_addanalyzer_trade")
-    logger.info(
-        f"Scanner strategy configured with {len(cerebro.datas)} datas before cerebro.run()"
-    )
+    logger.info(f"Scanner strategy configured with {len(cerebro.datas)}.")
     logger.info("[scanner-checkpoint] build_runtime:complete")
 
     # cerebro.broker.setcash(2000)
@@ -156,23 +151,19 @@ def _shutdown_scanner_runtime(cerebro, manager, runner_thread, reason: str) -> N
         ]
         Plot().plot(
             flat_runstrats,
-            filename=f"/home/vcaldas/trading/aptrade/results/smacrossbt_{today_str}.html",
+            filename=f"./results/smacrossbt_{today_str}.html",
             show=False,
         )
-        logger.info(
-            f"Saved chart to /home/vcaldas/trading/aptrade/results/smacrossbt_{today_str}.html"
-        )
+        logger.info(f"Saved chart to ./results/smacrossbt_{today_str}.html")
     except Exception as e:
         logger.error(f"Failed to generate plot: {e}", exc_info=True)
 
     try:
         cerebro.show_report(
-            filename=f"/home/vcaldas/trading/aptrade/results/smacrossbt_stats_{today_str}.html",
+            filename=f"./results/smacrossbt_stats_{today_str}.html",
             show=False,
         )
-        logger.info(
-            f"Saved report to /home/vcaldas/trading/aptrade/results/smacrossbt_stats_{today_str}.html"
-        )
+        logger.info(f"Saved report to ./results/smacrossbt_stats_{today_str}.html")
     except Exception as e:
         logger.error(f"Failed to generate report: {e}", exc_info=True)
 
@@ -215,7 +206,9 @@ def run_live_scanner(
     # Run based on time window
     logger.info(
         name="scanner_startup",
-        message=f"Starting live scanner: {start_time} - {stop_time} ({scanner_timezone})",
+        message=(
+            f"Starting live scanner: {start_time} - {stop_time} ({scanner_timezone})"
+        ),
         notify_telegram=True,
         telegram_formatter=_scanner_telegram_format,
     )
@@ -280,7 +273,7 @@ def run_live_scanner(
             if in_window and not was_in_window:
                 logger.info(
                     name="scanner_window_entered",
-                    message=f"Scanner started for trading window at {now_time} ({scanner_timezone})",
+                    message=f"Scanner started at {now_time} ({scanner_timezone})",
                     notify_telegram=True,
                     telegram_formatter=_scanner_telegram_format,
                 )
@@ -299,7 +292,8 @@ def run_live_scanner(
                 # Start polling if not already running
                 if not manager.is_polling_running():
                     logger.warning(
-                        "Polling thread is not running; restarting polling to restore feed updates"
+                        "Polling thread is not running; "
+                        "restarting polling to restore feed updates"
                     )
                     manager.start_polling()
                 else:
@@ -315,19 +309,14 @@ def run_live_scanner(
                     runner_thread.start()
                     running = True
                     waiting_for_feeds_logged = False
-                    logger.info(
-                        f"[scanner] Starting scanner runtime with {feed_count} active feeds, polling_running={manager.is_polling_running()}"
-                    )
                 elif not waiting_for_feeds_logged:
-                    logger.info(
-                        "No feeds available yet; waiting for polling updates before starting scanner runtime"
-                    )
+                    logger.info("No feeds available yet.")
                     waiting_for_feeds_logged = True
 
             if not in_window and was_in_window:
                 logger.info(
                     name="scanner_window_exited",
-                    message=f"Scanner stopped because trading window closed at {now_time} ({scanner_timezone})",
+                    message=f"Scanner stopped: {now_time} ({scanner_timezone})",
                     notify_telegram=True,
                     telegram_formatter=_scanner_telegram_format,
                 )
@@ -337,7 +326,8 @@ def run_live_scanner(
             if in_window and running and runner_thread and not runner_thread.is_alive():
                 if runtime_error is not None:
                     logger.error(
-                        "Scanner runtime exited during the active trading window due to %s: %s",
+                        "Scanner runtime exited during the active trading window"
+                        " due to %s: %s",
                         type(runtime_error).__name__,
                         runtime_error,
                     )
@@ -353,9 +343,7 @@ def run_live_scanner(
                         )
                     )
                 else:
-                    logger.warning(
-                        "Scanner runtime exited during the active trading window without an exception; it will remain stopped until the next window opens"
-                    )
+                    logger.warning("Scanner runtime exited.")
                     shutdown_runtime(
                         reason="unexpected runtime exit (no exception captured)"
                     )
@@ -366,7 +354,8 @@ def run_live_scanner(
             if not in_window:
                 waiting_for_feeds_logged = False
                 logger.info(
-                    f"Waiting for trading window ({now_time} is before {start_time} or after {stop_time})"
+                    f"Waiting for trading window"
+                    f"({now_time} is before {start_time} or after {stop_time})"
                 )
                 time.sleep(60)
                 continue
