@@ -23,41 +23,7 @@ import datetime
 from dataclasses import dataclass
 
 import aptrade as bt
-
-
-@dataclass(slots=True, frozen=True)
-class TestSizerParameters:
-    stake: int = 1
-
-
-class TestSizer(bt.sizers.AbstractSizer):
-    Parameters = TestSizerParameters
-
-    def _getsizing(self, comminfo, cash, data, isbuy) -> int:
-        dt = self.strategy.datetime.date()
-
-        size = self.p.stake * (1 + (not isbuy))
-
-        order_type = "buy" if isbuy else "sell"
-
-        print(f"{dt} Data {data._name} OType {order_type} Sizing to {size}")
-
-        return size
-
-
-# class TestSizer(bt.sizers.AbstractSizer):
-#     params = (("stake", 1),)
-
-#     def _getsizing(self, comminfo, cash, data, isbuy):
-#         dt, _i = self.strategy.datetime.date(), data._id
-#         s = self.p.stake * (1 + (not isbuy))
-#         print(
-#             "{} Data {} OType {} Sizing to {}".format(
-#                 dt, data._name, ("buy" * isbuy) or "sell", s
-#             )
-#         )
-
-#         return s
+from aptrade.sizers import TestSizer
 
 
 class St(bt.Strategy):
@@ -199,7 +165,6 @@ def runstrat(args=None):
     cerebro.broker.setcommission(commission=0.001)
 
     # Sizer
-    # cerebro.addsizer(bt.sizers.FixedSize, **eval('dict(' + args.sizer + ')'))
     cerebro.addsizer(TestSizer, **eval("dict(" + args.sizer + ")"))
 
     # Strategy

@@ -51,6 +51,10 @@ extensions = [
     "sphinx_design",
     # So we can write markdown files
     "myst_parser",
+    "sphinx.ext.autosectionlabel",
+    "nbsphinx",  # integrates example notebooks
+    "sphinx_issues",
+    "sphinx.ext.doctest",
 ]
 
 # So we can use the ::: syntax
@@ -91,8 +95,8 @@ autodoc_member_order = "bysource"
 # Don't inherit docstrings from baseclasses
 autodoc_inherit_docstrings = False
 
-# Document only what is in __all__
-autosummary_ignore_module_all = False
+# Ignore __all__ when building autosummary pages so submodules are discovered.
+autosummary_ignore_module_all = True
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ["_templates"]

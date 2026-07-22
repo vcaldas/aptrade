@@ -1,15 +1,14 @@
 import math
 
-# from aptrade.sizer import Sizer
-# class SimpleSizerParams(BaseModel):
-#     """Parameters for SimpleSizer with validation."""
-#     model_config = ConfigDict(frozen=True)  # Prevent accidental parameter changes
-#     percents: float = Field(
-#         default=95,
-#         ge=0.1,
-#         le=100,
-#         description="Percentage of portfolio to use (0.1-100)",
-#     )
+"""Simple portfolio-percentage sizer
+===================================
+
+`SimpleSizer` allocates a fixed percentage of the current portfolio value
+to compute an integer order size. It performs lightweight validation on the
+``percents`` parameter.
+"""
+
+
 from dataclasses import dataclass
 
 from aptrade.sizers import AbstractSizer
@@ -35,7 +34,10 @@ class SimpleSizer(AbstractSizer):
         percents: Percentage of portfolio to use. Default: 95
     """
 
+    # Backwards-compatible attribute name used historically
     Params = SimpleSizerParams
+    # Provide a canonical `Parameters` name for Sphinx autodoc consistency
+    Parameters = SimpleSizerParams
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)

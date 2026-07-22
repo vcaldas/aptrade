@@ -1,4 +1,12 @@
 #!/usr/bin/env python
+"""Percentage-based sizers
+==========================
+
+Provides sizers that allocate a percentage of available cash (or
+portfolio) to compute trade sizes. Variants exist that return integer
+sizes when required by the caller.
+"""
+
 ###############################################################################
 #
 # Copyright (C) 2015-2023 Daniel Rodriguez
@@ -21,37 +29,17 @@
 from dataclasses import dataclass
 
 from aptrade.sizers import AbstractSizer
+from aptrade.types import Percentage
 
-__all__ = ["PercentSizer", "AllInSizer", "PercentSizerInt", "AllInSizerInt"]
+__all__ = ["PercentSizer"]
 
 
 @dataclass(slots=True, frozen=True)
 class PercentSizerParams:
     """Parameters for PercentSizer."""
 
-    percents: float = 20.0
+    percents: Percentage = Percentage.from_percent(20.0)
     retint: bool = False
-
-
-@dataclass(slots=True, frozen=True)
-class AllInSizerParams(PercentSizerParams):
-    """Parameters for AllInSizer."""
-
-    percents: float = 100.0
-
-
-@dataclass(slots=True, frozen=True)
-class PercentSizerIntParams(PercentSizerParams):
-    """Parameters for PercentSizerInt."""
-
-    retint: bool = True
-
-
-@dataclass(slots=True, frozen=True)
-class AllInSizerIntParams(PercentSizerIntParams):
-    """Parameters for AllInSizerInt."""
-
-    percents: float = 100.0
 
 
 class PercentSizer(AbstractSizer):
@@ -63,26 +51,8 @@ class PercentSizer(AbstractSizer):
         position = self.broker.getposition(data)
 
         if not position:
-            size = cash / data.close[0] * (self.p.percents / 100.0)
+            size = cash / data.close[0] * self.p.percents
         else:
             size = position.size
 
         return int(size) if self.p.retint else size
-
-
-class AllInSizer(PercentSizer):
-    """Sizer that allocates 100% of available cash."""
-
-    Parameters = AllInSizerParams
-
-
-class PercentSizerInt(PercentSizer):
-    """Sizer that allocates a percentage of cash and returns an integer size."""
-
-    Parameters = PercentSizerIntParams
-
-
-class AllInSizerInt(PercentSizerInt):
-    """Sizer that allocates all available cash and returns an integer size."""
-
-    Parameters = AllInSizerIntParams

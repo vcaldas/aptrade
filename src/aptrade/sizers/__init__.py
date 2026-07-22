@@ -1,4 +1,27 @@
 #!/usr/bin/env python
+"""aptrade.sizers
+=================
+
+Common position sizers used by Cerebro and strategies.
+
+This module exposes an ``AbstractSizer`` base class for the engine-driven
+API as well as a light-weight ``PositionSizer`` protocol for standalone
+sizing helpers. Concrete implementations live in submodules and are imported
+here for convenience.
+
+Examples
+--------
+Add a sizer to `Cerebro`::
+
+    cerebro.addsizer(FixedSize, stake=10)
+
+Implement a simple PositionSizer::
+
+    class MySizer:
+        def compute_size(self, portfolio_value, cash, price, commission_per_unit, is_buy):
+            # return integer size
+            return int((cash / price) * 0.1)
+"""
 ###############################################################################
 #
 # Copyright (C) 2015-2023 Daniel Rodriguez
@@ -91,6 +114,8 @@ class PositionSizer(ABC):
         raise NotImplementedError
 
 
+from .atr_sizer import *  # noqa: F403, F401, E402
 from .fixedsize import *  # noqa: F403, F401, E402
 from .percents_sizer import *  # noqa: F403, F401, E402
 from .simple import *  # noqa: F403, F401, E402
+from .testSizer import *  # noqa: F403, F401, E402
