@@ -5,13 +5,13 @@
 Common position sizers used by Cerebro and strategies.
 
 This module exposes an ``AbstractSizer`` base class for the engine-driven
-API as well as a light-weight ``PositionSizer`` protocol for standalone
-sizing helpers. Concrete implementations live in submodules and are imported
-here for convenience.
+API (used by ``Cerebro``) as well as a light-weight
+``PositionSizer`` protocol for standalone sizing helpers. Concrete
+implementations live in submodules and are imported here for convenience.
 
 Examples
 --------
-Add a sizer to `Cerebro`::
+Add a sizer to ``Cerebro``::
 
     cerebro.addsizer(FixedSize, stake=10)
 

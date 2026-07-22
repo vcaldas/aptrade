@@ -31,7 +31,7 @@ from dataclasses import dataclass
 from aptrade.sizers import AbstractSizer
 from aptrade.types import Percentage
 
-__all__ = ["PercentSizer"]
+__all__ = ["PercentSizer", "PercentSizerParams"]
 
 
 @dataclass(slots=True, frozen=True)

@@ -2,7 +2,8 @@
 
 `testSizer` provides a minimal, deterministic sizer used in samples and
 tests. It is intentionally simple and prints sizing decisions to stdout so
-you can observe the sizer being called during backtests.
+you can observe the sizer being called during backtests. It is intended to
+be added to a ``Cerebro`` instance (see ``Cerebro``).
 
 Usage example::
 
@@ -38,7 +39,7 @@ class TestSizer(AbstractSizer):
 
     The sizer prints a log line with the current strategy date, data name,
     order type and computed size. It is useful to verify that the sizer is
-    wired correctly in `Cerebro` during examples.
+    wired correctly in ``Cerebro`` during examples.
     """
 
     Parameters = TestSizerParameters

@@ -1,7 +1,5 @@
 Sizers
 ===================
 
-.. automodule:: aptrade.sizers
-    :members:
-    :undoc-members:
-    :show-inheritance:
+API reference for sizers is available in the generated API pages under
+Reference → API Sizers.

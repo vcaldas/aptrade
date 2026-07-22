@@ -2,7 +2,7 @@
 """ATR / volatility-based sizer
 =================================
 
-`ATRSizer` sizes positions based on recent Average True Range (ATR),
+``ATRSizer`` sizes positions based on recent Average True Range (ATR),
 allocating a fixed percentage of portfolio value to the trade and
 computing the size so that expected dollar risk per unit (based on ATR)
 matches the target allocation. This helps achieve volatility-based
@@ -40,7 +40,7 @@ class ATRSizer(AbstractSizer):
     Algorithm (simplified):
 
     - Compute ATR over ``atr_period`` bars using true range definition.
-    - Compute target dollar allocation = ``percents``% * portfolio value.
+    - Compute target dollar allocation = ``percents`` (percentage) of portfolio value.
     - Estimate dollar risk per unit = ATR * multiplier + per-unit commission.
     - size = target_allocation / dollar_risk_per_unit
 

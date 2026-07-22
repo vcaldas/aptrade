@@ -11,6 +11,6 @@ API
 .. autosummary::
     :toctree: _api
     :template: custom-module-template.rst
-    :recursive:
+   :recursive:
 
-    aptrade
+   aptrade.sizers
