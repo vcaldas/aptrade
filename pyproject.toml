@@ -58,7 +58,9 @@ members = ["backtrader"]
 [dependency-groups]
 dev = [
     "copier",
+    "myst-nb>=1.4.0",
     "myst-parser",
+    "nbsphinx>=0.9.8",
     "pre-commit",
     "pydata-sphinx-theme>=0.20.0",
     "pyright",
@@ -69,6 +71,7 @@ dev = [
     "sphinx-autobuild>=2025.8.25",
     "sphinx-copybutton",
     "sphinx-design",
+    "sphinx-issues>=6.0.0",
     "tox-uv",
     "types-mock",
 ]

@@ -1,4 +1,13 @@
 #!/usr/bin/env python
+"""Fixed-size sizers
+====================
+
+Simple concrete sizers that return fixed sizes or targets. These are
+convenience sizers intended for examples and simple strategies.
+
+They are intentionally small and free of side-effects so they can be
+imported safely during documentation builds.
+"""
 ###############################################################################
 #
 # Copyright (C) 2015-2023 Daniel Rodriguez
@@ -42,11 +51,11 @@ class FixedSize(AbstractSizer):
       - ``tranches`` (default: ``1``)
     """
 
-    # params = (("stake", 1), ("tranches", 1))
-    params_cls = FixedSizeParams
+    # Provide a `Parameters` alias for Sphinx autodoc consistency.
+    Parameters = FixedSizeParams
 
     def __init__(self, **kwargs):
-        self.p = self.params_cls(**kwargs)
+        self.p = self.Parameters(**kwargs)
 
     def _getsizing(self, comminfo, cash, data, isbuy):
         if self.p.tranches > 1:
@@ -76,7 +85,7 @@ class FixedReverser(AbstractSizer):
       - ``stake`` (default: ``1``)
     """
 
-    params = (("stake", 1),)
+    parameters = FixedSizeParams
 
     def _getsizing(self, comminfo, cash, data, isbuy):
         position = self.strategy.getposition(data)
@@ -98,7 +107,7 @@ class FixedSizeTarget(AbstractSizer):
       - ``tranches`` (default: ``1``)
     """
 
-    params = (("stake", 1), ("tranches", 1))
+    parameters = FixedSizeParams
 
     def _getsizing(self, comminfo, cash, data, isbuy):
         if self.p.tranches > 1:

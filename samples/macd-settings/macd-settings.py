@@ -24,20 +24,6 @@ import datetime
 import aptrade as bt
 from aptrade.sizers.percents_sizer import PercentSizer
 
-# class FixedPerc(bt.sizers.AbstractSizer):
-#     """This sizer simply returns a fixed size for any operation
-
-#     Params:
-#       - ``perc`` (default: ``0.20``) Perc of cash to allocate for operation
-#     """
-
-#     params = (("perc", 0.20),)  # perc of cash to use for operation
-
-#     def _getsizing(self, comminfo, cash, data, isbuy):
-#         cashtouse = self.p.perc * cash
-#         size = cashtouse // data.close[0]
-#         return size
-
 
 class TheStrategy(bt.Strategy):
     """
@@ -253,7 +239,7 @@ def parse_args(pargs=None):
         required=False,
         action="store",
         type=float,
-        default=20,
+        default=0.20,
         help=("Perc (abs) of cash to allocate for ops"),
     )
 
