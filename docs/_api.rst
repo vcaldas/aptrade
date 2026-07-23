@@ -9,8 +9,8 @@ API
 ===
 
 .. autosummary::
-    :toctree: _api
-    :template: custom-module-template.rst
+   :toctree: _api
+   :template: custom-module-template.rst
    :recursive:
-
+   
    aptrade.sizers
