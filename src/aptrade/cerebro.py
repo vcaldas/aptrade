@@ -941,7 +941,7 @@ class Cerebro(metaclass=MetaParams):
 
         okwargs1 = map(zip, itertools.repeat(optkeys), optvals)
 
-        optkwargs = map(dict, okwargs1)
+        optkwargs = list(map(dict, okwargs1))
 
         it = tuple(itertools.product([strategy], optargs, optkwargs))
         self.strats.append(it)
@@ -1222,7 +1222,7 @@ class Cerebro(metaclass=MetaParams):
         if not self.strats:  # Datas are present, add a strategy
             self.addstrategy(Strategy)
 
-        iterstrats = itertools.product(*self.strats)
+        iterstrats = tuple(itertools.product(*self.strats))
         if not self._dooptimize or self.p.maxcpus == 1:
             # If no optimmization is wished ... or 1 core is to be used
             # let's skip process "spawning"

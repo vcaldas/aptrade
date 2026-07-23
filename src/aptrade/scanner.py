@@ -18,6 +18,7 @@ from aptrade.core.alerts import AlertEvent, get_alert_publisher
 from aptrade.core.config import settings
 from aptrade.feeds.massive_live import setup_massive_live_feeds
 from aptrade.plot import Plot
+from aptrade.private.strategies.ORB import OpeningRangeBreakout
 from aptrade.sizers import SimpleSizer
 from aptrade.strategies.BuyAndHold import BuyAndHold
 
@@ -106,7 +107,8 @@ def _build_scanner_runtime(
     # logger.info("[scanner-checkpoint] build_runtime:before_ibbroker_init")
 
     logger.info("[scanner-checkpoint] build_runtime:after_setbroker")
-    cerebro.addstrategy(BuyAndHold)
+    # cerebro.addstrategy(BuyAndHold)
+    cerebro.addstrategy(OpeningRangeBreakout)
     logger.info("[scanner-checkpoint] build_runtime:after_addstrategy")
     cerebro.addsizer(SimpleSizer, percents=10)
     logger.info("[scanner-checkpoint] build_runtime:after_addsizer")
