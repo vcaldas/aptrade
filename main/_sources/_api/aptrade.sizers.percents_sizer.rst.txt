@@ -1,0 +1,23 @@
+``aptrade.sizers.percents_sizer``
+=================================
+        
+        
+
+.. automodule:: aptrade.sizers.percents_sizer
+    :members:
+
+    
+    
+    
+
+    
+    
+    .. rubric:: Members
+
+    .. autosummary::
+        :nosignatures:
+    
+        PercentSizer
+        PercentSizerParams
+    
+    

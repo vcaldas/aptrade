@@ -1,0 +1,27 @@
+``aptrade.sizers.fixedsize``
+============================
+        
+        
+        
+        
+
+.. automodule:: aptrade.sizers.fixedsize
+    :members:
+
+    
+    
+    
+
+    
+    
+    .. rubric:: Members
+
+    .. autosummary::
+        :nosignatures:
+    
+        FixedReverser
+        FixedSize
+        FixedSizeParams
+        FixedSizeTarget
+    
+    

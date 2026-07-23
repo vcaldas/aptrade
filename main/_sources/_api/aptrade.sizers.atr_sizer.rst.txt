@@ -1,0 +1,23 @@
+``aptrade.sizers.atr_sizer``
+============================
+        
+        
+
+.. automodule:: aptrade.sizers.atr_sizer
+    :members:
+
+    
+    
+    
+
+    
+    
+    .. rubric:: Members
+
+    .. autosummary::
+        :nosignatures:
+    
+        ATRSizer
+        ATRSizerParams
+    
+    

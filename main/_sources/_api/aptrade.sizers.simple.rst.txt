@@ -1,0 +1,23 @@
+``aptrade.sizers.simple``
+=========================
+        
+        
+
+.. automodule:: aptrade.sizers.simple
+    :members:
+
+    
+    
+    
+
+    
+    
+    .. rubric:: Members
+
+    .. autosummary::
+        :nosignatures:
+    
+        SimpleSizer
+        SimpleSizerParams
+    
+    

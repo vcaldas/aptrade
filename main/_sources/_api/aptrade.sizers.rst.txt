@@ -1,0 +1,36 @@
+﻿``aptrade.sizers``
+==================
+        
+        
+
+.. automodule:: aptrade.sizers
+    :members:
+
+    
+    
+    .. rubric:: Submodules
+
+    .. autosummary::
+        :toctree:
+        :template: custom-module-template.rst
+        :recursive:
+    
+        atr_sizer
+        fixedsize
+        percents_sizer
+        simple
+        testSizer
+    
+    
+
+    
+    
+    .. rubric:: Members
+
+    .. autosummary::
+        :nosignatures:
+    
+        AbstractSizer
+        EmptyParams
+    
+    
