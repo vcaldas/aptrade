@@ -1,24 +1,3 @@
-# # Basic CI setup: Lint with ruff, run tests with pytest
-# name: Test
-
-# on:
-#   pull_request:
-#   push:
-#     branches:
-#       - main
-
-# jobs:
-
-#   test:
-#     name: Run tests
-#     strategy:
-#       matrix:
-#         os: [ubuntu-latest, macos-latest]
-#     runs-on: ${{ matrix.os }}
-#     steps:
-#       - uses: actions/checkout@v4
-#       - uses: astral-sh/setup-uv@v3
-#       - run: uv run pytest
 name: CI
 
 on:
@@ -40,7 +19,7 @@ jobs:
     strategy:
       matrix:
         runs-on: ["ubuntu-latest"] # can add windows-latest, macos-latest
-        python-version: ["3.11", "3.12", "3.13", "3.14"]
+        python-version: ["3.12", "3.13", "3.14"]
       fail-fast: false
     uses: ./.github/workflows/_test.yml
     with:
