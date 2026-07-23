@@ -932,18 +932,18 @@ class Cerebro(metaclass=MetaParams):
         """
         self._dooptimize = True
         args = self.iterize(args)
-        optargs = itertools.product(*args)
+        optargs = tuple(itertools.product(*args))
 
         optkeys = list(kwargs)
 
         vals = self.iterize(kwargs.values())
-        optvals = itertools.product(*vals)
+        optvals = tuple(itertools.product(*vals))
 
         okwargs1 = map(zip, itertools.repeat(optkeys), optvals)
 
         optkwargs = map(dict, okwargs1)
 
-        it = itertools.product([strategy], optargs, optkwargs)
+        it = tuple(itertools.product([strategy], optargs, optkwargs))
         self.strats.append(it)
 
     def addstrategy(self, strategy, *args, **kwargs):
