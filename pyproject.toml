@@ -46,7 +46,8 @@ docs = [
 ]
 
 [project.scripts]
-aptrade = "aptrade.cli:app"
+aptrade-cli = "aptrade.cli:app"
+aptrade = "aptrade.__main__:main"
 
 [project.urls]
 GitHub = "https://github.com/vcaldas/aptrade"
