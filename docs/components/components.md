@@ -6,5 +6,4 @@ Description of the components used in APTrade. Each component has its own ADR (A
 :glob: true
 :maxdepth: 1
 
-decisions/*
 ```

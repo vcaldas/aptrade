@@ -15,7 +15,7 @@ Add a sizer to ``Cerebro``::
 
     cerebro.addsizer(FixedSize, stake=10)
 
-Implement a simple PositionSizer::
+Implement a simple ``PositionSizer``::
 
     class MySizer:
         def compute_size(self, portfolio_value, cash, price, commission_per_unit, is_buy):
@@ -88,30 +88,30 @@ class AbstractSizer(ABC):
         self.broker = broker
 
 
-class PositionSizer(ABC):
-    @abstractmethod
-    def compute_size(
-        self,
-        portfolio_value: float,
-        cash: float,
-        price: float,
-        commission_per_unit: float,
-        is_buy: bool,
-    ) -> int:
-        """
-        Compute position size.
+# class PositionSizer(ABC):
+#     @abstractmethod
+#     def compute_size(
+#         self,
+#         portfolio_value: float,
+#         cash: float,
+#         price: float,
+#         commission_per_unit: float,
+#         is_buy: bool,
+#     ) -> int:
+#         """
+#         Compute position size.
 
-        Args:
-            portfolio_value: Total portfolio value (cash + positions)
-            cash: Available cash
-            price: Asset price
-            commission_per_unit: Commission added per unit
-            is_buy: True for buy, False for sell
+#         Args:
+#             portfolio_value: Total portfolio value (cash + positions)
+#             cash: Available cash
+#             price: Asset price
+#             commission_per_unit: Commission added per unit
+#             is_buy: True for buy, False for sell
 
-        Returns:
-            Integer size to execute.
-        """
-        raise NotImplementedError
+#         Returns:
+#             Integer size to execute.
+#         """
+#         raise NotImplementedError
 
 
 from .atr_sizer import *  # noqa: F403, F401, E402
