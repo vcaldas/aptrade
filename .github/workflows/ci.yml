@@ -41,8 +41,8 @@ jobs:
     permissions:
       contents: write
 
-  # dist:
-  #   uses: ./.github/workflows/_dist.yml
+  dist:
+    uses: ./.github/workflows/_dist.yml
   
   # pypi:
   #   needs: [dist, test]
