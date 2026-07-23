@@ -6,5 +6,5 @@ Documentation of the individual components and how they work.
 :maxdepth: 1
 :glob:
 
-components/sizer
+components/*
 ```
