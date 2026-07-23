@@ -1,0 +1,4 @@
+  docs:
+    uses: ./.github/workflows/_docs.yml
+    permissions:
+      contents: write
