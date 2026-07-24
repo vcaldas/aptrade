@@ -83,7 +83,8 @@ class MetaStrategy(StrategyBase.__class__):
 
         _obj.stats = _obj.observers = ItemCollection()
         _obj.analyzers = ItemCollection()
-        _obj._alnames = collections.defaultdict(itertools.count)
+        # _obj._alnames = collections.defaultdict(itertools.count)
+        _obj._alnames = collections.defaultdict(lambda: 0)
         _obj.writers = []
 
         _obj._slave_analyzers = []
