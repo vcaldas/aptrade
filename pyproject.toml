@@ -228,19 +228,6 @@ lint.ignore = [
     "N812", # Lowercase `__version__` imported as non-lowercase `APP_VERSION`
     "N816", # Variable `collectionsAbc` in global scope should not be mixedCase
     "B008", # Do not perform function call `_data_period` in argument defaults
-
-
-
-
-
-
-
-
-
-
-
-
-
 ]
 
 [tool.ruff.lint.per-file-ignores]
@@ -248,3 +235,17 @@ lint.ignore = [
 # See https://github.com/DiamondLightSource/python-copier-template/issues/154
 # Remove this line to forbid private member access in tests
 "tests/**/*" = ["SLF001"]
+
+env_list = ["3.13", "3.12", "coverage"]
+[env_run_base]
+deps = ["pytest", "coverage[toml]"]
+commands = [["coverage", "run", "-p", "-m", "pytest", "tests"]]
+
+[env.coverage]
+skip_install = true
+deps = ["coverage[toml]"]
+depends = ["3.*"]
+commands = [
+    ["coverage", "combine"],
+    ["coverage", "report", "--fail-under=80"],
+]
