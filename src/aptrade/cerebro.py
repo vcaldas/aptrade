@@ -53,6 +53,12 @@ class OptReturn:
             setattr(self, k, v)
 
 
+def _run_cerebro_strategy(args):
+    cerebro, iterstrat = args
+    predata = cerebro.p.optdatas and cerebro._dopreload and cerebro._dorunonce
+    return cerebro.runstrategies(iterstrat, predata=predata)
+
+
 class Cerebro(metaclass=MetaParams):
     """Params:
 
@@ -1112,11 +1118,28 @@ class Cerebro(metaclass=MetaParams):
         Used during optimization to prevent optimization result `runstrats`
         from being pickled to subprocesses
         """
+        state = self.__dict__.copy()
 
-        rv = vars(self).copy()
-        if "runstrats" in rv:
-            del rv["runstrats"]
-        return rv
+        # runtime-only objects
+        state.pop("_dataid", None)
+        state.pop("runstrats", None)
+        state.pop("runwriters", None)
+        # rv = vars(self).copy()
+        # if "runstrats" in rv:
+        #     del rv["runstrats"]
+        return state  # rv
+
+    def __setstate__(self, state):
+        self.__dict__.update(state)
+
+        if "_dataid" not in self.__dict__:
+            self._dataid = itertools.count(1)
+
+        if "runstrats" not in self.__dict__:
+            self.runstrats = []
+
+        if "runwriters" not in self.__dict__:
+            self.runwriters = []
 
     def runstop(self):
         """If invoked from inside a strategy or anywhere else, including other
@@ -1242,8 +1265,10 @@ class Cerebro(metaclass=MetaParams):
                     if self._dopreload:
                         data.preload()
 
+            workitems = ((self, x) for x in iterstrats)
+
             pool = multiprocessing.Pool(self.p.maxcpus or None)
-            for r in pool.imap(self, iterstrats):
+            for r in pool.imap(_run_cerebro_strategy, workitems):
                 self.runstrats.append(r)
                 for cb in self.optcbs:
                     cb(r)  # callback receives finished strategy

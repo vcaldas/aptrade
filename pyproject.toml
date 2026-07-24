@@ -25,6 +25,7 @@ dependencies = [
     "ib-async>=2.1.0",
     "massive>=2.5.0",
     "matplotlib>=3.10.8",
+    "numpy>=2.4.6",
     "pandas>=3.0.2",
     "pip>=26.1.2",
     "plotly>=6.8.0",
@@ -227,19 +228,6 @@ lint.ignore = [
     "N812", # Lowercase `__version__` imported as non-lowercase `APP_VERSION`
     "N816", # Variable `collectionsAbc` in global scope should not be mixedCase
     "B008", # Do not perform function call `_data_period` in argument defaults
-
-
-
-
-
-
-
-
-
-
-
-
-
 ]
 
 [tool.ruff.lint.per-file-ignores]
@@ -247,3 +235,4 @@ lint.ignore = [
 # See https://github.com/DiamondLightSource/python-copier-template/issues/154
 # Remove this line to forbid private member access in tests
 "tests/**/*" = ["SLF001"]
+
