@@ -236,16 +236,3 @@ lint.ignore = [
 # Remove this line to forbid private member access in tests
 "tests/**/*" = ["SLF001"]
 
-env_list = ["3.13", "3.12", "coverage"]
-[env_run_base]
-deps = ["pytest", "coverage[toml]"]
-commands = [["coverage", "run", "-p", "-m", "pytest", "tests"]]
-
-[env.coverage]
-skip_install = true
-deps = ["coverage[toml]"]
-depends = ["3.*"]
-commands = [
-    ["coverage", "combine"],
-    ["coverage", "report", "--fail-under=80"],
-]
