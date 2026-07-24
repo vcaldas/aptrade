@@ -55,7 +55,8 @@ class OptReturn:
 
 def _run_cerebro_strategy(args):
     cerebro, iterstrat = args
-    return cerebro.runstrategies(iterstrat)
+    predata = cerebro.p.optdatas and cerebro._dopreload and cerebro._dorunonce
+    return cerebro.runstrategies(iterstrat, predata=predata)
 
 
 class Cerebro(metaclass=MetaParams):
